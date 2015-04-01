@@ -1,0 +1,34 @@
+{
+  "name": "uncovery",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/team-oath/uncovery.git"
+  },
+  "author": "",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/team-oath/uncovery/issues"
+  },
+  "homepage": "https://github.com/team-oath/uncovery",
+  "dependencies": {
+    "express": "^4.12.3",
+    "grunt": "^0.4.5",
+    "mysql": "^2.6.1"
+  },
+  "devDependencies": {
+    "chai": "^2.2.0",
+    "grunt-contrib-jshint": "^0.11.1",
+    "grunt-contrib-watch": "^0.6.1",
+    "grunt-express": "^1.4.1",
+    "grunt-express-server": "^0.4.19",
+    "grunt-nodemon": "^0.4.0",
+    "grunt-notify": "^0.4.1",
+    "mocha": "^2.2.1"
+  }
+}
