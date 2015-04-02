@@ -1,24 +1,22 @@
 var React = require('react-native');
 var styles = require("../styles.js");
 
-var {
-  AppRegistry,
-  NavigatorIOS,
-  StyleSheet,
-  View,
-  ListView,
-  SwitchIOS,
-  Text,
-  TextInput
-} = React;
+var { View, Text, TextInput } = React;
 
-var PostForm = React.createClass({
+class PostForm extends React.Component {
   
-  getInitialState() {
-    return {};
-  },
+  constructor(props) {
+    
+    // Create blank state.input that we reference
+    // below, app crashes without this.
+    
+    this.state = { input: '' };
+  }
   
   render() {
+
+    // Render input box and feedback.
+
     return (
       <View style={{ top: 64 }}>
         <TextInput
@@ -30,6 +28,6 @@ var PostForm = React.createClass({
     );
   }
   
-});
+};
 
 module.exports = PostForm;
