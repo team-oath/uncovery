@@ -1,22 +1,23 @@
 CREATE DATABASE uncovery;
 
+SET foreign_key_checks=0;
+
 USE uncovery;
 
 CREATE TABLE marks (
-  mark_id int(5) AUTO_INCREMENT,
+  id int(5) AUTO_INCREMENT,
   x float(10, 6),
   y float(10, 6),
   z float(10, 6),
   timestamp timestamp DEFAULT CURRENT_TIMESTAMP,
-  UNIQUE (
-    mark_id
-  )
+  messageId int(5),
+  FOREIGN KEY (messageId)
+    REFERENCES messages(id),
+  PRIMARY KEY (id)
 );
 
 CREATE TABLE messages (
-  message_id int(5) AUTO_INCREMENT,
-  message_string text,
-  UNIQUE (
-    message_id
-  )
+  id int(5) AUTO_INCREMENT,
+  messageString text,
+  PRIMARY KEY (id)
 );
