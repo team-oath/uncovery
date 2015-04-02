@@ -9,7 +9,7 @@ var MOCK_MESSAGE_2 = {
 };
 
 var MOCK_MESSAGE_3 = {
-  timestamp: '1hr ago',3
+  timestamp: '1hr ago',
   message: "I AM THE THUNDERGOD"
 };
 
