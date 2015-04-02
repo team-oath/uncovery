@@ -8,6 +8,14 @@ module.exports = function(grunt) {
         }
       }
     },
+    mochaTest: {
+      test: {
+        options: {
+          reporter: 'spec'
+        },
+        src: ['specs/**/*.js']
+      }
+    },
     jshint: {
       files: ['Gruntfile.js', 'server/**/*.js', 'index.js'],
       options: {
@@ -26,10 +34,16 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-contrib-jshint');
   grunt.loadNpmTasks('grunt-contrib-watch');
   grunt.loadNpmTasks('grunt-express');
+  grunt.loadNpmTasks('grunt-mocha-test');
 
   grunt.registerTask('default', [
     'jshint',
+    'test',
     'express',
     'watch'
+  ]);
+
+  grunt.registerTask('test', [
+    'mochaTest'
   ]);
 };
