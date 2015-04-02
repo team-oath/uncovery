@@ -8,6 +8,12 @@ module.exports = function(grunt) {
         }
       }
     },
+    karma: {
+      unit: {
+        configFile: 'karma.conf.js',
+        autoWatch: true
+      }
+    },
     jshint: {
       files: ['Gruntfile.js', 'server/**/*.js', 'index.js'],
       options: {
@@ -26,10 +32,16 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-contrib-jshint');
   grunt.loadNpmTasks('grunt-contrib-watch');
   grunt.loadNpmTasks('grunt-express');
+  grunt.loadNpmTasks('grunt-karma');
 
   grunt.registerTask('default', [
     'jshint',
+    'test',
     'express',
     'watch'
+  ]);
+
+  grunt.registerTask('test', [
+    'karma'
   ]);
 };
