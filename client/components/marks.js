@@ -40,8 +40,6 @@ class Marks extends React.Component {
         });
       })
       .done();
-
-    
   }
 
   renderLoadingView() {
