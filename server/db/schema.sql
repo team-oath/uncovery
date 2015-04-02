@@ -4,10 +4,10 @@ USE uncovery;
 
 CREATE TABLE mark (
   mark_id int(5) AUTO_INCREMENT,
-  loc_x float(10, 6),
-  loc_y float(10, 6),
-  loc_z float(10, 6),
-  timestamp timestamp,
+  x float(10, 6),
+  y float(10, 6),
+  z float(10, 6),
+  timestamp timestamp DEFAULT CURRENT_TIMESTAMP,
   UNIQUE (
     mark_id
   )
