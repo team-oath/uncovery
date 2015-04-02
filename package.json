@@ -38,6 +38,7 @@
     "karma-requirejs": "^0.2.2",
     "karma-sinon": "^1.0.4",
     "mocha": "^2.2.1",
+    "request": "^2.54.0",
     "requirejs": "^2.1.17",
     "sinon": "^1.14.1"
   }
