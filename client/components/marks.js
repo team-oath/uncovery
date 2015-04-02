@@ -2,42 +2,32 @@ var React = require('react-native');
 var styles = require("../styles.js");
 var MOCK_DATA = require("../mockData.js");
 
-var {
-  AppRegistry,
-  NavigatorIOS,
-  StyleSheet,
-  View,
-  ListView,
-  SwitchIOS,
-  Text,
-  TextInput
-} = React;
+var {View, ListView, Text,} = React;
 
-var Marks = React.createClass({
+class Marks extends React.Component {
 
-  getInitialState: function() {
-    return {
+  constructor(props) {
+    super(props);
+    this.state = {
       dataSource: new ListView.DataSource({
         rowHasChanged: (row1, row2) => row1 !== row2,
       }),
       loaded: false
     };
-  },
+   }
 
-  rowHasChanged: function(){ },
-
-  componentDidMount: function() {
+  componentDidMount() {
     this.fetchData();
-  },
+  }
 
-  fetchData: function(){
+  fetchData(){
     this.setState({
       dataSource: this.state.dataSource.cloneWithRows(MOCK_DATA),
       loaded: true,
     });
-  },
+  }
 
-  renderLoadingView: function() {
+  renderLoadingView() {
    return (
      <View style={styles.container}>
        <Text>
@@ -45,9 +35,9 @@ var Marks = React.createClass({
        </Text>
      </View>
    );
-  },
+  }
 
-  render: function() {
+  render() {
     if (!this.state.loaded) {
       return this.renderLoadingView();
     }
@@ -57,9 +47,9 @@ var Marks = React.createClass({
         renderRow={this.renderMessage}
         style={styles.listView} />
     );
-  },
+  }
 
-  renderMessage: function(message) {
+  renderMessage(message) {
     console.log(message)
     return (
     <View style={styles.container}>
@@ -69,7 +59,6 @@ var Marks = React.createClass({
     </View>
     );
   }
-
-});
+};
 
 module.exports = Marks;
