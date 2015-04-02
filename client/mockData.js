@@ -4,17 +4,17 @@ var MOCK_MESSAGE_1 = {
 };
 
 var MOCK_MESSAGE_2 = {
-  timestamp: '5 min ago',
-  message: "I like pies"
+  timestamp: '5min ago',
+  message: "Order the pies, they are delisch"
 };
 
 var MOCK_MESSAGE_3 = {
-  timestamp: '5 min ago',
-  message: "I like pies"
+  timestamp: '1hr ago',3
+  message: "I AM THE THUNDERGOD"
 };
 
 var MOCK_MESSAGE_4 = {
-  timestamp: '5 min ago',
+  timestamp: '2 days ago',
   message: "I like pies"
 };
 
