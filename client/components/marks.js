@@ -25,6 +25,20 @@ class Marks extends React.Component {
       dataSource: this.state.dataSource.cloneWithRows(MOCK_DATA),
       loaded: true,
     });
+
+    /*
+
+    fetch(REQUEST_URL)
+      .then((response) => response.json())
+      .then((responseData) => {
+        this.setState({
+          dataSource: this.state.dataSource.cloneWithRows(responseData.movies),
+          loaded: true,
+        });
+      })
+      .done();
+
+    */
   }
 
   renderLoadingView() {
