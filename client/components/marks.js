@@ -21,24 +21,27 @@ class Marks extends React.Component {
   }
 
   fetchData(){
-    this.setState({
-      dataSource: this.state.dataSource.cloneWithRows(MOCK_DATA),
-      loaded: true,
-    });
+  
+    // Using test server to send response data:
 
-    /*
+      /*
+      [ { timestamp: 'now', message: 'I smell tasty hamburgers!!!' },
+        { timestamp: '5 min ago', message: 'I like pies' },
+        { timestamp: '5 min ago', message: 'I like pies' },
+        { timestamp: '5 min ago', message: 'I like pies' } ]
+      */
 
-    fetch(REQUEST_URL)
+    fetch('http://localhost:6666/data')
       .then((response) => response.json())
       .then((responseData) => {
         this.setState({
-          dataSource: this.state.dataSource.cloneWithRows(responseData.movies),
+          dataSource: this.state.dataSource.cloneWithRows(responseData),
           loaded: true,
         });
       })
       .done();
 
-    */
+    
   }
 
   renderLoadingView() {
@@ -63,13 +66,12 @@ class Marks extends React.Component {
     );
   }
 
-  renderMessage(message) {
-    console.log(message)
+  renderMessage(body) {
     return (
     <View style={styles.container}>
       <Text> </Text>
-      <Text style={{textAlign: 'right', fontSize: 8}}> {message.timestamp} </Text>
-      <Text> {message.body} </Text>
+      <Text style={{textAlign: 'right', fontSize: 8}}> {body.timestamp} </Text>
+      <Text> {body.message} </Text>
     </View>
     );
   }
