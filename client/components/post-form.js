@@ -40,6 +40,10 @@ class PostForm extends React.Component {
   _postMessage() {
     console.log('posted message', this.state.input);
 
+    // this url is for testing purposes 
+    // see github.com/levity-io/POST-bin
+    // for a POST request catcher
+
     fetch('http://localhost:3000/4kELPoLe', {
       method: 'post',
       headers: {
