@@ -7,10 +7,13 @@
 var React = require('react-native');
 var {
   AppRegistry,
+  NavigatorIOS,
   StyleSheet,
-  ListView,
-  Text,
   View,
+  ListView,
+  SwitchIOS,
+  Text,
+  TextInput
 } = React;
 
 var MOCK_MESSAGE_1 = {
@@ -24,31 +27,29 @@ var MOCK_MESSAGE_2 = {
 };
 
 var MOCK_MESSAGE_3 = {
-  timestamp: '1hr ago',
-  body: "The sunset was terrible yesterday"
+  timestamp: '5 min ago',
+  body: "I like pies"
 };
 
 var MOCK_MESSAGE_4 = {
-  timestamp: '2d ago',
-  body: "It kinda smells here"
+  timestamp: '5 min ago',
+  body: "I like pies"
 };
 
-var MOCK_MESSAGE_5 = {
-  timestamp: 'one week ago',
-  body: "strawberries or snozzberries?"
-};
+var MOCK_DATA = [MOCK_MESSAGE_1, MOCK_MESSAGE_2, MOCK_MESSAGE_3, MOCK_MESSAGE_4];
 
-var MOCK_DATA = [MOCK_MESSAGE_1, MOCK_MESSAGE_2, MOCK_MESSAGE_3, MOCK_MESSAGE_4, MOCK_MESSAGE_5];
+var Marks = React.createClass({
 
-var uncovery = React.createClass({
   getInitialState: function() {
     return {
       dataSource: new ListView.DataSource({
         rowHasChanged: (row1, row2) => row1 !== row2,
       }),
-      loaded: false,
+      loaded: false
     };
   },
+
+  rowHasChanged: function(){ },
 
   componentDidMount: function() {
     this.fetchData();
@@ -69,13 +70,12 @@ var uncovery = React.createClass({
        </Text>
      </View>
    );
- },
+  },
 
   render: function() {
     if (!this.state.loaded) {
       return this.renderLoadingView();
     }
-
     return (
       <ListView
         dataSource={this.state.dataSource}
@@ -85,6 +85,7 @@ var uncovery = React.createClass({
   },
 
   renderMessage: function(message) {
+    console.log(message)
     return (
     <View style={styles.container}>
       <Text> </Text>
@@ -93,6 +94,56 @@ var uncovery = React.createClass({
     </View>
     );
   }
+
+});
+
+var postForm = React.createClass({
+  
+  getInitialState() {
+    return {};
+  },
+  
+  render() {
+    return (
+      <View style={{ top: 64 }}>
+        <TextInput
+            style={{height: 40, borderColor: 'gray', borderWidth: 1}}
+            onChangeText={(text) => this.setState({input: text})}
+          />
+        <Text>{'user input: ' + this.state.input}</Text>
+      </View>
+    );
+  }
+  
+});
+
+var uncovery = React.createClass({
+  getInitialState: function() {
+    return {};
+  },
+
+  render: function() {
+    return (
+      <NavigatorIOS
+        ref="nav"
+        style={styles.container}
+        initialRoute={{
+          title: 'UIExplorer :)',
+          rightButtonTitle: 'Mark',
+          onRightButtonPress: () => {
+            this.refs.nav.push({
+              component: postForm,
+              title: 'sdf'
+            });
+          },
+          component: Marks
+        }}
+        itemWrapperStyle={styles.itemWrapper}
+        tintColor='#008888'
+      />
+    );
+  },
+
 });
 
 var styles = StyleSheet.create({
@@ -101,7 +152,8 @@ var styles = StyleSheet.create({
     backgroundColor: '#F5FCFF',
   },
   listView: {
-    paddingTop: 20,
+    paddingTop: 0,
+    paddingRight: 10,
     backgroundColor: '#F5FCFF',
   }
 });
