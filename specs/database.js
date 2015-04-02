@@ -17,15 +17,15 @@ describe('database storage', function() {
   };
 
   it('should validate user input', function(done) {
-    models.insert(invalidTestData, function(err, msg) {
-      expect(err).to.equal('Could not insert new message: invalid input.');
+    models.insert(invalidTestData, function(msg) {
+      expect(msg).to.equal('Could not insert new message: invalid input.');
       done();
     })
   });
 
   it('should add messages to the database', function(done) {
-    models.insert(testData, function(err, msg) {
-      expect(msg).to.equal('Successfully inserted new message to database.');
+    models.insert(testData, function(msg) {
+      expect(msg).to.equal('Successfully inserted new message and mark to database.');
       done();
     })
   });

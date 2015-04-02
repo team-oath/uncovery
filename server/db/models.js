@@ -12,14 +12,17 @@ exports.insert = function(userData, callback) {
     // Use the provided userData to create custom objects to populate our
     // two separate tables, `marks` and `messages`.
     var message = createMessage(userData);
-    var mark = createMark(userData);
 
     // Create an INSERT query to add the `mark` to the database
     db.connection.query('INSERT INTO messages SET ?', message, function(err, msg) {
       if (err) callback(err);
-      callback(null, 'Successfully inserted new message to database.');
 
-      // msg.insertId
+      var mark = createMark(userData, msg.insertId);
+
+      db.connection.query('INSERT INTO marks SET ?', mark, function(err, mark) {
+        if (err) callback(err);
+        callback('Successfully inserted new message and mark to database.');
+      });
     });
   } else {
     callback('Could not insert new message: invalid input.')
@@ -35,18 +38,19 @@ var validateInput = function(userData) {
   return true;
 }
 
-var createMark = function(userData) {
+var createMark = function(userData, messageId) {
   var mark = {
     x: userData.x,
     y: userData.y,
-    z: userData.z
+    z: userData.z,
+    messageId: messageId
   }
   return mark;
 };
 
 var createMessage = function(userData) {
   var message = {
-    message_string: userData.message
+    messageString: userData.message
   }
   return message;
 };
