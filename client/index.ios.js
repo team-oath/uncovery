@@ -1,42 +1,35 @@
 /**
- * Sample React Native App
- * https://github.com/facebook/react-native
+ * Uncovery
  */
+
 'use strict';
 
 var React = require('react-native');
-var {
-  AppRegistry,
-  NavigatorIOS,
-  StyleSheet,
-  View,
-  ListView,
-  SwitchIOS,
-  Text,
-  TextInput
-} = React;
-
 var styles = require("./styles.js");
 var Marks = require("./components/marks.js");
 var postForm = require("./components/post-form.js");
 
-var uncovery = React.createClass({
-  getInitialState: function() {
-    return {};
-  },
+var { AppRegistry, NavigatorIOS } = React;
 
-  render: function() {
+class Uncovery extends React.Component {
+
+  render() {
+
+    // Rendering the initial application:
+    // - Generate main naviagation
+    // - Pull in compontent 'Marks'
+    
     return (
       <NavigatorIOS
         ref="nav"
         style={styles.container}
         initialRoute={{
-          title: 'UIExplorer :)',
+          title: 'Uncovery',
           rightButtonTitle: 'Mark',
           onRightButtonPress: () => {
             this.refs.nav.push({
               component: postForm,
-              title: 'sdf'
+              title: 'Mark'
             });
           },
           component: Marks
@@ -45,8 +38,8 @@ var uncovery = React.createClass({
         tintColor='#008888'
       />
     );
-  },
+  }
 
-});
+};
 
-AppRegistry.registerComponent('uncovery', () => uncovery);
+AppRegistry.registerComponent('uncovery', () => Uncovery);
