@@ -8,10 +8,12 @@ module.exports = function(grunt) {
         }
       }
     },
-    karma: {
-      unit: {
-        configFile: 'karma.conf.js',
-        autoWatch: true
+    mochaTest: {
+      test: {
+        options: {
+          reporter: 'spec'
+        },
+        src: ['specs/**/*.js']
       }
     },
     jshint: {
@@ -32,7 +34,7 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-contrib-jshint');
   grunt.loadNpmTasks('grunt-contrib-watch');
   grunt.loadNpmTasks('grunt-express');
-  grunt.loadNpmTasks('grunt-karma');
+  grunt.loadNpmTasks('grunt-mocha-test');
 
   grunt.registerTask('default', [
     'jshint',
@@ -42,6 +44,6 @@ module.exports = function(grunt) {
   ]);
 
   grunt.registerTask('test', [
-    'karma'
+    'mochaTest'
   ]);
 };
