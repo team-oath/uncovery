@@ -19,3 +19,9 @@ array as to comply with <a href="http://requirejs.org/">RequireJS</a>.</p>
   <li><i>Framework</i> <b>Express</b></li>
 </ul>
 
+<h2>Style</h2>
+<h3>React Native</h3>
+<ul>
+  <li>Using ES6 Syntax</li>
+  <li>Use commas even at the last key-value pair in an object</li>
+</ul>

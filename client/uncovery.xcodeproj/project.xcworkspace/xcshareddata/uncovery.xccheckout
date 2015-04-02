@@ -14,11 +14,11 @@
 		<string>https://github.com/mrblueblue/uncovery.git</string>
 	</dict>
 	<key>IDESourceControlProjectPath</key>
-	<string>uncovery.xcodeproj</string>
+	<string>client/uncovery.xcodeproj</string>
 	<key>IDESourceControlProjectRelativeInstallPathDictionary</key>
 	<dict>
 		<key>4CAC3522C0C92856D045A01EC4DA2CDE16CDE927</key>
-		<string>../..</string>
+		<string>../../..</string>
 	</dict>
 	<key>IDESourceControlProjectURL</key>
 	<string>https://github.com/mrblueblue/uncovery.git</string>
