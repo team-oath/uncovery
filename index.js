@@ -7,16 +7,32 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
 app.get('/', function (req, res) {
-  console.log(req.body);
-  res.send('works');
+  console.log('\nRECEIVED a GET request');
+  console.log(req.query);
+
+  models.retrieve(req.query, function(msg) {
+    if (Array.isArray(msg)) {
+      console.log('\nSENT message array to user')
+      console.log(msg);
+
+      res.send(msg);
+    } else {
+      console.log('\nSENT error code to user')
+      console.log(msg);
+
+      res.send(msg)
+    }
+  });
 });
 
 app.post('/', function(req, res) {
-  console.log('Received a post request');
+  console.log('\nRECEIVED a POST request');
   console.log(req.body);
 
   models.insert(req.body, function(msg) {
+    console.log('\nSENT success code to user')
     console.log(msg);
+
     res.status(201);
     res.send('works');
   });

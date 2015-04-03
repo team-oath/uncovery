@@ -44,6 +44,13 @@ var validateInput = function(userData) {
   return true;
 };
 
+var validateQuery = function(userData) {
+  if (!userData.x || !userData.y || !userData.z) {
+    return false;
+  }
+  return true;
+};
+
 // Create a mark to add to the database. This function essentially
 // parses the userData to extract only the coordinates and message foreign key
 var createMark = function(userData, messageId) {
@@ -70,25 +77,30 @@ var createMessage = function(userData) {
 // The `insert` function is passed an object that contains the properties
 // needed to perform a search: locations `x`, `y`, and `z`
 exports.retrieve = function(userLocation, callback) {
-  // We need to search in a .0001 lat/long radius
-  var query = ([
-    'SELECT *',
-    'FROM marks',
-    'LEFT JOIN messages',
-    'ON marks.messageId = messages.id',
-    'WHERE x between ? AND ?',
-    'AND y between ? AND ?'
-  ]).join(' ');
 
-  var params = [
-    userLocation.x - .0001,
-    userLocation.x + .0001,
-    userLocation.y - .0001,
-    userLocation.y + .0001,
-  ];
+  if (validateQuery(userLocation)) {
+    var query = ([
+      'SELECT *',
+      'FROM marks',
+      'LEFT JOIN messages',
+      'ON marks.messageId = messages.id',
+      'WHERE x between ? AND ?',
+      'AND y between ? AND ?'
+    ]).join(' ');
 
-  db.connection.query(query, params, function(err, marks) {
-    if (err) callback(err);
-    callback(marks);
-  })
+    // We need to search in a .0001 lat/long radius
+    var params = [
+      +userLocation.x - .0001,
+      +userLocation.x + .0001,
+      +userLocation.y - .0001,
+      +userLocation.y + .0001,
+    ];
+
+    db.connection.query(query, params, function(err, marks) {
+      if (err) callback(err);
+      callback(marks);
+    });
+  } else {
+    callback('Could not complete request: invalid query parameters.');
+  }
 };

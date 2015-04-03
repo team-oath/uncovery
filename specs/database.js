@@ -20,7 +20,8 @@ describe('database storage', function() {
   };
   var testLocation = {
     x: 42.938233,
-    y: -160.423029
+    y: -160.423029,
+    z: 1
   };
 
   it('should validate user input', function(done) {
