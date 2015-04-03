@@ -86,7 +86,8 @@ exports.retrieve = function(userLocation, callback) {
       'LEFT JOIN messages',
       'ON marks.messageId = messages.id',
       'WHERE x between ? AND ?',
-      'AND y between ? AND ?'
+      'AND y between ? AND ?',
+      'ORDER BY timestamp DESC'
     ]).join(' ');
 
     // We need to search in a .0001 lat/long radius
