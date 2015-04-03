@@ -1,17 +1,18 @@
 var moment = require('moment');
+var geolib = require('geolib');
 
 // Use moment.js to calculate how much time has elapsed since some prior time
 exports.getTimeElapsedSince = function(time) {
   return moment(time).fromNow();
 };
 
-// Use basic geometry to calculate distance from the mark to the user
+// Use geolib.js to calculate distance from the mark to the user
 exports.getDistanceFrom = function(mark, user) {
-  var feetPerDegree = 364829;
-  var dx = user.x - mark.x;
-  var dy = user.y - mark.y;
-  var dz = Math.pow((dx*dx + dy*dy), 0.5)
-  return Math.floor(dz * feetPerDegree) + ' feet away';
+  var dist = geolib.getDistance(
+    {latitude: user.x, longitude: user.y},
+    {latitude: mark.x, longitude: mark.y}
+  );
+  return dist + ' meters away';
 };
 
 // The object we pull from the database has specific data (time/location)
