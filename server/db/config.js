@@ -7,7 +7,5 @@ exports.connection = mysql.createConnection({
 });
 
 exports.initialize = function(callback) {
-  exports.connection.connect(function(err) {
-    callback(err);
-  });
+  exports.connection.connect();
 };

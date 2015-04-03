@@ -3,6 +3,7 @@ var expect = chai.expect;
 var request = require('request');
 var localServerUri = 'http://127.0.0.1:3000/';
 var invalidUri = 'http://127.0.0.1:3000/invalid';
+var testData = {x: 110.123456, y: -50.323, z: 14.4244, message: 'hello server!'};
 
 describe('server http routing', function(){
   it('should receive status code 200 on GET request', function(done) {
@@ -13,7 +14,7 @@ describe('server http routing', function(){
   });
 
   it('should receive status code 201 on POST request', function(done) {
-    request.post({url:localServerUri, form: {key:'value'}}, function(err, response, body) { 
+    request.post({url:localServerUri, form: {key:'value'}}, function(err, response, body) {
       expect(response.statusCode).to.equal(201);
       done();
     });

@@ -1,8 +1,9 @@
 var express = require('express');
 var bodyParser = require('body-parser');
+var models = require('./server/db/models.js');
 var app = express();
 
-app.use(bodyParser.urlencoded({ extended: false }))
+app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
 app.get('/', function (req, res) {
@@ -12,8 +13,12 @@ app.get('/', function (req, res) {
 app.post('/', function(req, res) {
   console.log('Received a post request');
   console.log(req.body);
-  res.status(201);
-  res.send('works');
+
+  models.insert(req.body, function(msg) {
+    console.log(msg);
+    res.status(201);
+    res.send('works');
+  });
 });
 
 var server = app.listen(3000, function () {
