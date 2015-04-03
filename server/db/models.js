@@ -1,4 +1,5 @@
 var db = require('./config');
+var util = require('../core/utilities');
 
 db.initialize();
 
@@ -90,15 +91,16 @@ exports.retrieve = function(userLocation, callback) {
 
     // We need to search in a .0001 lat/long radius
     var params = [
-      +userLocation.x - .0001,
-      +userLocation.x + .0001,
-      +userLocation.y - .0001,
-      +userLocation.y + .0001,
+      +userLocation.x - .01,
+      +userLocation.x + .01,
+      +userLocation.y - .01,
+      +userLocation.y + .01,
     ];
 
     db.connection.query(query, params, function(err, marks) {
       if (err) callback(err);
-      callback(marks);
+
+      callback(util.createResponseObjects(marks, userLocation));
     });
   } else {
     callback('Could not complete request: invalid query parameters.');
