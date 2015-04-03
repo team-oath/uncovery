@@ -46,7 +46,7 @@ class PostForm extends React.Component {
       <View style={{ top: 100 }}>
 
         <TextInput
-          style={{height: 40, borderColor: 'gray', borderWidth: 1}}
+          style={styles.textInput}
           onChangeText={(text) => this.setState({input: text})}
         />
         <TouchableOpacity
@@ -78,7 +78,7 @@ class PostForm extends React.Component {
     // see github.com/levity-io/POST-bin
     // for a POST request catcher
 
-    fetch('http://localhost:3000/4kELPoLe', {
+    fetch('http://uncovery.ngrok.com/', {
       method: 'POST',
       headers: {
         'Accept': 'application/json',

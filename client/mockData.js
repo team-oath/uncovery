@@ -15,7 +15,7 @@ var MOCK_MESSAGE_3 = {
 
 var MOCK_MESSAGE_4 = {
   timestamp: '2 days ago',
-  message: "I like pies"
+  message: "I like pies and fish and pottoes, I like pies and fish and pottoes, I like pies and fish and pottoes, I like pies and fish and pottoes"
 };
 
 var MOCK_DATA = [MOCK_MESSAGE_1, MOCK_MESSAGE_2, MOCK_MESSAGE_3, MOCK_MESSAGE_4];
