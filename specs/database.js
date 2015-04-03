@@ -16,8 +16,8 @@ describe('database storage', function() {
     z: 69
   };
   var testLocation = {
-    x: 37.183549,
-    y: -122.108974,
+    x: 42.938233,
+    y: -160.423029
   };
 
   it('should validate user input', function(done) {
@@ -34,9 +34,23 @@ describe('database storage', function() {
     })
   });
 
-  it('should retrieve messages from the database', function(done) {
-    models.retrieve(testLocation, function(messages) {
+  it('should retrieve an array of messages from the database', function(done) {
+    models.retrieve(testData, function(messages) {
       expect(messages).to.be.instanceof(Array);
+      done();
+    })
+  });
+
+  it('should retrieve messages that are near the user', function(done) {
+    models.retrieve(testData, function(messages) {
+      expect(messages).to.be.not.empty;
+      done();
+    })
+  });
+
+  it('should not retrieve messages that are not near the user', function(done) {
+    models.retrieve(testLocation, function(messages) {
+      expect(messages).to.be.empty;
       done();
     })
   });

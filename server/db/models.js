@@ -86,7 +86,6 @@ exports.retrieve = function(userLocation, callback) {
 
   db.connection.query(query, params, function(err, marks) {
     if (err) callback(err);
-    console.log(marks);
     callback(marks);
   })
 };
