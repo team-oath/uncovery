@@ -20,6 +20,11 @@ var styles = StyleSheet.create({
   button: {
     color: '#007AFF',
   },
+  textInput: {
+    height: 40, 
+    borderColor: 'gray', 
+    borderWidth: 1
+  },
 });
 
 module.exports = styles;

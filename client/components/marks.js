@@ -12,27 +12,38 @@ class Marks extends React.Component {
       dataSource: new ListView.DataSource({
         rowHasChanged: (row1, row2) => row1 !== row2,
       }),
-      loaded: false
+      loaded: false,
+      lastPosition: {
+        coords: {
+          longitude : 0, 
+          latitude : 0, 
+          altitude : 0,
+        }
+      } 
     };
    }
 
   componentDidMount() {
-    this.fetchData();
+
+    navigator.geolocation.getCurrentPosition(
+      (initialPosition) => this.setState({initialPosition}),
+      (error) => console.error(error)
+    );
+
+    this.watchID = navigator.geolocation.watchPosition((lastPosition) => {
+      this.setState({lastPosition});
+      this.fetchData();
+    });
+
+
   }
 
   fetchData(){
-    // Using test server to send response data:
 
-      /*
-      [ { timestamp: 'now', message: 'I smell tasty hamburgers!!!' },
-        { timestamp: '5 min ago', message: 'I like pies' },
-        { timestamp: '5 min ago', message: 'I like pies' },
-        { timestamp: '5 min ago', message: 'I like pies' } ]
-      */
-    var x = 50.2;
-    var y = 100.1;
-    var z = 500;
-    var requestURL = 'http://localhost:6666/data?'+'x='+x+'&'+'y='+y+'&'+'z='+z
+    var x = this.state.lastPosition.coords.latitude;
+    var y = this.state.lastPosition.coords.longitude;
+    var z = this.state.lastPosition.coords.altitude;
+    var requestURL = 'http://uncovery.ngrok.com/?'+'x='+x+'&'+'y='+y+'&'+'z='+z
 
     fetch(requestURL)
       .then((response) => response.json())
@@ -43,11 +54,16 @@ class Marks extends React.Component {
         });
       })
       .done();
+
+    // this.setState({
+    //   dataSource: this.state.dataSource.cloneWithRows(MOCK_DATA),
+    //   loaded: true,
+    // });
   }
 
   renderLoadingView() {
    return (
-     <View style={styles.container}>
+     <View style={{flex: 1,backgroundColor: '#F5FCFF',}}>
        <Text>
          Loading messages...
        </Text>
@@ -59,11 +75,13 @@ class Marks extends React.Component {
     if (!this.state.loaded) {
       return this.renderLoadingView();
     }
+
     return (
       <ListView
         dataSource={this.state.dataSource}
         renderRow={this.renderMessage}
         style={styles.listView} />
+
     );
   }
 
@@ -72,7 +90,7 @@ class Marks extends React.Component {
     <View style={styles.container}>
       <Text> </Text>
       <Text style={{textAlign: 'right', fontSize: 8}}> {body.timestamp} </Text>
-      <Text> {body.message} </Text>
+      <Text> {body.messageString} </Text>
     </View>
     );
   }
