@@ -72,7 +72,10 @@ var createMessage = function(userData) {
 exports.retrieve = function(userLocation, callback) {
   // We need to search in a .0001 lat/long radius
   var query = ([
-    'SELECT * FROM marks',
+    'SELECT *',
+    'FROM marks',
+    'LEFT JOIN messages',
+    'ON marks.messageId = messages.id',
     'WHERE x between ? AND ?',
     'AND y between ? AND ?'
   ]).join(' ');
