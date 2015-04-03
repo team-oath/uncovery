@@ -92,7 +92,7 @@ class Marks extends React.Component {
     return (
     <View style={styles.container}>
       <Text> </Text>
-      <Text style={{textAlign: 'right', fontSize: 8}}> {body.timestamp} </Text>
+      <Text style={{fontSize: 8}}> {body.timestamp} @ {body.distance} </Text>
       <Text> {body.messageString} </Text>
     </View>
     );
