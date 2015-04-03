@@ -3,6 +3,9 @@ var expect = chai.expect;
 var db = require('../server/db/config');
 var models = require('../server/db/models');
 
+var request = require('request');
+var localServerUri = 'http://127.0.0.1:3000/';
+
 describe('database storage', function() {
   var testData = {
     x: 37.783599,
