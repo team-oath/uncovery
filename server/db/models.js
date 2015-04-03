@@ -2,6 +2,8 @@ var db = require('./config');
 
 db.initialize();
 
+/////////////////////////          INSERTION          //////////////////////////////
+
 // The `insert` function is passed an object that contains the properties
 // needed to leave a mark: locations `x`, `y`, and `z`, as well as a `message`
 exports.insert = function(userData, callback) {
@@ -29,7 +31,7 @@ exports.insert = function(userData, callback) {
     });
   } else {
     // Let the function callee know that the insertion was unsuccessful
-    callback('Could not insert new message: invalid input.')
+    callback('Could not insert new message: invalid input.');
   }
 };
 
@@ -40,7 +42,7 @@ var validateInput = function(userData) {
     return false;
   }
   return true;
-}
+};
 
 // Create a mark to add to the database. This function essentially
 // parses the userData to extract only the coordinates and message foreign key
@@ -50,7 +52,7 @@ var createMark = function(userData, messageId) {
     y: userData.y,
     z: userData.z,
     messageId: messageId
-  }
+  };
   return mark;
 };
 
@@ -59,6 +61,32 @@ var createMark = function(userData, messageId) {
 var createMessage = function(userData) {
   var message = {
     messageString: userData.message
-  }
+  };
   return message;
+};
+
+/////////////////////////          RETRIEVAL          //////////////////////////////
+
+// The `insert` function is passed an object that contains the properties
+// needed to perform a search: locations `x`, `y`, and `z`
+exports.retrieve = function(userLocation, callback) {
+  // We need to search in a .0001 lat/long radius
+  var query = ([
+    'SELECT * FROM marks',
+    'WHERE x between ? AND ?',
+    'AND y between ? AND ?'
+  ]).join(' ');
+
+  var params = [
+    userLocation.x - .0001,
+    userLocation.x + .0001,
+    userLocation.y - .0001,
+    userLocation.y + .0001,
+  ];
+
+  db.connection.query(query, params, function(err, marks) {
+    if (err) callback(err);
+    console.log(marks);
+    callback(marks);
+  })
 };
