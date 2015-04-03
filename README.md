@@ -1,3 +1,13 @@
+<h1>Project: Uncovery</h1>
+<h2>Getting Started</h3>
+<ol>
+  <li>To set up the database, run the following command:
+    `mysql -u root < server/db/schema.sql` </li>
+  <li>Then run to start testing run:
+    `grunt test`</li>
+</ol>
+
+
 <h2>Testing</h2>
 <ul>
   <li><i>Test Runner</i> <b>Karma</b></li>
@@ -17,6 +27,7 @@ array as to comply with <a href="http://requirejs.org/">RequireJS</a>.</p>
 <h2>Server</h2>
 <ul>
   <li><i>Framework</i> <b>Express</b></li>
+  <li><i>Database</i> <b>MySQL</b></li>
 </ul>
 
 <h2>Style</h2>
