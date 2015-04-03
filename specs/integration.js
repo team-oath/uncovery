@@ -19,7 +19,9 @@ describe('server to database integration', function() {
 
   it('should GET messages from databases', function(done) {
     request(GETUri, function(err, response, body) {
-      expect(response.messages).to.be.a('array');
+      var messages = JSON.parse(response.body);
+      expect(messages).to.be.a('array');
+      done();
     });
   });
 });
