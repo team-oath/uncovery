@@ -34,15 +34,20 @@ class Marks extends React.Component {
     var z = 500;
     var requestURL = 'http://localhost:6666/data?'+'x='+x+'&'+'y='+y+'&'+'z='+z
 
-    fetch(requestURL)
-      .then((response) => response.json())
-      .then((responseData) => {
-        this.setState({
-          dataSource: this.state.dataSource.cloneWithRows(responseData),
-          loaded: true,
-        });
-      })
-      .done();
+    // fetch(requestURL)
+    //   .then((response) => response.json())
+    //   .then((responseData) => {
+    //     this.setState({
+    //       dataSource: this.state.dataSource.cloneWithRows(responseData),
+    //       loaded: true,
+    //     });
+    //   })
+    //   .done();
+
+    this.setState({
+      dataSource: this.state.dataSource.cloneWithRows(MOCK_DATA),
+      loaded: true,
+    });
   }
 
   renderLoadingView() {
