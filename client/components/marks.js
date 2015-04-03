@@ -30,8 +30,12 @@ class Marks extends React.Component {
         { timestamp: '5 min ago', message: 'I like pies' },
         { timestamp: '5 min ago', message: 'I like pies' } ]
       */
+    var x = 50.2;
+    var y = 100.1;
+    var z = 500;
+    var requestURL = 'http://localhost:6666/data?'+'x='+x+'&'+'y='+y+'&'+'z='+z
 
-    fetch('http://localhost:6666/data')
+    fetch(requestURL)
       .then((response) => response.json())
       .then((responseData) => {
         this.setState({

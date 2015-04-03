@@ -11,6 +11,6 @@ server.listen(6666, function(){
 console.log(MOCK_DATA);
 
 app.get('/data', function(req, res){
+  console.log(req.query);
   res.send(MOCK_DATA);
 });
-
