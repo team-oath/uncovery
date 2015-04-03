@@ -21,7 +21,6 @@ class Marks extends React.Component {
   }
 
   fetchData(){
-  
     // Using test server to send response data:
 
       /*

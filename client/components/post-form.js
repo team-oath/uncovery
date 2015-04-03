@@ -10,12 +10,11 @@ class PostForm extends React.Component {
     // Create blank state.input that we reference
     // below, app crashes without this.
     
-    this.state = { input: '', initialPosition: 'hello' };
+    this.state = { input: '', initialPosition: {coords: {longitude : 0, latitude : 0, altitude : 0}} };
   }
 
-  /*
-
   componentDidMount() {
+    console.log('hello')
     navigator.geolocation.getCurrentPosition(
       (initialPosition) => this.setState({initialPosition}),
       (error) => console.error(error)
@@ -28,8 +27,6 @@ class PostForm extends React.Component {
   componentWillUnmount() {
     navigator.geolocation.clearWatch(this.watchID);
   }
-
-  */
 
   render() {
 
@@ -50,8 +47,13 @@ class PostForm extends React.Component {
           </Text>  
         </TouchableOpacity>
         <Text>
-        hello
-        {JSON.stringify(this.state.initialPosition)}
+        longitude is {JSON.stringify(this.state.initialPosition.coords.longitude)}
+        </Text>
+        <Text>
+        latitude is {JSON.stringify(this.state.initialPosition.coords.latitude)}
+        </Text>
+        <Text>
+        altitude is {JSON.stringify(this.state.initialPosition.coords.altitude)}
         </Text>
       </View>
     );
@@ -60,7 +62,6 @@ class PostForm extends React.Component {
   // Post Message to server
 
   _postMessage() {
-    console.log('posted message', this.state.input);
 
     // this url is for testing purposes 
     // see github.com/levity-io/POST-bin
