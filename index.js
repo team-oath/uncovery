@@ -1,11 +1,17 @@
 var express = require('express');
+var bodyParser = require('body-parser');
 var app = express();
+
+app.use(bodyParser.urlencoded({ extended: false }))
+app.use(bodyParser.json());
 
 app.get('/', function (req, res) {
   res.send('works');
 });
 
 app.post('/', function(req, res) {
+  console.log('Received a post request');
+  console.log(req.body);
   res.status(201);
   res.send('works');
 });
