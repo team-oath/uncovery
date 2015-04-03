@@ -1,6 +1,5 @@
 var React = require('react-native');
 var styles = require("../styles.js");
-var MOCK_DATA = require("../mockData.js");
 
 var {View, ListView, Text,} = React;
 
@@ -25,16 +24,25 @@ class Marks extends React.Component {
 
   componentDidMount() {
 
+    var watchOptions = {
+      enableHighAccuracy: true,
+    };
+
+    var watchSucess = (lastPosition) => {
+      this.setState({lastPosition});
+      this.fetchData();
+    }
+
+    var watchError = (error) => console.error(error);
+
     navigator.geolocation.getCurrentPosition(
       (initialPosition) => this.setState({initialPosition}),
       (error) => console.error(error)
     );
 
-    this.watchID = navigator.geolocation.watchPosition((lastPosition) => {
-      this.setState({lastPosition});
-      this.fetchData();
-    });
-
+    this.watchID = navigator.geolocation.watchPosition(
+     watchSucess, watchError, watchOptions
+    );
 
   }
 
@@ -54,11 +62,6 @@ class Marks extends React.Component {
         });
       })
       .done();
-
-    // this.setState({
-    //   dataSource: this.state.dataSource.cloneWithRows(MOCK_DATA),
-    //   loaded: true,
-    // });
   }
 
   renderLoadingView() {
