@@ -10,15 +10,33 @@ class PostForm extends React.Component {
     // Create blank state.input that we reference
     // below, app crashes without this.
     
-    this.state = { input: '' };
+    this.state = { input: '', initialPosition: 'hello' };
   }
+
+  /*
+
+  componentDidMount() {
+    navigator.geolocation.getCurrentPosition(
+      (initialPosition) => this.setState({initialPosition}),
+      (error) => console.error(error)
+    );
+    this.watchID = navigator.geolocation.watchPosition((lastPosition) => {
+      this.setState({lastPosition});
+    });
+  }
+
+  componentWillUnmount() {
+    navigator.geolocation.clearWatch(this.watchID);
+  }
+
+  */
 
   render() {
 
     // Render input box and feedback.
 
     return (
-      <View style={{ top: 64 }}>
+      <View style={{ top: 100 }}>
 
         <TextInput
           style={{height: 40, borderColor: 'gray', borderWidth: 1}}
@@ -31,6 +49,10 @@ class PostForm extends React.Component {
             Post
           </Text>  
         </TouchableOpacity>
+        <Text>
+        hello
+        {JSON.stringify(this.state.initialPosition)}
+        </Text>
       </View>
     );
   }
