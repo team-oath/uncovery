@@ -16,7 +16,8 @@ class PostForm extends React.Component {
         coords: {
           longitude : 0, 
           latitude : 0, 
-          altitude : 0
+          altitude : 0,
+          accuracy: 0,
         }
       } 
     };
@@ -24,14 +25,27 @@ class PostForm extends React.Component {
 
   componentDidMount() {
 
-    navigator.geolocation.getCurrentPosition(
-      (initialPosition) => this.setState({initialPosition}),
-      (error) => console.error(error)
-    );
+   var watchOptions = {
+    enableHighAccuracy: true,
+    maximumAge: 30000, 
+    timeout: 27000
+   };
 
-    this.watchID = navigator.geolocation.watchPosition((lastPosition) => {
-      this.setState({lastPosition});
-    });
+   var watchSucess = (lastPosition) => {
+     this.setState({lastPosition});
+   }
+
+   var watchError = (error) => console.error(error);
+
+   navigator.geolocation.getCurrentPosition(
+     (initialPosition) => this.setState({initialPosition}),
+     (error) => console.error(error)
+   );
+
+   this.watchID = navigator.geolocation.watchPosition(
+    watchSucess, watchError, watchOptions
+   );
+
   }
 
   componentWillUnmount() {
@@ -63,7 +77,7 @@ class PostForm extends React.Component {
         latitude is {JSON.stringify(this.state.lastPosition.coords.latitude)}
         </Text>
         <Text>
-        altitude is {JSON.stringify(this.state.lastPosition.coords.altitude)}
+        accuracy is {JSON.stringify(this.state.lastPosition.coords.accuracy)}
         </Text>
       </View>
     );
