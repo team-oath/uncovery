@@ -1,43 +1,8 @@
 var React = require('react-native');
-var styles = require("../styles.js");
-
-console.log(styles.listView)
-
-var {View, ListView, Text, TouchableOpacity, LayoutAnimation} = React;
-
-var animations = {
-  layout: {
-    spring: {
-      duration: 750,
-      create: {
-        duration: 300,
-        type: LayoutAnimation.Types.easeInEaseOut,
-        property: LayoutAnimation.Properties.opacity,
-      },
-      update: {
-        type: LayoutAnimation.Types.spring,
-        springDamping: 0.4,
-      },
-    },
-    easeInEaseOut: {
-      duration: 300,
-      create: {
-        type: LayoutAnimation.Types.easeInEaseOut,
-        property: LayoutAnimation.Properties.scaleXY,
-      },
-      update: {
-        delay: 100,
-        type: LayoutAnimation.Types.easeInEaseOut,
-      },
-    },
-  },
-};
+// var styles = require("../styles.js");
 
 
-var layoutAnimationConfigs = [
-  animations.layout.spring,
-  animations.layout.easeInEaseOut,
-];
+var {View, ListView, Text, TouchableOpacity, LayoutAnimation, StyleSheet} = React;
 
 var Message = React.createClass({
   getInitialState: function() {
@@ -54,12 +19,20 @@ var Message = React.createClass({
 
   render: function(body) {
     return (
-     <TouchableOpacity onPress={() => this._onPressMessage()}>
-       <View style={{flex: 1}}>
-         <Text> </Text>
-         <Text style={{fontSize: 8}}> {this.props.body.timestamp} @ {this.props.body.distance} </Text>
-         <Text> {this.props.body.messageString} </Text>
-       </View>
+
+    <TouchableOpacity onPress={() => this._onPressMessage()}>
+      {this.state.dir === 'column' ?
+        <View style={[styles.buttonContents, {flexDirection: this.state.dir}]}>
+          <Text> </Text>
+          <Text style={{fontSize: 8}}> {this.props.body.timestamp} @ {this.props.body.distance} </Text>
+          <Text> {this.props.body.messageString} </Text>
+        </View> :
+        <View style={[styles.buttonContents, {flexDirection: this.state.dir}]}>
+          <Text> </Text>
+          <Text style={{fontSize: 8}}> {this.props.body.timestamp} @ {this.props.body.distance} </Text>
+          <Text> {this.props.body.messageString.substring(0,10)} </Text>
+        </View>
+      }
      </TouchableOpacity>
     );
   }
@@ -128,7 +101,7 @@ class Marks extends React.Component {
 
   renderLoadingView() {
    return (
-     <View style={{flex: 1,backgroundColor: '#F5FCFF',}}>
+     <View style={{flex: 1}}>
        <Text>
          Loading messages...
        </Text>
@@ -145,7 +118,7 @@ class Marks extends React.Component {
       <ListView
         dataSource={this.state.dataSource}
         renderRow={this.renderMessage}
-        style={{backgroundColor: '#B0C4DE',}} 
+        style={styles.listView}
         initialListSize={10}
         pageSize={4}
         scrollRenderAheadDistance={2000} />
@@ -161,6 +134,85 @@ class Marks extends React.Component {
  
 };
 
+var styles = StyleSheet.create({
+  listView: {
+    backgroundColor: '#B0C4DE',
+  },
+  header: {
+    height: 40,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: '#3B5998',
+    flexDirection: 'row',
+  },
+  text: {
+    color: 'white',
+    paddingHorizontal: 8,
+  },
+  rowText: {
+    color: '#888888',
+  },
+  thumbText: {
+    fontSize: 20,
+    color: '#888888',
+  },
+  buttonContents: {
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginHorizontal: 5,
+    marginVertical: 3,
+    padding: 5,
+    backgroundColor: '#EAEAEA',
+    borderRadius: 3,
+    paddingVertical: 10,
+  },
+  img: {
+    width: 64,
+    height: 64,
+    marginHorizontal: 10,
+  },
+  section: {
+    flexDirection: 'column',
+    justifyContent: 'center',
+    alignItems: 'flex-start',
+    padding: 6,
+    backgroundColor: '#5890ff',
+  },
+});
+
+var animations = {
+  layout: {
+    spring: {
+      duration: 750,
+      create: {
+        duration: 300,
+        type: LayoutAnimation.Types.easeInEaseOut,
+        property: LayoutAnimation.Properties.opacity,
+      },
+      update: {
+        type: LayoutAnimation.Types.spring,
+        springDamping: 0.4,
+      },
+    },
+    easeInEaseOut: {
+      duration: 300,
+      create: {
+        type: LayoutAnimation.Types.easeInEaseOut,
+        property: LayoutAnimation.Properties.scaleXY,
+      },
+      update: {
+        delay: 100,
+        type: LayoutAnimation.Types.easeInEaseOut,
+      },
+    },
+  },
+};
+
+var layoutAnimationConfigs = [
+  animations.layout.spring,
+  animations.layout.easeInEaseOut,
+];
 
 
 module.exports = Marks;
