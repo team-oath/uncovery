@@ -55,8 +55,6 @@ class Marks extends React.Component {
     var z = this.state.lastPosition.coords.altitude;
     var requestURL = config.host + 'x='+x+'&'+'y='+y+'&'+'z='+z
 
-    console.log('The Request URL is ', requestURL);
-
     fetch(requestURL)
       .then((response) => response.json())
       .then((responseData) => {
@@ -99,7 +97,6 @@ class Marks extends React.Component {
       (<Message body={body}/>)
     );
   }
- 
 };
 
 module.exports = Marks;

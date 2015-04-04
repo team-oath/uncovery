@@ -28,6 +28,7 @@ var styles = StyleSheet.create({
     borderWidth: 1,
     padding: 10,
     marginBottom: 20,
+    borderRadius: 20,
   },
 });
 

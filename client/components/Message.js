@@ -4,9 +4,11 @@ var React = require('react-native');
 var {View, Text, TouchableOpacity, LayoutAnimation, StyleSheet} = React;
 
 var Message = React.createClass({
+
   getInitialState: function() {
     return {dir: 'row'};
   },
+  
   _onPressMessage: function() {
     var config = layoutAnimationConfigs[0];
     console.log(config)
@@ -18,21 +20,20 @@ var Message = React.createClass({
 
   render: function(body) {
     return (
-
-    <TouchableOpacity onPress={() => this._onPressMessage()}>
-      {this.state.dir === 'column' ?
-        <View style={[styles.buttonContents, {flexDirection: this.state.dir}]}>
-          <Text> </Text>
-          <Text style={{fontSize: 8}}> {this.props.body.timestamp} @ {this.props.body.distance} </Text>
-          <Text> {this.props.body.messageString} </Text>
-        </View> :
-        <View style={[styles.buttonContents, {flexDirection: this.state.dir}]}>
-          <Text> </Text>
-          <Text style={{fontSize: 8}}> {this.props.body.timestamp} @ {this.props.body.distance} </Text>
-          <Text> {this.props.body.messageString.substring(0,10)} </Text>
-        </View>
-      }
-     </TouchableOpacity>
+      <TouchableOpacity onPress={() => this._onPressMessage()}>
+        {this.state.dir === 'column' ?
+          <View style={[styles.buttonContents, {flexDirection: this.state.dir}]}>
+            <Text> </Text>
+            <Text style={{fontSize: 8}}> {this.props.body.timestamp} @ {this.props.body.distance} </Text>
+            <Text> {this.props.body.messageString} </Text>
+          </View> :
+          <View style={[styles.buttonContents, {flexDirection: this.state.dir}]}>
+            <Text> </Text>
+            <Text style={{fontSize: 8}}> {this.props.body.timestamp} @ {this.props.body.distance} </Text>
+            <Text> {this.props.body.messageString.substring(0,10)} </Text>
+          </View>
+        }
+       </TouchableOpacity>
     );
   }
 });
