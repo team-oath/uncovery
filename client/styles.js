@@ -18,12 +18,16 @@ var styles = StyleSheet.create({
     borderRadius: 8,
   },
   button: {
+    justifyContent: 'center',
     color: '#007AFF',
+    textAlign: 'center',
   },
   textInput: {
-    height: 40, 
+    height: 70, 
     borderColor: 'gray', 
-    borderWidth: 1
+    borderWidth: 1,
+    padding: 10,
+    marginBottom: 20,
   },
 });
 
