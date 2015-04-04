@@ -1,7 +1,34 @@
 var React = require('react-native');
 var styles = require("../styles.js");
 
-var {View, ListView, Text,} = React;
+console.log(styles.listView)
+
+var {View, ListView, Text, TouchableOpacity} = React;
+
+var Message = React.createClass({
+  getInitialState: function() {
+    return {dir: 'row'};
+  },
+  _onPressMessage: function() {
+    console.log('hello')
+    // var config = layoutAnimationConfigs[0];
+    // LayoutAnimation.configureNext(config);
+    // this.setState({
+    //   dir: this.state.dir === 'row' ? 'column' : 'row',
+    // });
+  },
+  render: function(body) {
+    return (
+     <TouchableOpacity onPress={() => this._onPressMessage}>
+       <View style={{flex: 1}}>
+         <Text> </Text>
+         <Text style={{fontSize: 8}}> {this.props.body.timestamp} @ {this.props.body.distance} </Text>
+         <Text> {this.props.body.messageString} </Text>
+       </View>
+     </TouchableOpacity>
+    );
+  }
+});
 
 class Marks extends React.Component {
 
@@ -23,7 +50,7 @@ class Marks extends React.Component {
    }
 
   componentDidMount() {
-
+   
     var watchOptions = {
       enableHighAccuracy: true,
     };
@@ -83,20 +110,20 @@ class Marks extends React.Component {
       <ListView
         dataSource={this.state.dataSource}
         renderRow={this.renderMessage}
-        style={styles.listView} />
+        style={{backgroundColor: '#B0C4DE',}} 
+        initialListSize={10}
+        pageSize={4}
+        scrollRenderAheadDistance={2000} />
 
     );
   }
 
-  renderMessage(body) {
+  renderMessage(body): ReactElement {
     return (
-    <View style={styles.container}>
-      <Text> </Text>
-      <Text style={{fontSize: 8}}> {body.timestamp} @ {body.distance} </Text>
-      <Text> {body.messageString} </Text>
-    </View>
+      (<Message body={body}/>)
     );
   }
+ 
 };
 
 module.exports = Marks;
