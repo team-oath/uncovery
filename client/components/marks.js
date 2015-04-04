@@ -38,14 +38,12 @@ class Marks extends React.Component {
     var watchError = (error) => console.error(error);
 
     navigator.geolocation.getCurrentPosition(
-      (initialPosition) => this.setState({initialPosition}),
-      (error) => console.error(error)
+      watchSucess, watchError
     );
 
     this.watchID = navigator.geolocation.watchPosition(
      watchSucess, watchError, watchOptions
     );
-
   }
 
   fetchData(){

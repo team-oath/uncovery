@@ -1,5 +1,6 @@
 
 var React = require('react-native');
+var styles = require('../styles.js')
 
 var {View, Text, TouchableOpacity, LayoutAnimation, StyleSheet} = React;
 
@@ -8,7 +9,7 @@ var Message = React.createClass({
   getInitialState: function() {
     return {dir: 'row'};
   },
-  
+
   _onPressMessage: function() {
     var config = layoutAnimationConfigs[0];
     console.log(config)
@@ -36,50 +37,6 @@ var Message = React.createClass({
        </TouchableOpacity>
     );
   }
-});
-
-var styles = StyleSheet.create({
-  header: {
-    height: 40,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: '#3B5998',
-    flexDirection: 'row',
-  },
-  text: {
-    color: 'white',
-    paddingHorizontal: 8,
-  },
-  rowText: {
-    color: '#888888',
-  },
-  thumbText: {
-    fontSize: 20,
-    color: '#888888',
-  },
-  buttonContents: {
-    flexDirection: 'row',
-    justifyContent: 'center',
-    alignItems: 'center',
-    marginHorizontal: 5,
-    marginVertical: 3,
-    padding: 5,
-    backgroundColor: '#EAEAEA',
-    borderRadius: 3,
-    paddingVertical: 10,
-  },
-  img: {
-    width: 64,
-    height: 64,
-    marginHorizontal: 10,
-  },
-  section: {
-    flexDirection: 'column',
-    justifyContent: 'center',
-    alignItems: 'flex-start',
-    padding: 6,
-    backgroundColor: '#5890ff',
-  },
 });
 
 var animations = {
