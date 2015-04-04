@@ -7,6 +7,12 @@ var request = require('request');
 var localServerUri = 'http://127.0.0.1:3000/';
 
 describe('database storage', function() {
+
+  after(function() {
+    models.removeData('marks', 'x', 37.783600);
+    models.removeData('messages', 'messageString', '"Brooks was here"');
+  });
+
   var testData = {
     x: 37.783599,
     y: -122.408974,
@@ -59,3 +65,4 @@ describe('database storage', function() {
     })
   });
 });
+
