@@ -12,6 +12,7 @@ class PostForm extends React.Component {
     
     this.state = { 
       input: '', 
+      buttonText: 'Mark',
       lastPosition: {
         coords: {
           longitude : 0, 
@@ -57,9 +58,12 @@ class PostForm extends React.Component {
     // Render input box and feedback.
 
     return (
-      <View style={{ top: 100 }}>
+      <View style={{ top: 100, padding:20, justifyContent: 'center', }}>
 
         <TextInput
+          editable={true}
+          enablesReturnKeyAutomatically={true}
+          placeholder={'Your mark...'}
           style={styles.textInput}
           onChangeText={(text) => this.setState({input: text})}
         />
@@ -67,18 +71,9 @@ class PostForm extends React.Component {
           style={styles.wrapper}
           onPress={() => this._postMessage()}>
           <Text style={styles.button}>
-            Post
+            {this.state.buttonText}
           </Text>  
         </TouchableOpacity>
-        <Text>
-        longitude is {JSON.stringify(this.state.lastPosition.coords.longitude)}
-        </Text>
-        <Text>
-        latitude is {JSON.stringify(this.state.lastPosition.coords.latitude)}
-        </Text>
-        <Text>
-        accuracy is {JSON.stringify(this.state.lastPosition.coords.accuracy)}
-        </Text>
       </View>
     );
   }
@@ -86,7 +81,8 @@ class PostForm extends React.Component {
   // Post Message to server
 
   _postMessage() {
-
+    
+    var navBar = this.props.navigator;
     var currentPosition = this.state.lastPosition.coords;
     // this url is for testing purposes 
     // see github.com/levity-io/POST-bin
@@ -103,7 +99,10 @@ class PostForm extends React.Component {
         y: currentPosition.longitude,
         z: currentPosition.altitude,
         message: this.state.input,
-      }),
+      })
+    }).then((responseText) => {
+      // Bounce back to main window
+      navBar.pop();
     })
   }
   
