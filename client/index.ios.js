@@ -2,23 +2,16 @@
  * Uncovery
  */
 
-'use strict';
-
 var React = require('react-native');
 var styles = require("./styles.js");
-var Marks = require("./components/marks.js");
-var postForm = require("./components/post-form.js");
+var Marks = require("./components/Marks.js");
+var PostForm = require("./components/PostForm.js");
 
 var { AppRegistry, NavigatorIOS } = React;
 
 class Uncovery extends React.Component {
 
   render() {
-
-    // Rendering the initial application:
-    // - Generate main naviagation
-    // - Pull in compontent 'Marks'
-    
     return (
       <NavigatorIOS
         ref="nav"
@@ -28,18 +21,17 @@ class Uncovery extends React.Component {
           rightButtonTitle: 'Mark',
           onRightButtonPress: () => {
             this.refs.nav.push({
-              component: postForm,
-              title: 'Mark'
+              component: PostForm,
+              title: 'Mark',
             });
           },
-          component: Marks
+          component: Marks,
         }}
         itemWrapperStyle={styles.itemWrapper}
         tintColor='#008888'
       />
     );
   }
-
 };
 
 AppRegistry.registerComponent('uncovery', () => Uncovery);

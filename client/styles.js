@@ -28,6 +28,18 @@ var styles = StyleSheet.create({
     borderWidth: 1,
     padding: 10,
     marginBottom: 20,
+    borderRadius: 20,
+  },
+  buttonContents: {
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginHorizontal: 5,
+    marginVertical: 3,
+    padding: 5,
+    backgroundColor: '#EAEAEA',
+    borderRadius: 3,
+    paddingVertical: 10,
   },
 });
 

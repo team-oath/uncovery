@@ -12,7 +12,7 @@ exports.getDistanceFrom = function(mark, user) {
     {latitude: user.x, longitude: user.y},
     {latitude: mark.x, longitude: mark.y}
   );
-  return dist + ' meters away';
+  return dist + 'm';
 };
 
 // The object we pull from the database has specific data (time/location)
