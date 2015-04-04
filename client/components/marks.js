@@ -3,23 +3,58 @@ var styles = require("../styles.js");
 
 console.log(styles.listView)
 
-var {View, ListView, Text, TouchableOpacity} = React;
+var {View, ListView, Text, TouchableOpacity, LayoutAnimation} = React;
+
+var animations = {
+  layout: {
+    spring: {
+      duration: 750,
+      create: {
+        duration: 300,
+        type: LayoutAnimation.Types.easeInEaseOut,
+        property: LayoutAnimation.Properties.opacity,
+      },
+      update: {
+        type: LayoutAnimation.Types.spring,
+        springDamping: 0.4,
+      },
+    },
+    easeInEaseOut: {
+      duration: 300,
+      create: {
+        type: LayoutAnimation.Types.easeInEaseOut,
+        property: LayoutAnimation.Properties.scaleXY,
+      },
+      update: {
+        delay: 100,
+        type: LayoutAnimation.Types.easeInEaseOut,
+      },
+    },
+  },
+};
+
+
+var layoutAnimationConfigs = [
+  animations.layout.spring,
+  animations.layout.easeInEaseOut,
+];
 
 var Message = React.createClass({
   getInitialState: function() {
     return {dir: 'row'};
   },
   _onPressMessage: function() {
-    console.log('hello')
-    // var config = layoutAnimationConfigs[0];
-    // LayoutAnimation.configureNext(config);
-    // this.setState({
-    //   dir: this.state.dir === 'row' ? 'column' : 'row',
-    // });
+    var config = layoutAnimationConfigs[0];
+    console.log(config)
+    LayoutAnimation.configureNext(config);
+    this.setState({
+      dir: this.state.dir === 'row' ? 'column' : 'row',
+    });
   },
+
   render: function(body) {
     return (
-     <TouchableOpacity onPress={() => this._onPressMessage}>
+     <TouchableOpacity onPress={() => this._onPressMessage()}>
        <View style={{flex: 1}}>
          <Text> </Text>
          <Text style={{fontSize: 8}}> {this.props.body.timestamp} @ {this.props.body.distance} </Text>
@@ -125,5 +160,7 @@ class Marks extends React.Component {
   }
  
 };
+
+
 
 module.exports = Marks;
