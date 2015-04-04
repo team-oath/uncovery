@@ -20,7 +20,9 @@
   "dependencies": {
     "body-parser": "^1.12.2",
     "express": "^4.12.3",
+    "geolib": "^2.0.14",
     "grunt": "^0.4.5",
+    "moment": "^2.9.0",
     "mysql": "^2.6.1",
     "react-native": "^0.3.3"
   },
