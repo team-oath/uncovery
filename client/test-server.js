@@ -2,7 +2,7 @@ var app = require('express')();
 var server = require('http').createServer(app);
 var MOCK_DATA = require('./mockData.js')
 
-server.listen(6666, function(){
+server.listen(9090, function(){
   var host = server.address().address;
   var port = server.address().port;
   console.log('app listening at http://%s:%s', host, port);
@@ -10,7 +10,7 @@ server.listen(6666, function(){
 
 console.log(MOCK_DATA);
 
-app.get('/data', function(req, res){
+app.get('/', function(req, res){
   console.log(req.query);
   res.send(MOCK_DATA);
 });
