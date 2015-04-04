@@ -4,8 +4,8 @@
 
 var React = require('react-native');
 var styles = require("./styles.js");
-var Marks = require("./components/marks.js");
-var postForm = require("./components/post-form.js");
+var Marks = require("./components/Marks.js");
+var PostForm = require("./components/PostForm.js");
 
 var { AppRegistry, NavigatorIOS } = React;
 
@@ -21,7 +21,7 @@ class Uncovery extends React.Component {
           rightButtonTitle: 'Mark',
           onRightButtonPress: () => {
             this.refs.nav.push({
-              component: postForm,
+              component: PostForm,
               title: 'Mark',
             });
           },
