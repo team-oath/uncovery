@@ -3,9 +3,9 @@
  */
 
 var React = require('react-native');
-var styles = require("./styles.js");
 var Marks = require("./components/Marks.js");
 var PostForm = require("./components/PostForm.js");
+var styles = require("./styles.js");
 
 var { AppRegistry, NavigatorIOS } = React;
 
