@@ -1,8 +1,9 @@
 var express = require('express');
 var bodyParser = require('body-parser');
 var models = require('./server/db/models.js');
+var util = require('./server/core/utilities.js');
 var app = express();
-var shortid = require('shortid')
+var shortid = require('shortid');
 
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
@@ -13,31 +14,26 @@ app.get('/usertoken', function (req, res) {
 });
 
 app.get('/', function (req, res) {
-  console.log('\nRECEIVED a GET request');
-  console.log(req.query);
+  util.log('RECEIVED a GET request', req.query);
 
   models.retrieve(req.query, function(msg) {
     if (Array.isArray(msg)) {
-      console.log('\nSENT message array to user')
-      console.log(msg);
+      util.log('SENT message array to user', msg);
 
       res.send(msg);
     } else {
-      console.log('\nSENT error code to user')
-      console.log(msg);
+      util.log('SENT error code to user', msg);
 
-      res.send(msg)
+      res.send(msg);
     }
   });
 });
 
 app.post('/', function(req, res) {
-  console.log('\nRECEIVED a POST request');
-  console.log(req.body);
+  util.log('RECEIVED a POST request', req.body);
 
   models.insert(req.body, function(msg) {
-    console.log('\nSENT success code to user')
-    console.log(msg);
+    util.log('SENT success code to user', msg);
 
     res.status(201);
     res.send('works');
@@ -45,7 +41,7 @@ app.post('/', function(req, res) {
 });
 
 app.post('/upvote', function (req, res) {
-  console.log('Upvote request received: ', req.body);
+  util.log('Upvote request received: ', req.body);
   res.status(201).send();
 });
 

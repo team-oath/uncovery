@@ -35,8 +35,8 @@ exports.createResponseObjects = function(marks, user) {
 };
 
 exports.log = function(message, content) {
-  console.log('\n--------------------------------------------------------');
-  console.log(moment().format("dddd, MMMM Do YYYY, h:mm:ss a") + message);
+  console.log('-------------------------------------------------------------------');
+  console.log(moment().format("dddd, MMMM Do YYYY, h:mm:ss a"));
+  console.log(message);
   console.log(content);
-  console.log('--------------------------------------------------------');
 };
