@@ -44,6 +44,20 @@ var Message = React.createClass({
     this.setState({
       dir: this.state.dir === 'row' ? 'column' : 'row',
     });
+  },
+
+  _upVoteMessage: function(postid) {
+    fetch('http://localhost:9090/upvote', {
+      method: 'POST',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        postid: postid,
+        user: this.state.userid,
+      })
+    })
   }
 
 });
