@@ -23,6 +23,7 @@ exports.createResponseObjects = function(marks, user) {
 
   marks.forEach(function(mark) {
     responseObject = {
+      messageId: mark.messageId,
       timestamp: exports.getTimeElapsedSince(mark.timestamp),
       distance: exports.getDistanceFrom(mark, user),
       messageString: mark.messageString
@@ -31,4 +32,11 @@ exports.createResponseObjects = function(marks, user) {
   });
 
   return responseObjects;
+};
+
+exports.log = function(message, content) {
+  console.log('-------------------------------------------------------------------');
+  console.log(moment().format("dddd, MMMM Do YYYY, h:mm:ss a"));
+  console.log(message);
+  console.log(content);
 };
