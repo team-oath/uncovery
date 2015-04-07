@@ -6,12 +6,14 @@ var React = require('react-native');
 var Marks = require("./components/Marks.js");
 var PostForm = require("./components/PostForm.js");
 var styles = require("./styles.js");
+// var shortid = require("crypto");
 
 var { AppRegistry, NavigatorIOS } = React;
 
 class Uncovery extends React.Component {
 
   render() {
+    // console.log(shortid.generate());
     return (
       <NavigatorIOS
         ref="nav"

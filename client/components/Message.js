@@ -1,6 +1,6 @@
 
 var React = require('react-native');
-var styles = require('../styles.js')
+var styles = require('../styles.js');
 
 var {View, Text, TouchableOpacity, LayoutAnimation, StyleSheet} = React;
 
@@ -12,7 +12,6 @@ var Message = React.createClass({
 
   _onPressMessage: function() {
     var config = layoutAnimationConfigs[0];
-    console.log(config)
     LayoutAnimation.configureNext(config);
     this.setState({
       dir: this.state.dir === 'row' ? 'column' : 'row',
@@ -21,10 +20,10 @@ var Message = React.createClass({
 
   render: function(body) {
 
-    var messageString = this.props.body.messageString
+    var messageString = this.props.body.messageString;
 
     if (messageString.substring(0,10).length >= messageString.length){
-      this.props.shortened = this.props.body.messageString
+      this.props.shortened = this.props.body.messageString;
     } else {
       this.props.shortened = this.props.body.messageString.substring(0,10)+'...'
     }
