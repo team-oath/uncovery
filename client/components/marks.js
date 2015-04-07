@@ -3,7 +3,7 @@ var React = require('react-native');
 var Message = require('./Message.js')
 var config = require('../config.js')
 
-var {View, ListView, Text} = React;
+var {View, ListView, Text, AsyncStorage} = React;
 
 class Marks extends React.Component {
 
@@ -13,6 +13,7 @@ class Marks extends React.Component {
       dataSource: new ListView.DataSource({
         rowHasChanged: (row1, row2) => row1 !== row2,
       }),
+      userid: null,
       loaded: false,
       lastPosition: {
         coords: {
@@ -24,8 +25,12 @@ class Marks extends React.Component {
     };
   }
 
+  componentWillMount() {
+    this._getStoredUserId();
+  }
+
   componentDidMount() {
-   
+    console.log(this.state)
     var watchOptions = {
       enableHighAccuracy: true,
     };
@@ -94,6 +99,20 @@ class Marks extends React.Component {
     return (
       (<Message body={body}/>)
     );
+  }
+
+  _getStoredUserId(){
+    AsyncStorage.getItem('USERID', (error, value) => {
+      if (error) {
+        console.log('AsyncStorage error: ' + error.message);
+      } else if (value !== null) {
+        console.log('Recovered selection from disk: ' + value);
+        this.setState({userid: value});
+        console.log("*************", this.state.userid)
+      } else {
+        console.log('Initialized with no selection on disk.');
+      }
+    });
   }
 };
 
