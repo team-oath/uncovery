@@ -10,14 +10,6 @@ var Message = React.createClass({
     return {dir: 'row'};
   },
 
-  _onPressMessage: function() {
-    var config = layoutAnimationConfigs[0];
-    LayoutAnimation.configureNext(config);
-    this.setState({
-      dir: this.state.dir === 'row' ? 'column' : 'row',
-    });
-  },
-
   render: function(body) {
 
     var messageString = this.props.body.messageString;
@@ -44,7 +36,16 @@ var Message = React.createClass({
         }
        </TouchableOpacity>
     );
+  },
+
+  _onPressMessage: function() {
+    var config = layoutAnimationConfigs[0];
+    LayoutAnimation.configureNext(config);
+    this.setState({
+      dir: this.state.dir === 'row' ? 'column' : 'row',
+    });
   }
+
 });
 
 var animations = {

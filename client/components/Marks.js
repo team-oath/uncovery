@@ -13,7 +13,6 @@ class Marks extends React.Component {
       dataSource: new ListView.DataSource({
         rowHasChanged: (row1, row2) => row1 !== row2,
       }),
-      userid: null,
       loaded: false,
       lastPosition: {
         coords: {
@@ -25,18 +24,13 @@ class Marks extends React.Component {
     };
   }
 
-  componentWillMount() {
-    this._getStoredUserId();
-  }
-
   componentDidMount() {
-    console.log(this.state)
+
     var watchOptions = {
       enableHighAccuracy: true,
     };
 
     var watchSucess = (lastPosition) => {
-      this.setState({lastPosition});
       this.fetchData();
     }
 
@@ -80,10 +74,9 @@ class Marks extends React.Component {
   }
 
   render() {
-    if (!this.state.loaded) {
+    if ( !this.state.loaded || !this.state.userid ) {
       return this.renderLoadingView();
     }
-
     return (
       <ListView
         dataSource={this.state.dataSource}
@@ -97,23 +90,10 @@ class Marks extends React.Component {
 
   renderMessage(body): ReactElement {
     return (
-      (<Message body={body}/>)
+      (<Message body={body} userid={this.state.userid}/>)
     );
   }
 
-  _getStoredUserId(){
-    AsyncStorage.getItem('USERID', (error, value) => {
-      if (error) {
-        console.log('AsyncStorage error: ' + error.message);
-      } else if (value !== null) {
-        console.log('Recovered selection from disk: ' + value);
-        this.setState({userid: value});
-        console.log("*************", this.state.userid)
-      } else {
-        console.log('Initialized with no selection on disk.');
-      }
-    });
-  }
 };
 
 module.exports = Marks;

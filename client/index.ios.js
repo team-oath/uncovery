@@ -6,15 +6,54 @@ var React = require('react-native');
 var Marks = require("./components/Marks.js");
 var PostForm = require("./components/PostForm.js");
 var styles = require("./styles.js");
-// var shortid = require("crypto");
 
-var { AppRegistry, NavigatorIOS, AsyncStorage, } = React;
-
-var USERID;
+var { AppRegistry, NavigatorIOS, AsyncStorage, View, Text, } = React;
 
 class Uncovery extends React.Component {
 
-  componentWillMount() {
+  constructor(){
+    this.state = {userid:null}
+  }
+
+  componentWillMount(){
+    this._getStoredUserId();
+  }
+  
+  render() {
+    if (!this.state.userid){
+      return (
+        <View style={{flex: 1}}>
+          <Text>Loading messages...</Text>
+        </View>
+      );
+    } else {
+      return (
+        <NavigatorIOS
+          ref="nav"
+          style={styles.container}
+          initialRoute={{
+            title: 'Uncovery',
+            rightButtonTitle: 'Mark',
+            onRightButtonPress: () => {
+              this.refs.nav.push({
+                component: PostForm,
+                title: 'Mark',
+                userid: this.state.userid,
+              });
+            },
+            component: Marks,
+            userid: this.state.userid,
+          }}
+          itemWrapperStyle={styles.itemWrapper}
+          tintColor='#008888'
+        />
+      );
+    }
+  }
+
+  _getStoredUserId(){
+
+    var self = this;
 
     var getUserId = function(callback){
       fetch('http://localhost:9090/userid')
@@ -26,49 +65,26 @@ class Uncovery extends React.Component {
     };
 
     var storeUserId = function(id){
-      AsyncStorage.setItem('USERID', id, (error, value) => {
+      AsyncStorage.setItem('USERID10', id, (error) => {
         if (error){
           console.log('AsyncStorage error: ' + error.message);
         } else {
-          console.log("Saved USERID to disk");
+          console.log("werer Saved USERID to disk");
+          self.setState({userid:id});
+          console.log("THE STATE IS ", self.state)
         }
       });
     };
 
-    AsyncStorage.getItem('USERID', (error, value) => {
+    AsyncStorage.getItem('USERID10', (error, id) => {
       if (error) {
         console.log('AsyncStorage error: ' + error.message);
-      } else if (value !== null) {
-        console.log('Recovered selection from disk: ' + value);
+      } else if (id !== null) {
+        self.setState({userid: id})
       } else {
-        console.log('Initialized with no selection on disk.');
         getUserId(storeUserId);
       }
     });
-  }
-
-  render() {
-    var self = this;
-    console.log('this is ', this)
-    return (
-      <NavigatorIOS
-        ref="nav"
-        style={styles.container}
-        initialRoute={{
-          title: 'Uncovery',
-          rightButtonTitle: 'Mark',
-          onRightButtonPress: () => {
-            this.refs.nav.push({
-              component: PostForm,
-              title: 'Mark',
-            });
-          },
-          component: Marks,
-        }}
-        itemWrapperStyle={styles.itemWrapper}
-        tintColor='#008888'
-      />
-    );
   }
 };
 
