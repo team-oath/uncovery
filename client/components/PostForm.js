@@ -57,7 +57,7 @@ class PostForm extends React.Component {
           y: currentPosition.coords.longitude,
           z: currentPosition.coords.altitude,
           message: this.state.input,
-          userToken: this.state.userToken,
+          userToken: this.props.route.userToken,
         })
       })
     }

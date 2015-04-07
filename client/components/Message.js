@@ -11,7 +11,6 @@ var Message = React.createClass({
   },
 
   render: function(body) {
-
     var messageString = this.props.body.messageString;
 
     if (messageString.substring(0,10).length >= messageString.length){
@@ -21,20 +20,29 @@ var Message = React.createClass({
     }
 
     return (
-      <TouchableOpacity onPress={() => this._onPressMessage()}>
+      <View>
         {this.state.dir === 'column' ?
-          <View style={[styles.buttonContents, {flexDirection: this.state.dir}]}>
-            <Text> </Text>
-            <Text> {this.props.body.messageString} </Text>
-            <Text style={{fontSize: 8}}> {this.props.body.timestamp} @ {this.props.body.distance} </Text>
-          </View> :
+        <View style={[styles.buttonContents, {flexDirection: this.state.dir}]}>
+          <TouchableOpacity onPress={() => this._onPressMessage()}>
+            <View>
+              <Text> </Text>
+              <Text> {this.props.body.messageString} </Text>
+              <Text style={{fontSize: 8}}> {this.props.body.timestamp} @ {this.props.body.distance} </Text>
+            </View>
+          </TouchableOpacity>
+          <TouchableOpacity onPress={() => this._upVoteMessage()}>
+            <Text>Like</Text>
+          </TouchableOpacity>
+        </View> :
+        <TouchableOpacity onPress={() => this._onPressMessage()}>
           <View style={[styles.buttonContents, {flexDirection: this.state.dir}]}>
             <Text> </Text>
             <Text>{this.props.shortened}</Text>
             <Text style={{fontSize: 8}}>{this.props.body.timestamp} @ {this.props.body.distance}</Text>
           </View>
+        </TouchableOpacity>
         }
-       </TouchableOpacity>
+       </View>
     );
   },
 
@@ -47,15 +55,16 @@ var Message = React.createClass({
   },
 
   _upVoteMessage: function(id) {
-    fetch('http://localhost:9090/upvote', {
+    
+    fetch('http://uncovery.cloudapp.net/upvote', {
       method: 'POST',
       headers: {
         'Accept': 'application/json',
         'Content-Type': 'application/json'
       },
       body: JSON.stringify({
-        messageId: id,
-        userToken: this.state.userToken,
+        messageId: 'mock',
+        userToken: this.props.userToken,
       })
     })
   }
