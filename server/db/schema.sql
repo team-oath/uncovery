@@ -36,5 +36,6 @@ CREATE TABLE votes (
 
 CREATE TABLE users (
   id int(5) AUTO_INCREMENT,
-  PRIMARY KEY(id)
+  PRIMARY KEY(id),
+  userToken VARCHAR(255)
 );
