@@ -3,9 +3,10 @@
  */
 
 var React = require('react-native');
-var Marks = require("./components/Marks.js");
-var PostForm = require("./components/PostForm.js");
-var styles = require("./styles.js");
+var Marks = require('./components/Marks.js');
+var PostForm = require('./components/PostForm.js');
+var styles = require('./styles.js');
+// var config = require('./config.js');
 
 var { AppRegistry, NavigatorIOS, AsyncStorage, View, Text, } = React;
 
@@ -56,7 +57,7 @@ class Uncovery extends React.Component {
     var self = this;
 
     var getUserId = function(callback){
-      fetch('http://localhost:9090/userid')
+      fetch('http://uncovery.cloudapp.net/userid')
         .then((response) => response.json())
         .then((responseData) => {
           callback(responseData.id)
@@ -65,7 +66,7 @@ class Uncovery extends React.Component {
     };
 
     var storeUserId = function(id){
-      AsyncStorage.setItem('USERID10', id, (error) => {
+      AsyncStorage.setItem('USERID', id, (error) => {
         if (error){
           console.log('AsyncStorage error: ' + error.message);
         } else {
@@ -76,7 +77,7 @@ class Uncovery extends React.Component {
       });
     };
 
-    AsyncStorage.getItem('USERID10', (error, id) => {
+    AsyncStorage.getItem('USERID', (error, id) => {
       if (error) {
         console.log('AsyncStorage error: ' + error.message);
       } else if (id !== null) {
