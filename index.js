@@ -10,6 +10,7 @@ app.use(bodyParser.json());
 
 app.get('/usertoken', function (req, res) {
   var userToken = shortid.generate();
+  util.log('SENT a user token to user', userToken);
   res.send({userToken: userToken});
 });
 
@@ -19,11 +20,9 @@ app.get('/', function (req, res) {
   models.retrieve(req.query, function(msg) {
     if (Array.isArray(msg)) {
       util.log('SENT message array to user', msg);
-
       res.send(msg);
     } else {
       util.log('SENT error code to user', msg);
-
       res.send(msg);
     }
   });
@@ -35,8 +34,7 @@ app.post('/', function(req, res) {
   models.insert(req.body, function(msg) {
     util.log('SENT success code to user', msg);
 
-    res.status(201);
-    res.send('works');
+    res.status(201).send();
   });
 });
 
