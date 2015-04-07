@@ -1,7 +1,7 @@
 
 var React = require('react-native');
 var styles = require("../styles.js");
-var config = require('../config.js')
+var config = require('../config.js');
 
 var { View, Text, TextInput, TouchableOpacity, } = React;
 
@@ -57,6 +57,7 @@ class PostForm extends React.Component {
           y: currentPosition.coords.longitude,
           z: currentPosition.coords.altitude,
           message: this.state.input,
+          userid: this.state.userid,
         })
       })
     }

@@ -1,6 +1,6 @@
 
 var React = require('react-native');
-var styles = require('../styles.js')
+var styles = require('../styles.js');
 
 var {View, Text, TouchableOpacity, LayoutAnimation, StyleSheet} = React;
 
@@ -10,21 +10,12 @@ var Message = React.createClass({
     return {dir: 'row'};
   },
 
-  _onPressMessage: function() {
-    var config = layoutAnimationConfigs[0];
-    console.log(config)
-    LayoutAnimation.configureNext(config);
-    this.setState({
-      dir: this.state.dir === 'row' ? 'column' : 'row',
-    });
-  },
-
   render: function(body) {
 
-    var messageString = this.props.body.messageString
+    var messageString = this.props.body.messageString;
 
     if (messageString.substring(0,10).length >= messageString.length){
-      this.props.shortened = this.props.body.messageString
+      this.props.shortened = this.props.body.messageString;
     } else {
       this.props.shortened = this.props.body.messageString.substring(0,10)+'...'
     }
@@ -45,7 +36,30 @@ var Message = React.createClass({
         }
        </TouchableOpacity>
     );
+  },
+
+  _onPressMessage: function() {
+    var config = layoutAnimationConfigs[0];
+    LayoutAnimation.configureNext(config);
+    this.setState({
+      dir: this.state.dir === 'row' ? 'column' : 'row',
+    });
+  },
+
+  _upVoteMessage: function(id) {
+    fetch('http://localhost:9090/upvote', {
+      method: 'POST',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        messageId: id,
+        userid: this.state.userid,
+      })
+    })
   }
+
 });
 
 var animations = {

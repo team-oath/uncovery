@@ -3,7 +3,7 @@ var React = require('react-native');
 var Message = require('./Message.js')
 var config = require('../config.js')
 
-var {View, ListView, Text} = React;
+var {View, ListView, Text, AsyncStorage} = React;
 
 class Marks extends React.Component {
 
@@ -25,13 +25,12 @@ class Marks extends React.Component {
   }
 
   componentDidMount() {
-   
+
     var watchOptions = {
       enableHighAccuracy: true,
     };
 
     var watchSucess = (lastPosition) => {
-      this.setState({lastPosition});
       this.fetchData();
     }
 
@@ -51,7 +50,8 @@ class Marks extends React.Component {
     var x = this.state.lastPosition.coords.latitude;
     var y = this.state.lastPosition.coords.longitude;
     var z = this.state.lastPosition.coords.altitude;
-    var requestURL = config.host + 'x='+x+'&'+'y='+y+'&'+'z='+z
+    var id = this.state.userid;
+    var requestURL = config.host + 'x='+x+'&'+'y='+y+'&'+'z='+z+'&'+'userid='+id;
 
     fetch(requestURL)
       .then((response) => response.json())
@@ -75,10 +75,9 @@ class Marks extends React.Component {
   }
 
   render() {
-    if (!this.state.loaded) {
+    if ( !this.state.loaded || !this.state.userid ) {
       return this.renderLoadingView();
     }
-
     return (
       <ListView
         dataSource={this.state.dataSource}
@@ -92,9 +91,10 @@ class Marks extends React.Component {
 
   renderMessage(body): ReactElement {
     return (
-      (<Message body={body}/>)
+      (<Message body={body} userid={this.state.userid}/>)
     );
   }
+
 };
 
 module.exports = Marks;
