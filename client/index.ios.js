@@ -13,7 +13,7 @@ var { AppRegistry, NavigatorIOS, AsyncStorage, View, Text, } = React;
 class Uncovery extends React.Component {
 
   constructor(){
-    this.state = {userid:null}
+    this.state = {userToken: null}
   }
 
   componentWillMount(){
@@ -21,7 +21,7 @@ class Uncovery extends React.Component {
   }
   
   render() {
-    if (!this.state.userid){
+    if (!this.state.userToken){
       return (
         <View style={{flex: 1}}>
           <Text>Loading messages...</Text>
@@ -39,11 +39,11 @@ class Uncovery extends React.Component {
               this.refs.nav.push({
                 component: PostForm,
                 title: 'Mark',
-                userid: this.state.userid,
+                userToken: this.state.userToken,
               });
             },
             component: Marks,
-            userid: this.state.userid,
+            userToken: this.state.userToken,
           }}
           itemWrapperStyle={styles.itemWrapper}
           tintColor='#008888'
@@ -56,34 +56,33 @@ class Uncovery extends React.Component {
 
     var self = this;
 
-    var getUserId = function(callback){
-      fetch('http://uncovery.cloudapp.net/userid')
+    var getUserToken = function(callback){
+      fetch('http://uncovery.cloudapp.net/usertoken')
         .then((response) => response.json())
         .then((responseData) => {
-          callback(responseData.id)
+          callback(responseData.userToken)
         })
         .done();
     };
 
-    var storeUserId = function(id){
-      AsyncStorage.setItem('USERID', id, (error) => {
+    var storeUserToken = function(token){
+      AsyncStorage.setItem('USER_TOKEN', token, (error) => {
         if (error){
           console.log('AsyncStorage error: ' + error.message);
         } else {
           console.log("werer Saved USERID to disk");
-          self.setState({userid:id});
-          console.log("THE STATE IS ", self.state)
+          self.setState({userToken: token});
         }
       });
     };
 
-    AsyncStorage.getItem('USERID', (error, id) => {
+    AsyncStorage.getItem('USER_TOKEN', (error, token) => {
       if (error) {
         console.log('AsyncStorage error: ' + error.message);
-      } else if (id !== null) {
-        self.setState({userid: id})
+      } else if (token !== null) {
+        self.setState({userToken: token})
       } else {
-        getUserId(storeUserId);
+        getUserToken(storeUserToken);
       }
     });
   }
