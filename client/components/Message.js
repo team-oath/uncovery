@@ -11,7 +11,6 @@ var Message = React.createClass({
   },
 
   render: function(body) {
-
     var messageString = this.props.body.messageString;
 
     if (messageString.substring(0,10).length >= messageString.length){
@@ -33,6 +32,9 @@ var Message = React.createClass({
             <Text>{this.props.shortened}</Text>
             <Text style={{fontSize: 8}}>{this.props.body.timestamp} @ {this.props.body.distance}</Text>
           </View>
+          <TouchableOpacity>
+            <Text>HIT method</Text>
+          </TouchableOpacity>
         }
        </TouchableOpacity>
     );

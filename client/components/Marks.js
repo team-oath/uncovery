@@ -14,7 +14,7 @@ class Marks extends React.Component {
         rowHasChanged: (row1, row2) => row1 !== row2,
       }),
       loaded: false,
-      lastPosition: {
+      currentPosition: {
         coords: {
           longitude : 0, 
           latitude : 0, 
@@ -30,7 +30,8 @@ class Marks extends React.Component {
       enableHighAccuracy: true,
     };
 
-    var watchSucess = (lastPosition) => {
+    var watchSucess = (currentPosition) => {
+      this.setState({currentPosition});
       this.fetchData();
     }
 
@@ -46,13 +47,13 @@ class Marks extends React.Component {
   }
 
   fetchData(){
-
-    var x = this.state.lastPosition.coords.latitude;
-    var y = this.state.lastPosition.coords.longitude;
-    var z = this.state.lastPosition.coords.altitude;
-    var id = this.state.userid;
-    var requestURL = config.host + 'x='+x+'&'+'y='+y+'&'+'z='+z+'&'+'userid='+id;
-
+    console.log('*********************', this.props.route.userToken)
+    var x = this.state.currentPosition.coords.latitude;
+    var y = this.state.currentPosition.coords.longitude;
+    var z = this.state.currentPosition.coords.altitude;
+    var token = this.props.route.userToken;
+    var requestURL = config.host + 'x='+x+'&'+'y='+y+'&'+'z='+z+'&'+'userToken='+token;
+    console.log(requestURL)
     fetch(requestURL)
       .then((response) => response.json())
       .then((responseData) => {
@@ -75,13 +76,13 @@ class Marks extends React.Component {
   }
 
   render() {
-    if ( !this.state.loaded || !this.state.userToken ) {
+    if ( !this.state.loaded || !this.props.route.userToken ) {
       return this.renderLoadingView();
     }
     return (
       <ListView
         dataSource={this.state.dataSource}
-        renderRow={this.renderMessage}
+        renderRow={this.renderMessage.bind(this)}
         style={{backgroundColor: '#B0C4DE'}}
         initialListSize={10}
         pageSize={4}
@@ -89,9 +90,10 @@ class Marks extends React.Component {
     );
   }
 
-  renderMessage(body): ReactElement {
+  renderMessage(body) {
+    var userToken = this.props.route.userToken;
     return (
-      (<Message body={body} userToken={this.state.userToken}/>)
+      <Message body={body} userToken={userToken}/>
     );
   }
 
