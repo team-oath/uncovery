@@ -10,8 +10,8 @@ describe('server to database integration', function() {
   it('should persist valid POST request to database', function(done) {
     request.post({url:localServerUri, form: testData}, function(err, response, body) {
       models.retrieve(testData, function(messages) {
-        var messageId = messages[0].messageId
-        expect(Math.floor(messages[0].x)).to.equal(Math.floor(testData.x));
+        var messageString = messages[0].messageString;
+        expect(messageString).to.equal(testData.message);
         done();
       });
     });
