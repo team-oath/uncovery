@@ -55,16 +55,15 @@ var Message = React.createClass({
   },
 
   _upVoteMessage: function(id) {
-    console.log('*********************UPVOTED', this.props.userToken);
     
-    fetch('http://localhost:9090/upvote', {
+    fetch('http://uncovery.cloudapp.net/upvote', {
       method: 'POST',
       headers: {
         'Accept': 'application/json',
         'Content-Type': 'application/json'
       },
       body: JSON.stringify({
-        messageId: id,
+        messageId: 'mock',
         userToken: this.props.userToken,
       })
     })

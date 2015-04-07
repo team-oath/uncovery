@@ -16,7 +16,6 @@ class PostForm extends React.Component {
   }
 
   render() {
-    console.log('############', this.props.route.userToken)
     return (
       <View style={{ top: 100, padding:20, justifyContent: 'center',}}>
         <TextInput

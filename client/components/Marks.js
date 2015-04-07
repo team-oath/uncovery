@@ -47,13 +47,13 @@ class Marks extends React.Component {
   }
 
   fetchData(){
-    console.log('*********************', this.props.route.userToken)
+
     var x = this.state.currentPosition.coords.latitude;
     var y = this.state.currentPosition.coords.longitude;
     var z = this.state.currentPosition.coords.altitude;
     var token = this.props.route.userToken;
     var requestURL = config.host + 'x='+x+'&'+'y='+y+'&'+'z='+z+'&'+'userToken='+token;
-    console.log(requestURL)
+    
     fetch(requestURL)
       .then((response) => response.json())
       .then((responseData) => {
