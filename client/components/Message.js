@@ -46,7 +46,7 @@ var Message = React.createClass({
     });
   },
 
-  _upVoteMessage: function(postid) {
+  _upVoteMessage: function(id) {
     fetch('http://localhost:9090/upvote', {
       method: 'POST',
       headers: {
@@ -54,8 +54,8 @@ var Message = React.createClass({
         'Content-Type': 'application/json'
       },
       body: JSON.stringify({
-        postid: postid,
-        user: this.state.userid,
+        messageId: id,
+        userid: this.state.userid,
       })
     })
   }

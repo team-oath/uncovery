@@ -50,7 +50,8 @@ class Marks extends React.Component {
     var x = this.state.lastPosition.coords.latitude;
     var y = this.state.lastPosition.coords.longitude;
     var z = this.state.lastPosition.coords.altitude;
-    var requestURL = config.host + 'x='+x+'&'+'y='+y+'&'+'z='+z
+    var id = this.state.userid;
+    var requestURL = config.host + 'x='+x+'&'+'y='+y+'&'+'z='+z+'&'+'userid='+id;
 
     fetch(requestURL)
       .then((response) => response.json())

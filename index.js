@@ -2,9 +2,15 @@ var express = require('express');
 var bodyParser = require('body-parser');
 var models = require('./server/db/models.js');
 var app = express();
+var shortid = require('shortid')
 
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
+
+app.get('/userid', function (req, res) {
+  var userid = shortid.generate();
+  res.send({id:userid});
+});
 
 app.get('/', function (req, res) {
   console.log('\nRECEIVED a GET request');
@@ -36,6 +42,11 @@ app.post('/', function(req, res) {
     res.status(201);
     res.send('works');
   });
+});
+
+app.post('/upvote', function (req, res) {
+  console.log('Upvote request received: ', req.body);
+  res.status(201).send();
 });
 
 var server = app.listen(3000, function () {
