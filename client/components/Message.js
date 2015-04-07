@@ -20,18 +20,27 @@ var Message = React.createClass({
   },
 
   render: function(body) {
+
+    var messageString = this.props.body.messageString
+
+    if (messageString.substring(0,10).length >= messageString.length){
+      this.props.shortened = this.props.body.messageString
+    } else {
+      this.props.shortened = this.props.body.messageString.substring(0,10)+'...'
+    }
+
     return (
       <TouchableOpacity onPress={() => this._onPressMessage()}>
         {this.state.dir === 'column' ?
           <View style={[styles.buttonContents, {flexDirection: this.state.dir}]}>
             <Text> </Text>
-            <Text style={{fontSize: 8}}> {this.props.body.timestamp} @ {this.props.body.distance} </Text>
             <Text> {this.props.body.messageString} </Text>
+            <Text style={{fontSize: 8}}> {this.props.body.timestamp} @ {this.props.body.distance} </Text>
           </View> :
           <View style={[styles.buttonContents, {flexDirection: this.state.dir}]}>
             <Text> </Text>
-            <Text style={{fontSize: 8}}> {this.props.body.timestamp} @ {this.props.body.distance} </Text>
-            <Text> {this.props.body.messageString.substring(0,10)} </Text>
+            <Text>{this.props.shortened}</Text>
+            <Text style={{fontSize: 8}}>{this.props.body.timestamp} @ {this.props.body.distance}</Text>
           </View>
         }
        </TouchableOpacity>
