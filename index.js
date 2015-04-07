@@ -7,9 +7,9 @@ var shortid = require('shortid')
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
-app.get('/userid', function (req, res) {
-  var userid = shortid.generate();
-  res.send({id:userid});
+app.get('/usertoken', function (req, res) {
+  var userToken = shortid.generate();
+  res.send({userToken: userToken});
 });
 
 app.get('/', function (req, res) {

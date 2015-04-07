@@ -75,7 +75,7 @@ class Marks extends React.Component {
   }
 
   render() {
-    if ( !this.state.loaded || !this.state.userid ) {
+    if ( !this.state.loaded || !this.state.userToken ) {
       return this.renderLoadingView();
     }
     return (
@@ -91,7 +91,7 @@ class Marks extends React.Component {
 
   renderMessage(body): ReactElement {
     return (
-      (<Message body={body} userid={this.state.userid}/>)
+      (<Message body={body} userToken={this.state.userToken}/>)
     );
   }
 

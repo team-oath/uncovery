@@ -55,7 +55,7 @@ var Message = React.createClass({
       },
       body: JSON.stringify({
         messageId: id,
-        userid: this.state.userid,
+        userToken: this.state.userToken,
       })
     })
   }
