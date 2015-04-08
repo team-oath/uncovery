@@ -13,15 +13,19 @@ var { AppRegistry, NavigatorIOS, AsyncStorage, View, Text, } = React;
 class Uncovery extends React.Component {
 
   constructor(){
-    this.state = {userToken: null}
+    this.state = {
+      userToken: null,
+      currentPosition: null,
+    }
   }
 
   componentWillMount(){
     this._getStoredUserId();
+    this._getUserLocation();
   }
   
   render() {
-    if (!this.state.userToken){
+    if (!this.state.userToken || !this.state.currentPosition){
       return (
         <View style={{flex: 1}}>
           <Text>Loading messages...</Text>
@@ -44,6 +48,7 @@ class Uncovery extends React.Component {
             },
             component: Marks,
             userToken: this.state.userToken,
+            currentPosition: this.state.currentPosition,
           }}
           itemWrapperStyle={styles.itemWrapper}
           tintColor='#008888'
@@ -85,6 +90,18 @@ class Uncovery extends React.Component {
         getUserToken(storeUserToken);
       }
     });
+  }
+
+  _getUserLocation(){
+    var watchSucess = (currentPosition) => {
+      this.setState({currentPosition: currentPosition});
+    }
+
+    var watchError = (error) => console.error(error);
+
+    navigator.geolocation.getCurrentPosition(
+      watchSucess, watchError
+    );
   }
 };
 
