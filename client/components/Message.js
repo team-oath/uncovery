@@ -28,7 +28,7 @@ var Message = React.createClass({
           <Text style={{fontSize: 14, color: 'grey', flex: 2, paddingTop: 5, paddingLeft: 12,}}>{timestamp} @ {distance}</Text>
           <Text style={{fontSize: 16, paddingTop: 5, color: 'grey'}}>{numHearts}</Text>
           <View style={{justifyContent: 'flex-end'}}>
-            <TouchableOpacity>
+            <TouchableOpacity onPress={this._heartMessage}>
               <Image
                 source={heartImage}
                 style={{width:30, height:30}}
@@ -48,8 +48,9 @@ var Message = React.createClass({
     });
   },
 
-  _upVoteMessage: function(id) {
-    
+  _heartMessage: function(id) {
+    console.log("I <3 you");
+
     fetch('http://uncovery.cloudapp.net/upvote', {
       method: 'POST',
       headers: {
