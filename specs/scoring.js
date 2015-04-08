@@ -39,5 +39,13 @@ describe('scoring', function() {
      done();
     });
   });
+
+  it('should retrieve the specified table contents from db', function(done) {
+    var tableName = 'votes';
+    models.retrieveTable(tableName, function(err, success, fields) {
+      expect(fields[0].table).to.equal(tableName);
+      done();
+    });
+  });
 });
 

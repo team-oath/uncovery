@@ -112,12 +112,24 @@ exports.createVote = function(messageId, token, callback) {
 
 exports.updateScore = function(messageId, amount, callback) {
 
-  var query = "UPDATE messages SET score = " + amount + " WHERE  id = " + messageId;
+  var query = 'UPDATE messages SET score = ' + amount + ' WHERE  id = ' + messageId;
   db.connection.query(query, function(err, success, fields) {
     if (err) {
-      console.log("Error in updateScore: " + err);
+      console.log('Error in updateScore: ' + err);
     } else {
-      //console.log("Successfully updated score: " + success);
+      //console.log('Successfully updated score: ' + success);
+    }
+    callback(err, success, fields);
+  });
+};
+
+exports.retrieveTable = function(table, callback) {
+  var query = 'SELECT * FROM ' + table;
+  db.connection.query(query, function(err, success, fields) {
+     if (err) {
+      console.log('Error in retrieveTable: ' + err);
+    } else {
+      //console.log('Successfully retrieved table: ' + success);
     }
     callback(err, success, fields);
   });
