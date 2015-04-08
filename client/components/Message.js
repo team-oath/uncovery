@@ -2,7 +2,7 @@
 var React = require('react-native');
 var styles = require('../styles.js');
 
-var {View, Text, TouchableOpacity, LayoutAnimation, StyleSheet} = React;
+var {View, Text, TouchableOpacity, StyleSheet, Image,} = React;
 
 var Message = React.createClass({
 
@@ -12,37 +12,31 @@ var Message = React.createClass({
 
   render: function(body) {
     var messageString = this.props.body.messageString;
-
-    if (messageString.substring(0,10).length >= messageString.length){
-      this.props.shortened = this.props.body.messageString;
-    } else {
-      this.props.shortened = this.props.body.messageString.substring(0,10)+'...'
-    }
+    var timestamp = this.props.body.timestamp;
+    var distance = this.props.body.distance;
+    var numHearts = 2
 
     return (
-      <View>
-        {this.state.dir === 'column' ?
-        <View style={[styles.buttonContents, {flexDirection: this.state.dir}]}>
-          <TouchableOpacity onPress={() => this._onPressMessage()}>
-            <View>
-              <Text> </Text>
-              <Text> {this.props.body.messageString} </Text>
-              <Text style={{fontSize: 8}}> {this.props.body.timestamp} @ {this.props.body.distance} </Text>
-            </View>
-          </TouchableOpacity>
-          <TouchableOpacity onPress={() => this._upVoteMessage()}>
-            <Text>Like</Text>
-          </TouchableOpacity>
-        </View> :
-        <TouchableOpacity onPress={() => this._onPressMessage()}>
-          <View style={[styles.buttonContents, {flexDirection: this.state.dir}]}>
-            <Text> </Text>
-            <Text>{this.props.shortened}</Text>
-            <Text style={{fontSize: 8}}>{this.props.body.timestamp} @ {this.props.body.distance}</Text>
+      <View style={[styles.buttonContents, {flexDirection: 'column'}]}>
+        <View>
+          <Text></Text>
+          <Text style={{paddingLeft: 12, paddingRight: 12, fontSize: 14}}>{messageString}</Text>
+        </View>
+        <Text></Text>
+        <Text></Text>
+        <View style={{flexDirection: 'row'}}>
+          <Text style={{fontSize: 14, color: 'grey', flex: 2, paddingTop: 5, paddingLeft: 12,}}>{timestamp} @ {distance}</Text>
+          <Text style={{fontSize: 16, paddingTop: 5, color: 'grey'}}>{numHearts}</Text>
+          <View style={{justifyContent: 'flex-end'}}>
+            <TouchableOpacity onPress={this._heartMessage}>
+              <Image
+                source={heartImage}
+                style={{width:30, height:30}}
+              />
+            </TouchableOpacity>
           </View>
-        </TouchableOpacity>
-        }
-       </View>
+        </View>
+      </View>
     );
   },
 
@@ -54,8 +48,9 @@ var Message = React.createClass({
     });
   },
 
-  _upVoteMessage: function(id) {
-    
+  _heartMessage: function(id) {
+    console.log("I <3 you");
+
     fetch('http://uncovery.cloudapp.net/upvote', {
       method: 'POST',
       headers: {
@@ -71,37 +66,6 @@ var Message = React.createClass({
 
 });
 
-var animations = {
-  layout: {
-    spring: {
-      duration: 750,
-      create: {
-        duration: 300,
-        type: LayoutAnimation.Types.easeInEaseOut,
-        property: LayoutAnimation.Properties.opacity,
-      },
-      update: {
-        type: LayoutAnimation.Types.spring,
-        springDamping: 0.4,
-      },
-    },
-    easeInEaseOut: {
-      duration: 300,
-      create: {
-        type: LayoutAnimation.Types.easeInEaseOut,
-        property: LayoutAnimation.Properties.scaleXY,
-      },
-      update: {
-        delay: 100,
-        type: LayoutAnimation.Types.easeInEaseOut,
-      },
-    },
-  },
-};
-
-var layoutAnimationConfigs = [
-  animations.layout.spring,
-  animations.layout.easeInEaseOut,
-];
+var heartImage = {uri: 'https://pbs.twimg.com/media/BlXBfT3CQAA6cVZ.png:small'};
 
 module.exports = Message

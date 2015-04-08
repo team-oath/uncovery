@@ -32,12 +32,10 @@ var styles = StyleSheet.create({
   },
   buttonContents: {
     flexDirection: 'row',
-    justifyContent: 'center',
-    alignItems: 'center',
     marginHorizontal: 5,
     marginVertical: 3,
     padding: 5,
-    backgroundColor: '#EAEAEA',
+    backgroundColor: 'white',
     borderRadius: 3,
     paddingVertical: 10,
   },
