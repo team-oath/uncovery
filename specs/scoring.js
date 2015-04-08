@@ -15,19 +15,28 @@ describe('scoring', function() {
 
     var token = '' + Math.random();
 
+    var messageId = 1;
+
   before(function() {
-    q.fcall(function(){ 
+    q.fcall(function(){
       setTimeout(models.insert.bind(this, testMessage), 100);
     }).then(function(){
       models.createUser(token);
     });
   });
 
-  it('should create votes', function(done) {
-    var messageId = 1;
+  it('should have votes created in db when createVote is called', function(done) {
     models.createVote(messageId, token, function(err, res) {
       expect(res.insertId).to.be.a('number');
       done();
+    });
+  });
+
+  it('should have score updated in db when updateScore is called', function(done) {
+    var amount = 100;
+    models.updateScore(messageId, amount, function(err, success) {
+     expect(!!success).to.equal(true);
+     done();
     });
   });
 });
