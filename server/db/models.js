@@ -86,3 +86,26 @@ exports.removeData = function(table, property, value) {
     if (err) console.log('error: ', err); 
   }); 
 }; 
+
+exports.createUser = function(userToken) {
+  var query = 'INSERT INTO users (token) VALUES ("' + userToken + '")';
+  db.connection.query(query, function(err, success) {
+    if (err) {
+      console.log("Error in createUser: " + err);
+    } else {
+      //console.log("Successfully created user: " + success);
+    }
+  });
+};
+
+exports.createVote = function(messageId, token, callback) {
+  var query = 'INSERT INTO votes (userToken, messageId) VALUES ("' + token + '", ' + messageId + ');';
+  db.connection.query(query, function(err, success) {
+     if (err) {
+      console.log("Error in createVote: " + err);
+    } else {
+      //console.log("Successfully created vote: " + success);
+    }
+     callback(err, success);
+  });
+};

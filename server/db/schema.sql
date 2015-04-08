@@ -14,8 +14,8 @@ CREATE TABLE marks (
   timestamp timestamp DEFAULT CURRENT_TIMESTAMP,
   messageId int(5),
   FOREIGN KEY (messageId) REFERENCES messages(id),
-  userId int(5),
-  FOREIGN KEY (userId) REFERENCES users(id)
+  userToken VARCHAR(255),
+  FOREIGN KEY (userToken) REFERENCES users(token)
 );
 
 CREATE TABLE messages (
@@ -28,14 +28,13 @@ CREATE TABLE messages (
 CREATE TABLE votes (
   id int(5) AUTO_INCREMENT, 
   PRIMARY KEY(id),
-  userId int(5),
-  FOREIGN KEY (userId) REFERENCES users(id),
+  userToken VARCHAR(255),
+  FOREIGN KEY (userToken) REFERENCES users(token),
   messageId int(5),
   FOREIGN KEY (messageId) REFERENCES messages(id)
 );
 
 CREATE TABLE users (
-  id int(5) AUTO_INCREMENT,
-  PRIMARY KEY(id),
-  userToken VARCHAR(255)
+  token VARCHAR(255),
+  PRIMARY KEY(token)
 );
