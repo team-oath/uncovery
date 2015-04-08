@@ -19,12 +19,14 @@ var Message = React.createClass({
 
     return (
       <View style={[styles.buttonContents, {flexDirection: 'column'}]}>
+        <TouchableOpacity onPress={this._onPressMessage}>
         <View>
           <Text></Text>
           <Text style={{paddingLeft: 12, paddingRight: 12, fontSize: 14}}>{messageString}</Text>
+          <Text></Text>
+          <Text></Text>
         </View>
-        <Text></Text>
-        <Text></Text>
+        </TouchableOpacity>
         <View style={{flexDirection: 'row'}}>
           <Text style={{fontSize: 14, color: 'grey', flex: 2, paddingTop: 5, paddingLeft: 12,}}>{timestamp} @ {distance}</Text>
           <Text style={{fontSize: 16, paddingTop: 5, color: 'grey'}}>{numHearts}</Text>
@@ -42,11 +44,7 @@ var Message = React.createClass({
   },
 
   _onPressMessage: function() {
-    var config = layoutAnimationConfigs[0];
-    LayoutAnimation.configureNext(config);
-    this.setState({
-      dir: this.state.dir === 'row' ? 'column' : 'row',
-    });
+    this.props.navigator.push({component: Comments})
   },
 
   _heartMessage: function(id) {
