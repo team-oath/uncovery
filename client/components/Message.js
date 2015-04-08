@@ -1,5 +1,6 @@
 
 var React = require('react-native');
+var Comments = require('./Comments.js');
 var styles = require('../styles.js');
 
 var {View, Text, TouchableOpacity, StyleSheet, Image,} = React;

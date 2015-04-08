@@ -53,7 +53,7 @@ class Marks extends React.Component {
   renderMessage(body) {
     var userToken = this.props.route.userToken;
     return (
-      <Message body={body} userToken={userToken}/>
+      <Message body={body} userToken={userToken} navigator={this.props.navigator}/>
     );
   }
 
