@@ -6,16 +6,16 @@ var q = require('q');
 
 describe('scoring', function() {
 
-    var testMessage = {
-      x: 37.783599,
-      y: -122.408974,
-      z: 69,
-      message: 'Brooks was here'
-    };
+  var testMessage = {
+    x: 37.783599,
+    y: -122.408974,
+    z: 69,
+    message: 'Brooks was here'
+  };
 
-    var token = '' + Math.random();
+  var token = '' + Math.random();
 
-    var messageId = 1;
+  var messageId = 1;
 
   before(function() {
     q.fcall(function(){
@@ -35,8 +35,8 @@ describe('scoring', function() {
   it('should have score updated in db when updateScore is called', function(done) {
     var amount = 100;
     models.updateScore(messageId, amount, function(err, success) {
-     expect(!!success).to.equal(true);
-     done();
+      expect(!!success).to.equal(true);
+      done();
     });
   });
 

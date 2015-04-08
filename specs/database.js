@@ -65,8 +65,4 @@ describe('database storage', function() {
       done();
     })
   });
-  it('should create votes', function(done) {
-    models.createVote(
-  });
 });
-
