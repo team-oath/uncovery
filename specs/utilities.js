@@ -10,6 +10,18 @@ describe('Utilities', function() {
     expect(elapsed).to.equal('a minute ago');
   });
 
+  it('should get a distance from a location', function() {
+    var dist = util.getDistanceFrom({
+      x: 38,
+      y: -122
+    }, {
+      x: 37,
+      y: -122
+    });
+    dist = Math.round(dist.replace('m','')/1000)*1000;
+    expect(dist).to.equal(111000);
+  });
+
   it('should save an image file', function(done) {
     util.saveImage(img64, 'test', function() {
       fs.unlink('./server/images/test.jpg', function(err) {
