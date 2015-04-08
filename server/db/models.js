@@ -80,9 +80,57 @@ exports.retrieve = function(userLocation, callback) {
   }
 };
 
-exports.removeData = function(table, property, value) { 
- var query = 'DELETE FROM ' + table + ' WHERE ' + property + ' = ' + value; 
-  db.connection.query(query, function(err, success) { 
-    if (err) console.log('error: ', err); 
-  }); 
-}; 
+exports.removeData = function(table, property, value) {
+ var query = 'DELETE FROM ' + table + ' WHERE ' + property + ' = ' + value;
+  db.connection.query(query, function(err, success) {
+    if (err) console.log('error: ', err);
+  });
+};
+
+exports.createUser = function(userToken) {
+  var query = 'INSERT INTO users (token) VALUES ("' + userToken + '")';
+  db.connection.query(query, function(err, success) {
+    if (err) {
+      console.log("Error in createUser: " + err);
+    } else {
+      //console.log("Successfully created user: " + success);
+    }
+  });
+};
+
+exports.createVote = function(messageId, token, callback) {
+  var query = 'INSERT INTO votes (userToken, messageId) VALUES ("' + token + '", ' + messageId + ');';
+  db.connection.query(query, function(err, success) {
+     if (err) {
+      console.log("Error in createVote: " + err);
+    } else {
+      //console.log("Successfully created vote: " + success);
+    }
+     callback(err, success);
+  });
+};
+
+exports.updateScore = function(messageId, amount, callback) {
+
+  var query = 'UPDATE messages SET score = ' + amount + ' WHERE  id = ' + messageId;
+  db.connection.query(query, function(err, success, fields) {
+    if (err) {
+      console.log('Error in updateScore: ' + err);
+    } else {
+      //console.log('Successfully updated score: ' + success);
+    }
+    callback(err, success, fields);
+  });
+};
+
+exports.retrieveTable = function(table, callback) {
+  var query = 'SELECT * FROM ' + table;
+  db.connection.query(query, function(err, success, fields) {
+     if (err) {
+      console.log('Error in retrieveTable: ' + err);
+    } else {
+      //console.log('Successfully retrieved table: ' + success);
+    }
+    callback(err, success, fields);
+  });
+};

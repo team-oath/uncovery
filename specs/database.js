@@ -13,6 +13,7 @@ describe('database storage', function() {
     models.removeData('messages', 'messageString', '"Brooks was here"');
   });
 
+  var messageId, userId;
   var testData = {
     x: 37.783599,
     y: -122.408974,
@@ -65,4 +66,3 @@ describe('database storage', function() {
     })
   });
 });
-
