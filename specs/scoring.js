@@ -19,33 +19,35 @@ describe('scoring', function() {
 
   before(function() {
     q.fcall(function(){
-      setTimeout(models.insert.bind(this, testMessage), 100);
+      models.insert(testMessage, function(){})
     }).then(function(){
       models.createUser(token);
     });
   });
 
   it('should have votes created in db when createVote is called', function(done) {
-    models.createVote(messageId, token, function(err, res) {
-      expect(res.insertId).to.be.a('number');
-      done();
-    });
+    setTimeout(function(done) {
+      models.createVote(messageId, token, function(err, res) {
+        expect(res.insertId).to.be.a('number');
+        done();
+      });
+    }.bind(this, done), 1000);
   });
 
-  it('should have score updated in db when updateScore is called', function(done) {
-    var amount = 100;
-    models.updateScore(messageId, amount, function(err, success) {
-      expect(!!success).to.equal(true);
-      done();
+    it('should have score updated in db when updateScore is called', function(done) {
+      var amount = 100;
+      models.updateScore(messageId, amount, function(err, success) {
+        expect(!!success).to.equal(true);
+        done();
+      });
     });
-  });
 
-  it('should retrieve the specified table contents from db', function(done) {
-    var tableName = 'votes';
-    models.retrieveTable(tableName, function(err, success, fields) {
-      expect(fields[0].table).to.equal(tableName);
-      done();
+    it('should retrieve the specified table contents from db', function(done) {
+      var tableName = 'votes';
+      models.retrieveTable(tableName, function(err, success, fields) {
+        expect(fields[0].table).to.equal(tableName);
+        done();
+      });
     });
-  });
 });
 
