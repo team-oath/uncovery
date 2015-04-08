@@ -14,55 +14,11 @@ class Marks extends React.Component {
         rowHasChanged: (row1, row2) => row1 !== row2,
       }),
       loaded: false,
-      currentPosition: {
-        coords: {
-          longitude : 0, 
-          latitude : 0, 
-          altitude : 0,
-        }
-      } 
     };
   }
 
   componentDidMount() {
-
-    var watchOptions = {
-      enableHighAccuracy: true,
-    };
-
-    var watchSucess = (currentPosition) => {
-      this.setState({currentPosition});
-      this.fetchData();
-    }
-
-    var watchError = (error) => console.error(error);
-
-    navigator.geolocation.getCurrentPosition(
-      watchSucess, watchError
-    );
-
-    this.watchID = navigator.geolocation.watchPosition(
-     watchSucess, watchError, watchOptions
-    );
-  }
-
-  fetchData(){
-
-    var x = this.state.currentPosition.coords.latitude;
-    var y = this.state.currentPosition.coords.longitude;
-    var z = this.state.currentPosition.coords.altitude;
-    var token = this.props.route.userToken;
-    var requestURL = config.host + 'x='+x+'&'+'y='+y+'&'+'z='+z+'&'+'userToken='+token;
-    
-    fetch(requestURL)
-      .then((response) => response.json())
-      .then((responseData) => {
-        this.setState({
-          dataSource: this.state.dataSource.cloneWithRows(responseData),
-          loaded: true,
-        });
-      })
-      .done();
+   this.fetchData();
   }
 
   renderLoadingView() {
@@ -76,9 +32,11 @@ class Marks extends React.Component {
   }
 
   render() {
+
     if ( !this.state.loaded || !this.props.route.userToken ) {
       return this.renderLoadingView();
     }
+
     return (
       <ListView
         dataSource={this.state.dataSource}
@@ -86,8 +44,10 @@ class Marks extends React.Component {
         style={{backgroundColor: '#B0C4DE'}}
         initialListSize={10}
         pageSize={4}
-        scrollRenderAheadDistance={2000} />
+        scrollRenderAheadDistance={2000} 
+        onScroll={this._handleScroll.bind(this)}/>
     );
+
   }
 
   renderMessage(body) {
@@ -95,6 +55,44 @@ class Marks extends React.Component {
     return (
       <Message body={body} userToken={userToken}/>
     );
+  }
+
+  fetchData(){
+    var x = this.props.route.currentPosition.coords.latitude;
+    var y = this.props.route.currentPosition.coords.longitude;
+    var z = this.props.route.currentPosition.coords.altitude;
+    var token = this.props.route.userToken;
+    var requestURL = config.host + 'x='+x+'&'+'y='+y+'&'+'z='+z+'&'+'userToken='+token;
+
+    var watchOptions = {
+      enableHighAccuracy: true,
+    };
+
+    var watchSucess = (currentPosition) => {
+      this.props.route[currentPosition] = currentPosition;
+      fetch(requestURL)
+        .then((response) => response.json())
+        .then((responseData) => {
+          this.setState({
+            dataSource: this.state.dataSource.cloneWithRows(responseData),
+            loaded: true,
+          });
+        })
+        .done();
+    }
+
+    var watchError = (error) => console.error(error);
+
+    navigator.geolocation.getCurrentPosition(
+      watchSucess, watchError, watchOptions
+    );
+  }
+
+  _handleScroll(event){
+    var pullDown = event.nativeEvent.contentOffset.y < -150;
+    if ( pullDown ){
+     this.fetchData();
+    } 
   }
 
 };
