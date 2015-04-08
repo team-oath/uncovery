@@ -3,7 +3,7 @@ var React = require('react-native');
 var styles = require("../styles.js");
 var config = require('../config.js');
 
-var { View, Text, TextInput, TouchableOpacity, CameraRoll, Image, NativeModules } = React;
+var { View, Text, TextInput, TouchableOpacity, TouchableHighlight, CameraRoll, Image, NativeModules } = React;
 
 var CameraRollView = require('./CameraRollView.ios');
 
@@ -16,7 +16,7 @@ class CameraRollExample extends React.Component {
       <View style={styles.row}>
         <CameraRollView
           ref='cameraRollView'
-          batchSize={10}
+          batchSize={4}
           groupTypes='SavedPhotos'
           renderImage={this._renderImage}
         />
@@ -26,20 +26,18 @@ class CameraRollExample extends React.Component {
 
   _renderImage(asset) {
     return (
-      <TouchableOpacity
-          key={asset}
-          style={styles.addPhoto}
-          onPress={() => {
+      <TouchableHighlight
+        onPress={() => {
             //Set selected image & then bounce back to post form.
             postFormGlobals.selectedImage = asset;
             postFormGlobals.navigator.pop();
-          }
-      }>
-        <Image
-          source={asset.node.image}
-          style={styles.image}
-        />
-      </TouchableOpacity>
+        }}>
+          <Image
+            source={asset.node.image}
+            style={styles.image}
+          />
+      </TouchableHighlight>
+
     );
   }
 
@@ -141,6 +139,8 @@ class PostForm extends React.Component {
 
       data = JSON.stringify(data);
 
+      delete postFormGlobals.selectedImage;
+
       fetch(config.host, {
         method: 'POST',
         headers: {
@@ -150,7 +150,6 @@ class PostForm extends React.Component {
         body: data,
       });
 
-      delete postFormGlobals.selectedImage;
 
     }
     

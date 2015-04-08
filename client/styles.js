@@ -43,10 +43,11 @@ var styles = StyleSheet.create({
     flex: 1,
     flexDirection: 'row',
     justifyContent: 'center',
+    textAlign: 'center',
   },
   image: {
-    width: 150,
-    height: 150,
+    width: 177,
+    height: 177,
     margin: 5,
     justifyContent: 'center',
   },

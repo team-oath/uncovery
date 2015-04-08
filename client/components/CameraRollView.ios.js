@@ -69,12 +69,12 @@ var CameraRollView = React.createClass({
     var self = this;
     return {
       groupTypes: 'SavedPhotos',
-      batchSize: 5,
-      imagesPerRow: 1,
+      batchSize: 4,
+      imagesPerRow: 2,
       renderImage: function(asset) {
-        var imageSize = 150;
+        var imageSize = 180;
         var imageStyle = [styles.image, {width: imageSize, height: imageSize}];
-        console.log(asset.node.image)
+
         return (
           <TouchableHighlight>
           <Image
