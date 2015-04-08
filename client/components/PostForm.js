@@ -3,21 +3,85 @@ var React = require('react-native');
 var styles = require("../styles.js");
 var config = require('../config.js');
 
-var { View, Text, TextInput, TouchableOpacity, } = React;
+var { View, Text, TextInput, TouchableOpacity, CameraRoll, Image, NativeModules } = React;
+
+var CameraRollView = require('./CameraRollView.ios');
+
+var postFormGlobals = {};
+
+class CameraRollExample extends React.Component {
+
+  render() {
+    return (
+      <View style={styles.row}>
+        <CameraRollView
+          ref='cameraRollView'
+          batchSize={10}
+          groupTypes='SavedPhotos'
+          renderImage={this._renderImage}
+        />
+      </View>
+    );
+  }
+
+  _renderImage(asset) {
+    return (
+      <TouchableOpacity
+          key={asset}
+          style={styles.addPhoto}
+          onPress={() => {
+            //Set selected image & then bounce back to post form.
+            postFormGlobals.selectedImage = asset;
+            postFormGlobals.navigator.pop();
+          }
+      }>
+        <Image
+          source={asset.node.image}
+          style={styles.image}
+        />
+      </TouchableOpacity>
+    );
+  }
+
+}
 
 class PostForm extends React.Component {
   
   constructor(props) {
     super(props);
+
     this.state = { 
       input: '', 
       buttonText: 'Mark',
     };
+
+    postFormGlobals.navigator = this.props.navigator;
+
   }
 
   render() {
+
+    // Two different layouts
+    // One with a preview image, one without.
+    var preview;
+    if (!postFormGlobals.selectedImage){
+      var viewStyle = styles.previewView;
+      preview = <Text style={styles.addImageButton}>Add Image</Text>
+    }else{
+      var viewStyle = styles.previewViewWithImage;
+      preview = <View style={styles.row}><Image source={postFormGlobals.selectedImage.node.image} style={styles.previewImage} /></View>
+    }
+
     return (
-      <View style={{ top: 100, padding:20, justifyContent: 'center',}}>
+      <View style={ viewStyle }>
+        
+        <TouchableOpacity
+            onPress={() => {
+              this._pushForwardToCameraRoll()
+            }}>
+          { preview }
+        </TouchableOpacity>
+
         <TextInput
           editable={true}
           enablesReturnKeyAutomatically={true}
@@ -28,8 +92,12 @@ class PostForm extends React.Component {
         <TouchableOpacity
           style={styles.wrapper}
           onPress={() => {
-            this._popBackToMarks(); 
-            this._postMessage();
+            this._popBackToMarks();
+            if (!postFormGlobals.selectedImage){
+              this._postMessage(this.state.input);
+            }else{
+              this._postMessageWithImage(this.state.input);
+            }
           }
         }>
           <Text style={styles.button}>
@@ -44,25 +112,52 @@ class PostForm extends React.Component {
     this.props.navigator.pop();
   }
 
-  _postMessage() {
+  _pushForwardToCameraRoll() {
+    this.props.navigator.push({ component: CameraRollExample });
+  }
+
+  _postMessageWithImage(input){
+    var self = this;
+    NativeModules.ReadImageData.processString(postFormGlobals.selectedImage.node.image.uri, (image) => {
+      this._postMessage(input, image);
+    });
+  }
+
+  _postMessage(input, image) {
+    
     var postMessage = (currentPosition) => {
+
+      var data = {}
+      data.x = currentPosition.coords.latitude;
+      data.y = currentPosition.coords.longitude;
+      data.z = currentPosition.coords.altitude
+      data.message = input;
+      data.userToken = this.props.route.userToken;
+
+      if (image){
+        // Optional image
+        data.image = image;
+      }
+
+      data = JSON.stringify(data);
+
       fetch(config.host, {
         method: 'POST',
         headers: {
           'Accept': 'application/json',
           'Content-Type': 'application/json'
         },
-        body: JSON.stringify({
-          x: currentPosition.coords.latitude,
-          y: currentPosition.coords.longitude,
-          z: currentPosition.coords.altitude,
-          message: this.state.input,
-          userToken: this.props.route.userToken,
-        })
-      })
+        body: data,
+      });
+
+      delete postFormGlobals.selectedImage;
+
     }
+    
     navigator.geolocation.getCurrentPosition(postMessage);
+    
   }
+
 };
 
 module.exports = PostForm;

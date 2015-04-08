@@ -39,6 +39,37 @@ var styles = StyleSheet.create({
     borderRadius: 3,
     paddingVertical: 10,
   },
+  row: {
+    flex: 1,
+    flexDirection: 'row',
+    justifyContent: 'center',
+  },
+  image: {
+    width: 150,
+    height: 150,
+    margin: 5,
+    justifyContent: 'center',
+  },
+  addImageButton: {
+    textAlign: 'center',
+    bottom: 20,
+  },
+  previewView: {
+    top: 100,
+    padding:20,
+    justifyContent: 'center',
+  },
+  previewViewWithImage: {
+    top: 45,
+    padding:20,
+    justifyContent: 'center',
+  },
+  previewImage: {
+    width: 150,
+    height: 150,
+    margin: 10,
+    justifyContent: 'center',
+  }
 });
 
 module.exports = styles;
