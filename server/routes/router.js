@@ -39,4 +39,9 @@ router.post('/upvote', function (req, res) {
   res.status(200).send();
 });
 
+router.post('/comment', function (req, res) {
+  util.log("RECEIVED comment", req.body)
+  res.status(200).send();
+});
+
 module.exports = router;
