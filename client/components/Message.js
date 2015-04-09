@@ -1,5 +1,6 @@
 
 var React = require('react-native');
+var Comments = require('./Comments.js');
 var styles = require('../styles.js');
 
 var {View, Text, TouchableOpacity, StyleSheet, Image,} = React;
@@ -14,16 +15,18 @@ var Message = React.createClass({
     var messageString = this.props.body.messageString;
     var timestamp = this.props.body.timestamp;
     var distance = this.props.body.distance;
-    var numHearts = 2
+    var numHearts = this.props.body.score || 2;
 
     return (
       <View style={[styles.buttonContents, {flexDirection: 'column'}]}>
+        <TouchableOpacity onPress={this._onPressMessage}>
         <View>
           <Text></Text>
           <Text style={{paddingLeft: 12, paddingRight: 12, fontSize: 14}}>{messageString}</Text>
+          <Text></Text>
+          <Text></Text>
         </View>
-        <Text></Text>
-        <Text></Text>
+        </TouchableOpacity>
         <View style={{flexDirection: 'row'}}>
           <Text style={{fontSize: 14, color: 'grey', flex: 2, paddingTop: 5, paddingLeft: 12,}}>{timestamp} @ {distance}</Text>
           <Text style={{fontSize: 16, paddingTop: 5, color: 'grey'}}>{numHearts}</Text>
@@ -41,11 +44,21 @@ var Message = React.createClass({
   },
 
   _onPressMessage: function() {
-    var config = layoutAnimationConfigs[0];
-    LayoutAnimation.configureNext(config);
-    this.setState({
-      dir: this.state.dir === 'row' ? 'column' : 'row',
-    });
+    var messageString = this.props.body.messageString;
+    var timestamp = this.props.body.timestamp;
+    var distance = this.props.body.distance;
+    var numHearts = this.props.body.score || 2;
+
+    this.props.navigator.push({
+      component: Comments,
+      passProps: {
+        messageString: messageString,
+        timestamp: timestamp,
+        distance: distance,
+        numHearts: numHearts,
+        navigator: this.props.navigator,
+      },
+    })
   },
 
   _heartMessage: function(id) {

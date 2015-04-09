@@ -41,9 +41,6 @@ var styles = StyleSheet.create({
   },
   row: {
     flex: 1,
-    flexDirection: 'row',
-    justifyContent: 'center',
-    textAlign: 'center',
   },
   image: {
     width: 177,
@@ -70,7 +67,14 @@ var styles = StyleSheet.create({
     height: 150,
     margin: 10,
     justifyContent: 'center',
-  }
+  },
+  separator: {
+    height: 1,
+    backgroundColor: '#CCCCCC',
+  },
+  text: {
+    flex: 1,
+  },
 });
 
 module.exports = styles;
