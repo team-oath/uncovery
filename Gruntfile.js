@@ -26,8 +26,14 @@ module.exports = function(grunt) {
       }
     },
     watch: {
-      files: ['<%= jshint.files %>'],
-      tasks: ['jshint', 'express-restart']
+      jshint: {
+        files: ['<%= jshint.files %>'],
+        tasks: ['jshint', 'express-restart']
+      },
+      css: {
+        files: ['server/landing/sass/**'],
+        tasks: ['sass']
+      }
     },
     sass: {                              // Task
       dist: {                            // Target
@@ -53,13 +59,13 @@ module.exports = function(grunt) {
     'jshint',
     'test',
     'express',
-    'watch'
+    'watch:jshint'
   ]);
 
   grunt.registerTask('test', [
     'mochaTest'
   ]);
 
-  grunt.registerTask('css', ['sass']);
+  grunt.registerTask('css', ['watch:css']);
 
 };
