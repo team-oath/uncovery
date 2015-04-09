@@ -32,11 +32,11 @@ module.exports = function(grunt) {
     sass: {                              // Task
       dist: {                            // Target
         options: {                       // Target options
-          style: 'expanded',
+          style: 'compressed',
           compass: true
         },
         files: {                         // Dictionary of files
-          'server/landing/assets/css/main.css': 'server/landing/sass/main.scss'
+          'server/landing/assets/css/main.min.css': 'server/landing/sass/main.scss'
         }
       }
     }
