@@ -8,11 +8,11 @@ RUN yum install -y npm
 RUN yes | yum install mysql-server
 
 # Bundle app source
-COPY . .
+COPY . /home/uncovery
 
 # Install app dependencies
-RUN npm install
+RUN cd /home/uncovery; npm install
 
-EXPOSE  3000
+EXPOSE 3000
 
-CMD ./installer.sh
+CMD /home/uncovery/installer.sh
