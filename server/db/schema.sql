@@ -1,4 +1,4 @@
-DROP DATABASE uncovery;
+DROP DATABASE IF EXISTS uncovery;
 CREATE DATABASE uncovery;
 
 SET foreign_key_checks=0;
@@ -26,7 +26,7 @@ CREATE TABLE messages (
 );
 
 CREATE TABLE votes (
-  id int(5) AUTO_INCREMENT, 
+  id int(5) AUTO_INCREMENT,
   PRIMARY KEY(id),
   userToken VARCHAR(255),
   FOREIGN KEY (userToken) REFERENCES users(token),
