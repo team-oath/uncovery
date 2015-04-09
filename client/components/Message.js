@@ -22,14 +22,14 @@ var Message = React.createClass({
         <TouchableOpacity onPress={this._onPressMessage}>
         <View>
           <Text></Text>
-          <Text style={{paddingLeft: 12, paddingRight: 12, fontSize: 14}}>{messageString}</Text>
+          <Text style={styles.messageText}>{messageString}</Text>
           <Text></Text>
           <Text></Text>
         </View>
         </TouchableOpacity>
         <View style={{flexDirection: 'row'}}>
-          <Text style={{fontSize: 14, color: 'grey', flex: 2, paddingTop: 5, paddingLeft: 12,}}>{timestamp} @ {distance}</Text>
-          <Text style={{fontSize: 16, paddingTop: 5, color: 'grey'}}>{numHearts}</Text>
+          <Text style={styles.messageFooter}>{timestamp} @ {distance}</Text>
+          <Text style={styles.heartCounter}>{numHearts}</Text>
           <View style={{justifyContent: 'flex-end'}}>
             <TouchableOpacity onPress={this._heartMessage}>
               <Image

@@ -64,7 +64,7 @@ class PostForm extends React.Component {
     var preview;
     if (!postFormGlobals.selectedImage){
       var viewStyle = styles.previewView;
-      preview = <Text style={styles.addImageButton}>Add Image</Text>
+      preview = <Text style={styles.addImageButton}>Share a photo!</Text>
     }else{
       var viewStyle = styles.previewViewWithImage;
       preview = <View style={styles.row}><Image source={postFormGlobals.selectedImage.node.image} style={styles.previewImage} /></View>
@@ -83,25 +83,21 @@ class PostForm extends React.Component {
         <TextInput
           editable={true}
           enablesReturnKeyAutomatically={true}
-          placeholder={'Your mark...'}
+          autoCorrect={false}
+          returnKeyType={'send'}
+          placeholder={'Be nice and share...'}
           style={styles.textInput}
           onChangeText={(text) => this.setState({input: text})}
-        />
-        <TouchableOpacity
-          style={styles.wrapper}
-          onPress={() => {
+          onSubmitEditing={() => {
             this._popBackToMarks();
             if (!postFormGlobals.selectedImage){
               this._postMessage(this.state.input);
             }else{
               this._postMessageWithImage(this.state.input);
-            }
+            } 
           }
-        }>
-          <Text style={styles.button}>
-            {this.state.buttonText}
-          </Text>  
-        </TouchableOpacity>
+        }
+        />
       </View>
     );
   }

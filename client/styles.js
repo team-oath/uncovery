@@ -24,16 +24,16 @@ var styles = StyleSheet.create({
   },
   textInput: {
     height: 70, 
-    borderColor: 'gray', 
-    borderWidth: 1,
+    borderColor: '#B0C4DE', 
+    borderWidth: 0.5,
     padding: 10,
     marginBottom: 20,
     borderRadius: 20,
   },
   buttonContents: {
     flexDirection: 'row',
-    marginHorizontal: 5,
-    marginVertical: 3,
+    marginHorizontal: 4,
+    marginVertical: 1,
     padding: 5,
     backgroundColor: 'white',
     borderRadius: 3,
@@ -75,6 +75,61 @@ var styles = StyleSheet.create({
   text: {
     flex: 1,
   },
+  messageText: {
+    paddingLeft: 12, 
+    paddingRight: 12, 
+    fontSize: 16,
+  },
+  commentText: {
+    paddingLeft: 55, 
+    paddingRight: 12, 
+    fontSize: 12,
+  },
+  messageFooter: {
+    fontSize: 12, 
+    color: 'grey', 
+    flex: 2, 
+    paddingTop: 5, 
+    paddingLeft: 12,
+  },
+  commentFooter: {
+    fontSize: 12, 
+    color: 'grey', 
+    flex: 2, 
+    paddingTop: 5, 
+    paddingLeft: 55,
+  },
+  commentHeaderButton: {
+    height: 40,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: '#B0C4DE',
+    flexDirection: 'row',
+    marginHorizontal: 4,
+  },
+  heartCounter: {
+    fontSize: 16, 
+    paddingTop: 5, 
+    color: 'grey',
+  },
+  messageContainer: {
+    backgroundColor: 'white', 
+    flexDirection: 'column',
+    marginHorizontal: 4,
+    borderRadius: 3,
+    marginVertical: 1,
+    padding: 5,
+    paddingVertical: 10,
+  },
+  commentContainer: {
+    backgroundColor: '#F7F8FA', 
+    flexDirection: 'column',
+    marginHorizontal: 4,
+    borderRadius: 3,
+    marginVertical: 1,
+    padding: 5,
+    paddingVertical: 10,
+  }
 });
 
 module.exports = styles;
