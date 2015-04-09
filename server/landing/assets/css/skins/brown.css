@@ -1,0 +1,30 @@
+a {
+  color: #9d2525;
+}
+a:hover, a:focus {
+  color: #d13d3d;
+}
+
+.section-heading hr {
+  border-color: #9d2525;
+}
+
+.hero-unit .store-buttons a.btn-googleplay {
+  background-color: #9d2525;
+}
+.hero-unit .store-buttons a.btn-googleplay:hover, .hero-unit .store-buttons a.btn-googleplay:focus {
+  background-color: #7c1d1d;
+}
+.hero-unit.fullscreen-video-bg .store-buttons a {
+  background-color: #9d2525;
+}
+.hero-unit.fullscreen-video-bg .store-buttons a:hover, .hero-unit.fullscreen-video-bg .store-buttons a:focus {
+  background-color: #7c1d1d;
+}
+
+footer .newsletter-form .input-group-lg > .input-group-btn > .btn {
+  background-color: #9d2525;
+}
+footer .newsletter-form .input-group-lg > .input-group-btn > .btn:hover, footer .newsletter-form .input-group-lg > .input-group-btn > .btn:focus {
+  background-color: #7c1d1d;
+}
