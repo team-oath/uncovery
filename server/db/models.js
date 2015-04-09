@@ -54,7 +54,7 @@ exports.retrieve = function(userLocation, callback) {
 
   if (validateQuery(userLocation)) {
     var query = ([
-      'SELECT *, unix_timestamp(timestamp)',
+      'SELECT *',
       'FROM marks',
       'LEFT JOIN messages',
       'ON marks.messageId = messages.id',
