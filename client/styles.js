@@ -24,16 +24,16 @@ var styles = StyleSheet.create({
   },
   textInput: {
     height: 70, 
-    borderColor: 'gray', 
-    borderWidth: 1,
+    borderColor: '#B0C4DE', 
+    borderWidth: 0.5,
     padding: 10,
     marginBottom: 20,
     borderRadius: 20,
   },
   buttonContents: {
     flexDirection: 'row',
-    marginHorizontal: 5,
-    marginVertical: 3,
+    marginHorizontal: 4,
+    marginVertical: 1,
     padding: 5,
     backgroundColor: 'white',
     borderRadius: 3,
@@ -81,7 +81,7 @@ var styles = StyleSheet.create({
     fontSize: 14,
   },
   commentText: {
-    paddingLeft: 35, 
+    paddingLeft: 45, 
     paddingRight: 12, 
     fontSize: 14,
   },
@@ -97,7 +97,7 @@ var styles = StyleSheet.create({
     color: 'grey', 
     flex: 2, 
     paddingTop: 5, 
-    paddingLeft: 35,
+    paddingLeft: 45,
   },
   commentHeaderButton: {
     height: 40,
