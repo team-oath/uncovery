@@ -78,22 +78,22 @@ var styles = StyleSheet.create({
   messageText: {
     paddingLeft: 12, 
     paddingRight: 12, 
-    fontSize: 14,
+    fontSize: 16,
   },
   commentText: {
     paddingLeft: 55, 
     paddingRight: 12, 
-    fontSize: 14,
+    fontSize: 12,
   },
   messageFooter: {
-    fontSize: 14, 
+    fontSize: 12, 
     color: 'grey', 
     flex: 2, 
     paddingTop: 5, 
     paddingLeft: 12,
   },
   commentFooter: {
-    fontSize: 14, 
+    fontSize: 12, 
     color: 'grey', 
     flex: 2, 
     paddingTop: 5, 
