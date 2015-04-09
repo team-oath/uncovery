@@ -1,6 +1,7 @@
 
 var React = require('react-native');
 var styles = require('../styles.js');
+var PostComment = require('./PostComment.js')
 
 
 var MOCK_MESSAGE_1 = {
@@ -49,7 +50,7 @@ class Comments extends React.Component {
     };
   }
 
-  componentDidMount(){
+  componentWillMount(){
     this.fetchData()
   }
 
@@ -57,9 +58,11 @@ class Comments extends React.Component {
     MOCK_DATA.unshift({messageString:this.props.messageString, origin: true, timestamp: this.props.timestamp, distance: this.props.distance})
     this.setState({
       dataSource: this.state.dataSource.cloneWithRows(MOCK_DATA),
-    })
-    // MOCK_DATA.shift()
-    
+    })    
+  }
+
+  componentWillUnmount(){
+    MOCK_DATA.shift()
   }
 
   renderMessage(body) {
@@ -85,10 +88,7 @@ class Comments extends React.Component {
                   style={{width:30, height:30}}
                 />
               </View> : <View></View>
-
              }
-
-             
            </View>
         </View>
         <View style={styles.separator} />
@@ -98,6 +98,7 @@ class Comments extends React.Component {
   }
 
   renderSectionHeader(data, sectionID){
+    console.log('356987356983576', this._postComment)
     return (
       <View style={{
         height: 40,
@@ -106,13 +107,19 @@ class Comments extends React.Component {
         backgroundColor: '#3B5998',
         flexDirection: 'row',
       }}>
-        <TouchableOpacity>
+        <TouchableOpacity onPress={this._postComment.bind(this)}>
         <Text style={{color: 'white'}}>
           Comment
         </Text>
         </TouchableOpacity>
       </View>
     );
+  }
+
+  _postComment(){
+    this.props.navigator.push({
+      component: PostComment,
+    })
   }
 
   render(){
@@ -148,7 +155,7 @@ class Comments extends React.Component {
          style={{backgroundColor: '#B0C4DE'}}
          initialListSize={10}
          pageSize={4}
-         renderSectionHeader={this.renderSectionHeader}/>
+         renderSectionHeader={this.renderSectionHeader.bind(this)}/>
   
       )
   }

@@ -56,6 +56,7 @@ var Message = React.createClass({
         timestamp: timestamp,
         distance: distance,
         numHearts: numHearts,
+        navigator: this.props.navigator,
       },
     })
   },
