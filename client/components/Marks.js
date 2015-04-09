@@ -41,13 +41,12 @@ class Marks extends React.Component {
       <ListView
         dataSource={this.state.dataSource}
         renderRow={this.renderMessage.bind(this)}
-        style={{backgroundColor: '#B0C4DE'}}
+        style={{backgroundColor: '#B0C4DE', height: 400}}
         initialListSize={10}
         pageSize={4}
         scrollRenderAheadDistance={2000} 
         onScroll={this._handleScroll.bind(this)}/>
-    );
-
+      );
   }
 
   renderMessage(body) {
