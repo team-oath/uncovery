@@ -1,0 +1,43 @@
+// gold skin
+
+$gold: #9D7F0C;
+
+a {
+	color: $gold;
+
+	&:hover, &:focus {
+		color: lighten($gold, 15%);
+	}
+}
+
+.section-heading hr {
+	border-color: $gold;
+}
+
+.hero-unit {
+	.store-buttons {
+		a.btn-googleplay {
+			background-color: $gold;
+
+			&:hover, &:focus {
+				background-color: darken($gold, 8%);
+			}
+		}
+	}
+
+	&.fullscreen-video-bg .store-buttons a {
+		background-color: $gold;
+
+		&:hover, &:focus {
+			background-color: darken($gold, 8%);
+		}
+	}
+}
+
+footer .newsletter-form .input-group-lg > .input-group-btn > .btn {
+	background-color: $gold;
+
+	&:hover, &:focus {
+		background-color: darken($gold, 8%);
+	}
+}

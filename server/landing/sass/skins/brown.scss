@@ -1,0 +1,43 @@
+// brown skin
+
+$brown: #9D2525;
+
+a {
+	color: $brown;
+
+	&:hover, &:focus {
+		color: lighten($brown, 15%);
+	}
+}
+
+.section-heading hr {
+	border-color: $brown;
+}
+
+.hero-unit {
+	.store-buttons {
+		a.btn-googleplay {
+			background-color: $brown;
+
+			&:hover, &:focus {
+				background-color: darken($brown, 8%);
+			}
+		}
+	}
+
+	&.fullscreen-video-bg .store-buttons a {
+		background-color: $brown;
+
+		&:hover, &:focus {
+			background-color: darken($brown, 8%);
+		}
+	}
+}
+
+footer .newsletter-form .input-group-lg > .input-group-btn > .btn {
+	background-color: $brown;
+
+	&:hover, &:focus {
+		background-color: darken($brown, 8%);
+	}
+}

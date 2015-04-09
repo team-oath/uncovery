@@ -1,0 +1,297 @@
+/* ------------------ GENERAL STYLES ------------------ */
+
+html, body, .wrapper {
+	height: 100%;
+}
+
+body {
+	font: {
+		family: $base-font-family, sans-serif;
+		size: $base-font-size;
+		weight : 300;
+	}
+
+	color: $body-text-color;
+	
+	@include min-screen($break-xlarge) {
+		font-size: $xlargescreen-font-size;
+	}
+}
+
+h1, h2, h3, h4, h5, h6 {
+	font-family: $secondary-font-family;
+	color: $heading-text-color;
+}
+
+header,
+section,
+footer {
+	@include min-screen($break-medium) {
+		.container-fluid {
+			padding-left: 2em;
+			padding-right: 2em;
+		}
+	}
+
+	@include min-screen($break-large) {
+		.container-fluid {
+			padding-left: 7em;
+			padding-right: 7em;
+		}
+	}
+
+	@include min-screen($break-xlarge) {
+		.container-fluid {
+			padding-left: 15em;
+			padding-right: 15em;
+		}
+	}
+}
+
+a {
+	color: $accent-color;
+
+	&:hover, &:focus {
+		color: lighten($accent-color, 15%);
+		text-decoration: none;
+	}
+}
+
+.btn {
+	@include transition(all 0.2s ease-out);
+}
+
+.navbar {
+	@include transition(all .3s ease);
+
+	margin-top: -60px; // hide navbar first
+	margin-bottom: 0;
+	border: none;
+	border-bottom: 1px solid #e7e7e7;
+
+	&.active {
+		margin-top: 0;
+	}
+}
+
+.navbar-logo {
+	padding-top: 3px;
+	padding-bottom: 3px;
+}
+
+.navbar-logo img {
+	width: 100px;
+}
+
+.navbar-default .navbar-nav > li > a {
+	font-weight: 400;
+	font-size: 14px;
+	text-transform: uppercase;
+}
+
+section {
+	padding: 43px 0;
+	margin: 35px 0;
+	text-align: center;
+
+	&.hero-unit {
+		margin-top: 0;
+	}
+
+	&.alternate-bg-color {
+		background-color: #eaeaea;
+	}
+
+	h2 {
+		margin-top: 10px;
+		margin-bottom: 25px;
+		font-size: 3.5em;
+		font-weight: 200;
+	}
+
+	p {
+		line-height: 1.8;
+	}
+
+	@include max-screen($break-xsmall) {
+		h2 {
+			font-size: 2.5em;
+		}
+	}
+
+	@include min-screen($break-medium) {
+		text-align: left;
+		padding: 65px 0;
+
+		h2 {
+			margin-top: 0;
+		}
+
+		hr {
+			margin-left: 0;
+		}
+	}
+
+	@include min-screen($break-large) {
+		h2 {
+			font-size: 3em;
+		}
+
+	}
+}
+
+.store-buttons {
+	@include inline-block;
+}
+
+.facebook-bg {
+	background-color: $facebook-color;
+}
+
+.twitter-bg {
+	background-color: $twitter-color;
+}
+
+.googleplus-bg {
+	background-color: $googleplus-color;
+}
+
+.section-heading {
+	@include inline-block;
+
+	margin-bottom: 30px;
+	margin-left: auto;
+	margin-right: auto;
+
+	&.left-aligned hr {
+		margin-left: auto;
+		margin-right: auto;
+
+		@include min-screen($break-medium) {
+			margin: 0
+		}
+	}
+
+	hr {
+		width: 40px;
+		margin-bottom: 0;
+		margin-left: auto;
+		margin-right: auto;
+		border-color: $accent-color;
+	}
+
+}
+
+footer {
+	padding-top: 3em;
+	padding-bottom: 3em;
+	background-color: $footer-bg-color;
+	color: lighten($footer-bg-color, 30%);
+	text-align: center;
+
+	h3 {
+		margin-top: 15px;
+		font-family: $base-font-family;
+		font-size: 18px;
+		color: #bebebe;
+	}
+
+	a {
+		color: lighten($footer-bg-color, 30%);
+
+		&:hover, &:focus {
+			color: lighten($footer-bg-color, 38%);
+		}
+	}
+
+	.footer-links {
+		margin-right: 0;
+
+		li {
+			margin-bottom: 10px;
+		}
+
+		+ .footer-links {
+			float: right;
+		}
+	}
+
+	@include min-screen($break-small) {
+		.container-fluid {
+			width: 50%;
+		}
+	}
+
+	@include min-screen($break-medium) {
+		text-align: left;
+
+		.container-fluid {
+			width: auto;
+		}
+
+		h3 {
+			margin-top: 0;
+		}
+
+		.footer-links {
+			margin-right: 50px;
+		}
+	}
+}
+
+.back-to-top {
+	display: none;
+	position: fixed;
+	right: 10px;
+	bottom: 10px;
+	z-index: 9999;
+
+	a {
+		@include border-radius(50%);
+		@include transition-property(all);
+		@include transition-duration(0.2s);
+
+		display: block;
+		width: 40px;
+		height: 40px;
+		color: #fff;
+		font-size: 26px;
+		text-align: center;
+		background-color: rgba(#000, 0.3);
+
+		&:hover {
+			background-color: rgba(#000, 0.5);
+		}
+	}
+}
+
+#preloader {
+	position: fixed;
+	top: 0;
+	left: 0;
+	right: 0;
+	bottom: 0;
+	background-color: #fff;
+	z-index: 9999;
+}
+
+#preloader .loader-wrapper {
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	margin-top: -30px;
+	margin-left: -35px;
+	text-align: center;
+}
+
+.loader-wrapper span {
+	display: block;
+	margin-top: 8px;
+	font-size: 14px;
+}
+
+.copyright {
+	margin-top: 35px;
+	margin-bottom: 0;
+	font-size: 0.8em;
+}

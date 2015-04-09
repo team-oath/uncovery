@@ -1,0 +1,43 @@
+// teal skin
+
+$teal: #167E62;
+
+a {
+	color: $teal;
+
+	&:hover, &:focus {
+		color: lighten($teal, 15%);
+	}
+}
+
+.section-heading hr {
+	border-color: $teal;
+}
+
+.hero-unit {
+	.store-buttons {
+		a.btn-googleplay {
+			background-color: $teal;
+
+			&:hover, &:focus {
+				background-color: darken($teal, 8%);
+			}
+		}
+	}
+
+	&.fullscreen-video-bg .store-buttons a {
+		background-color: $teal;
+
+		&:hover, &:focus {
+			background-color: darken($teal, 8%);
+		}
+	}
+}
+
+footer .newsletter-form .input-group-lg > .input-group-btn > .btn {
+	background-color: $teal;
+
+	&:hover, &:focus {
+		background-color: darken($teal, 8%);
+	}
+}
