@@ -54,6 +54,17 @@ $(document).ready( function() {
 		adaptiveHeight: true
 	});
 
+	$('.feature-slides-no-pager').bxSlider({
+		mode: 'fade',
+		auto: true,
+		speed: 500,
+		controls: false,
+		adaptiveHeight: true,
+		pager: false
+	});
+
+	
+
 	
 	/*-----------------------------/
 	/* INFINITE SCREENSHOT SLIDER
