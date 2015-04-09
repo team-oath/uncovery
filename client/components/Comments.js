@@ -55,7 +55,16 @@ class Comments extends React.Component {
   }
 
   fetchData(){
-    MOCK_DATA.unshift({messageString:this.props.messageString, origin: true, timestamp: this.props.timestamp, distance: this.props.distance})
+    var originMessage = {
+      origin: true, 
+      messageString:this.props.messageString, 
+      timestamp: this.props.timestamp, 
+      distance: this.props.distance,
+      numComments: this.props.numComments,
+    }
+
+    MOCK_DATA.unshift(originMessage);
+
     this.setState({
       dataSource: this.state.dataSource.cloneWithRows(MOCK_DATA),
     })    
@@ -68,7 +77,7 @@ class Comments extends React.Component {
   renderMessage(body) {
     return(
       <View>
-        <View style={[styles.row,{backgroundColor: 'white', flexDirection: 'column'}]}>
+        <View style={[styles.row, body.origin ? styles.messageContainer : styles.commentContainer]}>
           <View>
             <Text></Text>
             <Text style={body.origin ? styles.messageText : styles.commentText}>
@@ -92,7 +101,6 @@ class Comments extends React.Component {
               <View></View>}
             </View>
         </View>
-        <View style={styles.separator} />
       </View>
     )
     
@@ -146,11 +154,11 @@ class Comments extends React.Component {
        <ListView
          dataSource={this.state.dataSource}
          renderRow={this.renderMessage.bind(this)}
-         style={{backgroundColor: '#B0C4DE'}}
+         style={{backgroundColor: '#D7E1EE', height: 400}}
          initialListSize={10}
          pageSize={4}
+         scrollRenderAheadDistance={2000} 
          renderSectionHeader={this.renderSectionHeader.bind(this)}/>
-  
       )
   }
 

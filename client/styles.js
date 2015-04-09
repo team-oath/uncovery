@@ -81,7 +81,7 @@ var styles = StyleSheet.create({
     fontSize: 14,
   },
   commentText: {
-    paddingLeft: 45, 
+    paddingLeft: 55, 
     paddingRight: 12, 
     fontSize: 14,
   },
@@ -97,7 +97,7 @@ var styles = StyleSheet.create({
     color: 'grey', 
     flex: 2, 
     paddingTop: 5, 
-    paddingLeft: 45,
+    paddingLeft: 55,
   },
   commentHeaderButton: {
     height: 40,
@@ -105,11 +105,30 @@ var styles = StyleSheet.create({
     alignItems: 'center',
     backgroundColor: '#B0C4DE',
     flexDirection: 'row',
+    marginHorizontal: 4,
   },
   heartCounter: {
     fontSize: 16, 
     paddingTop: 5, 
     color: 'grey',
+  },
+  messageContainer: {
+    backgroundColor: 'white', 
+    flexDirection: 'column',
+    marginHorizontal: 4,
+    borderRadius: 3,
+    marginVertical: 1,
+    padding: 5,
+    paddingVertical: 10,
+  },
+  commentContainer: {
+    backgroundColor: '#F7F8FA', 
+    flexDirection: 'column',
+    marginHorizontal: 4,
+    borderRadius: 3,
+    marginVertical: 1,
+    padding: 5,
+    paddingVertical: 10,
   }
 });
 
