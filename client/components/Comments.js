@@ -70,26 +70,27 @@ class Comments extends React.Component {
       <View>
         <View style={[styles.row,{backgroundColor: 'white', flexDirection: 'column'}]}>
           <View>
-             <Text></Text>
-             <Text style={body.origin ? {paddingLeft: 12, paddingRight: 12, fontSize: 14} : {paddingLeft: 35, paddingRight: 12, fontSize: 14}}>{body.messageString}</Text>
-             <Text></Text>
-             <Text></Text>
-           </View>
-           <View style={{flexDirection: 'row'}}>
-             <Text style={body.origin ? {fontSize: 14, color: 'grey', flex: 2, paddingTop: 5, paddingLeft: 12,} : {fontSize: 14, color: 'grey', flex: 2, paddingTop: 5, paddingLeft: 35,}}>{body.timestamp} @ {body.distance}</Text>
+            <Text></Text>
+            <Text style={body.origin ? styles.messageText : styles.commentText}>
+              {body.messageString}
+            </Text>
+            <Text></Text>
+            <Text></Text>
+          </View>
+          <View style={{flexDirection: 'row'}}>
+            <Text style={body.origin ? styles.messageFooter : styles.commentFooter}>{body.timestamp} @ {body.distance}</Text>
             {body.origin ? 
-              <Text style={{fontSize: 16, paddingTop: 5, color: 'grey'}}>{this.props.numHearts}</Text> :
-              <Text style={{marginBottom: 15}}></Text>
-            }
-             {body.origin ? 
+              <Text style={styles.heartCounter}>{this.props.numHearts}</Text> :
+              <Text style={{marginBottom: 15}}></Text> }
+            {body.origin ? 
               <View style={{justifyContent: 'flex-end'}}>
                 <Image
                   source={heartImage}
                   style={{width:30, height:30}}
                 />
-              </View> : <View></View>
-             }
-           </View>
+              </View> : 
+              <View></View>}
+            </View>
         </View>
         <View style={styles.separator} />
       </View>
@@ -98,15 +99,8 @@ class Comments extends React.Component {
   }
 
   renderSectionHeader(data, sectionID){
-    console.log('356987356983576', this._postComment)
     return (
-      <View style={{
-        height: 40,
-        justifyContent: 'center',
-        alignItems: 'center',
-        backgroundColor: '#3B5998',
-        flexDirection: 'row',
-      }}>
+      <View style={styles.commentHeaderButton}>
         <TouchableOpacity onPress={this._postComment.bind(this)}>
         <Text style={{color: 'white'}}>
           Comment

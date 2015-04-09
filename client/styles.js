@@ -75,6 +75,42 @@ var styles = StyleSheet.create({
   text: {
     flex: 1,
   },
+  messageText: {
+    paddingLeft: 12, 
+    paddingRight: 12, 
+    fontSize: 14,
+  },
+  commentText: {
+    paddingLeft: 35, 
+    paddingRight: 12, 
+    fontSize: 14,
+  },
+  messageFooter: {
+    fontSize: 14, 
+    color: 'grey', 
+    flex: 2, 
+    paddingTop: 5, 
+    paddingLeft: 12,
+  },
+  commentFooter: {
+    fontSize: 14, 
+    color: 'grey', 
+    flex: 2, 
+    paddingTop: 5, 
+    paddingLeft: 35,
+  },
+  commentHeaderButton: {
+    height: 40,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: '#B0C4DE',
+    flexDirection: 'row',
+  },
+  heartCounter: {
+    fontSize: 16, 
+    paddingTop: 5, 
+    color: 'grey',
+  }
 });
 
 module.exports = styles;
