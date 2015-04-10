@@ -29,6 +29,7 @@ router.post('/', function(req, res) {
 
 router.post('/upvote', function (req, res) {
   util.log('RECEIVED upvote request', req.body);
+  models.createVote(+req.body.messageId, req.body.userToken);
   res.status(200).send();
 });
 
