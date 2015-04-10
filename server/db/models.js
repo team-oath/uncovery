@@ -26,6 +26,9 @@ exports.createVote = function(messageId, token) {
 //exports.retrieveMarks({x: 535, y: 325, z: 325}).then(callback(success));
 exports.retrieveMarks = db.retrieveMarks;
 
+//delete(string tableName, [string key, string value]);
+exports.delete = db.delete;
+
 //exports.retrieveScore(3).then(callback(success));
 exports.retrieveScore = function(messageId, objectToFill) {
   return new Promise(function(resolve, reject) {

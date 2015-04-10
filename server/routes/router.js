@@ -9,10 +9,11 @@ router.get('/', function (req, res) {
   models.retrieveMarks(req.query)
     .then(function(msg) {
       util.log('SENT message array to user', msg);
+      res.status(200);
       res.send(msg);
     }, function(err) {
       util.log('SENT error code to user', err);
-      res.send(400);
+      res.sendStatus(400);
     });
 });
 
@@ -22,10 +23,10 @@ router.post('/', function(req, res) {
   models.createComment(req.body)
     .then(function(msg) {
       util.log('SENT success code to user', msg);
-      res.status(201).send();
+      res.sendStatus(201);
     }, function(err) {
       util.log('SENT error code to user', err);
-      res.send(400);
+      res.sendStatus(400);
     });
 });
 
@@ -35,23 +36,23 @@ router.post('/usertoken', function (req, res) {
 
   models.createUser(token)
     .then(function(user) {
-      util.log('SENT success code to user', msg);
-      res.send(201);
+      util.log('SENT success code to user', user);
+      res.sendStatus(201);
     }, function(err) {
       util.log('SENT error code to user', err);
-      res.send(400);
+      res.sendStatus(400);
     });
 });
 
 router.post('/upvote', function (req, res) {
   util.log('RECEIVED upvote request', req.body);
   models.createVote(+req.body.messageId, req.body.userToken);
-  res.status(200).send();
+  res.sendStatus(200);
 });
 
 router.post('/comment', function (req, res) {
   util.log("RECEIVED comment", req.body)
-  res.status(200).send();
+  res.sendStatus(200);
 });
 
 module.exports = router;
