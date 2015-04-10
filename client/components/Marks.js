@@ -61,7 +61,7 @@ class Marks extends React.Component {
     var y = this.props.currentPosition.coords.longitude;
     var z = this.props.currentPosition.coords.altitude;
     var userToken = this.props.userToken;
-    var requestURL = config.host + 'x='+x+'&'+'y='+y+'&'+'z='+z+'&'+'userToken='+userToken;
+    var requestURL = 'http://uncovery.cloudapp.net/messages' + 'x='+x+'&'+'y='+y+'&'+'z='+z+'&'+'userToken='+userToken;
 
     var watchOptions = {
       enableHighAccuracy: true,
