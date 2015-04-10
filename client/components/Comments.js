@@ -99,7 +99,7 @@ class Comments extends React.Component {
               <View style={{justifyContent: 'flex-end'}}>
                 <Image
                   source={heartImage}
-                  style={{width:20, height:20, marginRight: 5}}
+                  style={{width:20, height:20, marginRight: 4}}
                 />
               </View>}
             </View>
