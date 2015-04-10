@@ -46,14 +46,17 @@ router.post('/usertoken', function (req, res) {
     });
 });
 
+//input: {messageId: string, userToken: string}
 router.post('/upvote', function (req, res) {
   util.log('RECEIVED upvote request', req.body);
   models.createVote(+req.body.messageId, req.body.userToken);
   res.sendStatus(200);
 });
 
+//input: {messageId: string, message: string}
 router.post('/comment', function (req, res) {
   util.log("RECEIVED comment", req.body);
+  models.createComment(req.body);
   res.sendStatus(200);
 });
 
