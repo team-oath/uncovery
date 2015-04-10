@@ -51,7 +51,7 @@ router.post('/upvote', function (req, res) {
 });
 
 router.post('/comment', function (req, res) {
-  util.log("RECEIVED comment", req.body)
+  util.log("RECEIVED comment", req.body);
   res.sendStatus(200);
 });
 

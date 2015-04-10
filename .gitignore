@@ -2,3 +2,4 @@ node_modules/
 client/uncovery.xcodeproj/
 .DS_Store
 .sass-cache/
+server/images/*.jpg
