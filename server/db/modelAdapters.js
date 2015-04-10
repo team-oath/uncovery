@@ -86,7 +86,7 @@ exports.retrieveCount = function(table, filters) {
     var params = ([table]).concat(filters);
     var query = 'SELECT COUNT(*) FROM ?? WHERE ?? = ?';
     db.connection.query(query, params, function(err, connection) {
-    if (err) {
+      if (err) {
         reject(err);
       } else {
         resolve(connection[0]["COUNT(*)"]);
@@ -98,12 +98,20 @@ exports.retrieveCount = function(table, filters) {
 exports.retrieveMarks = function(userData) {
   return new Promise(function(resolve, reject) {
     var query = ([
-        'SELECT * FROM marks',
-        'LEFT JOIN messages',
-        'ON marks.messageId = messages.id',
-        'WHERE x between ? AND ?',
-        'AND y between ? AND ?',
-        'ORDER BY timestamp DESC'
+        'SELECT',
+        'marks.id,',
+        'marks.x,',
+        'marks.y,',
+        'marks.z,',
+        'marks.timestamp,',
+        'marks.messageId,',
+        'marks.userToken,',
+        'messages.messageString,',
+        'messages.score, COUNT(votes.id)',
+        'FROM marks',
+        'LEFT JOIN messages ON messages.id = marks.messageId',
+        'LEFT JOIN votes ON votes.messageId = messages.id',
+        'GROUP BY marks.id, messages.id'
     ]).join(' ');
 
     var params = [

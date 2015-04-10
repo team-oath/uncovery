@@ -27,7 +27,8 @@ exports.createResponseObjects = function(marks, user) {
       messageId: mark.messageId,
       timestamp: exports.getTimeElapsedSince(mark.timestamp),
       distance: exports.getDistanceFrom(mark, user),
-      messageString: mark.messageString
+      messageString: mark.messageString,
+      votes: mark['COUNT(votes.id)']
     };
     responseObjects.push(responseObject);
   });
