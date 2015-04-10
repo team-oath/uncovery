@@ -79,3 +79,31 @@ exports.delete = function(table, filters) {
     });
   });
 };
+
+exports.retrieveMarks = function(userData) {
+  return new Promise(function(resolve, reject) {
+    var query = ([
+        'SELECT * FROM marks',
+        'LEFT JOIN messages',
+        'ON marks.messageId = messages.id',
+        'WHERE x between ? AND ?',
+        'AND y between ? AND ?',
+        'ORDER BY timestamp DESC'
+    ]).join(' ');
+
+    var params = [
+      +userData.x - .01,
+      +userData.x + .01,
+      +userData.y - .01,
+      +userData.y + .01
+    ];
+
+    db.connection.query(query, params, function(err, marks) {
+      if (err) {
+        reject(err);
+      } else {
+        resolve(util.createResponseObjects(marks, userData));
+      }
+    });
+  });
+};

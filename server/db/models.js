@@ -1,136 +1,45 @@
-var db = require('./config');
-var util = require('../core/utilities');
+var db = require('./modelAdapters');
 
-db.initialize();
+//exports.createComment({message: 'Excellant, it works!', x: 535, y: 325, z: 325, userToken: 'live'});
+exports.createComment = function(userData) {
+  db.insert('messages', {messageString: userData.message}).then(function(success) {
+    db.insert('marks', {
+      x: userData.x,
+      y: userData.y,
+      z: userData.z,
+      userToken: userData.userToken,
+      messageId: success.insertId
+    });
+  });
+};
 
-exports.insert = function(userData, callback) {
-  if (validateInput(userData)) {
-    var message = createMessage(userData);
-    db.connection.query('INSERT INTO messages SET ?', message, function(err, msg) {
-      if (err) callback(err);
-      var mark = createMark(userData, msg.insertId);
-      db.connection.query('INSERT INTO marks SET ?', mark, function(err, mark) {
-        if (err) callback(err);
-        callback('Successfully inserted new message and mark to database.');
+//exports.createUser('grgrdg');
+exports.createUser = function(token) {
+  db.insert('users', {token: token});
+};
+
+//exports.createVote(3, 'grgrdg');
+exports.createVote = function(messageId, token) {
+  db.insert('votes', {userToken: token, messageId: messageId});
+};
+
+//exports.retrieveMarks({x: 535, y: 325, z: 325}).then(callback(success));
+exports.retrieveMarks = db.retrieveMarks;
+
+//exports.retrieveScore(3).then(callback(success));
+exports.retrieveScore = function(messageId, objectToFill) {
+  return new Promise(function(resolve, reject) {
+    db.where('messages', ['id', messageId])
+      .then(function(success) {
+        resolve(success[0].score);
+      },
+      function(err) {
+        reject(err);
       });
-    });
-  } else {
-    callback('Could not insert new message: invalid input.');
-  }
-};
-
-var validateInput = function(userData) {
-  if (!userData.x || !userData.y || !userData.z || !userData.message) {
-    return false;
-  }
-  return true;
-};
-
-var validateQuery = function(userData) {
-  if (!userData.x || !userData.y || !userData.z) {
-    return false;
-  }
-  return true;
-};
-
-var createMark = function(userData, messageId) {
-  var mark = {
-    x: userData.x,
-    y: userData.y,
-    z: userData.z,
-    messageId: messageId
-  };
-  return mark;
-};
-
-var createMessage = function(userData) {
-  var message = {
-    messageString: userData.message
-  };
-  return message;
-};
-
-exports.retrieve = function(userLocation, callback) {
-
-  if (validateQuery(userLocation)) {
-    var query = ([
-      'SELECT *',
-      'FROM marks',
-      'LEFT JOIN messages',
-      'ON marks.messageId = messages.id',
-      'WHERE x between ? AND ?',
-      'AND y between ? AND ?',
-      'ORDER BY timestamp DESC'
-    ]).join(' ');
-
-    var params = [
-      +userLocation.x - .01,
-      +userLocation.x + .01,
-      +userLocation.y - .01,
-      +userLocation.y + .01,
-    ];
-
-    db.connection.query(query, params, function(err, marks) {
-      if (err) callback(err);
-
-      callback(util.createResponseObjects(marks, userLocation));
-    });
-  } else {
-    callback('Could not complete request: invalid query parameters.');
-  }
-};
-
-exports.removeData = function(table, property, value) {
- var query = 'DELETE FROM ' + table + ' WHERE ' + property + ' = ' + value;
-  db.connection.query(query, function(err, success) {
-    if (err) console.log('error: ', err);
   });
 };
 
-exports.createUser = function(userToken) {
-  var query = 'INSERT INTO users (token) VALUES ("' + userToken + '")';
-  db.connection.query(query, function(err, success) {
-    if (err) {
-      console.log("Error in createUser: " + err);
-    } else {
-      //console.log("Successfully created user: " + success);
-    }
-  });
-};
-
-exports.createVote = function(messageId, token, callback) {
-  var query = 'INSERT INTO votes (userToken, messageId) VALUES ("' + token + '", ' + messageId + ');';
-  db.connection.query(query, function(err, success) {
-     if (err) {
-      console.log("Error in createVote: " + err);
-    } else {
-      //console.log("Successfully created vote: " + success);
-    }
-     callback(err, success);
-  });
-};
-
-exports.updateScore = function(messageId, amount, callback) {
-
-  var query = 'UPDATE messages SET score = ' + amount + ' WHERE  id = ' + messageId;
-  db.connection.query(query, function(err, success, fields) {
-    if (err) {
-      console.log('Error in updateScore: ' + err);
-    } else {
-      //console.log('Successfully updated score: ' + success);
-    }
-    callback(err, success, fields);
-  });
-};
-
-exports.retrieveTable = function(table, callback) {
-  var query = 'SELECT * FROM ' + table;
-  db.connection.query(query, function(err, success, fields) {
-     if (err) {
-      console.log('Error in retrieveTable: ' + err);
-    } else {
-      //console.log('Successfully retrieved table: ' + success);
-    }
-    callback(err, success, fields);
-  });
+//exports.updateScore(3, 9001);
+exports.updateScore = function(messageId, amount) {
+  db.update('messages', ['score', amount, 'id', messageId]);
 };
