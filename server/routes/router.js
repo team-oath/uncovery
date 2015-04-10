@@ -1,14 +1,7 @@
 var express = require('express');
-var shortid = require('shortid');
 var models = require('../db/models.js');
 var util = require('../core/utilities.js');
 var router = express.Router();
-
-router.get('/usertoken', function (req, res) {
-  var userToken = shortid.generate();
-  util.log('SENT a new user token to user', userToken);
-  res.send({userToken: userToken});
-});
 
 router.get('/', function (req, res) {
   util.log('RECEIVED a GET request', req.query);

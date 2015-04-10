@@ -6,13 +6,15 @@ var React = require('react-native');
 var Marks = require('./components/Marks.js');
 var PostForm = require('./components/PostForm.js');
 var styles = require('./styles.js');
-// var config = require('./config.js');
+
+var AdSupportIOS = require('AdSupportIOS');
 
 var { AppRegistry, NavigatorIOS, AsyncStorage, View, Text, } = React;
 
 class Uncovery extends React.Component {
 
   constructor(){
+    console.log(AdSupportIOS)
     this.state = {
       userToken: null,
       currentPosition: null,
@@ -20,8 +22,8 @@ class Uncovery extends React.Component {
   }
 
   componentWillMount(){
-    this._getStoredUserId();
     this._getUserLocation();
+    this._getDeviceID();
   }
   
   render() {
@@ -57,41 +59,6 @@ class Uncovery extends React.Component {
     }
   }
 
-  _getStoredUserId(){
-
-    var self = this;
-
-    var getUserToken = function(callback){
-      fetch('http://uncovery.cloudapp.net/usertoken')
-        .then((response) => response.json())
-        .then((responseData) => {
-          callback(responseData.userToken)
-        })
-        .done();
-    };
-
-    var storeUserToken = function(token){
-      AsyncStorage.setItem('USER_TOKEN', token, (error) => {
-        if (error){
-          console.log('AsyncStorage error: ' + error.message);
-        } else {
-          console.log("werer Saved USERID to disk");
-          self.setState({userToken: token});
-        }
-      });
-    };
-
-    AsyncStorage.getItem('USER_TOKEN', (error, token) => {
-      if (error) {
-        console.log('AsyncStorage error: ' + error.message);
-      } else if (token !== null) {
-        self.setState({userToken: token})
-      } else {
-        getUserToken(storeUserToken);
-      }
-    });
-  }
-
   _getUserLocation(){
     var watchSucess = (currentPosition) => {
       this.setState({currentPosition: currentPosition});
@@ -103,6 +70,25 @@ class Uncovery extends React.Component {
       watchSucess, watchError
     );
   }
+
+  _getDeviceID(){
+    var onDeviceIDSuccess = (deviceID)=>{
+      console.log('********** SUCCESS *********');
+      console.log(deviceID);
+      this.setState({userToken: deviceID});
+    }
+
+    var onDeviceIDFailure = (e)=>{
+      console.log('********** FAILURE *********');
+      console.log(e);
+    }
+
+    AdSupportIOS.getAdvertisingId(
+      onDeviceIDSuccess,
+      onDeviceIDFailure
+    );
+  }
+
 };
 
 AppRegistry.registerComponent('uncovery', () => Uncovery);

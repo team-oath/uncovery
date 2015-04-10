@@ -127,40 +127,16 @@ class Comments extends React.Component {
 
   render(){
     return (
-     // <View style={[styles.buttonContents, {
-     //    flexDirection: 'column', 
-     //    marginTop: 75,
-     //    borderColor: 'gray', 
-     //    borderWidth: 1,
-     //    borderRadius: 20,
-     //  }]}>
-     //   <View>
-     //     <Text></Text>
-     //     <Text style={{paddingLeft: 12, paddingRight: 12, fontSize: 14}}>{this.props.messageString}</Text>
-     //     <Text></Text>
-     //     <Text></Text>
-     //   </View>
-     //   <View style={{flexDirection: 'row'}}>
-     //     <Text style={{fontSize: 14, color: 'grey', flex: 2, paddingTop: 5, paddingLeft: 12,}}>{this.props.timestamp} @ {this.props.distance}</Text>
-     //     <Text style={{fontSize: 16, paddingTop: 5, color: 'grey'}}>{this.props.numHearts}</Text>
-     //     <View style={{justifyContent: 'flex-end'}}>
-     //       <Image
-     //         source={heartImage}
-     //         style={{width:30, height:30}}
-     //       />
-     //     </View>
-     //   </View>
-     // </View>
-
-       <ListView
-         dataSource={this.state.dataSource}
-         renderRow={this.renderMessage.bind(this)}
-         style={{backgroundColor: '#D7E1EE', height: 400}}
-         initialListSize={10}
-         pageSize={4}
-         scrollRenderAheadDistance={2000} 
-         renderSectionHeader={this.renderSectionHeader.bind(this)}/>
-      )
+      <ListView
+        dataSource={this.state.dataSource}
+        renderRow={this.renderMessage.bind(this)}
+        style={{backgroundColor: '#D7E1EE', height: 400}}
+        initialListSize={10}
+        pageSize={4}
+        scrollRenderAheadDistance={2000} 
+        renderSectionHeader={this.renderSectionHeader.bind(this)}
+      />
+    );
   }
 
 }
