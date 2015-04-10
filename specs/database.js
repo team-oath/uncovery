@@ -6,7 +6,7 @@ var models = require('../server/db/models');
 var request = require('request');
 var localServerUri = 'http://127.0.0.1:3000/';
 
-describe('database storage', function() {
+xdescribe('database storage', function() {
 
   after(function() {
     models.removeData('marks', 'x', 37.783600);

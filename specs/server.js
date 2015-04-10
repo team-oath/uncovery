@@ -5,7 +5,7 @@ var localServerUri = 'http://127.0.0.1:3000/';
 var invalidUri = 'http://127.0.0.1:3000/invalid';
 var testData = {x: 110.123456, y: -50.323, z: 14.4244, message: 'hello server!'};
 
-describe('Node Server', function(){
+xdescribe('Node Server', function(){
   describe('Basic http routing', function(){
     it('should receive status code 200 on GET request', function(done) {
       request(localServerUri, function (err, response, body) {

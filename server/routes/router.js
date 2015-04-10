@@ -6,36 +6,53 @@ var router = express.Router();
 router.get('/', function (req, res) {
   util.log('RECEIVED a GET request', req.query);
 
-  models.retrieve(req.query, function(msg) {
-    if (Array.isArray(msg)) {
+  models.retrieveMarks(req.query)
+    .then(function(msg) {
       util.log('SENT message array to user', msg);
+      res.status(200);
       res.send(msg);
-    } else {
-      util.log('SENT error code to user', msg);
-      res.send(msg);
-    }
-  });
+    }, function(err) {
+      util.log('SENT error code to user', err);
+      res.sendStatus(400);
+    });
 });
 
 router.post('/', function(req, res) {
   util.log('RECEIVED a POST request', req.body);
 
-  models.insert(req.body, function(msg) {
-    util.log('SENT success code to user', msg);
+  models.createComment(req.body)
+    .then(function(msg) {
+      util.log('SENT success code to user', msg);
+      res.sendStatus(201);
+    }, function(err) {
+      util.log('SENT error code to user', err);
+      res.sendStatus(400);
+    });
+});
 
-    res.status(201).send();
-  });
+router.post('/usertoken', function (req, res) {
+  var token = req.body.userToken;
+  util.log('RECEIVED a new user token from user', token);
+
+  models.createUser(token)
+    .then(function(user) {
+      util.log('SENT success code to user', user);
+      res.sendStatus(201);
+    }, function(err) {
+      util.log('SENT error code to user', err);
+      res.sendStatus(400);
+    });
 });
 
 router.post('/upvote', function (req, res) {
   util.log('RECEIVED upvote request', req.body);
   models.createVote(+req.body.messageId, req.body.userToken);
-  res.status(200).send();
+  res.sendStatus(200);
 });
 
 router.post('/comment', function (req, res) {
   util.log("RECEIVED comment", req.body)
-  res.status(200).send();
+  res.sendStatus(200);
 });
 
 module.exports = router;
