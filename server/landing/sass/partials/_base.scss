@@ -1,0 +1,26 @@
+// ------------------ BASE STYLES ------------------ //
+
+// import compass
+@import "compass/css3";
+
+// fonts
+$base-font-family: "Open Sans"; // imported from google font
+$base-font-size: 16px;
+$xlargescreen-font-size: 16px;
+$secondary-font-family: "Dosis"; // imported from google font
+$heading-text-color: #444;
+$body-text-color: #848484;
+
+// colors
+$accent-color: #e95a0a;
+$facebook-color: #3b59ab;
+$twitter-color: #2b97f0;
+$googleplus-color: #dd4b39;
+$footer-bg-color: #1f1f1f;
+
+// screen breakpoints
+$break-xsmall: 480px;
+$break-small: 768px;
+$break-medium: 992px;
+$break-large: 1200px;
+$break-xlarge: 1440px;

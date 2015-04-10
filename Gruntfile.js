@@ -1,3 +1,4 @@
+
 module.exports = function(grunt) {
 
   grunt.initConfig({
@@ -25,8 +26,25 @@ module.exports = function(grunt) {
       }
     },
     watch: {
-      files: ['<%= jshint.files %>'],
-      tasks: ['jshint', 'express-restart']
+      jshint: {
+        files: ['<%= jshint.files %>'],
+        tasks: ['jshint', 'express-restart']
+      },
+      css: {
+        files: ['server/landing/sass/**'],
+        tasks: ['sass']
+      }
+    },
+    sass: {                              // Task
+      dist: {                            // Target
+        options: {                       // Target options
+          style: 'compressed',
+          compass: true
+        },
+        files: {                         // Dictionary of files
+          'server/landing/assets/css/main.min.css': 'server/landing/sass/main.scss'
+        }
+      }
     }
   });
 
@@ -35,15 +53,19 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-contrib-watch');
   grunt.loadNpmTasks('grunt-express');
   grunt.loadNpmTasks('grunt-mocha-test');
+  grunt.loadNpmTasks('grunt-contrib-sass');
 
   grunt.registerTask('default', [
     'jshint',
     'test',
     'express',
-    'watch'
+    'watch:jshint'
   ]);
 
   grunt.registerTask('test', [
     'mochaTest'
   ]);
+
+  grunt.registerTask('css', ['watch:css']);
+
 };

@@ -1,0 +1,43 @@
+// green skin
+
+$green: #167948;
+
+a {
+	color: $green;
+
+	&:hover, &:focus {
+		color: lighten($green, 15%);
+	}
+}
+
+.section-heading hr {
+	border-color: $green;
+}
+
+.hero-unit {
+	.store-buttons {
+		a.btn-googleplay {
+			background-color: $green;
+
+			&:hover, &:focus {
+				background-color: darken($green, 8%);
+			}
+		}
+	}
+
+	&.fullscreen-video-bg .store-buttons a {
+		background-color: $green;
+
+		&:hover, &:focus {
+			background-color: darken($green, 8%);
+		}
+	}
+}
+
+footer .newsletter-form .input-group-lg > .input-group-btn > .btn {
+	background-color: $green;
+
+	&:hover, &:focus {
+		background-color: darken($green, 8%);
+	}
+}

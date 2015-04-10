@@ -1,0 +1,43 @@
+// blue skin
+
+$blue: #24579B;
+
+a {
+	color: $blue;
+
+	&:hover, &:focus {
+		color: lighten($blue, 15%);
+	}
+}
+
+.section-heading hr {
+	border-color: $blue;
+}
+
+.hero-unit {
+	.store-buttons {
+		a.btn-googleplay {
+			background-color: $blue;
+
+			&:hover, &:focus {
+				background-color: darken($blue, 8%);
+			}
+		}
+	}
+
+	&.fullscreen-video-bg .store-buttons a {
+		background-color: $blue;
+
+		&:hover, &:focus {
+			background-color: darken($blue, 8%);
+		}
+	}
+}
+
+footer .newsletter-form .input-group-lg > .input-group-btn > .btn {
+	background-color: $blue;
+
+	&:hover, &:focus {
+		background-color: darken($blue, 8%);
+	}
+}

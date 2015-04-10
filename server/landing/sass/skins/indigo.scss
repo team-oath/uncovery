@@ -1,0 +1,43 @@
+// indigo skin
+
+$indigo: #482A74;
+
+a {
+	color: $indigo;
+
+	&:hover, &:focus {
+		color: lighten($indigo, 15%);
+	}
+}
+  
+.section-heading hr {
+	border-color: $indigo;
+} 
+
+.hero-unit {
+	.store-buttons {
+		a.btn-googleplay {
+			background-color: $indigo;
+
+			&:hover, &:focus {
+				background-color: darken($indigo, 8%);
+			}
+		}
+	}
+
+	&.fullscreen-video-bg .store-buttons a {
+		background-color: $indigo;
+
+		&:hover, &:focus {
+			background-color: darken($indigo, 8%);
+		}
+	}
+}
+
+footer .newsletter-form .input-group-lg > .input-group-btn > .btn {
+	background-color: $indigo;
+
+	&:hover, &:focus {
+		background-color: darken($indigo, 8%);
+	}
+}

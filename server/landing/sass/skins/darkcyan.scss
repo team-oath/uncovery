@@ -1,0 +1,43 @@
+// darkkcyan skin
+
+$darkcyan: #0B6B77;
+
+a {
+	color: $darkcyan;
+
+	&:hover, &:focus {
+		color: lighten($darkcyan, 15%);
+	}
+}
+
+.section-heading hr {
+	border-color: $darkcyan;
+}
+
+.hero-unit {
+	.store-buttons {
+		a.btn-googleplay {
+			background-color: $darkcyan;
+
+			&:hover, &:focus {
+				background-color: darken($darkcyan, 8%);
+			}
+		}
+	}
+
+	&.fullscreen-video-bg .store-buttons a {
+		background-color: $darkcyan;
+
+		&:hover, &:focus {
+			background-color: darken($darkcyan, 8%);
+		}
+	}
+}
+
+footer .newsletter-form .input-group-lg > .input-group-btn > .btn {
+	background-color: $darkcyan;
+
+	&:hover, &:focus {
+		background-color: darken($darkcyan, 8%);
+	}
+}
