@@ -3,7 +3,7 @@ var models = require('../db/models.js');
 var util = require('../core/utilities.js');
 var router = express.Router();
 
-router.get('/', function (req, res) {
+router.get('/messages', function (req, res) {
   util.log('RECEIVED a GET request', req.query);
 
   models.retrieveMarks(req.query)
@@ -17,7 +17,7 @@ router.get('/', function (req, res) {
     });
 });
 
-router.post('/', function(req, res) {
+router.post('/messages', function(req, res) {
   util.log('RECEIVED a POST request', req.body);
 
   models.createComment(req.body)
@@ -54,5 +54,7 @@ router.post('/comment', function (req, res) {
   util.log("RECEIVED comment", req.body)
   res.sendStatus(200);
 });
+
+router.use(express.static(__dirname + '/../landing'));
 
 module.exports = router;
