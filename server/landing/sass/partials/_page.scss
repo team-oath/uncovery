@@ -299,7 +299,8 @@
 	}
 
 	.right {
-		float: right;
+		margin-top: -140px;
+		margin-left: 30px;
 		width: 235px;
 		height: 475px;
 		background-image: image-url('iphone-placeholder-black.png');
@@ -313,7 +314,7 @@
 		img {
 			position: relative;
 			top: 75px;
-			left: 17px;
+			left: 0;
 		}
 
 		&.nexus-placeholder {
@@ -352,11 +353,11 @@ ul.feature-list {
 
 	@include min-screen($break-medium) {
 		li {
+			text-align: center;
 			i {
 				@include inline-block;
 				@include border-radius(2px);
 
-				position: absolute;
 				top: 0;
 				margin-right: 5px;
 				width: 50px;
@@ -365,11 +366,11 @@ ul.feature-list {
 				text-align: center;
 				font-size: 24px;
 				color: #fff;
-				background: #ccc;
+				background: #ff6800;
 			}
 
 			h3, p {
-				padding-left: 65px;
+
 			}
 		}
 	}
