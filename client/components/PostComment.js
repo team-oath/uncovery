@@ -1,4 +1,3 @@
-
 var React = require('react-native');
 var styles = require('../styles.js');
 
@@ -28,13 +27,13 @@ class PostComment extends React.Component {
   }
 
   _submit(){
-  	this.props.navigator.pop();
-  	this._postComment();
+    this.props.navigator.pop();
+    this._postComment();
   }
 
   _postComment(){
 
-  	navigator.geolocation.getCurrentPosition((location)=>{
+    navigator.geolocation.getCurrentPosition((location)=>{
 
       var commentData = {
         x: location.coords.latitude,
@@ -48,13 +47,13 @@ class PostComment extends React.Component {
       console.log(commentData);
 
       fetch('http://uncovery.cloudapp.net/comment', {
-    	  method: 'POST',
-    	  headers: {
-    	    'Accept': 'application/json',
-    	    'Content-Type': 'application/json' },
-    	  body: JSON.stringify({comment: commentData}),
-    	});
-  	})
+        method: 'POST',
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json' },
+        body: JSON.stringify({comment: commentData}),
+      });
+    })
   }
 
 }

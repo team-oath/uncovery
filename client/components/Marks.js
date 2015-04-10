@@ -1,4 +1,3 @@
-
 var React = require('react-native');
 var Message = require('./Message.js');
 var config = require('../config.js');
