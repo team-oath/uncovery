@@ -76,6 +76,7 @@ class Uncovery extends React.Component {
       console.log('********** SUCCESS *********');
       console.log(deviceID);
       this.setState({userToken: deviceID});
+      this._postUserToken(deviceID);
     }
 
     var onDeviceIDFailure = (e)=>{
@@ -87,6 +88,19 @@ class Uncovery extends React.Component {
       onDeviceIDSuccess,
       onDeviceIDFailure
     );
+  }
+
+  _postUserToken(userToken){
+    console.log('sent User Token to server');
+    fetch('http://uncovery.cloudapp.net/usertoken', {
+      method: 'POST',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json'},
+      body: JSON.stringify({
+        userToken: userToken,
+      })
+    })
   }
 
 };

@@ -121,7 +121,11 @@ class Comments extends React.Component {
   _postComment(){
     this.props.navigator.push({
       component: PostComment,
-      navigator: this.props.navigator,
+      passProps: {
+        navigator: this.props.navigator,
+        messageId: this.props.messageId,
+        userToken: this.props.userToken,
+      },
     })
   }
 
