@@ -9,12 +9,11 @@ var styles = require('./styles.js');
 
 var AdSupportIOS = require('AdSupportIOS');
 
-var { AppRegistry, NavigatorIOS, AsyncStorage, View, Text, } = React;
+var { AppRegistry, NavigatorIOS, View, Text, } = React;
 
 class Uncovery extends React.Component {
 
   constructor(){
-    console.log(AdSupportIOS)
     this.state = {
       userToken: null,
       currentPosition: null,
@@ -45,12 +44,14 @@ class Uncovery extends React.Component {
               this.refs.nav.push({
                 component: PostForm,
                 title: 'Mark',
-                userToken: this.state.userToken,
+                passProps: {userToken: this.state.userToken},
               });
             },
             component: Marks,
-            userToken: this.state.userToken,
-            currentPosition: this.state.currentPosition,
+            passProps: {
+              userToken: this.state.userToken,
+              currentPosition: this.state.currentPosition,
+            },
           }}
           itemWrapperStyle={styles.itemWrapper}
           tintColor='#008888'

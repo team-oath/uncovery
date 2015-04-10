@@ -36,7 +36,7 @@ var MOCK_MESSAGE_6 = {
 
 var MOCK_DATA = [MOCK_MESSAGE_1, MOCK_MESSAGE_2, MOCK_MESSAGE_3, MOCK_MESSAGE_4, MOCK_MESSAGE_5, MOCK_MESSAGE_6];
 
-var {View, Text, Image, ListView, ScrollView, TextInput, TouchableOpacity} = React;
+var {View, Text, Image, ListView, TouchableOpacity} = React;
 
 class Comments extends React.Component {
 
@@ -144,6 +144,7 @@ class Comments extends React.Component {
   }
 
 }
+
 var heartImage = {uri: 'https://pbs.twimg.com/media/BlXBfT3CQAA6cVZ.png:small'};
 
 module.exports = Comments;

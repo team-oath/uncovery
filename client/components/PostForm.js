@@ -1,13 +1,24 @@
 
+var POST_FORM = {};
+
 var React = require('react-native');
 var styles = require("../styles.js");
 var config = require('../config.js');
 
-var { View, Text, TextInput, TouchableOpacity, TouchableHighlight, CameraRoll, Image, NativeModules } = React;
+var { 
+  
+  View, 
+  Text, 
+  TextInput, 
+  TouchableOpacity, 
+  TouchableHighlight, 
+  CameraRoll, 
+  Image, 
+  NativeModules, 
+
+} = React;
 
 var CameraRollView = require('./CameraRollView.ios');
-
-var postFormGlobals = {};
 
 class CameraRollExample extends React.Component {
 
@@ -28,16 +39,14 @@ class CameraRollExample extends React.Component {
     return (
       <TouchableHighlight
         onPress={() => {
-            //Set selected image & then bounce back to post form.
-            postFormGlobals.selectedImage = asset;
-            postFormGlobals.navigator.pop();
+          POST_FORM.selectedImage = asset;
+          POST_FORM.navigator.pop();
         }}>
           <Image
             source={asset.node.image}
             style={styles.image}
           />
       </TouchableHighlight>
-
     );
   }
 
@@ -53,8 +62,7 @@ class PostForm extends React.Component {
       buttonText: 'Mark',
     };
 
-    postFormGlobals.navigator = this.props.navigator;
-
+    POST_FORM.navigator = this.props.navigator;
   }
 
   render() {
@@ -62,24 +70,20 @@ class PostForm extends React.Component {
     // Two different layouts
     // One with a preview image, one without.
     var preview;
-    if (!postFormGlobals.selectedImage){
+    if (!POST_FORM.selectedImage){
       var viewStyle = styles.previewView;
       preview = <Text style={styles.addImageButton}>Share a photo!</Text>
     }else{
       var viewStyle = styles.previewViewWithImage;
-      preview = <View style={styles.row}><Image source={postFormGlobals.selectedImage.node.image} style={styles.previewImage} /></View>
+      preview = <View style={styles.row}><Image source={POST_FORM.selectedImage.node.image} style={styles.previewImage} /></View>
     }
 
     return (
-      <View style={ viewStyle }>
-        
+      <View style={viewStyle}>
         <TouchableOpacity
-            onPress={() => {
-              this._pushForwardToCameraRoll()
-            }}>
-          { preview }
+          onPress={() => {this._pushForwardToCameraRoll()}}>
+          {preview}
         </TouchableOpacity>
-
         <TextInput
           editable={true}
           enablesReturnKeyAutomatically={true}
@@ -90,9 +94,9 @@ class PostForm extends React.Component {
           onChangeText={(text) => this.setState({input: text})}
           onSubmitEditing={() => {
             this._popBackToMarks();
-            if (!postFormGlobals.selectedImage){
+            if ( !POST_FORM.selectedImage ) {
               this._postMessage(this.state.input);
-            }else{
+            } else {
               this._postMessageWithImage(this.state.input);
             } 
           }
@@ -112,45 +116,38 @@ class PostForm extends React.Component {
 
   _postMessageWithImage(input){
     var self = this;
-    NativeModules.ReadImageData.processString(postFormGlobals.selectedImage.node.image.uri, (image) => {
+    NativeModules.ReadImageData.processString(POST_FORM.selectedImage.node.image.uri, (image) => {
       this._postMessage(input, image);
     });
   }
 
   _postMessage(input, image) {
-    
-    var postMessage = (currentPosition) => {
 
-      var data = {}
-      data.x = currentPosition.coords.latitude;
-      data.y = currentPosition.coords.longitude;
-      data.z = currentPosition.coords.altitude
-      data.message = input;
-      data.userToken = this.props.route.userToken;
+    navigator.geolocation.getCurrentPosition((currentPosition)=>{
 
+      var data = {
+        x: currentPosition.coords.latitude,
+        y: currentPosition.coords.longitude,
+        z: currentPosition.coords.altitude,
+        message: input,
+        userToken: this.props.route.userToken,
+      }
+     
       if (image){
-        // Optional image
         data.image = image;
       }
 
-      data = JSON.stringify(data);
-
-      delete postFormGlobals.selectedImage;
+      delete POST_FORM.selectedImage;
 
       fetch(config.host, {
         method: 'POST',
         headers: {
           'Accept': 'application/json',
-          'Content-Type': 'application/json'
-        },
-        body: data,
+          'Content-Type': 'application/json'},
+        body: JSON.stringify(data),
       });
 
-
-    }
-    
-    navigator.geolocation.getCurrentPosition(postMessage);
-    
+    });
   }
 
 };
