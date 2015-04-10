@@ -20,7 +20,8 @@ router.get('/messages', function (req, res) {
 router.post('/messages', function(req, res) {
   util.log('RECEIVED a POST request', req.body);
 
-  models.createComment(req.body)
+  //input: {x: float, y: float, z: float, message: string, userToken: string}
+  models.createMessage(req.body)
     .then(function(msg) {
       util.log('SENT success code to user', msg);
       res.sendStatus(201);
@@ -30,6 +31,7 @@ router.post('/messages', function(req, res) {
     });
 });
 
+//input: {userToken: string}
 router.post('/usertoken', function (req, res) {
   var token = req.body.userToken;
   util.log('RECEIVED a new user token from user', token);
