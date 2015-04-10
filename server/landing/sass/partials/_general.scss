@@ -157,10 +157,16 @@ section {
 }
 
 .section-heading {
-	@include inline-block;
+	display:block;
+	width:750px;
+
+	@include max-screen($break-medium) {
+		width:100%;
+	}
 
 	margin-bottom: 30px;
-	margin-left: auto;
+	margin-left: 0;
+
 	margin-right: auto;
 
 	&.left-aligned hr {
