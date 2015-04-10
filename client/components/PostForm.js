@@ -139,7 +139,7 @@ class PostForm extends React.Component {
 
       delete POST_FORM.selectedImage;
 
-      fetch('http://uncovery.cloudapp.net/', {
+      fetch('http://uncovery.cloudapp.net/messages', {
         method: 'POST',
         headers: {
           'Accept': 'application/json',
