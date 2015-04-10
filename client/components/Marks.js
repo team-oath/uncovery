@@ -1,7 +1,7 @@
 
 var React = require('react-native');
-var Message = require('./Message.js')
-var config = require('../config.js')
+var Message = require('./Message.js');
+var config = require('../config.js');
 
 var {View, ListView, Text, AsyncStorage} = React;
 
@@ -19,16 +19,6 @@ class Marks extends React.Component {
 
   componentDidMount() {
    this.fetchData();
-  }
-
-  renderLoadingView() {
-   return (
-     <View style={{flex: 1}}>
-       <Text>
-         Loading messages...
-       </Text>
-     </View>
-   );
   }
 
   render() {
@@ -54,6 +44,16 @@ class Marks extends React.Component {
     return (
       <Message body={body} userToken={userToken} navigator={this.props.navigator}/>
     );
+  }
+
+  renderLoadingView() {
+   return (
+     <View style={{flex: 1}}>
+       <Text>
+         Loading messages...
+       </Text>
+     </View>
+   );
   }
 
   fetchData(){
