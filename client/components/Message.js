@@ -11,7 +11,9 @@ var Message = React.createClass({
     var messageString = this.props.body.messageString;
     var timestamp = this.props.body.timestamp;
     var distance = this.props.body.distance;
-    var numHearts = this.props.body.score || 2;
+    var numHearts = this.props.body.votes;
+
+    console.log('***********', this.props.body)
 
     return (
       <View style={[styles.buttonContents, {flexDirection: 'column'}]}>
@@ -40,6 +42,7 @@ var Message = React.createClass({
   },
 
   _onPressMessage: function() {
+
     this.props.navigator.push({
       component: Comments,
       passProps: {
@@ -49,7 +52,7 @@ var Message = React.createClass({
         messageString: this.props.body.messageString,
         timestamp: this.props.body.timestamp,
         distance: this.props.body.distance,
-        numHearts: this.props.body.score || 2,
+        numHearts: this.props.body.votes,
         numComments: this.props.body.numComments,
       },
     })
