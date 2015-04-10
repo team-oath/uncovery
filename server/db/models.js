@@ -1,4 +1,5 @@
 var db = require('./modelAdapters');
+var util = require('../core/utilities');
 
 //exports.createComment({message: 'Excellant, it works!', x: 535, y: 325, z: 325, userToken: 'live'});
 exports.createComment = function(userData) {
@@ -9,6 +10,9 @@ exports.createComment = function(userData) {
       z: userData.z,
       userToken: userData.userToken,
       messageId: success.insertId
+    }).then(function(success) {
+      if (userData.image)
+        util.saveImage(userData.image, success.insertId, function() {});
     });
   });
 };

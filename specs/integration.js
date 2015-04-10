@@ -16,7 +16,7 @@ describe('server to database integration', function() {
   });
 
   it('should GET messages from the database', function(done) {
-    request(GETUri, function(err, response, body) {
+    request(GETUri + 'messages', function(err, response, body) {
       var messages = JSON.parse(response.body);
       expect(messages).to.be.a('array');
       done();
@@ -31,7 +31,7 @@ describe('server to database integration', function() {
   });
 
   it('should persist valid POST request to database', function(done) {
-    request.post({url:localServerUri, form: testData}, function(err, response, body) {
+    request.post({url:localServerUri + 'messages', form: testData}, function(err, response, body) {
       expect(response.statusCode).to.equal(201);
       done();
     });
