@@ -9,12 +9,11 @@ var styles = require('./styles.js');
 
 var AdSupportIOS = require('AdSupportIOS');
 
-var { AppRegistry, NavigatorIOS, AsyncStorage, View, Text, } = React;
+var { AppRegistry, NavigatorIOS, View, Text, } = React;
 
 class Uncovery extends React.Component {
 
   constructor(){
-    console.log(AdSupportIOS)
     this.state = {
       userToken: null,
       currentPosition: null,
@@ -45,12 +44,14 @@ class Uncovery extends React.Component {
               this.refs.nav.push({
                 component: PostForm,
                 title: 'Mark',
-                userToken: this.state.userToken,
+                passProps: {userToken: this.state.userToken},
               });
             },
             component: Marks,
-            userToken: this.state.userToken,
-            currentPosition: this.state.currentPosition,
+            passProps: {
+              userToken: this.state.userToken,
+              currentPosition: this.state.currentPosition,
+            },
           }}
           itemWrapperStyle={styles.itemWrapper}
           tintColor='#008888'
@@ -76,6 +77,7 @@ class Uncovery extends React.Component {
       console.log('********** SUCCESS *********');
       console.log(deviceID);
       this.setState({userToken: deviceID});
+      this._postUserToken(deviceID);
     }
 
     var onDeviceIDFailure = (e)=>{
@@ -87,6 +89,19 @@ class Uncovery extends React.Component {
       onDeviceIDSuccess,
       onDeviceIDFailure
     );
+  }
+
+  _postUserToken(userToken){
+    console.log('sent User Token to server');
+    fetch('http://uncovery.cloudapp.net/usertoken', {
+      method: 'POST',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json'},
+      body: JSON.stringify({
+        userToken: userToken,
+      })
+    })
   }
 
 };

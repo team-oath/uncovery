@@ -7,10 +7,6 @@ var {View, Text, TouchableOpacity, StyleSheet, Image,} = React;
 
 var Message = React.createClass({
 
-  getInitialState: function() {
-    return {dir: 'row'};
-  },
-
   render: function(body) {
     var messageString = this.props.body.messageString;
     var timestamp = this.props.body.timestamp;
@@ -44,19 +40,17 @@ var Message = React.createClass({
   },
 
   _onPressMessage: function() {
-    var messageString = this.props.body.messageString;
-    var timestamp = this.props.body.timestamp;
-    var distance = this.props.body.distance;
-    var numHearts = this.props.body.score || 2;
-
     this.props.navigator.push({
       component: Comments,
       passProps: {
-        messageString: messageString,
-        timestamp: timestamp,
-        distance: distance,
-        numHearts: numHearts,
         navigator: this.props.navigator,
+        userToken: this.props.userToken,
+        messageId: this.props.body.messageId,
+        messageString: this.props.body.messageString,
+        timestamp: this.props.body.timestamp,
+        distance: this.props.body.distance,
+        numHearts: this.props.body.score || 2,
+        numComments: this.props.body.numComments,
       },
     })
   },
@@ -68,10 +62,9 @@ var Message = React.createClass({
       method: 'POST',
       headers: {
         'Accept': 'application/json',
-        'Content-Type': 'application/json'
-      },
+        'Content-Type': 'application/json'},
       body: JSON.stringify({
-        messageId: 'mock',
+        messageId: this.props.body.messageId,
         userToken: this.props.userToken,
       })
     })

@@ -1,7 +1,7 @@
 
 var React = require('react-native');
-var Message = require('./Message.js')
-var config = require('../config.js')
+var Message = require('./Message.js');
+var config = require('../config.js');
 
 var {View, ListView, Text, AsyncStorage} = React;
 
@@ -21,19 +21,9 @@ class Marks extends React.Component {
    this.fetchData();
   }
 
-  renderLoadingView() {
-   return (
-     <View style={{flex: 1}}>
-       <Text>
-         Loading messages...
-       </Text>
-     </View>
-   );
-  }
-
   render() {
 
-    if ( !this.state.loaded || !this.props.route.userToken ) {
+    if ( !this.state.loaded || !this.props.userToken ) {
       return this.renderLoadingView();
     }
 
@@ -50,25 +40,35 @@ class Marks extends React.Component {
   }
 
   renderMessage(body) {
-    var userToken = this.props.route.userToken;
+    var userToken = this.props.userToken;
     return (
       <Message body={body} userToken={userToken} navigator={this.props.navigator}/>
     );
   }
 
+  renderLoadingView() {
+   return (
+     <View style={{flex: 1}}>
+       <Text>
+         Loading messages...
+       </Text>
+     </View>
+   );
+  }
+
   fetchData(){
-    var x = this.props.route.currentPosition.coords.latitude;
-    var y = this.props.route.currentPosition.coords.longitude;
-    var z = this.props.route.currentPosition.coords.altitude;
-    var token = this.props.route.userToken;
-    var requestURL = config.host + 'x='+x+'&'+'y='+y+'&'+'z='+z+'&'+'userToken='+token;
+    var x = this.props.currentPosition.coords.latitude;
+    var y = this.props.currentPosition.coords.longitude;
+    var z = this.props.currentPosition.coords.altitude;
+    var userToken = this.props.userToken;
+    var requestURL = config.host + 'x='+x+'&'+'y='+y+'&'+'z='+z+'&'+'userToken='+userToken;
 
     var watchOptions = {
       enableHighAccuracy: true,
     };
 
     var watchSucess = (currentPosition) => {
-      this.props.route[currentPosition] = currentPosition;
+      this.props[currentPosition] = currentPosition;
       fetch(requestURL)
         .then((response) => response.json())
         .then((responseData) => {

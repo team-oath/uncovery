@@ -36,7 +36,7 @@ var MOCK_MESSAGE_6 = {
 
 var MOCK_DATA = [MOCK_MESSAGE_1, MOCK_MESSAGE_2, MOCK_MESSAGE_3, MOCK_MESSAGE_4, MOCK_MESSAGE_5, MOCK_MESSAGE_6];
 
-var {View, Text, Image, ListView, ScrollView, TextInput, TouchableOpacity} = React;
+var {View, Text, Image, ListView, TouchableOpacity} = React;
 
 class Comments extends React.Component {
 
@@ -54,24 +54,22 @@ class Comments extends React.Component {
     this.fetchData()
   }
 
-  fetchData(){
-    var originMessage = {
-      origin: true, 
-      messageString:this.props.messageString, 
-      timestamp: this.props.timestamp, 
-      distance: this.props.distance,
-      numComments: this.props.numComments,
-    }
-
-    MOCK_DATA.unshift(originMessage);
-
-    this.setState({
-      dataSource: this.state.dataSource.cloneWithRows(MOCK_DATA),
-    })    
-  }
-
   componentWillUnmount(){
     MOCK_DATA.shift()
+  }
+
+  render(){
+    return (
+      <ListView
+        dataSource={this.state.dataSource}
+        renderRow={this.renderMessage.bind(this)}
+        style={{backgroundColor: '#D7E1EE', height: 400}}
+        initialListSize={10}
+        pageSize={4}
+        scrollRenderAheadDistance={2000} 
+        renderSectionHeader={this.renderSectionHeader.bind(this)}
+      />
+    );
   }
 
   renderMessage(body) {
@@ -88,7 +86,7 @@ class Comments extends React.Component {
           </View>
           <View style={{flexDirection: 'row'}}>
             <Text style={body.origin ? styles.messageFooter : styles.commentFooter}>{body.timestamp} @ {body.distance}</Text>
-            {body.origin ? 
+            { body.origin ? 
               <Text style={styles.heartCounter}>{this.props.numHearts}</Text> :
               <Text style={{marginBottom: 15}}></Text> }
             {body.origin ? 
@@ -98,7 +96,12 @@ class Comments extends React.Component {
                   style={{width:30, height:30}}
                 />
               </View> : 
-              <View></View>}
+              <View style={{justifyContent: 'flex-end'}}>
+                <Image
+                  source={heartImage}
+                  style={{width:20, height:20, marginRight: 4}}
+                />
+              </View>}
             </View>
         </View>
       </View>
@@ -118,28 +121,34 @@ class Comments extends React.Component {
     );
   }
 
+  fetchData(){
+    var originMessage = {
+      origin: true, 
+      messageString:this.props.messageString, 
+      timestamp: this.props.timestamp, 
+      distance: this.props.distance,
+      numComments: this.props.numComments,
+    }
+
+    MOCK_DATA.unshift(originMessage);
+
+    this.setState({
+      dataSource: this.state.dataSource.cloneWithRows(MOCK_DATA),
+    })    
+  }
+
   _postComment(){
     this.props.navigator.push({
       component: PostComment,
-      navigator: this.props.navigator,
+      passProps: {
+        navigator: this.props.navigator,
+        messageId: this.props.messageId,
+        userToken: this.props.userToken,
+      },
     })
   }
-
-  render(){
-    return (
-      <ListView
-        dataSource={this.state.dataSource}
-        renderRow={this.renderMessage.bind(this)}
-        style={{backgroundColor: '#D7E1EE', height: 400}}
-        initialListSize={10}
-        pageSize={4}
-        scrollRenderAheadDistance={2000} 
-        renderSectionHeader={this.renderSectionHeader.bind(this)}
-      />
-    );
-  }
-
 }
+
 var heartImage = {uri: 'https://pbs.twimg.com/media/BlXBfT3CQAA6cVZ.png:small'};
 
 module.exports = Comments;
