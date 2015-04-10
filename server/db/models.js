@@ -46,3 +46,8 @@ exports.retrieveScore = function(messageId, objectToFill) {
 exports.updateScore = function(messageId, amount) {
   db.update('messages', ['score', amount, 'id', messageId]);
 };
+
+//exports.retrieveVotes(10).then(function(success){console.log(success)});
+exports.retrieveVotes = function(messageId) {
+  return db.retrieveCount('votes', ['messageId', messageId]);
+};

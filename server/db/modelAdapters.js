@@ -24,7 +24,7 @@ exports.selectAll = function(table) {
     var query = 'SELECT * FROM ??';
     db.connection.query(query, table, function(err, fields) {
       if (err) {
-        reject(err, 'Error in selectAll method');
+        reject(err);
       } else {
         resolve(fields);
       }
@@ -42,7 +42,7 @@ exports.where = function(table, filters) {
     var params = ([table]).concat(filters);
     db.connection.query(query, params, function(err, connection) {
       if (err) {
-        reject(err, 'Error in where method');
+        reject(err);
       } else {
         resolve(connection);
       }
@@ -57,7 +57,7 @@ exports.update = function(table, filters) {
     var query = 'UPDATE ?? SET ?? = ? WHERE ?? = ?';
     db.connection.query(query, params, function(err, connection) {
       if (err) {
-        reject(err, 'Error in update method');
+        reject(err);
       } else {
         resolve(connection);
       }
@@ -72,13 +72,28 @@ exports.delete = function(table, filters) {
     var query = 'DELETE FROM ?? WHERE ?? = ?';
     db.connection.query(query, params, function(err, connection) {
       if (err) {
-        reject(err, 'Error in delete method');
+        reject(err);
       } else {
         resolve(connection);
       }
     });
   });
 };
+
+//retrieveCount(string tableName, [string key, string value])
+exports.retrieveCount = function(table, filters) {
+  return new Promise(function(resolve, reject) {
+    var params = ([table]).concat(filters);
+    var query = 'SELECT COUNT(*) FROM ?? WHERE ?? = ?';
+    db.connection.query(query, params, function(err, connection) {
+    if (err) {
+        reject(err);
+      } else {
+        resolve(connection[0]["COUNT(*)"]);
+      }
+    });
+  });
+}
 
 exports.retrieveMarks = function(userData) {
   return new Promise(function(resolve, reject) {
@@ -95,7 +110,7 @@ exports.retrieveMarks = function(userData) {
       +userData.x - .01,
       +userData.x + .01,
       +userData.y - .01,
-      +userData.y + .01
+        +userData.y + .01
     ];
 
     db.connection.query(query, params, function(err, marks) {
