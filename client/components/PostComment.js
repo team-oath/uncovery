@@ -40,7 +40,7 @@ class PostComment extends React.Component {
         x: location.coords.latitude,
         y: location.coords.longitude,
         z: location.coords.altitude,
-        postid: 'mock',
+        messageId: this.props.messageId,
         messageString: this.state.input,
       }
 
@@ -52,7 +52,7 @@ class PostComment extends React.Component {
     	  headers: {
     	    'Accept': 'application/json',
     	    'Content-Type': 'application/json' },
-    	  body: {comment: commentData},
+    	  body: JSON.stringify({comment: commentData}),
     	});
   	})
   }

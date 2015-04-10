@@ -61,8 +61,8 @@ class Marks extends React.Component {
     var y = this.props.currentPosition.coords.longitude;
     var z = this.props.currentPosition.coords.altitude;
     var userToken = this.props.userToken;
-    var queryParams = '?'+'x='+x+'&'+'y='+y+'&'+'z='+z+'&'+'userToken='+userToken;
-    var requestURL = 'http://uncovery.cloudapp.net/messages' + queryParams;
+    var queryParams = ['?','x=',x,'&','y=',y,'&','z=',z,'&','userToken=',userToken].join('');
+    var requestURL = 'http://uncovery.cloudapp.net/messages/' + queryParams;
 
     var watchOptions = {
       enableHighAccuracy: true,
@@ -73,6 +73,7 @@ class Marks extends React.Component {
       fetch(requestURL)
         .then((response) => response.json())
         .then((responseData) => {
+          console.log(responseData)
           this.setState({
             dataSource: this.state.dataSource.cloneWithRows(responseData),
             loaded: true,
