@@ -67,13 +67,12 @@ exports.getImage = function(imgName) {
       }
     });
   });
-}
+};
 
-exports.log = function(message, content) {
-  console.log('-------------------------------------------------------------------');
-  console.log(moment().format("dddd, MMMM Do YYYY, h:mm:ss a"));
-  console.log(message);
-  console.log(content);
+exports.getLogStream = function() {
+  console.log(__dirname);
+  var accessLogStream = fs.createWriteStream(__dirname + '/../log/access.log', {flags: 'a'});
+  return {stream: accessLogStream};
 };
 
 exports.rejectPOST = exports.rejectGET = function(req, res, err) {
