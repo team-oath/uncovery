@@ -42,7 +42,7 @@ exports.createResponseObjects = function(marks, user) {
 exports.saveImage = function(img64, callback) {
   if (img64) {
     var base64Data = img64.replace(/^data:image\/jpg;base64,/, '');
-    filename = '/images/' + shortid.generate() + '.jpg';
+    var filename = '/images/' + shortid.generate() + '.jpg';
 
     fs.writeFile('server' + filename, base64Data, 'base64', function(err) {
       if (err) console.log(err);
@@ -54,6 +54,18 @@ exports.saveImage = function(img64, callback) {
     return null;
   }
 };
+
+exports.getImage = function(path) {
+  return new Promise(function(resolve, reject) {
+    fs.readFile('server' + path, function(err, img) {
+      if (err) {
+        reject(err);
+      } else {
+        resolve(img);
+      }
+    });
+  });
+}
 
 exports.log = function(message, content) {
   console.log('-------------------------------------------------------------------');
