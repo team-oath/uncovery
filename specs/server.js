@@ -1,22 +1,42 @@
 var chai = require('chai');
+var models = require('../server/db/models.js');
 var expect = chai.expect;
 var request = require('request');
 var localServerUri = 'http://127.0.0.1:3000/';
 var invalidUri = 'http://127.0.0.1:3000/invalid';
-var testData = {x: 110.123456, y: -50.323, z: 14.4244, message: 'hello server!'};
+var testData = {
+  x: 110.123456,
+  y: -50.323,
+  z: 14.4244,
+  message: 'hello server',
+  userToken: 'foobar'
+};
 
-xdescribe('Node Server', function(){
-  describe('Basic http routing', function(){
-    it('should receive status code 200 on GET request', function(done) {
-      request(localServerUri, function (err, response, body) {
-        expect(response.statusCode).to.equal(200);
+describe('Node Server', function(){
+  
+  before(function(done) {
+    models.createUser(testData.userToken).then(function() {
+      done();
+    });
+  });
+
+  after(function(done) {
+    models.deleteUser(testData.userToken).then(function() {
+      done();
+    });
+  });
+
+  xdescribe('Basic http routing', function(){
+    it('should receive status code 201 on POST request', function(done) {
+      request.post({url: localServerUri, form: {key:'value'}}, function(err, response, body) {
+        expect(response.statusCode).to.equal(201);
         done();
       });
     });
 
-    it('should receive status code 201 on POST request', function(done) {
-      request.post({url:localServerUri, form: {key:'value'}}, function(err, response, body) {
-        expect(response.statusCode).to.equal(201);
+    it('should receive status code 200 on GET request', function(done) {
+      request(localServerUri, function (err, response, body) {
+        expect(response.statusCode).to.equal(200);
         done();
       });
     });
@@ -29,7 +49,7 @@ xdescribe('Node Server', function(){
     });
   });
 
-  describe('Feature-based http routing', function(){
+  xdescribe('Feature-based http routing', function(){
     it('should send a unique user token to the user', function(done) {
       request(localServerUri + 'usertoken', function(err, response, body) {
         var body = JSON.parse(response.body);
