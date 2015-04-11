@@ -1,3 +1,4 @@
+[![Circle CI](https://circleci.com/gh/team-oath/uncovery.svg?style=badge)](https://circleci.com/gh/team-oath/uncovery)
 <h1>Project: Uncovery</h1>
 <h2>Getting Started</h3>
 <ol>

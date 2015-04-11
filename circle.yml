@@ -1,0 +1,45 @@
+## Customize the test machine
+machine:
+
+  # Version of ruby to use
+  node:
+    version: 0.12.2
+
+  # Override /etc/hosts
+  hosts:
+    circlehost: 127.0.0.1
+
+  # Add some environment variables
+  environment:
+    CIRCLE_ENV: test
+    DATABASE_URL: mysql://ubuntu:@127.0.0.1:3306/
+
+## Customize dependencies
+dependencies:
+  pre:
+    - npm install  # install from a different package manager
+
+  override:
+    - npm install: # note ':' here
+        timeout: 180 # fail if command has no output for 3 minutes
+
+## Customize database setup
+database:
+  override:
+    - mysql -u ubuntu circle_test < server/db/schema.sql
+
+## Customize test commands
+test:
+  override:
+    - ./node_modules/grunt-cli/bin/grunt test # use grunt for testing
+
+## Customize deployment commands
+# deployment:
+#   staging:
+#     branch: master
+
+## Custom notifications
+# notify:
+#   webhooks:
+#     # A list of hashes representing hooks. Only the url field is supported.
+    # - url: https://someurl.com/hooks/circle
