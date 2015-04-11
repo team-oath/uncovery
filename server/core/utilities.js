@@ -42,22 +42,24 @@ exports.createResponseObjects = function(marks, user) {
 exports.saveImage = function(img64, callback) {
   if (img64) {
     var base64Data = img64.replace(/^data:image\/jpg;base64,/, '');
-    var filename = '/images/' + shortid.generate() + '.jpg';
+    var imgName = shortid.generate();
+    var filename = 'server/images/' + imgName + '.jpg';
 
-    fs.writeFile('server' + filename, base64Data, 'base64', function(err) {
+    fs.writeFile(filename, base64Data, 'base64', function(err) {
       if (err) console.log(err);
       if (callback) callback(filename);
     });
 
-    return filename;
+    return img;
   } else {
     return null;
   }
 };
 
-exports.getImage = function(path) {
+exports.getImage = function(imgName) {
   return new Promise(function(resolve, reject) {
-    fs.readFile('server' + path, function(err, img) {
+    var filename = 'server/images/' + imgName + '.jpg';
+    fs.readFile(filename, function(err, img) {
       if (err) {
         reject(err);
       } else {
