@@ -47,10 +47,10 @@ exports.saveImage = function(img64, callback) {
 
     fs.writeFile(filename, base64Data, 'base64', function(err) {
       if (err) console.log(err);
-      if (callback) callback(filename);
+      if (callback) callback(imgName);
     });
 
-    return img;
+    return imgName;
   } else {
     return null;
   }
