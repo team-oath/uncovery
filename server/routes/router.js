@@ -60,6 +60,19 @@ router.post('/comment', function (req, res) {
   res.sendStatus(200);
 });
 
+router.get('/comment', function(req, res) {
+  util.log('RECEIVED a GET request', req.query);
+  models.retrieveComments(+req.query.messageId)
+    .then(function(comments) {
+      util.log('SENT comments to user', comments);
+      res.status(200);
+      res.send(comments);
+    }, function(err) {
+      util.log('SENT error code to user', err);
+      res.sendStatus(400);
+    });
+});
+
 router.use(express.static(__dirname + '/../landing'));
 
 module.exports = router;
