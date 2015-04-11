@@ -1,8 +1,8 @@
 var db = require('./modelAdapters');
 var util = require('../core/utilities');
 
-//exports.createComment({message: 'Excellant, it works!', x: 535, y: 325, z: 325, userToken: 'live'});
-exports.createComment = function(userData) {
+//exports.createMessage({message: 'Excellant, it works!', x: 535, y: 325, z: 325, userToken: 'live'});
+exports.createMessage = function(userData) {
   return db.insert('messages', {messageString: userData.message}).then(function(success) {
     db.insert('marks', {
       x: userData.x,
@@ -16,6 +16,14 @@ exports.createComment = function(userData) {
     });
   });
 };
+
+//exports.createComment({messageId: 1, message: 'works'});
+exports.createComment = function(userData) {
+  return db.insert('comments',{
+    messageId: userData.messageId,
+    commentString: userData.message
+  });
+}
 
 //exports.createUser('grgrdg');
 exports.createUser = function(token) {

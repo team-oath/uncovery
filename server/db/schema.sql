@@ -25,6 +25,14 @@ CREATE TABLE messages (
   score int(5) DEFAULT 0
 );
 
+CREATE TABLE comments (
+  id int(5) AUTO_INCREMENT,
+  PRIMARY KEY (id),
+  commentString text,
+  messageId int(5),
+  FOREIGN KEY (messageId) REFERENCES messages(id)
+);
+
 CREATE TABLE votes (
   id int(5) AUTO_INCREMENT,
   PRIMARY KEY(id),
