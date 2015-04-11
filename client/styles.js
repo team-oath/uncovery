@@ -22,6 +22,17 @@ var styles = StyleSheet.create({
     color: '#007AFF',
     textAlign: 'center',
   },
+  uncoveryButton: {
+    marginBottom: 20,
+    backgroundColor: '#ff6800',
+    width: 160,
+    padding: 10,
+    alignItems: 'center',
+    alignSelf: 'center',
+  },
+  uncoveryButtonText: {
+    color: '#ffffff',
+  },
   textInput: {
     height: 70, 
     borderColor: '#B0C4DE', 
@@ -42,6 +53,10 @@ var styles = StyleSheet.create({
   row: {
     flex: 1,
   },
+  centerRow: {
+    flex: 1,
+    alignItems: 'center',
+  },
   image: {
     width: 177,
     height: 177,
@@ -51,6 +66,9 @@ var styles = StyleSheet.create({
   addImageButton: {
     textAlign: 'center',
     bottom: 20,
+    backgroundColor: '#ff6800',
+    color: '#ffffff',
+    padding: 5,
   },
   previewView: {
     top: 100,

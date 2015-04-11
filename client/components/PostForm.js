@@ -72,10 +72,10 @@ class PostForm extends React.Component {
     var preview;
     if (!POST_FORM.selectedImage){
       var viewStyle = styles.previewView;
-      preview = <Text style={styles.addImageButton}>Share a photo!</Text>
+      preview = <View style={styles.uncoveryButton}><Text style={ styles.uncoveryButtonText }>+ Share a photo!</Text></View>
     }else{
       var viewStyle = styles.previewViewWithImage;
-      preview = <View style={styles.row}><Image source={POST_FORM.selectedImage.node.image} style={styles.previewImage} /></View>
+      preview = <View style={styles.centerRow}><Image source={POST_FORM.selectedImage.node.image} style={styles.previewImage} /></View>
     }
 
     return (
