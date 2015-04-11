@@ -108,10 +108,12 @@ exports.retrieveMarks = function(userData) {
         'marks.userToken,',
         'messages.messageString,',
         'messages.score,',
+        'COUNT(comments.id),',
         'COUNT(votes.id)',
         'FROM marks',
         'LEFT JOIN messages ON messages.id = marks.messageId',
         'LEFT JOIN votes ON votes.messageId = messages.id',
+        'LEFT JOIN comments ON comments.messageId = messages.id',
         'GROUP BY marks.id, messages.id',
         'ORDER BY marks.timestamp DESC'
     ]).join(' ');

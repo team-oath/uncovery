@@ -29,6 +29,7 @@ exports.createResponseObjects = function(marks, user) {
       distance: exports.getDistanceFrom(mark, user),
       messageString: mark.messageString,
       votes: mark['COUNT(votes.id)'],
+      comments: mark['COUNT(comments.id)'],
       score: mark.score
     };
     responseObjects.push(responseObject);
