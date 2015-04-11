@@ -59,10 +59,6 @@ var Message = React.createClass({
   },
 
   _heartMessage: function(id) {
-
-    console.log(this.props)
-    console.log("I <3 you");
-
     fetch('http://uncovery.cloudapp.net/upvote', {
       method: 'POST',
       headers: {
@@ -73,7 +69,7 @@ var Message = React.createClass({
         userToken: this.props.userToken,
       })
     }).then(()=>{
-        this.props.fetchMessages();
+      this.props.fetchMessages();
     })
   }
 
