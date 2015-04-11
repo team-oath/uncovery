@@ -10,10 +10,9 @@ var Footer = React.createClass({
     return {
       numHearts: this.props.numHeartsIntial
     }
-
   },
 
-  render: function(){
+  render: function() {
     console.log("render?")
     return(
       <View style={{flexDirection: 'row'}}>
@@ -31,11 +30,24 @@ var Footer = React.createClass({
     )
   },
 
-  _heartMessage: function(){
-    var increment = this.state.numHearts+=1
+  _heartMessage: function() {
+
+    var increment = this.state.numHearts ? this.state.numHearts+=1 : 1;
     this.setState({numHearts: increment})
-    console.log(this.state)
+
+    fetch('http://uncovery.cloudapp.net/upvote', {
+      method: 'POST',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json'},
+      body: JSON.stringify({
+        messageId: this.props.messageId,
+        userToken: this.props.userToken,
+      })
+    })
+
   }
+  
 });
 
 var heartImage = {uri: 'https://pbs.twimg.com/media/BlXBfT3CQAA6cVZ.png:small'};

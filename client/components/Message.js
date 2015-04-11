@@ -10,6 +10,8 @@ var Message = React.createClass({
 
   render: function(body) {
 
+    var userToken = this.props.userToken;
+    var messageId = this.props.body.messageId;
     var messageString = this.props.body.messageString;
     var timestamp = this.props.body.timestamp;
     var distance = this.props.body.distance;
@@ -25,7 +27,13 @@ var Message = React.createClass({
           <Text></Text>
         </View>
         </TouchableOpacity>
-        <Footer timestamp={distance} distance={distance} numHeartsIntial={numHearts} />
+        <Footer 
+          userToken={userToken}
+          messageId={messageId}
+          timestamp={distance} 
+          distance={distance} 
+          numHeartsIntial={numHearts} 
+        />
       </View>
     );
   },
@@ -45,21 +53,6 @@ var Message = React.createClass({
         numComments: this.props.body.numComments,
         fetchMessages: this.props.fetchMessages,
       },
-    })
-  },
-
-  _heartMessage: function(id) {
-    fetch('http://uncovery.cloudapp.net/upvote', {
-      method: 'POST',
-      headers: {
-        'Accept': 'application/json',
-        'Content-Type': 'application/json'},
-      body: JSON.stringify({
-        messageId: this.props.body.messageId,
-        userToken: this.props.userToken,
-      })
-    }).then(()=>{
-      this.props.fetchMessages();
     })
   }
 
