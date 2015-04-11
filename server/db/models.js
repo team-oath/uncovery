@@ -5,7 +5,7 @@ var util = require('../core/utilities');
 exports.createMessage = function(userData) {
   return db.insert('messages', {
     messageString: userData.message,
-    messageImage: util.saveImage(userData.image)
+    image: util.saveImage(userData.image)
     }).then(function(messageSuccess) {
       return db.insert('marks', {
         x: userData.x,
