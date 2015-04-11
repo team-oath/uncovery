@@ -10,9 +10,9 @@ exports.getTimeElapsedSince = function(time) {
 // Use geolib.js to calculate distance from the mark to the user
 exports.getDistanceFrom = function(mark, user) {
   var dist = geolib.getDistance(
-    {latitude: user.x, longitude: user.y},
-    {latitude: mark.x, longitude: mark.y}
-  );
+      {latitude: user.x, longitude: user.y},
+      {latitude: mark.x, longitude: mark.y}
+      );
   return dist + 'm';
 };
 
@@ -53,4 +53,17 @@ exports.log = function(message, content) {
   console.log(moment().format("dddd, MMMM Do YYYY, h:mm:ss a"));
   console.log(message);
   console.log(content);
+};
+
+exports.rejectPOST = exports.rejectGET = function(req, res, err) {
+  res.sendStatus(400);
+};
+
+exports.resolveGET = function(req, res, success) {
+  res.status(200);
+  res.send(success);
+};
+
+exports.resolvePOST = function(req, res, success) {
+  res.sendStatus(201);
 };
