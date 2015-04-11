@@ -112,7 +112,8 @@ exports.retrieveMarks = function(userData) {
         'FROM marks',
         'LEFT JOIN messages ON messages.id = marks.messageId',
         'LEFT JOIN votes ON votes.messageId = messages.id',
-        'GROUP BY marks.id, messages.id'
+        'GROUP BY marks.id, messages.id',
+        'ORDER BY marks.timestamp DESC'
     ]).join(' ');
 
     var params = [

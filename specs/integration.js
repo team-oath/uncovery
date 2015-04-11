@@ -3,7 +3,7 @@ var expect = chai.expect;
 var models = require('../server/db/models');
 var request = require('request');
 var localServerUri = 'http://127.0.0.1:3000/';
-var GETUri = localServerUri + '?x=100.123456&y=-50.323&z=14.4244';
+var GETUri = localServerUri + 'messages/?x=100.123456&y=-50.323&z=14.4244';
 var testData = {x: 100.123456, y: -50.323, z: 14.4244, message: 'hello database!'};
 var testUser = {userToken: 'ABCDEFG'};
 
@@ -16,9 +16,8 @@ describe('server to database integration', function() {
   });
 
   it('should GET messages from the database', function(done) {
-    request(GETUri + 'messages', function(err, response, body) {
-      var messages = JSON.parse(response.body);
-      expect(messages).to.be.a('array');
+    request(GETUri, function(err, response, body) {
+      expect(response.statusCode).to.equal(200);
       done();
     });
   });
