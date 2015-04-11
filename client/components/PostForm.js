@@ -145,6 +145,9 @@ class PostForm extends React.Component {
           'Accept': 'application/json',
           'Content-Type': 'application/json'},
         body: JSON.stringify(data),
+      }).then(()=>{
+        console.log("safglhgsflkjsh")
+        Reactive.trigger('posted');
       });
 
     });
