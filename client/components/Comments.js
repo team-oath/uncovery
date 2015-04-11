@@ -101,10 +101,12 @@ class Comments extends React.Component {
                  </TouchableOpacity>
               </View> : 
               <View style={{justifyContent: 'flex-end'}}>
-                <Image
-                  source={heartImage}
-                  style={{width:20, height:20, marginRight: 4}}
-                />
+                <TouchableOpacity onPress={this._heartComment.bind(this)}>
+                  <Image
+                    source={heartImage}
+                    style={{width:20, height:20, marginRight: 4}}
+                  />
+                </TouchableOpacity>
               </View>}
             </View>
         </View>
@@ -171,6 +173,23 @@ class Comments extends React.Component {
       console.log('should re-render with new data')
       this.props.fetchMessages();
     })
+  }
+
+  _heartComment(){
+    console.log("I <3 you");
+    // fetch('http://uncovery.cloudapp.net/upvote', {
+    //   method: 'POST',
+    //   headers: {
+    //     'Accept': 'application/json',
+    //     'Content-Type': 'application/json'},
+    //   body: JSON.stringify({
+    //     messageId: this.props.commentId,
+    //     userToken: this.props.userToken,
+    //   })
+    // }).then(()=>{
+    //   console.log('should re-render with new data')
+    //   this.props.fetchData();
+    // })
   }
 }
 
