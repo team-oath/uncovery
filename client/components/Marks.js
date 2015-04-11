@@ -17,11 +17,11 @@ class Marks extends React.Component {
   }
 
   componentDidMount() {
-   this.fetchData();
+    this.fetchData();
   }
 
   render() {
-
+    
     if ( !this.state.loaded || !this.props.userToken ) {
       return this.renderLoadingView();
     }
@@ -40,19 +40,20 @@ class Marks extends React.Component {
 
   renderMessage(body) {
     var userToken = this.props.userToken;
+    var fetchMessages = this.fetchData.bind(this);
     return (
-      <Message body={body} userToken={userToken} navigator={this.props.navigator}/>
+      <Message body={body} userToken={userToken} navigator={this.props.navigator} fetchMessages={fetchMessages}/>
     );
   }
 
   renderLoadingView() {
-   return (
-     <View style={{flex: 1}}>
-       <Text>
-         Loading messages...
-       </Text>
-     </View>
-   );
+    return (
+      <View style={{flex: 1}}>
+        <Text>
+          Loading messages...
+        </Text>
+      </View>
+    );
   }
 
   fetchData(){
@@ -72,7 +73,7 @@ class Marks extends React.Component {
       fetch(requestURL)
         .then((response) => response.json())
         .then((responseData) => {
-          console.log(responseData)
+          this.props.lastFetch = responseData;
           this.setState({
             dataSource: this.state.dataSource.cloneWithRows(responseData),
             loaded: true,
