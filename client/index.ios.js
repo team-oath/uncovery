@@ -3,7 +3,7 @@
  */
 
 var React = require('react-native');
-var Messages = require('./components/Main/Messages/Messages.js');
+var Messages = require('./components/Main/Messages/index.js');
 var PostMessage = require('./components/Main/Messages/PostMessage.js');
 var styles = require('./styles.js');
 

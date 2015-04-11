@@ -1,6 +1,6 @@
 
 var React = require('react-native');
-var Comments = require('../Comments/Comments.js');
+var Comments = require('../Comments/index.js');
 var Footer = require('./Footer.js')
 var styles = require('../../../styles.js');
 

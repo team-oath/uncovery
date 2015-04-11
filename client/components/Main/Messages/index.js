@@ -1,7 +1,7 @@
 var React = require('react-native');
 var Message = require('./Message.js');
 var SideMenu = require('react-native-side-menu');
-var Menu = require('../../Menu/Menu.js')
+var Menu = require('../../Menu/index.js')
 
 var {View, ListView, Text, AsyncStorage} = React;
 
