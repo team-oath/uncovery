@@ -3,8 +3,8 @@
  */
 
 var React = require('react-native');
-var Marks = require('./components/Marks.js');
-var PostForm = require('./components/PostForm.js');
+var Messages = require('./components/Main/Messages/index.js');
+var PostMessage = require('./components/Main/Messages/PostMessage.js');
 var styles = require('./styles.js');
 
 var Reactive = require('./react-events.js')();
@@ -43,12 +43,12 @@ class Uncovery extends React.Component {
             rightButtonTitle: '+  ',
             onRightButtonPress: () => {
               this.refs.nav.push({
-                component: PostForm,
+                component: PostMessage,
                 title: 'Share',
                 passProps: {userToken: this.state.userToken},
               });
             },
-            component: Marks,
+            component: Messages,
             passProps: {
               userToken: this.state.userToken,
               currentPosition: this.state.currentPosition,

@@ -1,5 +1,5 @@
 var React = require('react-native');
-var styles = require('../styles.js');
+var styles = require('../../../styles.js');
 
 var {View, Text, TextInput} = React;
 
