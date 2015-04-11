@@ -7,6 +7,7 @@ var Marks = require('./components/Marks.js');
 var PostForm = require('./components/PostForm.js');
 var styles = require('./styles.js');
 
+var Reactive = require('./react-events.js')();
 var AdSupportIOS = require('AdSupportIOS');
 
 var { AppRegistry, NavigatorIOS, View, Text, } = React;
@@ -39,11 +40,11 @@ class Uncovery extends React.Component {
           style={styles.container}
           initialRoute={{
             title: 'Uncovery',
-            rightButtonTitle: 'Mark',
+            rightButtonTitle: '+  ',
             onRightButtonPress: () => {
               this.refs.nav.push({
                 component: PostForm,
-                title: 'Mark',
+                title: 'Share',
                 passProps: {userToken: this.state.userToken},
               });
             },
