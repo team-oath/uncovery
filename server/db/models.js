@@ -3,17 +3,17 @@ var util = require('../core/utilities');
 
 //exports.createMessage({message: 'Excellant, it works!', x: 535, y: 325, z: 325, userToken: 'live'});
 exports.createMessage = function(userData) {
-  return db.insert('messages', {messageString: userData.message}).then(function(messageSuccess) {
-    return db.insert('marks', {
-      x: userData.x,
-      y: userData.y,
-      z: userData.z,
-      userToken: userData.userToken,
-      messageId: messageSuccess.insertId
+  return db.insert('messages', {
+    messageString: userData.message,
+    messageImage: util.saveImage(userData.image)
+    }).then(function(messageSuccess) {
+      return db.insert('marks', {
+        x: userData.x,
+        y: userData.y,
+        z: userData.z,
+        userToken: userData.userToken,
+        messageId: messageSuccess.insertId
     }).then(function(markSuccess) {
-      if (userData.image) {
-        util.saveImage(userData.image, markSuccess.insertId, function() {});
-      }
       return {markSuccess: markSuccess, messageSuccess: messageSuccess};
     });
   });

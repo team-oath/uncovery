@@ -23,8 +23,8 @@ describe('Utilities', function() {
   });
 
   it('should save an image file', function(done) {
-    util.saveImage(img64, 'test', function() {
-      fs.unlink('./server/images/test.jpg', function(err) {
+    util.saveImage(img64, function(filename) {
+      fs.unlink('./server' + filename, function(err) {
         if (err) throw err;
         done();
       })
