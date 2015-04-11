@@ -1,7 +1,7 @@
 var chai = require('chai');
 var expect = chai.expect;
-var db = require('../server/db/config');
-var models = require('../server/db/models');
+var db = require('../server/db/config.js');
+var models = require('../server/db/models.js');
 
 describe('scoring', function() {
 
@@ -12,40 +12,39 @@ describe('scoring', function() {
     message: 'Brooks was here'
   };
 
-  var token = '' + Math.random();
+  var messageId;
 
-  var messageId = 1;
-
-  before(function() {
-    q.fcall(function(){
-      models.insert(testMessage, function(){})
-    }).then(function(){
-      models.createUser(token);
+  before(function(done) {
+    var token = '' + Math.random();
+    models.createUser(token).then(function() {
+      testMessage.userToken = token;
+      models.createMessage(testMessage).then(function(success) {
+        messageId = success.insertId
+        done();
+      });
     });
   });
 
-  it('should have votes created in db when createVote is called', function(done) {
-    setTimeout(function(done) {
-      models.createVote(messageId, token, function(err, res) {
+  xit('should have votes created in db when createVote is called', function(done) {
+      models.createVote(messageId, token).then(function(res) {
         expect(res.insertId).to.be.a('number');
         done();
       });
-    }.bind(this, done), 1000);
   });
 
-    it('should have score updated in db when updateScore is called', function(done) {
-      var amount = 100;
-      models.updateScore(messageId, amount, function(err, success) {
-        expect(!!success).to.equal(true);
-        done();
-      });
+  xit('should have score updated in db when updateScore is called', function(done) {
+    var amount = 100;
+    models.updateScore(messageId, amount, function(err, success) {
+      expect(!!success).to.equal(true);
+      done();
     });
+  });
 
-    it('should retrieve the specified table contents from db', function(done) {
-      var tableName = 'votes';
-      models.retrieveTable(tableName, function(err, success, fields) {
-        expect(fields[0].table).to.equal(tableName);
-        done();
-      });
+  xit('should retrieve the specified table contents from db', function(done) {
+    var tableName = 'votes';
+    models.retrieveTable(tableName, function(err, success, fields) {
+      expect(fields[0].table).to.equal(tableName);
+      done();
     });
+  });
 });
