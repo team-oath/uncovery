@@ -79,9 +79,14 @@ exports.deleteUser = function(userToken) {
 //deleteMessage(string messageId)
 exports.deleteMessage = function(messageId) {
   return db.deleteRow('messages', ['id', messageId]);
-}
+};
 
 //deleteMark(string markId)
 exports.deleteMark = function(markId) {
   return db.deleteRow('marks', ['id', markId]);
-}
+};
+
+//deleteVote(string voteId)
+exports.deleteVote = function(voteId) {
+  return db.deleteRow('votes', ['id', voteId]);
+};
