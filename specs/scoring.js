@@ -1,10 +1,9 @@
 var chai = require('chai');
 var expect = chai.expect;
-var db = require('../server/db/config');
-var models = require('../server/db/models');
-var q = require('q');
+var db = require('../server/db/config.js');
+var models = require('../server/db/models.js');
 
-xdescribe('scoring', function() {
+describe('scoring', function() {
 
   var testMessage = {
     x: 37.783599,
@@ -13,40 +12,38 @@ xdescribe('scoring', function() {
     message: 'Brooks was here'
   };
 
+  var messageId;
   var token = '' + Math.random();
 
-  var messageId = 1;
-
-  before(function() {
-    q.fcall(function(){
-      models.insert(testMessage, function(){})
-    }).then(function(){
-      models.createUser(token);
+  before(function(done) {
+    models.createUser(token).then(function() {
+      testMessage.userToken = token;
+      models.createMessage(testMessage).then(function(success) {
+        messageId = success.messageSuccess.insertId
+        done();
+      });
     });
   });
 
-  it('should have votes created in db when createVote is called', function(done) {
-    setTimeout(function(done) {
-      models.createVote(messageId, token, function(err, res) {
+  it('should have votes created when createVote is called', function(done) {
+      models.createVote(messageId, token).then(function(res) {
         expect(res.insertId).to.be.a('number');
         done();
       });
-    }.bind(this, done), 1000);
   });
 
-    it('should have score updated in db when updateScore is called', function(done) {
-      var amount = 100;
-      models.updateScore(messageId, amount, function(err, success) {
-        expect(!!success).to.equal(true);
-        done();
-      });
+  it('should have score updated when updateScore is called', function(done) {
+    var amount = 100;
+    models.updateScore(messageId, amount).then(function(success) {
+      expect(!!success).to.equal(true);
+      done();
     });
+  });
 
-    it('should retrieve the specified table contents from db', function(done) {
-      var tableName = 'votes';
-      models.retrieveTable(tableName, function(err, success, fields) {
-        expect(fields[0].table).to.equal(tableName);
-        done();
-      });
+  it('should retrieve votes when retrieveVotes is called', function(done) {
+    models.retrieveVotes(messageId).then(function(success) {
+      expect(success).to.be.a('number');
+      done();
     });
+  });
 });
