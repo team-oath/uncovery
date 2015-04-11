@@ -1,7 +1,6 @@
 var db = require('./config');
 var util = require('../core/utilities');
 
-db.initialize();
 
 // insert(string, object)
 exports.insert = function(table, data) {
