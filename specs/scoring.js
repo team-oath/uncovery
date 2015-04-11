@@ -13,19 +13,19 @@ describe('scoring', function() {
   };
 
   var messageId;
+  var token = '' + Math.random();
 
   before(function(done) {
-    var token = '' + Math.random();
     models.createUser(token).then(function() {
       testMessage.userToken = token;
       models.createMessage(testMessage).then(function(success) {
-        messageId = success.insertId
+        messageId = success.messageSuccess.insertId
         done();
       });
     });
   });
 
-  xit('should have votes created in db when createVote is called', function(done) {
+  it('should have votes created in db when createVote is called', function(done) {
       models.createVote(messageId, token).then(function(res) {
         expect(res.insertId).to.be.a('number');
         done();
