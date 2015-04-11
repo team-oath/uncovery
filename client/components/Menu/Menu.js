@@ -1,6 +1,6 @@
 
 var React = require('react-native');
-var PostForm = require('./PostForm.js')
+var PostForm = require('../PostForm.js')
 
 var { View, Text, StyleSheet, } = React;
 

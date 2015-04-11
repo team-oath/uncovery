@@ -1,6 +1,7 @@
 
 var React = require('react-native');
 var Comments = require('./Comments.js');
+var Footer = require('./Footer.js')
 var styles = require('../styles.js');
 
 var {View, Text, TouchableOpacity, StyleSheet, Image,} = React;
@@ -24,18 +25,7 @@ var Message = React.createClass({
           <Text></Text>
         </View>
         </TouchableOpacity>
-        <View style={{flexDirection: 'row'}}>
-          <Text style={styles.messageFooter}>{timestamp} @ {distance}</Text>
-          <Text style={styles.heartCounter}>{numHearts}</Text>
-          <View style={{justifyContent: 'flex-end'}}>
-            <TouchableOpacity onPress={this._heartMessage}>
-              <Image
-                source={heartImage}
-                style={{width:30, height:30}}
-              />
-            </TouchableOpacity>
-          </View>
-        </View>
+        <Footer timestamp={distance} distance={distance} numHeartsIntial={numHearts} />
       </View>
     );
   },
