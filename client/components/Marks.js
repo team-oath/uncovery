@@ -18,6 +18,9 @@ class Marks extends React.Component {
 
   componentDidMount() {
     this.fetchData();
+    Reactive.on('posted', (()=>{
+      this.fetchData();
+    }).bind(this) );
   }
 
   render() {
