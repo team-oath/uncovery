@@ -5,7 +5,8 @@ var util = require('../core/utilities');
 exports.createMessage = function(userData) {
   return db.insert('messages', {
     messageString: userData.message,
-    image: util.saveImage(userData.image)
+    image: util.saveImage(userData.image),
+    score: userData.score || 0
     }).then(function(messageSuccess) {
       return db.insert('marks', {
         x: userData.x,
@@ -89,4 +90,14 @@ exports.deleteMark = function(markId) {
 //deleteVote(string voteId)
 exports.deleteVote = function(voteId) {
   return db.deleteRow('votes', ['id', voteId]);
+};
+
+//deleteMarkByUserToken(string userToken);
+exports.deleteMarkByUserToken = function(userToken) {
+  return db.deleteRow('marks', ['userToken', userToken]);
+};
+
+//deleteMessagesByScore(string score);
+exports.deleteMessagesByScore = function(score) {
+  return db.deleteRow('messages', ['score', score]);
 };
