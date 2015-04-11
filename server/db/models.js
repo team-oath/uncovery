@@ -69,10 +69,9 @@ exports.retrieveComments = function(messageId) {
 };
 
 //delete(string tableName, [string key, string value]);
-exports.delete = db.delete;
+exports.deleteRow = db.deleteRow;
 
 //deleteUser(string userToken)
 exports.deleteUser = function(userToken) {
-  return db.delete('users', ['token', userToken]);
+  return db.deleteRow('users', ['token', userToken]);
 };
-
