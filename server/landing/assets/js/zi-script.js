@@ -35,13 +35,6 @@ $(document).ready( function() {
 	});
 
 
-	/*----------------------/
-	/* INIT FITVID
-	/*---------------------*/
-
-	$('.page-video-wrapper').fitVids();
-
-
 	/*-----------------------------/
 	/* FEATURE CONTENT SLIDER
 	/*---------------------------*/

@@ -45,7 +45,23 @@ module.exports = function(grunt) {
           'server/landing/assets/css/main.min.css': 'server/landing/sass/main.scss'
         }
       }
+    },
+    uglify: {
+    options: {
+      mangle: false
+    },
+    my_target: {
+      files: {
+        'server/landing/assets/js/app.min.js':
+        ['server/landing/assets/js/jquery.easing.min.js',
+        'server/landing/assets/js/plugins/bxslider/jquery.bxslider.js',
+        'server/landing/assets/js/plugins/slick/slick.js',
+        'server/landing/assets/js/plugins/localscroll/jquery.scrollTo-1.4.3.1-min.js',
+        'server/landing/assets/js/plugins/localscroll/jquery.localscroll-1.2.7-min.js',
+        'server/landing/assets/js/zi-script.js']
+      }
     }
+  }
   });
 
   grunt.loadNpmTasks('grunt-notify');
@@ -54,6 +70,7 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-express');
   grunt.loadNpmTasks('grunt-mocha-test');
   grunt.loadNpmTasks('grunt-contrib-sass');
+  grunt.loadNpmTasks('grunt-contrib-uglify');
 
   grunt.registerTask('default', [
     'jshint',
@@ -64,6 +81,10 @@ module.exports = function(grunt) {
 
   grunt.registerTask('test', [
     'mochaTest'
+  ]);
+
+  grunt.registerTask('js', [
+    'uglify'
   ]);
 
   grunt.registerTask('css', ['watch:css']);
