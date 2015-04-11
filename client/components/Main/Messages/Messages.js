@@ -1,12 +1,11 @@
 var React = require('react-native');
 var Message = require('./Message.js');
-var config = require('../config.js');
 var SideMenu = require('react-native-side-menu');
-var Menu = require('./Menu/Menu.js')
+var Menu = require('../../Menu/Menu.js')
 
 var {View, ListView, Text, AsyncStorage} = React;
 
-class Marks extends React.Component {
+class Messages extends React.Component {
 
   constructor(props) {
     super(props);
@@ -26,7 +25,6 @@ class Marks extends React.Component {
   }
 
   render() {
-
     var menu = <Menu navigator={this.props.navigator}/>;
     
     if ( !this.state.loaded || !this.props.userToken ) {
@@ -35,14 +33,14 @@ class Marks extends React.Component {
 
     return (
       <SideMenu menu={menu}>
-      <ListView
-        dataSource={this.state.dataSource}
-        renderRow={this.renderMessage.bind(this)}
-        style={{backgroundColor: '#D7E1EE', height: 400}}
-        initialListSize={10}
-        pageSize={4}
-        scrollRenderAheadDistance={2000} 
-        onScroll={this._handleScroll.bind(this)}/>
+        <ListView
+          dataSource={this.state.dataSource}
+          renderRow={this.renderMessage.bind(this)}
+          style={{backgroundColor: '#D7E1EE', height: 400}}
+          initialListSize={10}
+          pageSize={4}
+          scrollRenderAheadDistance={2000} 
+          onScroll={this._handleScroll.bind(this)}/>
       </SideMenu>
       );
   }
@@ -82,7 +80,8 @@ class Marks extends React.Component {
       fetch(requestURL)
         .then((response) => response.json())
         .then((responseData) => {
-          this.props.lastFetch = responseData;
+          console.log('**************** LAST', this.state.dataSource)
+          console.log('**************** FETCH', responseData)
           this.setState({
             dataSource: this.state.dataSource.cloneWithRows(responseData),
             loaded: true,
@@ -107,4 +106,4 @@ class Marks extends React.Component {
 
 };
 
-module.exports = Marks;
+module.exports = Messages;

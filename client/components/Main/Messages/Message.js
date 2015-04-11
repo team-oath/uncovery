@@ -1,15 +1,14 @@
 
 var React = require('react-native');
-var Comments = require('./Comments.js');
+var Comments = require('../Comments/Comments.js');
 var Footer = require('./Footer.js')
-var styles = require('../styles.js');
+var styles = require('../../../styles.js');
 
-var {View, Text, TouchableOpacity, StyleSheet, Image,} = React;
+var {View, Text, TouchableOpacity, StyleSheet,} = React;
 
 var Message = React.createClass({
 
   render: function(body) {
-
     var userToken = this.props.userToken;
     var messageId = this.props.body.messageId;
     var messageString = this.props.body.messageString;
@@ -17,15 +16,19 @@ var Message = React.createClass({
     var distance = this.props.body.distance;
     var numHearts = this.props.body.votes ? this.props.body.votes : null;
 
+    console.log(messageString, numHearts)
+
     return (
       <View style={[styles.buttonContents, {flexDirection: 'column'}]}>
         <TouchableOpacity onPress={this._onPressMessage}>
-        <View>
-          <Text></Text>
-          <Text style={styles.messageText}>{messageString}</Text>
-          <Text></Text>
-          <Text></Text>
-        </View>
+          <View>
+            <Text></Text>
+            <Text style={styles.messageText}>
+              {messageString}
+            </Text>
+            <Text></Text>
+            <Text></Text>
+          </View>
         </TouchableOpacity>
         <Footer 
           userToken={userToken}
@@ -39,7 +42,6 @@ var Message = React.createClass({
   },
 
   _onPressMessage: function() {
-
     this.props.navigator.push({
       component: Comments,
       passProps: {
@@ -55,9 +57,6 @@ var Message = React.createClass({
       },
     })
   }
-
 });
-
-var heartImage = {uri: 'https://pbs.twimg.com/media/BlXBfT3CQAA6cVZ.png:small'};
 
 module.exports = Message

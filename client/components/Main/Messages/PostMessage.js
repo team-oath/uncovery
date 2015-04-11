@@ -2,8 +2,7 @@
 var POST_FORM = {};
 
 var React = require('react-native');
-var styles = require("../styles.js");
-var config = require('../config.js');
+var styles = require("../../../styles.js");
 
 var { 
   
@@ -18,7 +17,7 @@ var {
 
 } = React;
 
-var CameraRollView = require('./CameraRollView.ios');
+var CameraRollView = require('../../CameraRollView.ios');
 
 class CameraRollExample extends React.Component {
 
@@ -52,7 +51,7 @@ class CameraRollExample extends React.Component {
 
 }
 
-class PostForm extends React.Component {
+class PostMessage extends React.Component {
   
   constructor(props) {
     super(props);
@@ -155,4 +154,4 @@ class PostForm extends React.Component {
 
 };
 
-module.exports = PostForm;
+module.exports = PostMessage;

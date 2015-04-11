@@ -1,6 +1,6 @@
 
 var React = require('react-native');
-var PostForm = require('../PostForm.js')
+var PostMessage = require('../Main/Messages/PostMessage.js')
 
 var { View, Text, StyleSheet, } = React;
 
@@ -8,7 +8,7 @@ var Menu = React.createClass({
   about: function() {
      this.props.menuActions.close();
      this.props.navigator.push({
-      component: PostForm,
+      component: PostMessage,
      });
    },
 
