@@ -1,5 +1,6 @@
 var moment = require('moment');
 var geolib = require('geolib');
+var shortid = require('shortid');
 var fs = require('fs');
 
 // Use moment.js to calculate how much time has elapsed since some prior time
@@ -38,15 +39,35 @@ exports.createResponseObjects = function(marks, user) {
   return responseObjects;
 };
 
-exports.saveImage = function(img64, filename, callback) {
-  var base64Data = img64.replace(/^data:image\/jpg;base64,/, '');
-  filename = './server/images/' + filename + '.jpg';
+exports.saveImage = function(img64, callback) {
+  if (img64) {
+    var base64Data = img64.replace(/^data:image\/jpg;base64,/, '');
+    var imgName = shortid.generate();
+    var filename = 'server/images/' + imgName + '.jpg';
 
-  fs.writeFile(filename, base64Data, 'base64', function(err) {
-    if (err) console.log(err);
-    callback();
-  });
+    fs.writeFile(filename, base64Data, 'base64', function(err) {
+      if (err) console.log(err);
+      if (callback) callback(imgName);
+    });
+
+    return imgName;
+  } else {
+    return null;
+  }
 };
+
+exports.getImage = function(imgName) {
+  return new Promise(function(resolve, reject) {
+    var filename = 'server/images/' + imgName + '.jpg';
+    fs.readFile(filename, function(err, img) {
+      if (err) {
+        reject(err);
+      } else {
+        resolve(img);
+      }
+    });
+  });
+}
 
 exports.log = function(message, content) {
   console.log('-------------------------------------------------------------------');

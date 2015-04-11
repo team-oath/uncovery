@@ -22,6 +22,7 @@ CREATE TABLE messages (
   id int(5) AUTO_INCREMENT,
   PRIMARY KEY (id),
   messageString text,
+  image varchar(255),
   score int(5) DEFAULT 0
 );
 
