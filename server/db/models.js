@@ -63,3 +63,7 @@ exports.updateScore = function(messageId, amount) {
 exports.retrieveVotes = function(messageId) {
   return db.retrieveCount('votes', ['messageId', messageId]);
 };
+
+exports.retrieveComments = function(messageId) {
+  return db.where('comments', ['messageId', messageId]);
+};
