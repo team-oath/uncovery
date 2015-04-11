@@ -1,6 +1,8 @@
 var React = require('react-native');
 var Message = require('./Message.js');
 var config = require('../config.js');
+var SideMenu = require('react-native-side-menu');
+var Menu = require('./Menu.js')
 
 var {View, ListView, Text, AsyncStorage} = React;
 
@@ -24,12 +26,15 @@ class Marks extends React.Component {
   }
 
   render() {
+
+    var menu = <Menu navigator={this.props.navigator}/>;
     
     if ( !this.state.loaded || !this.props.userToken ) {
       return this.renderLoadingView();
     }
 
     return (
+      <SideMenu menu={menu}>
       <ListView
         dataSource={this.state.dataSource}
         renderRow={this.renderMessage.bind(this)}
@@ -38,6 +43,7 @@ class Marks extends React.Component {
         pageSize={4}
         scrollRenderAheadDistance={2000} 
         onScroll={this._handleScroll.bind(this)}/>
+      </SideMenu>
       );
   }
 

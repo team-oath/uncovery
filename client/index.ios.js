@@ -6,6 +6,7 @@ var React = require('react-native');
 var Marks = require('./components/Marks.js');
 var PostForm = require('./components/PostForm.js');
 var styles = require('./styles.js');
+var SideMenu = require('react-native-side-menu');
 
 var Reactive = require('./react-events.js')();
 var AdSupportIOS = require('AdSupportIOS');
