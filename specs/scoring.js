@@ -2,9 +2,8 @@ var chai = require('chai');
 var expect = chai.expect;
 var db = require('../server/db/config');
 var models = require('../server/db/models');
-var q = require('q');
 
-xdescribe('scoring', function() {
+describe('scoring', function() {
 
   var testMessage = {
     x: 37.783599,
