@@ -52,6 +52,9 @@ class PostComment extends React.Component {
           'Accept': 'application/json',
           'Content-Type': 'application/json' },
         body: JSON.stringify({comment: commentData}),
+      }).then(()=>{
+        console.log('should re-render comments');
+        // this.props.fetchComments();
       });
     })
   }

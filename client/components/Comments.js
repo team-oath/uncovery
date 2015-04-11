@@ -42,15 +42,17 @@ class Comments extends React.Component {
 
   constructor(props){
     super(props);
+
     this.state = {
       dataSource: new ListView.DataSource({
         rowHasChanged: (row1, row2) => row1 !== row2,
       }),
       loaded: false,
+      update: false,
     };
   }
 
-  componentWillMount(){
+  componentDidMount(){
     this.fetchData()
   }
 
@@ -87,14 +89,16 @@ class Comments extends React.Component {
           <View style={{flexDirection: 'row'}}>
             <Text style={body.origin ? styles.messageFooter : styles.commentFooter}>{body.timestamp} @ {body.distance}</Text>
             { body.origin ? 
-              <Text style={styles.heartCounter}>{this.props.numHearts}</Text> :
+              <Text style={styles.heartCounter}>{body.numHearts ? body.numHearts : null}</Text> :
               <Text style={{marginBottom: 15}}></Text> }
             {body.origin ? 
               <View style={{justifyContent: 'flex-end'}}>
-                <Image
-                  source={heartImage}
-                  style={{width:30, height:30}}
-                />
+                <TouchableOpacity onPress={this._heartMessage.bind(this)}>
+                  <Image
+                    source={heartImage}
+                    style={{width:30, height:30}}
+                  />
+                 </TouchableOpacity>
               </View> : 
               <View style={{justifyContent: 'flex-end'}}>
                 <Image
@@ -128,6 +132,7 @@ class Comments extends React.Component {
       timestamp: this.props.timestamp, 
       distance: this.props.distance,
       numComments: this.props.numComments,
+      numHearts: this.props.numHearts,
     }
 
     MOCK_DATA.unshift(originMessage);
@@ -138,13 +143,33 @@ class Comments extends React.Component {
   }
 
   _postComment(){
+
     this.props.navigator.push({
       component: PostComment,
       passProps: {
         navigator: this.props.navigator,
         messageId: this.props.messageId,
         userToken: this.props.userToken,
+        fetchComments: this.fetchData.bind(this),
       },
+    })
+  }
+
+  _heartMessage(){
+    console.log("I <3 you");
+
+    fetch('http://uncovery.cloudapp.net/upvote', {
+      method: 'POST',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json'},
+      body: JSON.stringify({
+        messageId: this.props.messageId,
+        userToken: this.props.userToken,
+      })
+    }).then(()=>{
+      console.log('should re-render with new data')
+      this.props.fetchMessages();
     })
   }
 }
