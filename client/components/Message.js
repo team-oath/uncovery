@@ -8,12 +8,11 @@ var {View, Text, TouchableOpacity, StyleSheet, Image,} = React;
 var Message = React.createClass({
 
   render: function(body) {
+
     var messageString = this.props.body.messageString;
     var timestamp = this.props.body.timestamp;
     var distance = this.props.body.distance;
-    var numHearts = this.props.body.votes;
-
-    console.log('***********', this.props.body)
+    var numHearts = this.props.body.votes ? this.props.body.votes : null;
 
     return (
       <View style={[styles.buttonContents, {flexDirection: 'column'}]}>
@@ -54,13 +53,12 @@ var Message = React.createClass({
         distance: this.props.body.distance,
         numHearts: this.props.body.votes,
         numComments: this.props.body.numComments,
+        fetchMessages: this.props.fetchMessages,
       },
     })
   },
 
   _heartMessage: function(id) {
-    console.log("I <3 you");
-
     fetch('http://uncovery.cloudapp.net/upvote', {
       method: 'POST',
       headers: {
@@ -70,6 +68,8 @@ var Message = React.createClass({
         messageId: this.props.body.messageId,
         userToken: this.props.userToken,
       })
+    }).then(()=>{
+      this.props.fetchMessages();
     })
   }
 
