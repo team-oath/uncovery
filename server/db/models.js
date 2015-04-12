@@ -5,7 +5,8 @@ var util = require('../core/utilities');
 exports.createMessage = function(userData) {
   return db.insert('messages', {
     messageString: userData.message,
-    image: util.saveImage(userData.image)
+    image: util.saveImage(userData.image),
+    score: userData.score || 0
     }).then(function(messageSuccess) {
       return db.insert('marks', {
         x: userData.x,
@@ -40,9 +41,6 @@ exports.createVote = function(messageId, token) {
 //exports.retrieveMarks({x: 535, y: 325, z: 325}).then(callback(success));
 exports.retrieveMarks = db.retrieveMarks;
 
-//delete(string tableName, [string key, string value]);
-exports.delete = db.delete;
-
 //exports.retrieveScore(3).then(callback(success));
 exports.retrieveScore = function(messageId, objectToFill) {
   return new Promise(function(resolve, reject) {
@@ -69,4 +67,37 @@ exports.retrieveVotes = function(messageId) {
 //exports.retrieveComments(10).then(function(success){console.log(success)});
 exports.retrieveComments = function(messageId) {
   return db.where('comments', ['messageId', messageId]);
+};
+
+//delete(string tableName, [string key, string value]);
+exports.deleteRow = db.deleteRow;
+
+//deleteUser(string userToken)
+exports.deleteUser = function(userToken) {
+  return db.deleteRow('users', ['token', userToken]);
+};
+
+//deleteMessage(string messageId)
+exports.deleteMessage = function(messageId) {
+  return db.deleteRow('messages', ['id', messageId]);
+};
+
+//deleteMark(string markId)
+exports.deleteMark = function(markId) {
+  return db.deleteRow('marks', ['id', markId]);
+};
+
+//deleteVote(string voteId)
+exports.deleteVote = function(voteId) {
+  return db.deleteRow('votes', ['id', voteId]);
+};
+
+//deleteMarkByUserToken(string userToken);
+exports.deleteMarkByUserToken = function(userToken) {
+  return db.deleteRow('marks', ['userToken', userToken]);
+};
+
+//deleteMessagesByScore(string score);
+exports.deleteMessagesByScore = function(score) {
+  return db.deleteRow('messages', ['score', score]);
 };

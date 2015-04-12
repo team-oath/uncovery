@@ -64,8 +64,8 @@ exports.update = function(table, filters) {
   });
 };
 
-//delete(string tableName, [string key, string value]);
-exports.delete = function(table, filters) {
+//deleteRow(string tableName, [string key, string value]);
+exports.deleteRow = function(table, filters) {
   return new Promise(function(resolve, reject) {
     var params = ([table]).concat(filters);
     var query = 'DELETE FROM ?? WHERE ?? = ?';

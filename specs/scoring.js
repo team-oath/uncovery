@@ -5,43 +5,57 @@ var models = require('../server/db/models.js');
 
 describe('scoring', function() {
 
-  var testMessage = {
+  var testData = {
     x: 37.783599,
     y: -122.408974,
     z: 69,
-    message: 'Brooks was here'
+    message: 'Brooks was here',
+    userToken: 'foobar4',
+    messageId: null,
+    markId: null,
+    voteId: null
   };
 
-  var messageId;
-  var token = '' + Math.random();
-
   before(function(done) {
-    models.createUser(token).then(function() {
-      testMessage.userToken = token;
-      models.createMessage(testMessage).then(function(success) {
-        messageId = success.messageSuccess.insertId
+    models.createUser(testData.userToken).then(function() {
+      models.createMessage(testData).then(function(success) {
+        testData.messageId = success.messageSuccess.insertId;
+        testData.markId = success.markSuccess.insertId;
         done();
       });
     });
   });
 
-  it('should have votes created when createVote is called', function(done) {
-      models.createVote(messageId, token).then(function(res) {
-        expect(res.insertId).to.be.a('number');
-        done();
+  after(function(done) {
+    models.deleteMark(testData.markId).then(function() {
+      models.deleteVote(testData.voteId).then(function() {
+        models.deleteMessage(testData.messageId).then(function(err) {
+          models.deleteUser(testData.userToken).then(function() {
+            done();
+          });
+        });
       });
+    });
+  });
+
+  it('should have votes created when createVote is called', function(done) {
+    models.createVote(testData.messageId, testData.userToken).then(function(res) {
+      testData.voteId = res.insertId;
+      expect(testData.voteId).to.be.a('number');
+      done();
+    });
   });
 
   it('should have score updated when updateScore is called', function(done) {
     var amount = 100;
-    models.updateScore(messageId, amount).then(function(success) {
+    models.updateScore(testData.messageId, amount).then(function(success) {
       expect(!!success).to.equal(true);
       done();
     });
   });
 
   it('should retrieve votes when retrieveVotes is called', function(done) {
-    models.retrieveVotes(messageId).then(function(success) {
+    models.retrieveVotes(testData.messageId).then(function(success) {
       expect(success).to.be.a('number');
       done();
     });
