@@ -42,6 +42,7 @@ class Uncovery extends React.Component {
           titleTextColor = '#FFFFFF'
           initialRoute={{
             title: 'Uncovery',
+            titleTextColor:'#FFFFFF',
             rightButtonTitle: '+  ',
             onRightButtonPress: () => {
               this.refs.nav.push({
