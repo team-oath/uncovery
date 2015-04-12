@@ -6,13 +6,12 @@ var { View, Text, StyleSheet, TouchableOpacity, Image, } = React;
 
 var Footer = React.createClass({
 
-  // getInitialState: function(){
-  //   return {numHearts: this.props.numHearts, like: false}
-  // },
+  // TODO change logic heartPressed initial state
+    // if this.props.upvoted is true, then set to true
 
-  // componentWillReceiveProps: function(props){
-  //   this.setState({numHearts: this.props.numHearts})
-  // },
+  getInitialState: function(){
+    return {heartPressed: false}
+  },
 
   render: function() {
     return(
@@ -28,10 +27,17 @@ var Footer = React.createClass({
           </View>
           <View style={{flex:1}}>
             <TouchableOpacity onPress={this._heartMessage}>
+            { this.state.heartPressed ? 
+              <Image
+                source={heartFilled}
+                style={{width:30, height:30}}
+              />
+              :
               <Image
                 source={heartImage}
                 style={{width:30, height:30}}
               />
+            }
             </TouchableOpacity>
           </View>
         </View>
@@ -41,27 +47,11 @@ var Footer = React.createClass({
 
   _heartMessage: function() {
 
-    // if ( this.state.like === true) {
+      this.setState({
+        heartPressed: this.state.heartPressed ? false: true
+      })
 
-    //   // fetch('http://uncovery.cloudapp.net/upvote/', {
-    //   //   method: 'POST',
-    //   //   headers: {
-    //   //     'Accept': 'application/json',
-    //   //     'Content-Type': 'application/json'},
-    //   //   body: JSON.stringify({
-    //   //     messageId: this.props.messageId,
-    //   //     userToken: this.props.userToken,
-    //   //   })
-    //   // }).then(()=>{
-    //   //   this.props.fetchMessages();
-    //   // })
-
-
-    //   this.setState({like: false});
-    // } else {
       this.props.updateHearts();
-      // this.setState({numHearts: this.props.numHearts+1});
-
 
       fetch('http://uncovery.cloudapp.net/upvote', {
         method: 'POST',
@@ -72,19 +62,12 @@ var Footer = React.createClass({
           messageId: this.props.messageId,
           userToken: this.props.userToken,
         })
-      }).then(()=>{
-    
       })
-
-      
-    // }
-
-    
   }
   
 });
 
 var heartImage = {uri: 'https://pbs.twimg.com/media/BlXBfT3CQAA6cVZ.png:small'};
-var filledHeart = {uri: 'http://i.imgur.com/6aglIdZ.png?1'}
+var heartFilled = {uri: 'http://i.imgur.com/6aglIdZ.png?1'}
 
 module.exports = Footer;

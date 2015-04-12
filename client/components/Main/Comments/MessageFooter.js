@@ -7,7 +7,14 @@ var { View, Text, StyleSheet, TouchableOpacity, Image, } = React;
 var MessageFooter = React.createClass({
 
   getInitialState: function(){
-    return {numHearts: this.props.numHearts}
+
+    // TODO change logic heartPressed initial state
+      // if this.props.upvoted is true, then set to true
+
+    return {
+      numHearts: this.props.numHearts,
+      heartPressed: false,
+    }
   },
 
   render: function(){
@@ -26,10 +33,17 @@ var MessageFooter = React.createClass({
           </View>
           <View style={{flex:1}}>
             <TouchableOpacity onPress={this._heartMessage}>
+            {this.state.heartPressed ? 
+              <Image
+                source={heartFilled}
+                style={{width:30, height:30}}
+              />
+              :
               <Image
                 source={heartImage}
                 style={{width:30, height:30}}
               />
+            }
             </TouchableOpacity>
           </View>
         </View>
@@ -38,7 +52,10 @@ var MessageFooter = React.createClass({
   },
 
   _heartMessage: function(){
-    this.setState({ numHearts: this.state.numHearts+1 })
+    this.setState({
+      numHearts: this.state.numHearts+1,
+      heartPressed: this.state.heartPressed ? false : true,
+    })
 
     fetch('http://uncovery.cloudapp.net/upvote', {
       method: 'POST',
@@ -56,5 +73,6 @@ var MessageFooter = React.createClass({
 });
 
 var heartImage = {uri: 'https://pbs.twimg.com/media/BlXBfT3CQAA6cVZ.png:small'};
+var heartFilled = {uri: 'http://i.imgur.com/6aglIdZ.png?1'};
 
 module.exports = MessageFooter;

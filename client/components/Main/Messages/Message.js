@@ -44,7 +44,6 @@ var Message = React.createClass({
   },
 
   _onPressMessage: function() {
-
     var {message, ...props} = this.props;
     var {votes, ...message} = this.props.message;
     var numHearts = this.state.numHearts;
