@@ -13,7 +13,6 @@ class Comments extends React.Component {
 
   constructor(props){
     super(props);
-
     this.state = {
       dataSource: new ListView.DataSource({
         rowHasChanged: (row1, row2) => row1 !== row2,
@@ -23,7 +22,7 @@ class Comments extends React.Component {
   }
 
   componentDidMount(){
-    this.fetchData()
+    this.fetchComments()
   }
 
   render(){
@@ -84,13 +83,12 @@ class Comments extends React.Component {
         navigator={this.props.navigator}
         userToken={this.props.userToken}
         messageId={this.props.messageId}
-        fetchComments={this.fetchData.bind(this)}
+        fetchComments={this.fetchComments.bind(this)}
       />
     );
   }
 
-  fetchData(){
-
+  fetchComments(){
     var originMessage = {
       origin: true, 
       commentString:this.props.messageString, 
@@ -99,6 +97,10 @@ class Comments extends React.Component {
       numComments: this.props.numComments,
       numHearts: this.props.numHearts,
     }
+
+    this.setState({
+      dataSource: this.state.dataSource.cloneWithRows([originMessage]),
+    })
  
     fetch('http://uncovery.cloudapp.net/comment/?messageId='+this.props.messageId)
       .then((response) => response.json())
@@ -108,14 +110,8 @@ class Comments extends React.Component {
           dataSource: this.state.dataSource.cloneWithRows(responseData),
           loaded: true,
         });
-
-        this.render();
       })
       .done();
-
-    this.setState({
-      dataSource: this.state.dataSource.cloneWithRows([originMessage]),
-    })    
   }
 
 }

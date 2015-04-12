@@ -29,7 +29,7 @@ class Uncovery extends React.Component {
   render() {
     if (!this.state.userToken || !this.state.currentPosition){
       return (
-        <View style={{flex: 1}}>
+        <View style={{marginTop: 200, flex: 1}}>
           <Text>Loading messages...</Text>
         </View>
       );
@@ -68,7 +68,7 @@ class Uncovery extends React.Component {
       this.setState({currentPosition: currentPosition});
     }
 
-    var watchError = (error) => console.error(error);
+    var watchError = (error) => {console.error(error);}
 
     navigator.geolocation.getCurrentPosition(
       watchSucess, watchError

@@ -4,11 +4,9 @@ var PostComment = require('./PostComment.js')
 
 var { View, Text, StyleSheet, TouchableOpacity, } = React;
 
-
 var CommentsHeader = React.createClass({
 
   render: function(){
-    console.log('*******345345345*******', this.props)
     return (
       <View style={styles.commentHeaderButton}>
         <TouchableOpacity onPress={this._postComment}>

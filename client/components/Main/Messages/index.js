@@ -12,16 +12,18 @@ class Messages extends React.Component {
     super(props);
     this.state = {
       dataSource: new ListView.DataSource({
-        rowHasChanged: (row1, row2) => row1 !== row2,
+        rowHasChanged: (row1, row2) => {
+          return JSON.stringify(row1) !== JSON.stringify(row2)
+        },
       }),
       loaded: false,
     };
   }
 
   componentDidMount() {
-    this.fetchData();
+    this.fetchMessages();
     Reactive.on('posted', (()=>{
-      this.fetchData();
+      this.fetchMessages();
     }).bind(this) );
   }
 
@@ -41,16 +43,20 @@ class Messages extends React.Component {
           initialListSize={10}
           pageSize={4}
           scrollRenderAheadDistance={2000} 
-          onScroll={this._handleScroll.bind(this)}/>
+          onScroll={this._handleScroll.bind(this)}
+        />
       </SideMenu>
       );
   }
 
   renderMessage(body) {
-    var userToken = this.props.userToken;
-    var fetchMessages = this.fetchData.bind(this);
     return (
-      <Message body={body} userToken={userToken} navigator={this.props.navigator} fetchMessages={fetchMessages}/>
+      <Message 
+        body={body} 
+        userToken={this.props.userToken} 
+        navigator={this.props.navigator} 
+        fetchMessages={this.fetchMessages.bind(this)}
+      />
     );
   }
 
@@ -64,7 +70,8 @@ class Messages extends React.Component {
     );
   }
 
-  fetchData(){
+  fetchMessages(){
+    console.log('hello')
     var x = this.props.currentPosition.coords.latitude;
     var y = this.props.currentPosition.coords.longitude;
     var z = this.props.currentPosition.coords.altitude;
@@ -81,6 +88,7 @@ class Messages extends React.Component {
       fetch(requestURL)
         .then((response) => response.json())
         .then((responseData) => {
+          console.log(responseData)
           this.setState({
             dataSource: this.state.dataSource.cloneWithRows(responseData),
             loaded: true,
@@ -89,7 +97,7 @@ class Messages extends React.Component {
         .done();
     }
 
-    var watchError = (error) => console.error(error);
+    var watchError = (error) => {console.error(error)};
 
     navigator.geolocation.getCurrentPosition(
       watchSucess, watchError, watchOptions
@@ -99,7 +107,7 @@ class Messages extends React.Component {
   _handleScroll(event){
     var pullDown = event.nativeEvent.contentOffset.y < -200;
     if ( pullDown ){
-     this.fetchData();
+      this.fetchMessages();
     } 
   }
 

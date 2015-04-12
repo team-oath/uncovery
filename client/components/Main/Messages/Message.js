@@ -8,8 +8,15 @@ var { View, Text, TouchableOpacity, StyleSheet, } = React;
 
 var Message = React.createClass({
 
-  getIntialState: function(){
-    return {numHearts: this.props.body.votes}
+  getInitialState: function(){
+    return {
+      numHearts: this.props.body.votes
+    }
+  },
+
+  componentWillReceiveProps: function(props){
+    console.log(props, '*************')
+    this.setState({numHearts: props.body.votes})
   },
 
   render: function(body) {
@@ -18,7 +25,9 @@ var Message = React.createClass({
     var messageString = this.props.body.messageString;
     var timestamp = this.props.body.timestamp;
     var distance = this.props.body.distance;
-    var numHearts = this.props.body.votes ? this.props.body.votes : null;
+    var numHearts = this.state.numHearts;
+
+    console.log(messageString, numHearts)
 
     return (
       <View style={[styles.buttonContents, {flexDirection: 'column'}]}>
@@ -37,8 +46,9 @@ var Message = React.createClass({
           messageId={messageId}
           timestamp={timestamp} 
           distance={distance} 
-          numHeartsIntial={numHearts} 
-          updateHearts={this._updateHearts}
+          numHearts={numHearts} 
+          fetchMessages={this.props.fetchMessages}
+          updateHearts={this._updateHearts.bind(this)}
         />
       </View>
     );
@@ -54,17 +64,16 @@ var Message = React.createClass({
         messageString: this.props.body.messageString,
         timestamp: this.props.body.timestamp,
         distance: this.props.body.distance,
-        numHearts: this.props.body.votes,
+        numHearts: this.state.numHearts,
         numComments: this.props.body.numComments,
-        fetchMessages: this.props.fetchMessages,
+        fetchMessages: this._updateHearts.bind(this),
       },
     })
   },
 
   _updateHearts: function(){
-    var increment = this.props.body.votes ? this.props.body.votes+=1 : 1;
-    this.props.body.votes = increment;
-    this.setState({numHearts: this.props.body.votes})
+    var increment = this.state.numHearts + 1;
+    this.setState({numHearts: increment})
   }
 
 });

@@ -106,7 +106,6 @@ var styles = StyleSheet.create({
   messageFooter: {
     fontSize: 12, 
     color: 'grey', 
-    flex: 2, 
     paddingTop: 5, 
     paddingLeft: 12,
   },
@@ -127,7 +126,7 @@ var styles = StyleSheet.create({
   },
   heartCounter: {
     fontSize: 16, 
-    paddingTop: 5, 
+    paddingTop: 5,
     color: 'grey',
   },
   messageContainer: {

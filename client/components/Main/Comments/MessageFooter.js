@@ -12,10 +12,19 @@ var MessageFooter = React.createClass({
 
   render: function(){
     return (
-      <View style={{flexDirection: 'row'}}>
-        <Text style={styles.messageFooter}>{this.props.timestamp} @ {this.props.distance}</Text>
-        <Text style={styles.heartCounter}>{this.state.numHearts}</Text>
-          <View style={{justifyContent: 'flex-end'}}>
+      <View style={{flexDirection: 'row', justifyContent: 'space-between', alignItems: 'flex-end'}}>
+        <View style={styles.messageFooter}>
+          <Text>
+            {this.props.timestamp} @ {this.props.distance}
+          </Text>
+        </View>
+        <View style={{justifyContent: 'space-between', flexDirection: 'row'}}>
+          <View style={styles.heartCounter}>
+            <Text>
+              {this.state.numHearts}
+            </Text>
+          </View>
+          <View style={{flex:1}}>
             <TouchableOpacity onPress={this._heartMessage}>
               <Image
                 source={heartImage}
@@ -23,12 +32,13 @@ var MessageFooter = React.createClass({
               />
             </TouchableOpacity>
           </View>
+        </View>
       </View>
       );
   },
 
   _heartMessage: function(){
-    this.setState({ numHearts: this.state.numHearts+=1 })
+    this.setState({ numHearts: this.state.numHearts+1 })
 
     fetch('http://uncovery.cloudapp.net/upvote', {
       method: 'POST',
@@ -40,7 +50,6 @@ var MessageFooter = React.createClass({
         userToken: this.props.userToken,
       })
     }).then(()=>{
-      console.log('should re-render with new data')
       this.props.fetchMessages();
     })
   }
