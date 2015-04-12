@@ -23,7 +23,7 @@ exports.createMessage = function(userData) {
 exports.createComment = function(userData) {
   return db.insert('comments',{
     messageId: userData.messageId,
-    commentString: userData.message
+    commentString: userData.commentString
   });
 }
 
