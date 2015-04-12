@@ -40,7 +40,7 @@ class PostComment extends React.Component {
         y: location.coords.longitude,
         z: location.coords.altitude,
         messageId: this.props.messageId,
-        messageString: this.state.input,
+        commentString: this.state.input,
       }
 
       console.log("comment submited");
@@ -51,10 +51,11 @@ class PostComment extends React.Component {
         headers: {
           'Accept': 'application/json',
           'Content-Type': 'application/json' },
-        body: JSON.stringify({comment: commentData}),
+        body: JSON.stringify(commentData),
       }).then(()=>{
         console.log('should re-render comments');
-        // this.props.fetchComments();
+        console.log(this.props)
+        this.props.fetchComments();
       });
     })
   }

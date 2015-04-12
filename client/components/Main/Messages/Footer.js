@@ -6,13 +6,8 @@ var { View, Text, StyleSheet, TouchableOpacity, Image, } = React;
 
 var Footer = React.createClass({
 
-  getInitialState: function(){
-    return {
-      numHearts: this.props.numHeartsIntial
-    }
-  },
-
   render: function() {
+
     return(
       <View style={{flexDirection: 'row'}}>
         <Text style={styles.messageFooter}>{this.props.timestamp} @ {this.props.distance}</Text>
@@ -31,9 +26,7 @@ var Footer = React.createClass({
 
   _heartMessage: function() {
 
-    var increment = this.state.numHearts ? this.state.numHearts+=1 : 1;
-    this.props.numHeartsIntial = increment;
-    this.setState({numHearts: increment})
+    this.props.updateHearts();
 
     fetch('http://uncovery.cloudapp.net/upvote', {
       method: 'POST',
@@ -45,7 +38,6 @@ var Footer = React.createClass({
         userToken: this.props.userToken,
       })
     })
-
   }
   
 });

@@ -3,3 +3,4 @@ client/uncovery.xcodeproj/
 .DS_Store
 .sass-cache/
 server/images/*.jpg
+client/iOS/AppDelegate.m

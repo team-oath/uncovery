@@ -8,6 +8,7 @@ var { View, Text, StyleSheet, TouchableOpacity, } = React;
 var CommentsHeader = React.createClass({
 
   render: function(){
+    console.log('*******345345345*******', this.props)
     return (
       <View style={styles.commentHeaderButton}>
         <TouchableOpacity onPress={this._postComment}>
@@ -26,7 +27,7 @@ var CommentsHeader = React.createClass({
         navigator: this.props.navigator,
         messageId: this.props.messageId,
         userToken: this.props.userToken,
-        fetchComments: this.fetchData,
+        fetchComments: this.props.fetchComments,
       },
     })
   }

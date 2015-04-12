@@ -38,6 +38,8 @@ class Uncovery extends React.Component {
         <NavigatorIOS
           ref="nav"
           style={styles.container}
+          barTintColor= '#C0362C'
+          titleTextColor = '#FFFFFF'
           initialRoute={{
             title: 'Uncovery',
             rightButtonTitle: '+  ',

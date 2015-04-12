@@ -7,38 +7,6 @@ var CommentsHeader = require('./CommentsHeader.js')
 
 var styles = require('../../../styles.js');
 
-var MOCK_MESSAGE_1 = {
-  timestamp: 'now',
-  messageString: "I smell tasty hamburgers!!!"
-};
-
-var MOCK_MESSAGE_2 = {
-  timestamp: '5min ago',
-  messageString: "Order the pies, they are delisch"
-};
-
-var MOCK_MESSAGE_3 = {
-  timestamp: '1hr ago',
-  messageString: "I AM THE THUNDERGOD"
-};
-
-var MOCK_MESSAGE_4 = {
-  timestamp: '2 days ago',
-  messageString: "I like pies and fish and pottoes, I like pies and fish and pottoes, I like pies and fish and pottoes, I like pies and fish and pottoes"
-};
-
-var MOCK_MESSAGE_5 = {
-  timestamp: '2 days ago',
-  messageString: "I like pies and fish and pottoes, I like pies and fish and pottoes, I like pies and fish and pottoes, I like pies and fish and pottoes"
-};
-
-var MOCK_MESSAGE_6 = {
-  timestamp: '2 days ago',
-  messageString: "I like pies and fish and pottoes, I like pies and fish and pottoes, I like pies and fish and pottoes, I like pies and fish and pottoes"
-};
-
-var MOCK_DATA = [MOCK_MESSAGE_1, MOCK_MESSAGE_2, MOCK_MESSAGE_3, MOCK_MESSAGE_4, MOCK_MESSAGE_5, MOCK_MESSAGE_6];
-
 var {View, Text, Image, ListView, TouchableOpacity} = React;
 
 class Comments extends React.Component {
@@ -51,16 +19,11 @@ class Comments extends React.Component {
         rowHasChanged: (row1, row2) => row1 !== row2,
       }),
       loaded: false,
-      update: false,
     };
   }
 
   componentDidMount(){
     this.fetchData()
-  }
-
-  componentWillUnmount(){
-    MOCK_DATA.shift()
   }
 
   render(){
@@ -89,7 +52,7 @@ class Comments extends React.Component {
             <Text style={body.origin ? 
               styles.messageText : 
               styles.commentText} >
-              {body.messageString}
+              {body.commentString}
             </Text>
             <Text></Text>
             <Text></Text>
@@ -127,19 +90,31 @@ class Comments extends React.Component {
   }
 
   fetchData(){
+
     var originMessage = {
       origin: true, 
-      messageString:this.props.messageString, 
+      commentString:this.props.messageString, 
       timestamp: this.props.timestamp, 
       distance: this.props.distance,
       numComments: this.props.numComments,
       numHearts: this.props.numHearts,
     }
+ 
+    fetch('http://uncovery.cloudapp.net/comment/?messageId='+this.props.messageId)
+      .then((response) => response.json())
+      .then((responseData) => {
+        responseData.unshift(originMessage)
+        this.setState({
+          dataSource: this.state.dataSource.cloneWithRows(responseData),
+          loaded: true,
+        });
 
-    MOCK_DATA.unshift(originMessage);
+        this.render();
+      })
+      .done();
 
     this.setState({
-      dataSource: this.state.dataSource.cloneWithRows(MOCK_DATA),
+      dataSource: this.state.dataSource.cloneWithRows([originMessage]),
     })    
   }
 

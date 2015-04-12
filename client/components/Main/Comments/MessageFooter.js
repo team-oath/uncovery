@@ -28,7 +28,6 @@ var MessageFooter = React.createClass({
   },
 
   _heartMessage: function(){
-    console.log("I <3 you");
     this.setState({ numHearts: this.state.numHearts+=1 })
 
     fetch('http://uncovery.cloudapp.net/upvote', {

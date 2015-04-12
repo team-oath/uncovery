@@ -1,3 +1,4 @@
+
 var React = require('react-native');
 var Message = require('./Message.js');
 var SideMenu = require('react-native-side-menu');
@@ -80,8 +81,6 @@ class Messages extends React.Component {
       fetch(requestURL)
         .then((response) => response.json())
         .then((responseData) => {
-          console.log('**************** LAST', this.state.dataSource)
-          console.log('**************** FETCH', responseData)
           this.setState({
             dataSource: this.state.dataSource.cloneWithRows(responseData),
             loaded: true,
@@ -98,7 +97,7 @@ class Messages extends React.Component {
   }
 
   _handleScroll(event){
-    var pullDown = event.nativeEvent.contentOffset.y < -150;
+    var pullDown = event.nativeEvent.contentOffset.y < -200;
     if ( pullDown ){
      this.fetchData();
     } 

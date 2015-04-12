@@ -4,9 +4,13 @@ var Comments = require('../Comments/index.js');
 var Footer = require('./Footer.js')
 var styles = require('../../../styles.js');
 
-var {View, Text, TouchableOpacity, StyleSheet,} = React;
+var { View, Text, TouchableOpacity, StyleSheet, } = React;
 
 var Message = React.createClass({
+
+  getIntialState: function(){
+    return {numHearts: this.props.body.votes}
+  },
 
   render: function(body) {
     var userToken = this.props.userToken;
@@ -15,8 +19,6 @@ var Message = React.createClass({
     var timestamp = this.props.body.timestamp;
     var distance = this.props.body.distance;
     var numHearts = this.props.body.votes ? this.props.body.votes : null;
-
-    console.log(messageString, numHearts)
 
     return (
       <View style={[styles.buttonContents, {flexDirection: 'column'}]}>
@@ -33,9 +35,10 @@ var Message = React.createClass({
         <Footer 
           userToken={userToken}
           messageId={messageId}
-          timestamp={distance} 
+          timestamp={timestamp} 
           distance={distance} 
           numHeartsIntial={numHearts} 
+          updateHearts={this._updateHearts}
         />
       </View>
     );
@@ -56,7 +59,14 @@ var Message = React.createClass({
         fetchMessages: this.props.fetchMessages,
       },
     })
+  },
+
+  _updateHearts: function(){
+    var increment = this.props.body.votes ? this.props.body.votes+=1 : 1;
+    this.props.body.votes = increment;
+    this.setState({numHearts: this.props.body.votes})
   }
+
 });
 
 module.exports = Message
