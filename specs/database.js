@@ -1,68 +1,73 @@
 var chai = require('chai');
 var expect = chai.expect;
-var db = require('../server/db/config');
 var models = require('../server/db/models');
 
-var request = require('request');
-var localServerUri = 'http://127.0.0.1:3000/';
+var messageData = {
+  message: 'Excellant, it works!',
+  x: 10,
+  y: 10,
+  z: 10,
+  userToken: 'foobar',
+  score: -10
+};
+
 
 xdescribe('database storage', function() {
 
-  after(function() {
-    models.removeData('marks', 'x', 37.783600);
-    models.removeData('messages', 'messageString', '"Brooks was here"');
+    before(function(done) {
+      models.createUser(messageData.userToken).then(function() {
+        done();
+      });
+    });
+  var voteId;
+
+  it('should create a new message, user, and mark', function(done) {
+    models.createMessage(messageData).then(function(success) {
+      messageData.id = success.messageSuccess.insertId;
+      expect(messageData.id).to.be.a('number');
+      done();
+    });
   });
 
-  var messageId, userId;
-  var testData = {
-    x: 37.783599,
-    y: -122.408974,
-    z: 69,
-    message: 'Brooks was here'
-  };
-  var invalidTestData = {
-    x: 37.783599,
-    y: -122.408974,
-    z: 69
-  };
-  var testLocation = {
-    x: 42.938233,
-    y: -160.423029,
-    z: 1
-  };
-
-  it('should validate user input', function(done) {
-    models.insert(invalidTestData, function(msg) {
-      expect(msg).to.equal('Could not insert new message: invalid input.');
+  it('should create a new comment', function(done) {
+    models.createComment({messageId: messageData.id, message: 'works'}).then(function(success) {
+      var id = success.insertId;
+      expect(id).to.be.a('number');
       done();
-    })
+    });
   });
 
-  it('should add messages to the database', function(done) {
-    models.insert(testData, function(msg) {
-      expect(msg).to.equal('Successfully inserted new message and mark to database.');
+  it('should create a new vote', function(done) {
+    models.createVote(messageData.id, messageData.userToken).then(function(success) {
+      voteId = success.insertId;
+      expect(voteId).to.be.a('number');
       done();
-    })
+    });
   });
 
-  it('should retrieve an array of messages from the database', function(done) {
-    models.retrieve(testData, function(messages) {
-      expect(messages).to.be.instanceof(Array);
+  it('should delete a mark when provided with a user token', function(done) { 
+    models.deleteMarkByUserToken(messageData.userToken).then(function(success) {
+      expect(!!success).to.equal(true);
       done();
-    })
+    });
   });
 
-  it('should retrieve messages that are near the user', function(done) {
-    models.retrieve(testData, function(messages) {
-      expect(messages).to.be.not.empty;
+
+  //deleteVote(string voteId)
+
+  it('should delete a vote when provided with the voteId', function(done) {
+    models.deleteVote(voteId).then(function(success) {
+      var id = success.insertId;
+      expect(id).to.be.a('number');
       done();
-    })
+    });
   });
 
-  it('should not retrieve messages that are not near the user', function(done) {
-    models.retrieve(testLocation, function(messages) {
-      expect(messages).to.be.empty;
+  it('should delete a user when provided with a user token', function(done) {
+    models.deleteUser(messageData.userToken).then(function(success) {
+      expect(!!success).to.equal(true);
       done();
-    })
+    }, function(err){console.log(err)}); 
   });
 });
+
