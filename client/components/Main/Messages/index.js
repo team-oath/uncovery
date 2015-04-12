@@ -4,7 +4,7 @@ var Message = require('./Message.js');
 var SideMenu = require('react-native-side-menu');
 var Menu = require('../../Menu/index.js')
 
-var {View, ListView, Text, AsyncStorage} = React;
+var {View, ListView, Text, ActivityIndicatorIOS} = React;
 
 class Messages extends React.Component {
 
@@ -17,6 +17,7 @@ class Messages extends React.Component {
         },
       }),
       loaded: false,
+      reloading: false,
     };
   }
 
@@ -37,6 +38,7 @@ class Messages extends React.Component {
     return (
       <SideMenu menu={menu}>
         <ListView
+          {...this.props}
           dataSource={this.state.dataSource}
           renderRow={this.renderMessage.bind(this)}
           style={{backgroundColor: '#D7E1EE', height: 400}}
@@ -44,6 +46,7 @@ class Messages extends React.Component {
           pageSize={4}
           scrollRenderAheadDistance={2000} 
           onScroll={this._handleScroll.bind(this)}
+          renderHeader={this.renderHeader.bind(this)}
         />
       </SideMenu>
       );
@@ -70,8 +73,27 @@ class Messages extends React.Component {
     );
   }
 
+  renderHeader(){
+    if (this.state.reloading) {
+      return (
+        <View style={{flex: 1, justifyContent: 'space-around', alignItems: 'center',backgroundColor: '#D7E1EE',height: 50,marginTop: 10,}}>
+          <View style={{flex: 1, justifyContent: 'space-around', alignItems: 'center',backgroundColor: '#D7E1EE',height: 50,}}>
+            <ActivityIndicatorIOS 
+              animating='true'
+              style={{alignItems: 'center',justifyContent: 'center'}}
+              size="large" 
+            />
+          </View>
+        </View>
+      )
+    }
+
+    return null;
+         
+       
+  }
+
   fetchMessages(){
-    console.log('hello')
     var x = this.props.currentPosition.coords.latitude;
     var y = this.props.currentPosition.coords.longitude;
     var z = this.props.currentPosition.coords.altitude;
@@ -85,19 +107,35 @@ class Messages extends React.Component {
 
     var watchSucess = (currentPosition) => {
       this.props[currentPosition] = currentPosition;
+      this.setState({reloading: true})
       fetch(requestURL)
-        .then((response) => response.json())
+        .then((response) => {
+          return response.json()
+        })
         .then((responseData) => {
-          console.log(responseData)
-          this.setState({
-            dataSource: this.state.dataSource.cloneWithRows(responseData),
-            loaded: true,
-          });
+          setTimeout(()=>{
+            this.willReload = false;
+            this.setState({
+              dataSource: this.state.dataSource.cloneWithRows(responseData),
+              loaded: true,
+              reloading: false,
+            })
+          }, 300)
+         
         })
         .done();
     }
 
     var watchError = (error) => {console.error(error)};
+    console.log(this.willReload, this.state.reloading)
+
+    if (this.willReload || this.state.reloading) {
+      console.log('$$$$$$$$$$$$$$')
+      return
+    }
+
+    console.log('************************')
+    this.willReload = true;
 
     navigator.geolocation.getCurrentPosition(
       watchSucess, watchError, watchOptions
@@ -105,10 +143,11 @@ class Messages extends React.Component {
   }
 
   _handleScroll(event){
-    var pullDown = event.nativeEvent.contentOffset.y < -200;
+    var pullDown = event.nativeEvent.contentOffset.y < -100;
     if ( pullDown ){
       this.fetchMessages();
     } 
+    this.props.onScroll && this.props.onScroll(e)
   }
 
 };
