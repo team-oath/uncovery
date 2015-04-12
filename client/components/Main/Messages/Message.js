@@ -10,21 +10,20 @@ var Message = React.createClass({
 
   getInitialState: function(){
     return {
-      numHearts: this.props.body.votes
+      numHearts: this.props.message.votes
     }
   },
 
   componentWillReceiveProps: function(props){
-    console.log(props, '*************')
-    this.setState({numHearts: props.body.votes})
+    this.setState({numHearts: props.message.votes})
   },
 
-  render: function(body) {
+  render: function(message) {
     var userToken = this.props.userToken;
-    var messageId = this.props.body.messageId;
-    var messageString = this.props.body.messageString;
-    var timestamp = this.props.body.timestamp;
-    var distance = this.props.body.distance;
+    var messageId = this.props.message.messageId;
+    var messageString = this.props.message.messageString;
+    var timestamp = this.props.message.timestamp;
+    var distance = this.props.message.distance;
     var numHearts = this.state.numHearts;
 
     console.log(messageString, numHearts)
@@ -55,17 +54,19 @@ var Message = React.createClass({
   },
 
   _onPressMessage: function() {
+
+
     this.props.navigator.push({
       component: Comments,
       passProps: {
         navigator: this.props.navigator,
         userToken: this.props.userToken,
-        messageId: this.props.body.messageId,
-        messageString: this.props.body.messageString,
-        timestamp: this.props.body.timestamp,
-        distance: this.props.body.distance,
+        messageId: this.props.message.messageId,
+        messageString: this.props.message.messageString,
+        timestamp: this.props.message.timestamp,
+        distance: this.props.message.distance,
         numHearts: this.state.numHearts,
-        numComments: this.props.body.numComments,
+        numComments: this.props.message.numComments,
         fetchMessages: this._updateHearts.bind(this),
       },
     })

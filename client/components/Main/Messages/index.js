@@ -4,7 +4,7 @@ var Message = require('./Message.js');
 var SideMenu = require('react-native-side-menu');
 var Menu = require('../../Menu/index.js')
 
-var {View, ListView, Text, ActivityIndicatorIOS} = React;
+var { View, ListView, Text, ActivityIndicatorIOS, } = React;
 
 class Messages extends React.Component {
 
@@ -41,21 +41,21 @@ class Messages extends React.Component {
           {...this.props}
           dataSource={this.state.dataSource}
           renderRow={this.renderMessage.bind(this)}
+          renderHeader={this.renderHeader.bind(this)}
           style={{backgroundColor: '#D7E1EE', height: 400}}
           initialListSize={10}
           pageSize={4}
           scrollRenderAheadDistance={2000} 
           onScroll={this._handleScroll.bind(this)}
-          renderHeader={this.renderHeader.bind(this)}
         />
       </SideMenu>
       );
   }
 
-  renderMessage(body) {
+  renderMessage(message) {
     return (
       <Message 
-        body={body} 
+        message={message} 
         userToken={this.props.userToken} 
         navigator={this.props.navigator} 
         fetchMessages={this.fetchMessages.bind(this)}
@@ -89,8 +89,6 @@ class Messages extends React.Component {
     }
 
     return null;
-         
-       
   }
 
   fetchMessages(){
@@ -127,14 +125,9 @@ class Messages extends React.Component {
     }
 
     var watchError = (error) => {console.error(error)};
-    console.log(this.willReload, this.state.reloading)
 
-    if (this.willReload || this.state.reloading) {
-      console.log('$$$$$$$$$$$$$$')
-      return
-    }
+    if (this.willReload || this.state.reloading) return
 
-    console.log('************************')
     this.willReload = true;
 
     navigator.geolocation.getCurrentPosition(
