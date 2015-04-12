@@ -3,12 +3,12 @@
  */
 
 var React = require('react-native');
+var Reactive = require('./react-events.js')();
+var AdSupportIOS = require('AdSupportIOS');
+
 var Messages = require('./components/Main/Messages/index.js');
 var PostMessage = require('./components/Main/Messages/PostMessage.js');
 var styles = require('./styles.js');
-
-var Reactive = require('./react-events.js')();
-var AdSupportIOS = require('AdSupportIOS');
 
 var { AppRegistry, NavigatorIOS, View, Text, } = React;
 

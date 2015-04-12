@@ -39,35 +39,35 @@ class Comments extends React.Component {
     );
   }
 
-  renderMessage(body) {
+  renderMessage(message) {
     return(
       <View>
         <View 
-          style={[styles.row, body.origin ? 
+          style={[styles.row, message.origin ? 
             styles.messageContainer : 
             styles.commentContainer]} >
           <View>
             <Text></Text>
-            <Text style={body.origin ? 
+            <Text style={message.origin ? 
               styles.messageText : 
               styles.commentText} >
-              {body.commentString}
+              {message.commentString}
             </Text>
             <Text></Text>
             <Text></Text>
           </View>
-          { body.origin ? 
+          { message.origin ? 
           <MessageFooter 
-            timestamp={body.timestamp} 
-            distance={body.distance} 
-            numHearts={body.numHearts ? body.numHearts : null}
+            timestamp={message.timestamp} 
+            distance={message.distance} 
+            numHearts={message.numHearts ? message.numHearts : null}
             userToken={this.props.userToken}
             messageId={this.props.messageId}
             fetchMessages={this.props.fetchMessages} 
           /> : 
           <CommentFooter 
-            timestamp={body.timestamp} 
-            distance={body.distance} 
+            timestamp={message.timestamp} 
+            distance={message.distance} 
             userToken={this.props.userToken}
             messageId={this.props.messageId} 
           /> }

@@ -19,14 +19,7 @@ var Message = React.createClass({
   },
 
   render: function(message) {
-    var userToken = this.props.userToken;
-    var messageId = this.props.message.messageId;
-    var messageString = this.props.message.messageString;
-    var timestamp = this.props.message.timestamp;
-    var distance = this.props.message.distance;
-    var numHearts = this.state.numHearts;
-
-    console.log(messageString, numHearts)
+    var {votes, messageString, ...footer} = this.props.message
 
     return (
       <View style={[styles.buttonContents, {flexDirection: 'column'}]}>
@@ -40,13 +33,10 @@ var Message = React.createClass({
             <Text></Text>
           </View>
         </TouchableOpacity>
-        <Footer 
-          userToken={userToken}
-          messageId={messageId}
-          timestamp={timestamp} 
-          distance={distance} 
-          numHearts={numHearts} 
-          fetchMessages={this.props.fetchMessages}
+        <Footer
+          {...footer} 
+          numHearts={this.state.numHearts} 
+          userToken={this.props.userToken}
           updateHearts={this._updateHearts.bind(this)}
         />
       </View>
@@ -55,20 +45,18 @@ var Message = React.createClass({
 
   _onPressMessage: function() {
 
-
+    var {message, ...props} = this.props;
+    var {votes, ...message} = this.props.message;
+    var numHearts = this.state.numHearts;
+    var fetchMessages = this._updateHearts.bind(this);
+  
     this.props.navigator.push({
       component: Comments,
-      passProps: {
-        navigator: this.props.navigator,
-        userToken: this.props.userToken,
-        messageId: this.props.message.messageId,
-        messageString: this.props.message.messageString,
-        timestamp: this.props.message.timestamp,
-        distance: this.props.message.distance,
-        numHearts: this.state.numHearts,
-        numComments: this.props.message.numComments,
-        fetchMessages: this._updateHearts.bind(this),
-      },
+      passProps: Object.assign(
+        {...message}, 
+        {...props}, 
+        {numHearts}, 
+        {fetchMessages}),
     })
   },
 
