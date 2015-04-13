@@ -4,7 +4,7 @@ var Comments = require('../Comments/index.js');
 var Footer = require('./Footer.js')
 var styles = require('../../../styles.js');
 
-var { View, Text, TouchableOpacity, StyleSheet, } = React;
+var { View, Text, TouchableOpacity, Image, StyleSheet, } = React;
 
 var Message = React.createClass({
 
@@ -19,12 +19,21 @@ var Message = React.createClass({
   },
 
   render: function(message) {
-    var {votes, messageString, ...footer} = this.props.message
+    var {votes, messageString, comments, image, ...footer} = this.props.message
+
+    var thumbnail;
+
+    if (!image){
+      thumbnail = <Image style={{width: 100, height:100}} source={{uri: 'http://facebook.github.io/react/img/logo_og.png'}} />
+    }
+
+    console.log("!!!!!!!!!!!  Comments", comments, image);
 
     return (
       <View style={[styles.buttonContents, {flexDirection: 'column'}]}>
         <TouchableOpacity onPress={this._onPressMessage}>
           <View>
+            {thumbnail}
             <Text></Text>
             <Text style={styles.messageText}>
               {messageString}
