@@ -106,6 +106,7 @@ exports.retrieveMarks = function(userData) {
         'marks.messageId,',
         'marks.userToken,',
         'messages.messageString,',
+        'messages.image,',
         'messages.score,',
         'COUNT(comments.id),',
         'COUNT(votes.id)',

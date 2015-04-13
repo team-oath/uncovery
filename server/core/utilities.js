@@ -29,6 +29,7 @@ exports.createMessageResponseObjects = function(marks, user) {
       distance: exports.getDistanceFrom(mark, user),
       messageId: mark.messageId,
       messageString: mark.messageString,
+      image: mark.image,
       score: mark.score,
       votes: mark['COUNT(votes.id)'],
       comments: mark['COUNT(comments.id)']
