@@ -14,16 +14,17 @@ class PostComment extends React.Component {
 
   render(){
     return (
-    <TextInput
-      editable={true}
-      enablesReturnKeyAutomatically={true}
-      autoCorrect={false}
-      returnKeyType={'send'}
-      placeholder={'Be nice and make a comment...'}
-      style={[styles.textInput,{marginTop:150}]}
-      onChangeText={(text) => this.setState({input: text})}
-      onSubmitEditing={()=>{this._submit()}}/>
-    )
+      <TextInput
+        editable={true}
+        enablesReturnKeyAutomatically={true}
+        autoCorrect={false}
+        returnKeyType={'send'}
+        placeholder={'Be nice and make a comment...'}
+        style={[styles.textInput,{marginTop:150}]}
+        onChangeText={(text) => this.setState({input: text})}
+        onSubmitEditing={()=>{this._submit()}}
+      />
+    );
   }
 
   _submit(){
@@ -32,29 +33,21 @@ class PostComment extends React.Component {
   }
 
   _postComment(){
-
     navigator.geolocation.getCurrentPosition((location)=>{
-
-      var commentData = {
-        x: location.coords.latitude,
-        y: location.coords.longitude,
-        z: location.coords.altitude,
-        messageId: this.props.messageId,
-        messageString: this.state.input,
-      }
-
-      console.log("comment submited");
-      console.log(commentData);
-
       fetch('http://uncovery.cloudapp.net/comment', {
         method: 'POST',
         headers: {
           'Accept': 'application/json',
           'Content-Type': 'application/json' },
-        body: JSON.stringify({comment: commentData}),
+        body: JSON.stringify({
+          x: location.coords.latitude,
+          y: location.coords.longitude,
+          z: location.coords.altitude,
+          messageId: this.props.messageId,
+          commentString: this.state.input,
+        })
       }).then(()=>{
-        console.log('should re-render comments');
-        // this.props.fetchComments();
+        this.props.fetchComments();
       });
     })
   }

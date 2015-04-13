@@ -7,60 +7,22 @@ var CommentsHeader = require('./CommentsHeader.js')
 
 var styles = require('../../../styles.js');
 
-var MOCK_MESSAGE_1 = {
-  timestamp: 'now',
-  messageString: "I smell tasty hamburgers!!!"
-};
-
-var MOCK_MESSAGE_2 = {
-  timestamp: '5min ago',
-  messageString: "Order the pies, they are delisch"
-};
-
-var MOCK_MESSAGE_3 = {
-  timestamp: '1hr ago',
-  messageString: "I AM THE THUNDERGOD"
-};
-
-var MOCK_MESSAGE_4 = {
-  timestamp: '2 days ago',
-  messageString: "I like pies and fish and pottoes, I like pies and fish and pottoes, I like pies and fish and pottoes, I like pies and fish and pottoes"
-};
-
-var MOCK_MESSAGE_5 = {
-  timestamp: '2 days ago',
-  messageString: "I like pies and fish and pottoes, I like pies and fish and pottoes, I like pies and fish and pottoes, I like pies and fish and pottoes"
-};
-
-var MOCK_MESSAGE_6 = {
-  timestamp: '2 days ago',
-  messageString: "I like pies and fish and pottoes, I like pies and fish and pottoes, I like pies and fish and pottoes, I like pies and fish and pottoes"
-};
-
-var MOCK_DATA = [MOCK_MESSAGE_1, MOCK_MESSAGE_2, MOCK_MESSAGE_3, MOCK_MESSAGE_4, MOCK_MESSAGE_5, MOCK_MESSAGE_6];
-
 var {View, Text, Image, ListView, TouchableOpacity} = React;
 
 class Comments extends React.Component {
 
   constructor(props){
     super(props);
-
     this.state = {
       dataSource: new ListView.DataSource({
         rowHasChanged: (row1, row2) => row1 !== row2,
       }),
       loaded: false,
-      update: false,
     };
   }
 
   componentDidMount(){
-    this.fetchData()
-  }
-
-  componentWillUnmount(){
-    MOCK_DATA.shift()
+    this.fetchComments()
   }
 
   render(){
@@ -77,35 +39,35 @@ class Comments extends React.Component {
     );
   }
 
-  renderMessage(body) {
+  renderMessage(message) {
     return(
       <View>
         <View 
-          style={[styles.row, body.origin ? 
+          style={[styles.row, message.origin ? 
             styles.messageContainer : 
             styles.commentContainer]} >
           <View>
             <Text></Text>
-            <Text style={body.origin ? 
+            <Text style={message.origin ? 
               styles.messageText : 
               styles.commentText} >
-              {body.messageString}
+              {message.commentString}
             </Text>
             <Text></Text>
             <Text></Text>
           </View>
-          { body.origin ? 
+          { message.origin ? 
           <MessageFooter 
-            timestamp={body.timestamp} 
-            distance={body.distance} 
-            numHearts={body.numHearts ? body.numHearts : null}
+            timestamp={message.timestamp} 
+            distance={message.distance} 
+            numHearts={message.numHearts ? message.numHearts : null}
             userToken={this.props.userToken}
             messageId={this.props.messageId}
             fetchMessages={this.props.fetchMessages} 
           /> : 
           <CommentFooter 
-            timestamp={body.timestamp} 
-            distance={body.distance} 
+            timestamp={message.timestamp} 
+            distance={message.distance} 
             userToken={this.props.userToken}
             messageId={this.props.messageId} 
           /> }
@@ -121,26 +83,35 @@ class Comments extends React.Component {
         navigator={this.props.navigator}
         userToken={this.props.userToken}
         messageId={this.props.messageId}
-        fetchComments={this.fetchData.bind(this)}
+        fetchComments={this.fetchComments.bind(this)}
       />
     );
   }
 
-  fetchData(){
+  fetchComments(){
     var originMessage = {
       origin: true, 
-      messageString:this.props.messageString, 
+      commentString:this.props.messageString, 
       timestamp: this.props.timestamp, 
       distance: this.props.distance,
       numComments: this.props.numComments,
       numHearts: this.props.numHearts,
     }
 
-    MOCK_DATA.unshift(originMessage);
-
     this.setState({
-      dataSource: this.state.dataSource.cloneWithRows(MOCK_DATA),
-    })    
+      dataSource: this.state.dataSource.cloneWithRows([originMessage]),
+    })
+ 
+    fetch('http://uncovery.cloudapp.net/comment/?messageId='+this.props.messageId)
+      .then((response) => response.json())
+      .then((responseData) => {
+        responseData.unshift(originMessage)
+        this.setState({
+          dataSource: this.state.dataSource.cloneWithRows(responseData),
+          loaded: true,
+        });
+      })
+      .done();
   }
 
 }

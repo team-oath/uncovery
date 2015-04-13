@@ -1,9 +1,10 @@
+
 var React = require('react-native');
 var Message = require('./Message.js');
 var SideMenu = require('react-native-side-menu');
 var Menu = require('../../Menu/index.js')
 
-var {View, ListView, Text, AsyncStorage} = React;
+var { View, ListView, Text, ActivityIndicatorIOS, } = React;
 
 class Messages extends React.Component {
 
@@ -11,16 +12,19 @@ class Messages extends React.Component {
     super(props);
     this.state = {
       dataSource: new ListView.DataSource({
-        rowHasChanged: (row1, row2) => row1 !== row2,
+        rowHasChanged: (row1, row2) => {
+          return JSON.stringify(row1) !== JSON.stringify(row2)
+        },
       }),
       loaded: false,
+      reloading: false,
     };
   }
 
   componentDidMount() {
-    this.fetchData();
+    this.fetchMessages();
     Reactive.on('posted', (()=>{
-      this.fetchData();
+      this.fetchMessages();
     }).bind(this) );
   }
 
@@ -34,22 +38,28 @@ class Messages extends React.Component {
     return (
       <SideMenu menu={menu}>
         <ListView
+          {...this.props}
           dataSource={this.state.dataSource}
           renderRow={this.renderMessage.bind(this)}
+          renderHeader={this.renderHeader.bind(this)}
           style={{backgroundColor: '#D7E1EE', height: 400}}
           initialListSize={10}
           pageSize={4}
           scrollRenderAheadDistance={2000} 
-          onScroll={this._handleScroll.bind(this)}/>
+          onScroll={this._handleScroll.bind(this)}
+        />
       </SideMenu>
       );
   }
 
-  renderMessage(body) {
-    var userToken = this.props.userToken;
-    var fetchMessages = this.fetchData.bind(this);
+  renderMessage(message) {
     return (
-      <Message body={body} userToken={userToken} navigator={this.props.navigator} fetchMessages={fetchMessages}/>
+      <Message 
+        message={message} 
+        userToken={this.props.userToken} 
+        navigator={this.props.navigator} 
+        fetchMessages={this.fetchMessages.bind(this)}
+      />
     );
   }
 
@@ -63,7 +73,25 @@ class Messages extends React.Component {
     );
   }
 
-  fetchData(){
+  renderHeader(){
+    if (this.state.reloading) {
+      return (
+        <View style={{flex: 1, justifyContent: 'space-around', alignItems: 'center',backgroundColor: '#D7E1EE',height: 50,marginTop: 10,}}>
+          <View style={{flex: 1, justifyContent: 'space-around', alignItems: 'center',backgroundColor: '#D7E1EE',height: 50,}}>
+            <ActivityIndicatorIOS 
+              animating='true'
+              style={{alignItems: 'center',justifyContent: 'center'}}
+              size="large" 
+            />
+          </View>
+        </View>
+      )
+    }
+
+    return null;
+  }
+
+  fetchMessages(){
     var x = this.props.currentPosition.coords.latitude;
     var y = this.props.currentPosition.coords.longitude;
     var z = this.props.currentPosition.coords.altitude;
@@ -77,20 +105,30 @@ class Messages extends React.Component {
 
     var watchSucess = (currentPosition) => {
       this.props[currentPosition] = currentPosition;
+      this.setState({reloading: true})
       fetch(requestURL)
-        .then((response) => response.json())
+        .then((response) => {
+          return response.json()
+        })
         .then((responseData) => {
-          console.log('**************** LAST', this.state.dataSource)
-          console.log('**************** FETCH', responseData)
-          this.setState({
-            dataSource: this.state.dataSource.cloneWithRows(responseData),
-            loaded: true,
-          });
+          setTimeout(()=>{
+            this.willReload = false;
+            this.setState({
+              dataSource: this.state.dataSource.cloneWithRows(responseData),
+              loaded: true,
+              reloading: false,
+            })
+          }, 300)
+         
         })
         .done();
     }
 
-    var watchError = (error) => console.error(error);
+    var watchError = (error) => {console.error(error)};
+
+    if (this.willReload || this.state.reloading) return
+
+    this.willReload = true;
 
     navigator.geolocation.getCurrentPosition(
       watchSucess, watchError, watchOptions
@@ -98,10 +136,11 @@ class Messages extends React.Component {
   }
 
   _handleScroll(event){
-    var pullDown = event.nativeEvent.contentOffset.y < -150;
+    var pullDown = event.nativeEvent.contentOffset.y < -100;
     if ( pullDown ){
-     this.fetchData();
+      this.fetchMessages();
     } 
+    this.props.onScroll && this.props.onScroll(e)
   }
 
 };

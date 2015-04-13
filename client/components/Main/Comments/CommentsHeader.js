@@ -4,7 +4,6 @@ var PostComment = require('./PostComment.js')
 
 var { View, Text, StyleSheet, TouchableOpacity, } = React;
 
-
 var CommentsHeader = React.createClass({
 
   render: function(){
@@ -26,7 +25,7 @@ var CommentsHeader = React.createClass({
         navigator: this.props.navigator,
         messageId: this.props.messageId,
         userToken: this.props.userToken,
-        fetchComments: this.fetchData,
+        fetchComments: this.props.fetchComments,
       },
     })
   }

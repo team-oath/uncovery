@@ -3,12 +3,12 @@
  */
 
 var React = require('react-native');
+var Reactive = require('./react-events.js')();
+var AdSupportIOS = require('AdSupportIOS');
+
 var Messages = require('./components/Main/Messages/index.js');
 var PostMessage = require('./components/Main/Messages/PostMessage.js');
 var styles = require('./styles.js');
-
-var Reactive = require('./react-events.js')();
-var AdSupportIOS = require('AdSupportIOS');
 
 var { AppRegistry, NavigatorIOS, View, Text, } = React;
 
@@ -29,7 +29,7 @@ class Uncovery extends React.Component {
   render() {
     if (!this.state.userToken || !this.state.currentPosition){
       return (
-        <View style={{flex: 1}}>
+        <View style={{marginTop: 200, flex: 1}}>
           <Text>Loading messages...</Text>
         </View>
       );
@@ -38,8 +38,11 @@ class Uncovery extends React.Component {
         <NavigatorIOS
           ref="nav"
           style={styles.container}
+          barTintColor= '#C0362C'
+          titleTextColor = '#FFFFFF'
           initialRoute={{
             title: 'Uncovery',
+            titleTextColor:'#FFFFFF',
             rightButtonTitle: '+  ',
             onRightButtonPress: () => {
               this.refs.nav.push({
@@ -66,7 +69,7 @@ class Uncovery extends React.Component {
       this.setState({currentPosition: currentPosition});
     }
 
-    var watchError = (error) => console.error(error);
+    var watchError = (error) => {console.error(error);}
 
     navigator.geolocation.getCurrentPosition(
       watchSucess, watchError
