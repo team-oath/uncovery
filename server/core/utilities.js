@@ -50,13 +50,13 @@ exports.createCommentResponseObjects = function(marks, user) {
         timestamp: exports.getTimeElapsedSince(mark.timestamp),
         distance: exports.getDistanceFrom(mark, user),
         commentId: mark.commentId,
-        commentString: mark.commentString,
-        votes: mark['COUNT(votes.id)']
+        commentString: mark.commentString
+        // votes: mark['COUNT(votes.id)']
       };
       responseObjects.push(responseObject);
     }
   });
-
+  console.log(responseObjects);
   return responseObjects;
 };
 

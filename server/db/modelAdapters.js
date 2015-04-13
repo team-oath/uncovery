@@ -147,10 +147,10 @@ exports.retrieveComments = function(userData) {
       'marks.commentId,',
       'marks.userToken,',
       'comments.commentString,',
-      'COUNT(votes.id)',
+      // 'COUNT(votes.id)',
       'FROM comments',
       'LEFT JOIN marks ON marks.commentId = comments.id',
-      'LEFT JOIN votes ON votes.commentId = comments.id',
+      // 'LEFT JOIN votes ON votes.commentId = comments.id',
       'WHERE comments.messageId = ?',
       'ORDER BY marks.timestamp DESC'
     ]).join(' ');
