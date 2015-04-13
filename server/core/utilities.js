@@ -19,19 +19,37 @@ exports.getDistanceFrom = function(mark, user) {
 
 // The object we pull from the database has specific data (time/location)
 // Here we create a new object that has data that is relevant to the user
-exports.createResponseObjects = function(marks, user) {
+exports.createMessageResponseObjects = function(marks, user) {
   var responseObjects = [];
   var responseObject;
 
   marks.forEach(function(mark) {
     responseObject = {
-      messageId: mark.messageId,
       timestamp: exports.getTimeElapsedSince(mark.timestamp),
       distance: exports.getDistanceFrom(mark, user),
+      messageId: mark.messageId,
       messageString: mark.messageString,
+      score: mark.score,
       votes: mark['COUNT(votes.id)'],
-      comments: mark['COUNT(comments.id)'],
-      score: mark.score
+      comments: mark['COUNT(comments.id)']
+    };
+    responseObjects.push(responseObject);
+  });
+
+  return responseObjects;
+};
+
+exports.createCommentResponseObjects = function(marks, user) {
+  var responseObjects = [];
+  var responseObject;
+
+  marks.forEach(function(mark) {
+    responseObject = {
+      timestamp: exports.getTimeElapsedSince(mark.timestamp),
+      distance: exports.getDistanceFrom(mark, user),
+      commentId: mark.commentId,
+      commentString: mark.commentString,
+      votes: mark['COUNT(votes.id)']
     };
     responseObjects.push(responseObject);
   });

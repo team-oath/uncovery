@@ -5,7 +5,7 @@ var request = require('request');
 
 var localServerUri = 'http://127.0.0.1:3000/';
 var getMessagesUri = localServerUri + 'messages/?x=100&y=100&z=100';
-var getCommentsUri = localServerUri + 'comment';
+var getCommentsUri = localServerUri + 'comment/?x=100&y=100&z=100';
 var testUser = {userToken: 'ABCDEFG'};
 var postData = {url: localServerUri + 'usertoken', form: testUser};
 var testMsg = {x: 100, y: 100, z: 100, message: 'hello database!', userToken: testUser.userToken};
@@ -68,7 +68,7 @@ describe('server to database integration', function() {
   });
 
   it('should GET comments from the database', function(done) {
-    getCommentsUri += '/?messageId=' + testComment.messageId;
+    getCommentsUri += '&messageId=' + testComment.messageId;
     request(getCommentsUri, function(err, response) {
       expect(response.statusCode).to.equal(200);
       done();

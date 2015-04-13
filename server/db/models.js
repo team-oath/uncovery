@@ -84,9 +84,10 @@ exports.retrieveVotes = function(messageId) {
 };
 
 //exports.retrieveComments(10).then(function(success){console.log(success)});
-exports.retrieveComments = function(messageId) {
-  return db.where('comments', ['messageId', messageId]);
-};
+exports.retrieveComments = db.retrieveComments;
+// exports.retrieveComments = function(messageId) {
+//   return db.where('comments', ['messageId', messageId]);
+// };
 
 //delete(string tableName, [string key, string value]);
 exports.deleteRow = db.deleteRow;

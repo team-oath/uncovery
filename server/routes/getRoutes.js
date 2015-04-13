@@ -13,7 +13,7 @@ module.exports = function(router) {
 
   //{messageId: string}
   router.get('/comment', function(req, res) {
-    models.retrieveComments(req.query.messageId).then(
+    models.retrieveComments(req.query).then(
       util.resolveGET.bind(this, req, res),
       util.rejectGET.bind(this, req, res)
       );

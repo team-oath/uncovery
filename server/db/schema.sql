@@ -16,6 +16,7 @@ CREATE TABLE marks (
   commentId int(5) NULL,
   userToken VARCHAR(255),
   FOREIGN KEY (messageId) REFERENCES messages(id),
+  FOREIGN KEY (commentId) REFERENCES comments(id),
   FOREIGN KEY (userToken) REFERENCES users(token)
 );
 
@@ -42,7 +43,8 @@ CREATE TABLE votes (
   messageId int(5) NULL,
   commentId int(5) NULL,
   FOREIGN KEY (userToken) REFERENCES users(token),
-  FOREIGN KEY (messageId) REFERENCES messages(id)
+  FOREIGN KEY (messageId) REFERENCES messages(id),
+  FOREIGN KEY (commentId) REFERENCES comments(id)
 );
 
 CREATE TABLE users (
