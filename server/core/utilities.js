@@ -45,14 +45,16 @@ exports.createCommentResponseObjects = function(marks, user) {
   var responseObject;
 
   marks.forEach(function(mark) {
-    responseObject = {
-      timestamp: exports.getTimeElapsedSince(mark.timestamp),
-      distance: exports.getDistanceFrom(mark, user),
-      commentId: mark.commentId,
-      commentString: mark.commentString,
-      votes: mark['COUNT(votes.id)']
-    };
-    responseObjects.push(responseObject);
+    if (mark.id !== null) {
+      responseObject = {
+        timestamp: exports.getTimeElapsedSince(mark.timestamp),
+        distance: exports.getDistanceFrom(mark, user),
+        commentId: mark.commentId,
+        commentString: mark.commentString,
+        votes: mark['COUNT(votes.id)']
+      };
+      responseObjects.push(responseObject);
+    }
   });
 
   return responseObjects;
