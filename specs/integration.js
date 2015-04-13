@@ -18,15 +18,21 @@ describe('server to database integration', function() {
 
   after(function(done) {
     models.deleteRow('marks', ['x', testMsg.x])
-      .then(function() {
-        models.deleteRow('messages', ['messageString', testMsg.message])
-      }).then(function() {
-        models.deleteRow('users', ['token', testUser.userToken])
-      }).then(function() {
-        models.deleteRow('comments', ['commentString', testComment.comment])
-      }).then(function() {
-        done();
-      });
+    .then(function() {
+      return models.deleteRow('marks', ['x', testComment.x]);
+    })
+    .then(function() {
+      return models.deleteRow('comments', ['commentString', testComment.commentString])
+    })
+    .then(function() {
+      return models.deleteRow('messages', ['messageString', testMsg.message])
+    })
+    .then(function() {
+      return models.deleteRow('users', ['token', testUser.userToken])
+    })
+    .then(function() {
+      done();
+    });
   });
 
   it('should POST a new user token to the database', function(done) {
