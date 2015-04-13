@@ -40,6 +40,15 @@ class Comments extends React.Component {
   }
 
   renderMessage(message) {
+
+    var thumbnail;
+
+//    if (!image && ){
+      if (message.origin){
+        thumbnail = <Image style={{width: window.width, height:100}} source={{uri: 'http://facebook.github.io/react/img/logo_og.png'}} />
+      }
+//    }
+
     return(
       <View>
         <View 
@@ -47,6 +56,7 @@ class Comments extends React.Component {
             styles.messageContainer : 
             styles.commentContainer]} >
           <View>
+            {thumbnail}
             <Text></Text>
             <Text style={message.origin ? 
               styles.messageText : 

@@ -24,10 +24,8 @@ var Message = React.createClass({
     var thumbnail;
 
     if (!image){
-      thumbnail = <Image style={{width: 100, height:100}} source={{uri: 'http://facebook.github.io/react/img/logo_og.png'}} />
+      thumbnail = <Image style={{width: window.width, height:100}} source={{uri: 'http://facebook.github.io/react/img/logo_og.png'}} />
     }
-
-    console.log("!!!!!!!!!!!  Comments", comments, image);
 
     return (
       <View style={[styles.buttonContents, {flexDirection: 'column'}]}>
@@ -62,7 +60,7 @@ var Message = React.createClass({
       component: Comments,
       passProps: Object.assign(
         {...message}, 
-        {...props}, 
+        {...props},
         {numHearts}, 
         {fetchMessages}),
     })
