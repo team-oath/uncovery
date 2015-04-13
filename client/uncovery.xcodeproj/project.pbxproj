@@ -22,6 +22,16 @@
 		13B07FC11A68108700A75B9A /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB71A68108700A75B9A /* main.m */; };
 		146834051AC3E58100842450 /* libReact.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 146834041AC3E56700842450 /* libReact.a */; };
 		832341BD1AAA6AB300B99B32 /* libRCTText.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 832341B51AAA6A8300B99B32 /* libRCTText.a */; };
+		C1CB42571ADC4698003A405B /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = C1CB424D1ADC4698003A405B /* Default-568h@2x.png */; };
+		C1CB42581ADC4698003A405B /* Default-667h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = C1CB424E1ADC4698003A405B /* Default-667h@2x.png */; };
+		C1CB42591ADC4698003A405B /* Default-Landscape-736h@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = C1CB424F1ADC4698003A405B /* Default-Landscape-736h@3x.png */; };
+		C1CB425A1ADC4698003A405B /* Default-Landscape.png in Resources */ = {isa = PBXBuildFile; fileRef = C1CB42501ADC4698003A405B /* Default-Landscape.png */; };
+		C1CB425B1ADC4698003A405B /* Default-Landscape@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = C1CB42511ADC4698003A405B /* Default-Landscape@2x.png */; };
+		C1CB425C1ADC4698003A405B /* Default-Portrait-736h@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = C1CB42521ADC4698003A405B /* Default-Portrait-736h@3x.png */; };
+		C1CB425D1ADC4698003A405B /* Default-Portrait.png in Resources */ = {isa = PBXBuildFile; fileRef = C1CB42531ADC4698003A405B /* Default-Portrait.png */; };
+		C1CB425E1ADC4698003A405B /* Default-Portrait@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = C1CB42541ADC4698003A405B /* Default-Portrait@2x.png */; };
+		C1CB425F1ADC4698003A405B /* Default.png in Resources */ = {isa = PBXBuildFile; fileRef = C1CB42551ADC4698003A405B /* Default.png */; };
+		C1CB42601ADC4698003A405B /* Default@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = C1CB42561ADC4698003A405B /* Default@2x.png */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -109,6 +119,16 @@
 		13B07FB71A68108700A75B9A /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = main.m; path = iOS/main.m; sourceTree = "<group>"; };
 		146833FF1AC3E56700842450 /* React.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = React.xcodeproj; path = "node_modules/react-native/React/React.xcodeproj"; sourceTree = "<group>"; };
 		832341B01AAA6A8300B99B32 /* RCTText.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTText.xcodeproj; path = "node_modules/react-native/Libraries/Text/RCTText.xcodeproj"; sourceTree = "<group>"; };
+		C1CB424D1ADC4698003A405B /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Default-568h@2x.png"; path = "img/Default-568h@2x.png"; sourceTree = "<group>"; };
+		C1CB424E1ADC4698003A405B /* Default-667h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Default-667h@2x.png"; path = "img/Default-667h@2x.png"; sourceTree = "<group>"; };
+		C1CB424F1ADC4698003A405B /* Default-Landscape-736h@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Default-Landscape-736h@3x.png"; path = "img/Default-Landscape-736h@3x.png"; sourceTree = "<group>"; };
+		C1CB42501ADC4698003A405B /* Default-Landscape.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Default-Landscape.png"; path = "img/Default-Landscape.png"; sourceTree = "<group>"; };
+		C1CB42511ADC4698003A405B /* Default-Landscape@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Default-Landscape@2x.png"; path = "img/Default-Landscape@2x.png"; sourceTree = "<group>"; };
+		C1CB42521ADC4698003A405B /* Default-Portrait-736h@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Default-Portrait-736h@3x.png"; path = "img/Default-Portrait-736h@3x.png"; sourceTree = "<group>"; };
+		C1CB42531ADC4698003A405B /* Default-Portrait.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Default-Portrait.png"; path = "img/Default-Portrait.png"; sourceTree = "<group>"; };
+		C1CB42541ADC4698003A405B /* Default-Portrait@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Default-Portrait@2x.png"; path = "img/Default-Portrait@2x.png"; sourceTree = "<group>"; };
+		C1CB42551ADC4698003A405B /* Default.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = Default.png; path = img/Default.png; sourceTree = "<group>"; };
+		C1CB42561ADC4698003A405B /* Default@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Default@2x.png"; path = "img/Default@2x.png"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -191,6 +211,16 @@
 		13B07FAE1A68108700A75B9A /* uncovery */ = {
 			isa = PBXGroup;
 			children = (
+				C1CB424D1ADC4698003A405B /* Default-568h@2x.png */,
+				C1CB424E1ADC4698003A405B /* Default-667h@2x.png */,
+				C1CB424F1ADC4698003A405B /* Default-Landscape-736h@3x.png */,
+				C1CB42501ADC4698003A405B /* Default-Landscape.png */,
+				C1CB42511ADC4698003A405B /* Default-Landscape@2x.png */,
+				C1CB42521ADC4698003A405B /* Default-Portrait-736h@3x.png */,
+				C1CB42531ADC4698003A405B /* Default-Portrait.png */,
+				C1CB42541ADC4698003A405B /* Default-Portrait@2x.png */,
+				C1CB42551ADC4698003A405B /* Default.png */,
+				C1CB42561ADC4698003A405B /* Default@2x.png */,
 				008F07F21AC5B25A0029DE68 /* main.jsbundle */,
 				13B07FAF1A68108700A75B9A /* AppDelegate.h */,
 				13B07FB01A68108700A75B9A /* AppDelegate.m */,
@@ -409,8 +439,18 @@
 			buildActionMask = 2147483647;
 			files = (
 				008F07F31AC5B25A0029DE68 /* main.jsbundle in Resources */,
+				C1CB42571ADC4698003A405B /* Default-568h@2x.png in Resources */,
+				C1CB425C1ADC4698003A405B /* Default-Portrait-736h@3x.png in Resources */,
+				C1CB425E1ADC4698003A405B /* Default-Portrait@2x.png in Resources */,
+				C1CB42601ADC4698003A405B /* Default@2x.png in Resources */,
+				C1CB425B1ADC4698003A405B /* Default-Landscape@2x.png in Resources */,
 				13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */,
 				13B07FBD1A68108700A75B9A /* LaunchScreen.xib in Resources */,
+				C1CB425F1ADC4698003A405B /* Default.png in Resources */,
+				C1CB42581ADC4698003A405B /* Default-667h@2x.png in Resources */,
+				C1CB42591ADC4698003A405B /* Default-Landscape-736h@3x.png in Resources */,
+				C1CB425D1ADC4698003A405B /* Default-Portrait.png in Resources */,
+				C1CB425A1ADC4698003A405B /* Default-Landscape.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
