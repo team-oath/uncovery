@@ -28,7 +28,7 @@ module.exports = function(router) {
       );
   });
 
-  //input: {messageId: string, commentString: string}
+  //input: {messageId: string, x: float, y: float, z: float, commentString: string, userToken: string}
   router.post('/comment', function (req, res) {
     models.createComment(req.body).then(
       util.resolvePOST.bind(this, req, res),

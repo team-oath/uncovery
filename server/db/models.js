@@ -32,7 +32,7 @@ exports.createComment = function(userData) {
         y: userData.y,
         z: userData.z,
         userToken: userData.userToken,
-        messageId: commentSuccess.insertId
+        commentId: commentSuccess.insertId
     }).then(function(markSuccess) {
       return {markSuccess: markSuccess, commentSuccess: commentSuccess};
     });
