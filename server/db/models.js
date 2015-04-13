@@ -26,8 +26,18 @@ exports.createComment = function(userData) {
   return db.insert('comments',{
     messageId: userData.messageId,
     commentString: userData.commentString
+    }).then(function(commentSuccess) {
+      return db.insert('marks', {
+        x: userData.x,
+        y: userData.y,
+        z: userData.z,
+        userToken: userData.userToken,
+        messageId: commentSuccess.insertId
+    }).then(function(markSuccess) {
+      return {markSuccess: markSuccess, commentSuccess: commentSuccess};
+    });
   });
-}
+};
 
 //exports.createUser('grgrdg');
 exports.createUser = function(token) {
