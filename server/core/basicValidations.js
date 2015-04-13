@@ -1,34 +1,35 @@
 //basic validations are the building blocks for all other validations
 
-exports.containsOnlyNumbers = function(userData) {
+var eachCoord = function(userData, predicate) {
   var coordinatesToValidate = ['x', 'y', 'z'];
   for (var i = 0;i < coordinatesToValidate.length;i++) {
     var coord = coordinatesToValidate[i];
-    if (!!/[^0-9]/.test(Math.floor(userData[coord]))) {
+    if (predicate(userData[coord])) {
       return false;
     }
   }
   return true;
+};
+
+exports.containsOnlyNumbers = function(userData) {
+  var predicate = function(coord) {
+    return !!/[^0-9]/.test(Math.floor(coord));
+  };
+  return eachCoord(userData, predicate);
 }
 
 exports.inRange = function (userData) {
-  var coordinatesToValidate = ['x', 'y', 'z'];
-  for (var i = 0;i < coordinatesToValidate.length;i++) {
-    var coord = coordinatesToValidate[i];
-    if (userData[coord] === '' || +userData[coord] > 180 || +userData[coord] < 0) {
-      return false;
-    }
-  }
-  return true;
-}
+  var predicate = function(coord) {
+    return coord === '' || +coord > 180 || +coord < 0;
+  };
+  return eachCoord(userData, predicate);
+};
 
 exports.coordinatesExist = function(userData) { 
-  var coordinatesToValidate = ['x', 'y', 'z'];
-  for (var i = 0;i < coordinatesToValidate.length;i++) {
-    var coord = coordinatesToValidate[i];
-    if (!userData.hasOwnProperty(coord)) {
-      return false;
-    }
-  }
-  return true;
+  var predicate = function(coord) {
+    !userData.hasOwnProperty(coord);
+  };
+  return eachCoord(userData, predicate);
 }
+
+
