@@ -1,6 +1,7 @@
 
 var React = require('react-native');
 var styles = require('../../../styles.js');
+var HOST = require('../../../config.js')
 
 var { View, Text, StyleSheet, TouchableOpacity, Image, } = React;
 
@@ -22,12 +23,12 @@ var MessageFooter = React.createClass({
       <View style={{flexDirection: 'row', justifyContent: 'space-between', alignItems: 'flex-end'}}>
         <View>
           <Text style={styles.messageFooter}>
-            {this.props.timestamp} @ {this.props.distance}
+            {this.props.distance}, {this.props.timestamp}
           </Text>
         </View>
         <View style={{justifyContent: 'space-between', flexDirection: 'row'}}>
-          <View style={styles.heartCounter}>
-            <Text>
+          <View>
+            <Text style={styles.heartCounter}>
               {this.state.numHearts}
             </Text>
           </View>
@@ -57,7 +58,7 @@ var MessageFooter = React.createClass({
       heartPressed: this.state.heartPressed ? false : true,
     })
 
-    fetch('http://uncovery.cloudapp.net/upvote', {
+    fetch(HOST + 'upvote', {
       method: 'POST',
       headers: {
         'Accept': 'application/json',
@@ -72,7 +73,10 @@ var MessageFooter = React.createClass({
   }
 });
 
-var heartImage = {uri: 'http://i.imgur.com/SXHb8nG.png?1'};
-var heartFilled = {uri: 'http://i.imgur.com/6aglIdZ.png?1'};
+// var heartImage = {uri: 'http://i.imgur.com/SXHb8nG.png?1'};
+// var heartFilled = {uri: 'http://i.imgur.com/6aglIdZ.png?1'};
+
+var heartImage = {uri: 'http://i.imgur.com/97rSbCf.png?1'};
+var heartFilled = {uri: 'http://i.imgur.com/SXHb8nG.png?1'};
 
 module.exports = MessageFooter;

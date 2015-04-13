@@ -45,7 +45,9 @@ var Message = React.createClass({
           userToken={this.props.userToken}
           updateHearts={this._updateHearts.bind(this)}
         />
+        <View style={{height: 1,backgroundColor: '#f4f4f4',marginTop:10,}} />
       </View>
+
     );
   },
 

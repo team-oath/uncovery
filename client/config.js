@@ -1,4 +1,4 @@
 
-exports.localhost = 'http://localhost:9090/?';
-exports.production = 'http://uncovery.cloudapp.net/?';
-exports.testing;
+// module.exports = 'http://localhost:9090/';
+module.exports = 'http://uncovery.cloudapp.net/';
+// module.exports = 'http://oath-test.cloudapp.net/';

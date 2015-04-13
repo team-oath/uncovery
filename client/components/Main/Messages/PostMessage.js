@@ -1,8 +1,9 @@
 
 var POST_FORM = {};
+var HOST = require('../../../config.js');
 
 var React = require('react-native');
-var styles = require("../../../styles.js");
+var styles = require('../../../styles.js');
 
 var { 
   
@@ -138,7 +139,7 @@ class PostMessage extends React.Component {
 
       delete POST_FORM.selectedImage;
 
-      fetch('http://uncovery.cloudapp.net/messages', {
+      fetch(HOST + 'messages', {
         method: 'POST',
         headers: {
           'Accept': 'application/json',

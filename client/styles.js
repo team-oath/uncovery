@@ -44,10 +44,7 @@ var styles = StyleSheet.create({
   buttonContents: {
     flexDirection: 'row',
     marginHorizontal: 4,
-    marginVertical: 1,
-    padding: 5,
     backgroundColor: 'white',
-    borderRadius: 3,
     paddingVertical: 10,
   },
   row: {
@@ -139,19 +136,11 @@ var styles = StyleSheet.create({
     backgroundColor: 'white', 
     flexDirection: 'column',
     marginHorizontal: 4,
-    borderRadius: 3,
-    marginVertical: 1,
-    padding: 5,
-    paddingVertical: 10,
   },
   commentContainer: {
     backgroundColor: '#F7F8FA', 
     flexDirection: 'column',
     marginHorizontal: 4,
-    borderRadius: 3,
-    marginVertical: 1,
-    padding: 5,
-    paddingVertical: 10,
   }
 });
 

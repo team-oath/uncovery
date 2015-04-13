@@ -6,6 +6,7 @@ var CommentFooter = require('./CommentFooter.js');
 var CommentsHeader = require('./CommentsHeader.js')
 
 var styles = require('../../../styles.js');
+var HOST = require('../../../config.js');
 
 var {View, Text, Image, ListView, TouchableOpacity} = React;
 
@@ -41,11 +42,10 @@ class Comments extends React.Component {
 
   renderMessage(message) {
     return(
-      <View>
-        <View 
-          style={[styles.row, message.origin ? 
+      <View style={ message.origin ? 
             styles.messageContainer : 
-            styles.commentContainer]} >
+            styles.commentContainer} >
+        <View>
           <View>
             <Text></Text>
             <Text style={message.origin ? 
@@ -72,6 +72,7 @@ class Comments extends React.Component {
             messageId={this.props.messageId} 
           /> }
         </View>
+        <View style={{height: 1,backgroundColor: '#f4f4f4', marginTop: 10}} />
       </View>
     )
     
@@ -102,7 +103,7 @@ class Comments extends React.Component {
       dataSource: this.state.dataSource.cloneWithRows([originMessage]),
     })
  
-    fetch('http://uncovery.cloudapp.net/comment/?messageId='+this.props.messageId)
+    fetch(HOST + 'comment/?messageId='+this.props.messageId)
       .then((response) => response.json())
       .then((responseData) => {
         responseData.unshift(originMessage)
@@ -115,7 +116,5 @@ class Comments extends React.Component {
   }
 
 }
-
-var heartImage = {uri: 'https://pbs.twimg.com/media/BlXBfT3CQAA6cVZ.png:small'};
 
 module.exports = Comments;
