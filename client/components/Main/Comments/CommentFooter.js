@@ -42,6 +42,6 @@ var CommentFooter = React.createClass({
 
 });
 
-var heartImage = {uri: 'https://pbs.twimg.com/media/BlXBfT3CQAA6cVZ.png:small'};
+var heartImage = {uri: 'http://i.imgur.com/SXHb8nG.png?1'};
 
 module.exports = CommentFooter;

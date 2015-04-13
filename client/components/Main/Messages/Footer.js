@@ -17,11 +17,12 @@ var Footer = React.createClass({
     return(
       <View style={{flexDirection: 'row', justifyContent: 'space-between', alignItems: 'flex-end'}}>
         <View style={styles.messageFooter}>
-          <Text>{this.props.timestamp} @ {this.props.distance}</Text>
+          <Text style={styles.messageFooter}>{this.props.comments || 'no'} replies</Text>
+          <Text style={styles.messageFooter}>@ {this.props.distance}, {this.props.timestamp}</Text>
         </View>
         <View style={{justifyContent: 'space-between', flexDirection: 'row'}}>
           <View style={styles.heartCounter}>
-            <Text>
+            <Text style={{color:'grey'}}>
               {this.props.numHearts ? this.props.numHearts : null}
             </Text>
           </View>
@@ -67,7 +68,7 @@ var Footer = React.createClass({
   
 });
 
-var heartImage = {uri: 'https://pbs.twimg.com/media/BlXBfT3CQAA6cVZ.png:small'};
+var heartImage = {uri: 'http://i.imgur.com/SXHb8nG.png?1'};
 var heartFilled = {uri: 'http://i.imgur.com/6aglIdZ.png?1'}
 
 module.exports = Footer;

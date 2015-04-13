@@ -20,8 +20,8 @@ var MessageFooter = React.createClass({
   render: function(){
     return (
       <View style={{flexDirection: 'row', justifyContent: 'space-between', alignItems: 'flex-end'}}>
-        <View style={styles.messageFooter}>
-          <Text>
+        <View>
+          <Text style={styles.messageFooter}>
             {this.props.timestamp} @ {this.props.distance}
           </Text>
         </View>
@@ -72,7 +72,7 @@ var MessageFooter = React.createClass({
   }
 });
 
-var heartImage = {uri: 'https://pbs.twimg.com/media/BlXBfT3CQAA6cVZ.png:small'};
+var heartImage = {uri: 'http://i.imgur.com/SXHb8nG.png?1'};
 var heartFilled = {uri: 'http://i.imgur.com/6aglIdZ.png?1'};
 
 module.exports = MessageFooter;

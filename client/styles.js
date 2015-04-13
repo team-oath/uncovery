@@ -97,17 +97,20 @@ var styles = StyleSheet.create({
     paddingLeft: 12, 
     paddingRight: 12, 
     fontSize: 16,
+    fontFamily: 'Avenir',
   },
   commentText: {
     paddingLeft: 55, 
     paddingRight: 12, 
     fontSize: 12,
+    fontFamily: 'Avenir',
   },
   messageFooter: {
     fontSize: 12, 
     color: 'grey', 
     paddingTop: 5, 
-    paddingLeft: 12,
+    paddingLeft: 5,
+    fontFamily: 'Avenir',
   },
   commentFooter: {
     fontSize: 12, 
@@ -115,6 +118,7 @@ var styles = StyleSheet.create({
     flex: 2, 
     paddingTop: 5, 
     paddingLeft: 55,
+    fontFamily: 'Avenir',
   },
   commentHeaderButton: {
     height: 40,
@@ -123,11 +127,13 @@ var styles = StyleSheet.create({
     backgroundColor: '#B0C4DE',
     flexDirection: 'row',
     marginHorizontal: 4,
+    fontFamily: 'Avenir',
   },
   heartCounter: {
     fontSize: 16, 
     paddingTop: 5,
     color: 'grey',
+    fontFamily: 'Avenir',
   },
   messageContainer: {
     backgroundColor: 'white', 

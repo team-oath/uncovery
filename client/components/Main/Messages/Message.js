@@ -9,13 +9,11 @@ var { View, Text, TouchableOpacity, Image, StyleSheet, } = React;
 var Message = React.createClass({
 
   getInitialState: function(){
-    return {
-      numHearts: this.props.message.votes
-    }
+    return { numHearts: this.props.message.votes }
   },
 
   componentWillReceiveProps: function(props){
-    this.setState({numHearts: props.message.votes})
+    this.setState({ numHearts: props.message.votes })
   },
 
   render: function(message) {
