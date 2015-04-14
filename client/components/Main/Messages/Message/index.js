@@ -20,11 +20,11 @@ var Message = React.createClass({
 
   render: function(message) {
     var {votes, messageString, image, ...footer} = this.props.message;
+
     var thumbnail;
 
-    if (image){
-      var iurl = HOST + 'images?image=' + image;
-      thumbnail = <Image style={{height: 100}} source={{uri: iurl }} />
+    if (image){  
+      thumbnail = <Thumbnail uri={image} fullResolution={false} />
     }
 
     return (
