@@ -4,6 +4,7 @@ var React = require('react-native');
 var MessageFooter = require('./Message-Footer');
 var CommentFooter = require('./Comment-Footer');
 var CommentsHeader = require('./Header')
+var Thumbnail = require('../Thumbnails');
 
 var styles = require('../../../styles.js');
 var HOST = require('../../../config.js');
@@ -14,9 +15,6 @@ class Comments extends React.Component {
 
   constructor(props){
     super(props);
-    console.log("**********")
-    console.log(props.image);
-        console.log("**********")
     this.state = {
       dataSource: new ListView.DataSource({
         rowHasChanged: (row1, row2) => row1 !== row2,
@@ -97,10 +95,8 @@ class Comments extends React.Component {
     
     var thumbnail;
 
-    if (this.props.image && message.origin){
-      var window = require('Dimensions').get('window');
-      var iurl = HOST + 'images?image=' + this.props.image;
-      thumbnail = <Image style={{height: window.width, resizeMode: Image.resizeMode.contain }} source={{uri: iurl }} />
+    if (this.props.image && message.origin){  
+      thumbnail = <Thumbnail uri={this.props.image} fullResolution={true} />
     }
 
     return(
