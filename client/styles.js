@@ -121,7 +121,7 @@ var styles = StyleSheet.create({
     height: 40,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: '#B0C4DE',
+    backgroundColor: '#FDB515',
     flexDirection: 'row',
     marginHorizontal: 4,
     fontFamily: 'Avenir',
