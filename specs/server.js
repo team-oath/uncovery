@@ -24,13 +24,14 @@ describe('Node Server', function(){
   });
 
   after(function(done) {
-    models.deleteMarkByUserToken(testData.userToken).then(function() {
-      models.deleteUser(testData.userToken).then(function() {
-        models.deleteMessagesByScore(-10).then(function() {
-          done();
-        });
+    models.deleteMarkByUserToken(testData.userToken)
+      .then(function() {
+        return models.deleteUser(testData.userToken);
+      }).then(function() {
+        return models.deleteMessagesByScore(-10);
+      }).then(function() {
+        done();
       });
-    });
   });
 
   describe('Basic http routing', function() {

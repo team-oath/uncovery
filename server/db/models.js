@@ -2,7 +2,7 @@ var db = require('./modelAdapters');
 var util = require('../core/utilities');
 var validate = require('../core/routeValidations.js');
 
-//exports.createMessage({message: 'Excellant, it works!', x: 535, y: 325, z: 325, userToken: 'live'});
+//exports.createMessage({message: 'Excellant, it works!', x: 10, y: 10, z: 10, userToken: 'live'});
 exports.createMessage = function(userData) {
   return db.insert('messages', {
     messageString: userData.message,
@@ -57,7 +57,7 @@ exports.createVote = function(userData) {
   return db.insert('votes', voteObject);
 };
 
-//exports.retrieveMarks({x: 535, y: 325, z: 325}).then(callback(success));
+//exports.retrieveMarks({x: 10, y: 10, z: 10}).then(callback(success));
 exports.retrieveMarks = function(userData) {
   if (validate.validateCoordinates(userData)) {
     return db.retrieveMarks(userData);

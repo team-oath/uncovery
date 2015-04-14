@@ -19,22 +19,19 @@ describe('server to database integration', function() {
 
   after(function(done) {
     models.deleteRow('marks', ['x', testMsg.x])
-    .then(function() {
-      return models.deleteRow('marks', ['x', testComment.x]);
-    })
+      .then(function() {
+        return models.deleteRow('marks', ['x', testComment.x]);
+      })
     // .then(function() {
     //   return models.deleteRow('votes', [1, 1]);
     // })
     .then(function() {
       return models.deleteRow('comments', ['commentString', testComment.commentString]);
-    })
-    .then(function() {
+    }).then(function() {
       return models.deleteRow('messages', ['messageString', testMsg.message]);
-    })
-    .then(function() {
+    }).then(function() {
       return models.deleteRow('users', ['token', testUser.userToken]);
-    })
-    .then(function() {
+    }).then(function() {
       done();
     });
   });
@@ -89,7 +86,4 @@ describe('server to database integration', function() {
       done();
     });
   });
-
-
-
 });
