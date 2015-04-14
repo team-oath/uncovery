@@ -23,8 +23,9 @@ var Message = React.createClass({
 
     var thumbnail;
 
-    if (!image){
-      thumbnail = <Image style={{width: window.width, height:100}} source={{uri: 'http://facebook.github.io/react/img/logo_og.png'}} />
+    if (image){
+      var iurl = 'http://oath-test.cloudapp.net/images?image='+image;
+      thumbnail = <Image style={{height: 100}} source={{uri: iurl }} />
     }
 
     return (
@@ -55,14 +56,15 @@ var Message = React.createClass({
     var {votes, ...message} = this.props.message;
     var numHearts = this.state.numHearts;
     var fetchMessages = this._updateHearts.bind(this);
-  
+    var image = this.props.image;
     this.props.navigator.push({
       component: Comments,
       passProps: Object.assign(
         {...message}, 
         {...props},
         {numHearts}, 
-        {fetchMessages}),
+        {fetchMessages},
+        {image}),
     })
   },
 
