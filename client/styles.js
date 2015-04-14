@@ -124,7 +124,6 @@ var styles = StyleSheet.create({
     backgroundColor: '#FDB515',
     flexDirection: 'row',
     marginHorizontal: 4,
-    fontFamily: 'Avenir',
   },
   heartCounter: {
     fontSize: 16, 

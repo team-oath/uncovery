@@ -3,6 +3,8 @@ var React = require('react-native');
 var Comments = require('../../Comments');
 var Footer = require('../Footer');
 var styles = require('../../../../styles.js');
+var HOST = require('../../../../config.js'); 
+
 
 var { View, Text, TouchableOpacity, Image, StyleSheet, } = React;
 
@@ -17,12 +19,11 @@ var Message = React.createClass({
   },
 
   render: function(message) {
-    var {votes, messageString, image, ...footer} = this.props.message
-
+    var {votes, messageString, image, ...footer} = this.props.message;
     var thumbnail;
 
     if (image){
-      var iurl = 'http://oath-test.cloudapp.net/images?image='+image;
+      var iurl = HOST + 'images?image=' + image;
       thumbnail = <Image style={{height: 100}} source={{uri: iurl }} />
     }
 
@@ -52,6 +53,7 @@ var Message = React.createClass({
   },
 
   _onPressMessage: function() {
+
     var {message, ...props} = this.props;
     var {votes, ...message} = this.props.message;
     var numHearts = this.state.numHearts;
