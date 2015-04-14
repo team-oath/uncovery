@@ -1,10 +1,10 @@
 
 var React = require('react-native');
-var Comments = require('../Comments/index.js');
-var Footer = require('./Footer');
-var styles = require('../../../styles.js');
+var Comments = require('../../Comments');
+var Footer = require('../Footer')
+var styles = require('../../../../styles.js');
 
-var { View, Text, TouchableOpacity, Image, StyleSheet, } = React;
+var { View, Text, TouchableOpacity, StyleSheet, } = React;
 
 var Message = React.createClass({
 
@@ -17,20 +17,12 @@ var Message = React.createClass({
   },
 
   render: function(message) {
-    var {votes, messageString, comments, image, ...footer} = this.props.message
-
-    var thumbnail;
-
-    if (image){
-      var iurl = 'http://oath-test.cloudapp.net/images?image='+image;
-      thumbnail = <Image style={{height: 100}} source={{uri: iurl }} />
-    }
+    var {votes, messageString, ...footer} = this.props.message
 
     return (
       <View style={[styles.buttonContents, {flexDirection: 'column'}]}>
         <TouchableOpacity onPress={this._onPressMessage}>
           <View>
-            {thumbnail}
             <Text></Text>
             <Text style={styles.messageText}>
               {messageString}
@@ -56,15 +48,14 @@ var Message = React.createClass({
     var {votes, ...message} = this.props.message;
     var numHearts = this.state.numHearts;
     var fetchMessages = this._updateHearts.bind(this);
-    var image = this.props.image;
+  
     this.props.navigator.push({
       component: Comments,
       passProps: Object.assign(
         {...message}, 
-        {...props},
+        {...props}, 
         {numHearts}, 
-        {fetchMessages},
-        {image}),
+        {fetchMessages}),
     })
   },
 
