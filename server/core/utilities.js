@@ -31,8 +31,8 @@ exports.createMessageResponseObjects = function(marks, user) {
       messageString: mark.messageString,
       image: mark.image,
       score: mark.score,
-      votes: mark['COUNT(votes.id)'],
-      comments: mark['COUNT(comments.id)']
+      votes: mark['COUNT(distinct votes.id)'],
+      comments: mark['COUNT(distinct comments.id)']
     };
     responseObjects.push(responseObject);
   });
