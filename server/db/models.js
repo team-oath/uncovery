@@ -28,8 +28,15 @@ exports.createMessage = function(userData) {
   });
 };
 
-//exports.createComment({messageId: 1, message: 'works'});
+//exports.createComment({messageId: 1, message: 'works', x: 10, y: 10, z: 10});
 exports.createComment = function(userData) {
+
+  if (!validate.validateCoordinates(userData)) {
+    return new Promise(function(resolve, reject) {
+      reject('Validations failed. Please enter valid coordinates');
+    });
+  }
+
   return db.insert('comments',{
     messageId: userData.messageId,
     commentString: userData.commentString
