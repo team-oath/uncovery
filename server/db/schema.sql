@@ -44,7 +44,9 @@ CREATE TABLE votes (
   commentId int(5) NULL,
   FOREIGN KEY (userToken) REFERENCES users(token),
   FOREIGN KEY (messageId) REFERENCES messages(id),
-  FOREIGN KEY (commentId) REFERENCES comments(id)
+  FOREIGN KEY (commentId) REFERENCES comments(id),
+  UNIQUE KEY (userToken, messageId),
+  UNIQUE KEY (userToken, commentId)
 );
 
 CREATE TABLE users (
