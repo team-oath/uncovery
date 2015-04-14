@@ -3,6 +3,7 @@ var React = require('react-native');
 var Comments = require('../../Comments');
 var Footer = require('../Footer');
 var styles = require('../../../../styles.js');
+var HOST = require('../../../../config.js'); 
 
 var { View, Text, TouchableOpacity, Image, StyleSheet, } = React;
 
@@ -22,7 +23,8 @@ var Message = React.createClass({
     var thumbnail;
 
     if (image){
-      var iurl = 'http://oath-test.cloudapp.net/images?image='+image;
+      var iurl = HOST + 'images?image='+image;
+      //console.log("IMAGE", image, iurl);
       thumbnail = <Image style={{height: 100}} source={{uri: iurl }} />
     }
 
