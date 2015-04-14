@@ -18,7 +18,7 @@ var {
 
 } = React;
 
-var CameraRollView = require('../../../CameraRollView.ios');
+var CameraRollView = require('../../../CameraRollView.ios.js');
 
 class CameraRollExample extends React.Component {
 
@@ -117,7 +117,7 @@ class PostMessage extends React.Component {
   _postMessageWithImage(input){
     var self = this;
     NativeModules.ReadImageData.processString(POST_FORM.selectedImage.node.image.uri, (image) => {
-      this._postMessage(input, image);
+      self._postMessage(input, image);
     });
   }
 
@@ -130,9 +130,11 @@ class PostMessage extends React.Component {
         y: currentPosition.coords.longitude,
         z: currentPosition.coords.altitude,
         message: input,
-        userToken: this.props.route.userToken,
+        userToken: this.props.userToken,
       }
      
+      console.log('************$$$$$$$', this.props)
+      console.log('*******************', data)
       if (image){
         data.image = image;
       }
