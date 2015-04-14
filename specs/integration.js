@@ -11,8 +11,9 @@ var postData = {url: localServerUri + 'usertoken', form: testUser};
 var testMsg = {x: 100, y: 100, z: 100, message: 'hello database!', userToken: testUser.userToken};
 var postMsg = {url: localServerUri + 'messages', form: testMsg};
 var testComment = {x: 101, y: 101, z: 101, commentString: 'hello database comment!', userToken: testUser.userToken};
-var postComment = {url: localServerUri + 'comment', form: testComment, userToken: testUser.userToken};
-//input: {messageId: string, x: float, y: float, z: float, commentString: string, userToken: string}
+var postComment = {url: localServerUri + 'comment', form: testComment};
+var testVote = {userToken: testUser.userToken};
+var postVote = {url: localServerUri + 'upvote', form: testVote};
 
 describe('server to database integration', function() {
 
@@ -21,14 +22,17 @@ describe('server to database integration', function() {
     .then(function() {
       return models.deleteRow('marks', ['x', testComment.x]);
     })
+    // .then(function() {
+    //   return models.deleteRow('votes', [1, 1]);
+    // })
     .then(function() {
-      return models.deleteRow('comments', ['commentString', testComment.commentString])
+      return models.deleteRow('comments', ['commentString', testComment.commentString]);
     })
     .then(function() {
-      return models.deleteRow('messages', ['messageString', testMsg.message])
+      return models.deleteRow('messages', ['messageString', testMsg.message]);
     })
     .then(function() {
-      return models.deleteRow('users', ['token', testUser.userToken])
+      return models.deleteRow('users', ['token', testUser.userToken]);
     })
     .then(function() {
       done();
@@ -60,6 +64,17 @@ describe('server to database integration', function() {
     });
   });
 
+  xit('should POST a new vote to the database', function(done) {
+    request(getMessagesUri, function(err, response) {
+      var res = JSON.parse(response.body);
+      testVote.messageId = res[0].messageId;
+      request.post(postVote, function(err, response) {
+        expect(response.statusCode).to.equal(201);
+        done();
+      });
+    });
+  });
+
   it('should GET messages from the database', function(done) {
     request(getMessagesUri, function(err, response) {
       expect(response.statusCode).to.equal(200);
@@ -74,5 +89,7 @@ describe('server to database integration', function() {
       done();
     });
   });
+
+
 
 });

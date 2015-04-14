@@ -46,7 +46,7 @@ exports.createUser = function(token) {
 
 //exports.createVote(3, 'grgrdg');
 exports.createVote = function(userData) {
-  var voteObject = {userToken: userData.token};
+  var voteObject = {userToken: userData.userToken};
 
   if (userData.hasOwnProperty('messageId')) {
     voteObject.messageId = userData.messageId;
