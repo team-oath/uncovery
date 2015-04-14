@@ -4,6 +4,13 @@ var validate = require('../core/routeValidations.js');
 
 //exports.createMessage({message: 'Excellant, it works!', x: 10, y: 10, z: 10, userToken: 'live'});
 exports.createMessage = function(userData) {
+
+  if (!validate.validateCoordinates(userData)) {
+    return new Promise(function(resolve, reject) {
+      reject('Validations failed. Please enter valid coordinates');
+    });
+  }
+
   return db.insert('messages', {
     messageString: userData.message,
     image: util.saveImage(userData.image),
