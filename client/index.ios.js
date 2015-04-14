@@ -7,7 +7,7 @@ var Reactive = require('./react-events.js')();
 var AdSupportIOS = require('AdSupportIOS');
 
 var Messages = require('./components/Main/Messages');
-var PostMessage = require('./components/Main/Messages/PostMessage.js');
+var PostMessage = require('./components/Main/Messages/Post');
 var styles = require('./styles.js');
 var HOST = require('./config.js')
 
