@@ -56,7 +56,7 @@ exports.createCommentResponseObjects = function(marks, user) {
       responseObjects.push(responseObject);
     }
   });
-  console.log(responseObjects);
+
   return responseObjects;
 };
 

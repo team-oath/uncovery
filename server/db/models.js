@@ -45,8 +45,16 @@ exports.createUser = function(token) {
 };
 
 //exports.createVote(3, 'grgrdg');
-exports.createVote = function(messageId, token) {
-  return db.insert('votes', {userToken: token, messageId: messageId});
+exports.createVote = function(userData) {
+  var voteObject = {userToken: userData.token};
+
+  if (userData.hasOwnProperty('messageId')) {
+    voteObject.messageId = userData.messageId;
+  } else {
+    voteObject.commentId = userData.commentId;
+  }
+
+  return db.insert('votes', voteObject);
 };
 
 //exports.retrieveMarks({x: 535, y: 325, z: 325}).then(callback(success));
