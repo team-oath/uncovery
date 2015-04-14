@@ -4,7 +4,7 @@ var HOST = require('../../../config.js');
 
 var { Image, } = React;
 
-class Thumbnails extends React.Component {
+class Thumbnail extends React.Component {
 
 	constructor(props){		
 	}
@@ -29,6 +29,6 @@ class Thumbnails extends React.Component {
 	}
 }
 
-module.exports = Thumbnails;
+module.exports = Thumbnail;
 
 // /thumb = '<thumbnails>'Thumbnails({ some: propertie });

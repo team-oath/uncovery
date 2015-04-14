@@ -11,6 +11,8 @@ var PostMessage = require('./components/Main/Messages/Post');
 var styles = require('./styles.js');
 var HOST = require('./config.js')
 
+// var WebViewExample = require('./components/Main/webview-test.js')
+
 var { AppRegistry, NavigatorIOS, View, Text, } = React;
 
 class Uncovery extends React.Component {
