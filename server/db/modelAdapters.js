@@ -98,23 +98,15 @@ exports.retrieveMarks = function(userData) {
   return new Promise(function(resolve, reject) {
     var query = ([
         'SELECT',
-        'marks.id,',
-        'marks.x,',
-        'marks.y,',
-        'marks.z,',
-        'marks.timestamp,',
-        'marks.messageId,',
-        'marks.userToken,',
-        'messages.messageString,',
-        'messages.image,',
-        'messages.score,',
-        'COUNT(comments.id),',
-        'COUNT(votes.id)',
+        'marks.*,',
+        'messages.*,',
+        'COUNT(distinct comments.id),',
+        'COUNT(distinct votes.id)',
         'FROM messages',
         'LEFT JOIN marks ON marks.messageId = messages.id',
         'LEFT JOIN votes ON votes.messageId = messages.id',
         'LEFT JOIN comments ON comments.messageId = messages.id',
-        'GROUP BY marks.id, messages.id',
+        'GROUP BY messages.id',
         'ORDER BY marks.timestamp DESC'
     ]).join(' ');
 
@@ -140,19 +132,14 @@ exports.retrieveComments = function(userData) {
   return new Promise(function(resolve, reject) {
     var query = ([
       'SELECT',
-      'marks.id,',
-      'marks.x,',
-      'marks.y,',
-      'marks.z,',
-      'marks.timestamp,',
-      'marks.commentId,',
-      'marks.userToken,',
+      'marks.*,',
       'comments.commentString,',
-      // 'COUNT(votes.id)',
+      'COUNT(votes.id)',
       'FROM comments',
       'LEFT JOIN marks ON marks.commentId = comments.id',
       'LEFT JOIN votes ON votes.commentId = comments.id',
-      'WHERE comments.messageId = ?'
+      'WHERE comments.messageId = ?',
+      'GROUP BY comments.id'
     ]).join(' ');
 
     var params = [userData.messageId];
