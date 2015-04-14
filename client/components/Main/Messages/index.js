@@ -102,7 +102,7 @@ class Messages extends React.Component {
     var userToken = this.props.userToken;
     var queryParams = ['?','x=',x,'&','y=',y,'&','z=',z,'&','userToken=',userToken].join('');
     var requestURL = HOST + 'messages/' + queryParams;
-
+    
     var watchOptions = {
       enableHighAccuracy: true,
     };
