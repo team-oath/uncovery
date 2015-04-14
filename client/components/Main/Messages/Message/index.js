@@ -24,7 +24,6 @@ var Message = React.createClass({
 
     if (image){
       var iurl = HOST + 'images?image='+image;
-      //console.log("IMAGE", image, iurl);
       thumbnail = <Image style={{height: 100}} source={{uri: iurl }} />
     }
 
