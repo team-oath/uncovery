@@ -1,6 +1,6 @@
 
 var React = require('react-native');
-var PostMessage = require('../Main/Messages/PostMessage.js')
+var PostMessage = require('../Main/Messages/Post')
 
 var { View, Text, StyleSheet, } = React;
 var window = require('Dimensions').get('window');

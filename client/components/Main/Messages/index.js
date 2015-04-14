@@ -1,8 +1,10 @@
 
 var React = require('react-native');
-var Message = require('./Message.js');
 var SideMenu = require('react-native-side-menu');
-var Menu = require('../../Menu/index.js')
+var Message = require('./Message');
+var Menu = require('../../Menu');
+
+var HOST = require('../../../config.js'); 
 
 var { View, ListView, Text, ActivityIndicatorIOS, } = React;
 
@@ -18,6 +20,7 @@ class Messages extends React.Component {
       }),
       loaded: false,
       reloading: false,
+      coords: null,
     };
   }
 
@@ -59,6 +62,7 @@ class Messages extends React.Component {
         userToken={this.props.userToken} 
         navigator={this.props.navigator} 
         fetchMessages={this.fetchMessages.bind(this)}
+        coords={this.state.coords}
       />
     );
   }
@@ -97,7 +101,7 @@ class Messages extends React.Component {
     var z = this.props.currentPosition.coords.altitude;
     var userToken = this.props.userToken;
     var queryParams = ['?','x=',x,'&','y=',y,'&','z=',z,'&','userToken=',userToken].join('');
-    var requestURL = 'http://uncovery.cloudapp.net/messages/' + queryParams;
+    var requestURL = HOST + 'messages/' + queryParams;
 
     var watchOptions = {
       enableHighAccuracy: true,
@@ -117,6 +121,7 @@ class Messages extends React.Component {
               dataSource: this.state.dataSource.cloneWithRows(responseData),
               loaded: true,
               reloading: false,
+              coords: currentPosition.coords,
             })
           }, 300)
          

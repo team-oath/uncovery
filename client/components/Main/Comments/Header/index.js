@@ -1,6 +1,6 @@
 var React = require('react-native');
-var styles = require('../../../styles.js');
-var PostComment = require('./PostComment.js')
+var styles = require('../../../../styles.js');
+var PostComment = require('../Post')
 
 var { View, Text, StyleSheet, TouchableOpacity, } = React;
 

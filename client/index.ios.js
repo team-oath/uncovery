@@ -6,9 +6,10 @@ var React = require('react-native');
 var Reactive = require('./react-events.js')();
 var AdSupportIOS = require('AdSupportIOS');
 
-var Messages = require('./components/Main/Messages/index.js');
-var PostMessage = require('./components/Main/Messages/PostMessage.js');
+var Messages = require('./components/Main/Messages');
+var PostMessage = require('./components/Main/Messages/Post');
 var styles = require('./styles.js');
+var HOST = require('./config.js')
 
 var { AppRegistry, NavigatorIOS, View, Text, } = React;
 
@@ -97,7 +98,7 @@ class Uncovery extends React.Component {
 
   _postUserToken(userToken){
     console.log('sent User Token to server');
-    fetch('http://uncovery.cloudapp.net/usertoken', {
+    fetch(HOST + 'usertoken', {
       method: 'POST',
       headers: {
         'Accept': 'application/json',

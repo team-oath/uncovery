@@ -1,21 +1,19 @@
 
 var React = require('react-native');
-var Comments = require('../Comments/index.js');
-var Footer = require('./Footer.js')
-var styles = require('../../../styles.js');
+var Comments = require('../../Comments');
+var Footer = require('../Footer');
+var styles = require('../../../../styles.js');
 
 var { View, Text, TouchableOpacity, Image, StyleSheet, } = React;
 
 var Message = React.createClass({
 
   getInitialState: function(){
-    return {
-      numHearts: this.props.message.votes
-    }
+    return { numHearts: this.props.message.votes }
   },
 
   componentWillReceiveProps: function(props){
-    this.setState({numHearts: props.message.votes})
+    this.setState({ numHearts: props.message.votes })
   },
 
   render: function(message) {
@@ -47,7 +45,9 @@ var Message = React.createClass({
           userToken={this.props.userToken}
           updateHearts={this._updateHearts.bind(this)}
         />
+        <View style={{height: 1,backgroundColor: '#f4f4f4',marginTop:10,}} />
       </View>
+
     );
   },
 

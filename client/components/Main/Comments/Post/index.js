@@ -1,5 +1,7 @@
+
 var React = require('react-native');
-var styles = require('../../../styles.js');
+var styles = require('../../../../styles.js');
+var HOST = require('../../../../config.js')
 
 var {View, Text, TextInput} = React;
 
@@ -34,7 +36,8 @@ class PostComment extends React.Component {
 
   _postComment(){
     navigator.geolocation.getCurrentPosition((location)=>{
-      fetch('http://uncovery.cloudapp.net/comment', {
+
+      fetch(HOST + 'comment', {
         method: 'POST',
         headers: {
           'Accept': 'application/json',
@@ -45,6 +48,7 @@ class PostComment extends React.Component {
           z: location.coords.altitude,
           messageId: this.props.messageId,
           commentString: this.state.input,
+          userToken: this.props.userToken,
         })
       }).then(()=>{
         this.props.fetchComments();
