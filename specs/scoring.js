@@ -27,14 +27,15 @@ describe('scoring', function() {
   });
 
   after(function(done) {
-    models.deleteMark(testData.markId).then(function() {
-      models.deleteVote(testData.voteId).then(function() {
-        models.deleteMessage(testData.messageId).then(function(err) {
-          models.deleteUser(testData.userToken).then(function() {
-            done();
-          });
-        });
-      });
+    models.deleteMark(testData.markId)
+      .then(function() {
+      return models.deleteVote(testData.voteId);
+    }).then(function() {
+      return models.deleteMessage(testData.messageId);
+    }).then(function() {
+      return models.deleteUser(testData.userToken);
+    }).then(function() {
+      done();
     });
   });
 

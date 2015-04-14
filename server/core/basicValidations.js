@@ -10,7 +10,7 @@ exports.eachCoord = function(userData, predicate) {
 };
 
 exports.containsOnlyNumbers = function(userData, coord) {
-  return !!/-[^0-9]/.test(Math.floor(coord));
+  return !!/[^0-9]/.test(Math.abs(Math.floor(coord)));
 };
 
 exports.inRange = function(userData, coord) {
