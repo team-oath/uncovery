@@ -26,8 +26,18 @@ exports.createComment = function(userData) {
   return db.insert('comments',{
     messageId: userData.messageId,
     commentString: userData.commentString
+    }).then(function(commentSuccess) {
+      return db.insert('marks', {
+        x: userData.x,
+        y: userData.y,
+        z: userData.z,
+        userToken: userData.userToken,
+        commentId: commentSuccess.insertId
+    }).then(function(markSuccess) {
+      return {markSuccess: markSuccess, commentSuccess: commentSuccess};
+    });
   });
-}
+};
 
 //exports.createUser('grgrdg');
 exports.createUser = function(token) {
@@ -35,8 +45,16 @@ exports.createUser = function(token) {
 };
 
 //exports.createVote(3, 'grgrdg');
-exports.createVote = function(messageId, token) {
-  return db.insert('votes', {userToken: token, messageId: messageId});
+exports.createVote = function(userData) {
+  var voteObject = {userToken: userData.userToken};
+
+  if (userData.hasOwnProperty('messageId')) {
+    voteObject.messageId = userData.messageId;
+  } else {
+    voteObject.commentId = userData.commentId;
+  }
+
+  return db.insert('votes', voteObject);
 };
 
 //exports.retrieveMarks({x: 535, y: 325, z: 325}).then(callback(success));
@@ -74,9 +92,10 @@ exports.retrieveVotes = function(messageId) {
 };
 
 //exports.retrieveComments(10).then(function(success){console.log(success)});
-exports.retrieveComments = function(messageId) {
-  return db.where('comments', ['messageId', messageId]);
-};
+exports.retrieveComments = db.retrieveComments;
+// exports.retrieveComments = function(messageId) {
+//   return db.where('comments', ['messageId', messageId]);
+// };
 
 //delete(string tableName, [string key, string value]);
 exports.deleteRow = db.deleteRow;

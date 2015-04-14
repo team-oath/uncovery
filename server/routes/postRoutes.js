@@ -22,13 +22,13 @@ module.exports = function(router) {
 
   //input: {messageId: string, userToken: string}
   router.post('/upvote', function (req, res) {
-    models.createVote(req.body.messageId, req.body.userToken).then(
+    models.createVote(req.body).then(
       util.resolvePOST.bind(this, req, res),
       util.rejectPOST.bind(this, req, res)
       );
   });
 
-  //input: {messageId: string, commentString: string}
+  //input: {messageId: string, x: float, y: float, z: float, commentString: string, userToken: string}
   router.post('/comment', function (req, res) {
     models.createComment(req.body).then(
       util.resolvePOST.bind(this, req, res),

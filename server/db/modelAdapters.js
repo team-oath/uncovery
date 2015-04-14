@@ -106,6 +106,7 @@ exports.retrieveMarks = function(userData) {
         'marks.messageId,',
         'marks.userToken,',
         'messages.messageString,',
+        'messages.image,',
         'messages.score,',
         'COUNT(comments.id),',
         'COUNT(votes.id)',
@@ -128,7 +129,38 @@ exports.retrieveMarks = function(userData) {
       if (err) {
         reject(err);
       } else {
-        resolve(util.createResponseObjects(marks, userData));
+        resolve(util.createMessageResponseObjects(marks, userData));
+      }
+    });
+  });
+};
+
+exports.retrieveComments = function(userData) {
+  return new Promise(function(resolve, reject) {
+    var query = ([
+      'SELECT',
+      'marks.id,',
+      'marks.x,',
+      'marks.y,',
+      'marks.z,',
+      'marks.timestamp,',
+      'marks.commentId,',
+      'marks.userToken,',
+      'comments.commentString,',
+      'COUNT(votes.id)',
+      'FROM comments',
+      'LEFT JOIN marks ON marks.commentId = comments.id',
+      'LEFT JOIN votes ON votes.commentId = comments.id',
+      'WHERE comments.messageId = ?'
+    ]).join(' ');
+
+    var params = [userData.messageId];
+
+    db.connection.query(query, params, function(err, marks) {
+      if (err) {
+        reject(err);
+      } else {
+        resolve(util.createCommentResponseObjects(marks, userData));
       }
     });
   });
