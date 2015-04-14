@@ -9,9 +9,9 @@
 
 @implementation ReadImageData
 
-- (void)processString:(NSString *)input callback:(RCTResponseSenderBlock)callback
+RCT_EXPORT_METHOD(processString:(NSString *)input callback:(RCTResponseSenderBlock)callback)
 {
-  RCT_EXPORT(); // available as NativeModules.MyCustomModule.processString
+  RCT_EXPORT_MODULE(); // available as NativeModules.MyCustomModule.processString
  
   // Create NSURL from uri
   NSURL *url = [[NSURL alloc] initWithString:input];
