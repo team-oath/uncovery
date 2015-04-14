@@ -110,8 +110,8 @@ exports.retrieveMarks = function(userData) {
         'messages.score,',
         'COUNT(comments.id),',
         'COUNT(votes.id)',
-        'FROM marks',
-        'LEFT JOIN messages ON messages.id = marks.messageId',
+        'FROM messages',
+        'LEFT JOIN marks ON marks.messageId = messages.id',
         'LEFT JOIN votes ON votes.messageId = messages.id',
         'LEFT JOIN comments ON comments.messageId = messages.id',
         'GROUP BY marks.id, messages.id',
@@ -124,6 +124,7 @@ exports.retrieveMarks = function(userData) {
       +userData.y - .01,
         +userData.y + .01
     ];
+
 
     db.connection.query(query, params, function(err, marks) {
       if (err) {
@@ -147,7 +148,7 @@ exports.retrieveComments = function(userData) {
       'marks.commentId,',
       'marks.userToken,',
       'comments.commentString,',
-      'COUNT(votes.id)',
+      // 'COUNT(votes.id)',
       'FROM comments',
       'LEFT JOIN marks ON marks.commentId = comments.id',
       'LEFT JOIN votes ON votes.commentId = comments.id',
