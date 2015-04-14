@@ -17,7 +17,7 @@ var Message = React.createClass({
   },
 
   render: function(message) {
-    var {votes, messageString, comments, image, ...footer} = this.props.message
+    var {votes, messageString, image, ...footer} = this.props.message
 
     var thumbnail;
 
@@ -56,15 +56,14 @@ var Message = React.createClass({
     var {votes, ...message} = this.props.message;
     var numHearts = this.state.numHearts;
     var fetchMessages = this._updateHearts.bind(this);
-    var image = this.props.image;
+
     this.props.navigator.push({
       component: Comments,
       passProps: Object.assign(
         {...message}, 
         {...props},
         {numHearts}, 
-        {fetchMessages},
-        {image}),
+        {fetchMessages}),
     })
   },
 
