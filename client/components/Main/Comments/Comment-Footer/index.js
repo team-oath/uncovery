@@ -1,7 +1,7 @@
 
 var React = require('react-native');
-var styles = require('../../../styles.js');
-var HOST = require('../../../config.js')
+var styles = require('../../../../styles.js');
+var HOST = require('../../../../config.js');
 
 var { View, Text, StyleSheet, TouchableOpacity, Image, } = React;
 
@@ -49,28 +49,24 @@ var CommentFooter = React.createClass({
   },
 
   _heartComment: function(){
-
     this.setState({
-      heartPressed: this.state.heartPressed ? false : true
+      numHearts: this.state.numHearts + 1,
+      heartPressed: this.state.heartPressed ? false : true,
     })
-    // fetch('http://uncovery.cloudapp.net/upvote', {
-    //   method: 'POST',
-    //   headers: {
-    //     'Accept': 'application/json',
-    //     'Content-Type': 'application/json'},
-    //   body: JSON.stringify({
-    //     messageId: this.props.commentId,
-    //     userToken: this.props.userToken,
-    //   })
-    // }).then(()=>{
-    //   console.log('should re-render with new data')
-    //   this.props.fetchData();
-    // })
+
+    fetch(HOST + 'upvote', {
+      method: 'POST',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json'},
+      body: JSON.stringify({
+        commentId: this.props.commentId,
+        userToken: this.props.userToken,
+      })
+    })
   }
 
 });
-
-// var heartImage = {uri: 'http://i.imgur.com/SXHb8nG.png?1'};
 
 var heartImage = {uri: 'http://i.imgur.com/97rSbCf.png?1'};
 var heartFilled = {uri: 'http://i.imgur.com/SXHb8nG.png?1'};

@@ -1,7 +1,7 @@
 
 var React = require('react-native');
-var styles = require('../../../styles.js');
-var HOST = require('../../../config.js')
+var styles = require('../../../../styles.js');
+var HOST = require('../../../../config.js')
 
 var { View, Text, StyleSheet, TouchableOpacity, Image, } = React;
 

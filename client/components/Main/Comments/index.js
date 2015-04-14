@@ -1,14 +1,14 @@
 
 var React = require('react-native');
 
-var MessageFooter = require('./MessageFooter.js');
-var CommentFooter = require('./CommentFooter.js');
-var CommentsHeader = require('./CommentsHeader.js')
+var MessageFooter = require('./Message-Footer');
+var CommentFooter = require('./Comment-Footer');
+var CommentsHeader = require('./Header')
 
 var styles = require('../../../styles.js');
 var HOST = require('../../../config.js');
 
-var {View, Text, Image, ListView, TouchableOpacity} = React;
+var {View, Text, Image, ListView, TouchableOpacity, TextInput} = React;
 
 class Comments extends React.Component {
 
@@ -19,6 +19,7 @@ class Comments extends React.Component {
         rowHasChanged: (row1, row2) => row1 !== row2,
       }),
       loaded: false,
+      editing: false,
     };
   }
 
@@ -28,17 +29,66 @@ class Comments extends React.Component {
 
   render(){
     return (
-      <ListView
-        dataSource={this.state.dataSource}
-        renderRow={this.renderMessage.bind(this)}
-        style={{backgroundColor: '#D7E1EE', height: 400}}
-        initialListSize={10}
-        pageSize={4}
-        scrollRenderAheadDistance={2000} 
-        renderSectionHeader={this.renderSectionHeader.bind(this)}
+    <View>
+      <View style={{flexDirection: 'column'}}>
+        <ListView
+          dataSource={this.state.dataSource}
+          renderRow={this.renderMessage.bind(this)}
+          style={this.state.clicked ? {backgroundColor: '#D7E1EE', height: 220} : {backgroundColor: '#D7E1EE', height: 520}}
+          initialListSize={10}
+          pageSize={4}
+          scrollRenderAheadDistance={2000} 
+        />
+      </View>
+      <View>
+      <CommentsHeader
+        navigator={this.props.navigator}
+        userToken={this.props.userToken}
+        messageId={this.props.messageId}
+        fetchComments={this.fetchComments.bind(this)}
       />
+      </View>
+    </View>
     );
   }
+
+  editOn(){
+    this.setState({clicked:true})
+  }
+
+  editOff(){
+    this.setState({clicked:false})
+    return true;
+  }
+
+  // <TextInput
+  //   style={{height: 50}}
+  //   editable={true}
+  //   enablesReturnKeyAutomatically={true}
+  //   autoCorrect={false}
+  //   returnKeyType={'send'}
+  //   placeholder={'Be nice and make a comment...'}
+  //   onFocus={this.editOn.bind(this)}
+  //   onChange={(text) => console.log('gjlhsfglrshj')}
+  //   onSubmitEditing={this.editOff.bind(this) && }
+  // />
+
+  // <CommentsHeader
+  //   navigator={this.props.navigator}
+  //   userToken={this.props.userToken}
+  //   messageId={this.props.messageId}
+  //   fetchComments={this.fetchComments.bind(this)}
+  // />
+
+  // commentHeaderButton: {
+  //   height: 40,
+  //   justifyContent: 'center',
+  //   alignItems: 'center',
+  //   backgroundColor: '#FDB515',
+  //   flexDirection: 'row',
+  //   marginHorizontal: 4,
+  //   fontFamily: 'Avenir',
+  // },
 
   renderMessage(message) {
     return(
@@ -63,13 +113,16 @@ class Comments extends React.Component {
             numHearts={message.numHearts ? message.numHearts : null}
             userToken={this.props.userToken}
             messageId={this.props.messageId}
+            coords={this.props.coords}
             fetchMessages={this.props.fetchMessages} 
           /> : 
           <CommentFooter 
             timestamp={message.timestamp} 
             distance={message.distance} 
             userToken={this.props.userToken}
-            messageId={this.props.messageId} 
+            messageId={this.props.messageId}
+            coords={this.props.coords}
+            commentId={message.commentId} 
           /> }
         </View>
         <View style={{height: 1,backgroundColor: '#f4f4f4', marginTop: 10}} />
@@ -90,6 +143,13 @@ class Comments extends React.Component {
   }
 
   fetchComments(){
+
+    var x = this.props.coords.latitude;
+    var y = this.props.coords.longitude;
+    var z = this.props.coords.altitude;
+
+    var params = '&'+'x='+x+'&'+'y='+y+'&'+'z='+z
+
     var originMessage = {
       origin: true, 
       commentString:this.props.messageString, 
@@ -103,9 +163,10 @@ class Comments extends React.Component {
       dataSource: this.state.dataSource.cloneWithRows([originMessage]),
     })
  
-    fetch(HOST + 'comment/?messageId='+this.props.messageId)
+    fetch(HOST + 'comment/?messageId='+this.props.messageId+params)
       .then((response) => response.json())
       .then((responseData) => {
+        console.log('********************************', responseData)
         responseData.unshift(originMessage)
         this.setState({
           dataSource: this.state.dataSource.cloneWithRows(responseData),
