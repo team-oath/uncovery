@@ -1,5 +1,6 @@
 var db = require('./modelAdapters');
 var util = require('../core/utilities');
+var validate = require('../core/routeValidations.js');
 
 //exports.createMessage({message: 'Excellant, it works!', x: 535, y: 325, z: 325, userToken: 'live'});
 exports.createMessage = function(userData) {
@@ -39,7 +40,15 @@ exports.createVote = function(messageId, token) {
 };
 
 //exports.retrieveMarks({x: 535, y: 325, z: 325}).then(callback(success));
-exports.retrieveMarks = db.retrieveMarks;
+exports.retrieveMarks = function(userData) {
+  if (validate.validateCoordinates(userData)) {
+    return db.retrieveMarks(userData);
+  } else {
+    return new Promise(function(resolve, reject) {
+      reject('Validations failed. Please enter valid coordinates');
+    });
+  }
+};
 
 //exports.retrieveScore(3).then(callback(success));
 exports.retrieveScore = function(messageId, objectToFill) {
