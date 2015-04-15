@@ -70,7 +70,25 @@ describe('server to database integration', function() {
     });
   });
 
+  it('should POST remove an existing vote from the database', function(done) {
+    request(getMessagesUri, function(err, response) {
+      var res = JSON.parse(response.body);
+      testVote.messageId = res[0].messageId;
+      request.post(postVote, function(err, response) {
+        expect(response.statusCode).to.equal(201);
+        done();
+      });
+    });
+  });
+
   it('should GET messages from the database', function(done) {
+    request(getMessagesUri, function(err, response) {
+      expect(response.statusCode).to.equal(200);
+      done();
+    });
+  });
+
+  it('should GET votes of messages', function(done) {
     request(getMessagesUri, function(err, response) {
       expect(response.statusCode).to.equal(200);
       done();
