@@ -8,9 +8,9 @@ USE uncovery;
 CREATE TABLE marks (
   id int(5) AUTO_INCREMENT,
   PRIMARY KEY (id),
-  x float(10, 6),
-  y float(10, 6),
-  z float(10, 6),
+  x float(10, 6) NOT NULL,
+  y float(10, 6) NOT NULL,
+  z float(10, 6) NOT NULL,
   timestamp timestamp DEFAULT CURRENT_TIMESTAMP,
   messageId int(5) NULL,
   commentId int(5) NULL,
@@ -23,7 +23,7 @@ CREATE TABLE marks (
 CREATE TABLE messages (
   id int(5) AUTO_INCREMENT,
   userToken VARCHAR(255),
-  messageString text,
+  messageString text NOT NULL,
   image VARCHAR(255),
   score int(5) DEFAULT 0,
   PRIMARY KEY (id)
@@ -31,7 +31,7 @@ CREATE TABLE messages (
 
 CREATE TABLE comments (
   id int(5) AUTO_INCREMENT,
-  commentString text,
+  commentString text NOT NULL,
   messageId int(5),
   PRIMARY KEY (id),
   FOREIGN KEY (messageId) REFERENCES messages(id)
@@ -40,7 +40,7 @@ CREATE TABLE comments (
 CREATE TABLE votes (
   id int(5) AUTO_INCREMENT,
   PRIMARY KEY(id),
-  userToken VARCHAR(255),
+  userToken VARCHAR(255) NOT NULL,
   messageId int(5) NULL,
   commentId int(5) NULL,
   FOREIGN KEY (userToken) REFERENCES users(token),
