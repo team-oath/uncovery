@@ -3,7 +3,7 @@ var util = require('../core/utilities.js');
 
 module.exports = function(router) {
 
-  //{x: float, y: float, z: float}
+  //{x: float, y: float, z: float, userToken: string}
   router.get('/messages', function (req, res) {
     models.retrieveMarks(req.query).then(
       util.resolveGET.bind(this, req, res),

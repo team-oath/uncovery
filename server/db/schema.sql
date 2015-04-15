@@ -22,8 +22,9 @@ CREATE TABLE marks (
 
 CREATE TABLE messages (
   id int(5) AUTO_INCREMENT,
+  userToken VARCHAR(255),
   messageString text,
-  image varchar(255),
+  image VARCHAR(255),
   score int(5) DEFAULT 0,
   PRIMARY KEY (id)
 );
@@ -51,5 +52,16 @@ CREATE TABLE votes (
 
 CREATE TABLE users (
   token VARCHAR(255),
-  PRIMARY KEY(token)
+  PRIMARY KEY(token),
+  total_votes int(5) DEFAULT 0
 );
+
+-- If a message does not have a userToken then this will not work
+DELIMITER //
+CREATE TRIGGER vote_increment AFTER INSERT ON votes
+FOR EACH ROW
+  BEGIN
+    UPDATE users SET users.total_votes = (users.total_votes + 1) WHERE users.token = 
+      (SELECT userToken FROM messages WHERE id = NEW.messageId);
+  END;//
+DELIMITER ;

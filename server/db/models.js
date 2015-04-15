@@ -12,6 +12,7 @@ exports.createMessage = function(userData) {
   }
 
   return db.insert('messages', {
+    userToken: userData.userToken,
     messageString: userData.message,
     image: util.saveImage(userData.image),
     score: userData.score || 0
@@ -71,7 +72,7 @@ exports.createVote = function(userData) {
   return db.insert('votes', voteObject);
 };
 
-//exports.retrieveMarks({x: 10, y: 10, z: 10}).then(callback(success));
+//exports.retrieveMarks({x: 10, y: 10, z: 10, userToken: 'bbq'}).then(callback(success));
 exports.retrieveMarks = function(userData) {
   if (validate.validateCoordinates(userData)) {
     return db.retrieveMarks(userData);
