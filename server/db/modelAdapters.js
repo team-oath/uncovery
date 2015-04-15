@@ -153,7 +153,7 @@ exports.retrieveMarks = function(userData) {
         'LEFT JOIN votes ON votes.messageId = messages.id',
         'LEFT JOIN comments ON comments.messageId = messages.id',
         'GROUP BY messages.id',
-        'ORDER BY ? DESC'
+        'ORDER BY ?? DESC'
     ]).join(' ');
 
     var params = [sort];
