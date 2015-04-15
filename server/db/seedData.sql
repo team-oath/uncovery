@@ -25,3 +25,10 @@ INSERT INTO votes (userToken, messageId) VALUES ('Zealot', 2);
 INSERT INTO votes (userToken, messageId) VALUES ('Zealot', 3);
 INSERT INTO votes (userToken, messageId) VALUES ('Marine', 1);
 INSERT INTO votes (userToken, messageId) VALUES ('Ghost', 1);
+
+INSERT INTO marks (userToken, messageId, x, y, z) VALUES ('Zealot', 1, 20, 20, 20);
+INSERT INTO marks (userToken, messageId, x, y, z) VALUES ('Zealot', 2, 20, 20, 20);
+INSERT INTO marks (userToken, messageId, x, y, z) VALUES ('Dark Templar', 3, 25, 25, 25);
+INSERT INTO marks (userToken, messageId, x, y, z) VALUES ('SCV', 4, 10, 10, 10);
+INSERT INTO marks (userToken, messageId, x, y, z) VALUES ('Marine', 5, 10, 10, 10);
+INSERT INTO marks (userToken, messageId, x, y, z) VALUES ('Marine', 6, 10, 10, 10);
