@@ -106,6 +106,11 @@ exports.retrieveVotes = function(messageId) {
   return db.retrieveCount('votes', ['messageId', messageId]);
 };
 
+//exports.retrieveVotesByUser('Zealot')
+exports.retrieveVotesByUser = function(userToken) {
+  return db.where('votes', ['userToken', userToken]); 
+};
+
 //exports.retrieveComments(10).then(function(success){console.log(success)});
 exports.retrieveComments = db.retrieveComments;
 // exports.retrieveComments = function(messageId) {
