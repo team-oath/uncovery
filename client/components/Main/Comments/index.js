@@ -71,7 +71,7 @@ class Comments extends React.Component {
     var thumbnail;
 
     if (this.props.image && message.origin){  
-      thumbnail = <Thumbnail uri={this.props.image} fullResolution={true} />
+      thumbnail = <Thumbnail uri={this.props.image} fullResolution={true} height={this.props.imageH} />
     }
 
     return(
