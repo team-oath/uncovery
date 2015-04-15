@@ -1,5 +1,8 @@
 
 var React = require('react-native');
+
+var Comments = require('../../Comments');
+
 var styles = require('../../../../styles.js');
 var HOST = require('../../../../config.js');
 
@@ -18,7 +21,11 @@ var Footer = React.createClass({
     return(
       <View style={{flexDirection: 'row', justifyContent: 'space-between', alignItems: 'flex-end'}}>
         <View style={styles.messageFooter}>
-          <Text style={styles.messageFooter}>{this.props.comments || 'no'} replies</Text>
+          <TouchableOpacity onPress={this.props.navToComment}>
+            <Text style={styles.messageFooter}>
+              {this.props.comments || 'no'} replies
+            </Text>
+          </TouchableOpacity>
           <Text style={styles.messageFooter}>@ {this.props.distance}, {this.props.timestamp}</Text>
         </View>
         <View style={{justifyContent: 'space-between', flexDirection: 'row'}}>

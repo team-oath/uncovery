@@ -50,7 +50,8 @@ var Message = React.createClass({
           </View>
         </TouchableWithoutFeedback>
         <Footer
-          {...footer} 
+          {...footer}
+          navToComment={this._onPressMessage.bind(this)} 
           numHearts={this.state.numHearts} 
           userToken={this.props.userToken}
           updateHearts={this._updateHearts.bind(this)}
