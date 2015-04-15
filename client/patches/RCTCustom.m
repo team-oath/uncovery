@@ -34,8 +34,20 @@ RCT_EXPORT_METHOD(processString:(NSString *)input callback:(RCTResponseSenderBlo
     CGFloat newHeight = 500 * (500.0f / CGImageGetWidth(imageRef));
     CGFloat newWidth = 500 * (500.0f / CGImageGetHeight(imageRef));
     
+    UIImageOrientation orientation = UIImageOrientationUp;
+    NSNumber* orientationValue = [asset valueForProperty:@"ALAssetPropertyOrientation"];
+    if (orientationValue != nil) {
+      orientation = [orientationValue intValue];
+    }
+    
+    if (orientation == UIImageOrientationLeft || orientation == UIImageOrientationRight){
+      CGFloat temp = newHeight;
+      newHeight = newWidth;
+      newWidth = temp;
+    }
+    
     //Draw WxH image on WxH canvas.
-    UIImage *img = [UIImage imageWithCGImage:imageRef];
+    UIImage *img = [UIImage imageWithCGImage:imageRef scale:1 orientation:orientation];
     UIGraphicsBeginImageContext(CGSizeMake(newWidth,newHeight));
     [img drawInRect:CGRectMake(0, 0, newWidth, newHeight)];
     UIImage *destImage = UIGraphicsGetImageFromCurrentImageContext();
@@ -49,8 +61,6 @@ RCT_EXPORT_METHOD(processString:(NSString *)input callback:(RCTResponseSenderBlo
     
     NSString *width = [[NSNumber numberWithFloat:newWidth] stringValue];
     NSString *height = [[NSNumber numberWithFloat:newHeight] stringValue];
-    
-    //NSLog(base64Encoded);
     
     //Trigger the callback with our data
     callback(@[base64Encoded,width,height]);
