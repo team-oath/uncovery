@@ -13,11 +13,13 @@ class Thumbnail extends React.Component {
 		var height = 100;
 		var resizeMode = Image.resizeMode.cover;
 		
-		console.log("Thumb", this.props.height)
-
 		if (this.props.fullResolution){
-			//Square image. -5 to eliminate any white border.
-			height = (this.props.height * (window.width/500))-5;
+			//Square image. Minus a small amount to eliminate any white border.
+			if (this.props.height>=500){
+				height = this.props.height-10;
+			}else{
+				height = (this.props.height * (window.width/500))-5;
+			}
 			resizeMode = Image.resizeMode.contain;
 		}
 
