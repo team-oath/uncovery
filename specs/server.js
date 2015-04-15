@@ -17,18 +17,34 @@ describe('Node Server', function(){
     userToken: 'foobar'
   };
 
+  var testData2 = {
+    x: 10, 
+    y: 10, 
+    z: 10,
+    message: 'For Auir!',
+    userToken: 'foobar',
+    messageId: null
+  };
+
   before(function(done) {
     models.createUser(testData.userToken).then(function() {
-      done();
+      models.createMessage(testData2).then(function(message) {
+        testData2.messageId = message.messageSuccess.insertId;
+        done();
+      });
     });
   });
 
   after(function(done) {
     models.deleteMarkByUserToken(testData.userToken)
       .then(function() {
+        return models.deleteVotesByUserToken(testData.userToken);
+      }).then(function() {
         return models.deleteUser(testData.userToken);
       }).then(function() {
         return models.deleteMessagesByScore(-10);
+      }).then(function() {
+        return models.deleteMessage(testData2.messageId);
       }).then(function() {
         done();
       });
@@ -62,7 +78,7 @@ describe('Node Server', function(){
   describe('Feature-based http routing', function(){
 
     it('should confirm receipt of an upvote', function(done) {
-      request.post({url: upvoteUri}, function(err, response, body) {
+      request.post({url: upvoteUri, form: testData2}, function(err, response, body) {
         expect(response.statusCode).to.equal(201);
         done();
       });

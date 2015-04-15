@@ -45,11 +45,11 @@ describe('scoring', function() {
   });
 
   it('should have votes created when createVote is called', function(done) {
-    models.createVote(testVote).then(function(res) {
+    models.createVote(testData).then(function(res) {
       testData.voteId = res.insertId;
       expect(testData.voteId).to.be.a('number');
       done();
-    });
+    },function(err){console.log(err)});
   });
 
   it('should have score updated when updateScore is called', function(done) {
