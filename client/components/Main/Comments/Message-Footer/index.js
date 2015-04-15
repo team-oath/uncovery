@@ -9,9 +9,6 @@ var MessageFooter = React.createClass({
 
   getInitialState: function(){
 
-    // TODO change logic heartPressed initial state
-      // if this.props.upvoted is true, then set to true
-
     return {
       numHearts: this.props.numHearts,
       hasPressedHeart: this.props.hasPressedHeart,
