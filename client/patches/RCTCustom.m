@@ -31,8 +31,13 @@ RCT_EXPORT_METHOD(processString:(NSString *)input callback:(RCTResponseSenderBlo
     CGImageRef imageRef = [[asset defaultRepresentation] fullResolutionImage];
     
     //Maintain aspect ratio, using maximum width of 500 and maximum height of 500.
-    CGFloat newHeight = 500 * (500.0f / CGImageGetWidth(imageRef));
-    CGFloat newWidth = 500 * (500.0f / CGImageGetHeight(imageRef));
+    CGFloat ratioHeight = (500.0f / CGImageGetWidth(imageRef));
+    CGFloat ratioWidth = (500.0f / CGImageGetHeight(imageRef));
+    
+    CGFloat ratio = MIN(ratioHeight, ratioWidth);
+    
+    CGFloat newHeight = ratio * CGImageGetWidth(imageRef);
+    CGFloat newWidth = ratio * CGImageGetHeight(imageRef);
     
     UIImageOrientation orientation = UIImageOrientationUp;
     NSNumber* orientationValue = [asset valueForProperty:@"ALAssetPropertyOrientation"];
