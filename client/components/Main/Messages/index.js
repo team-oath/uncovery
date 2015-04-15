@@ -4,7 +4,8 @@ var SideMenu = require('react-native-side-menu');
 var Message = require('./Message');
 var Menu = require('../../Menu');
 
-var HOST = require('../../../config.js'); 
+var HOST = require('../../../config.js');
+var styles = require('../../../styles.js'); 
 
 var { View, ListView, Text, ActivityIndicatorIOS, } = React;
 
@@ -80,18 +81,15 @@ class Messages extends React.Component {
   renderHeader(){
     if (this.state.reloading) {
       return (
-        <View style={{flex: 1, justifyContent: 'space-around', alignItems: 'center',backgroundColor: '#D7E1EE',height: 50,marginTop: 10,}}>
-          <View style={{flex: 1, justifyContent: 'space-around', alignItems: 'center',backgroundColor: '#D7E1EE',height: 50,}}>
-            <ActivityIndicatorIOS 
-              animating='true'
-              style={{alignItems: 'center',justifyContent: 'center'}}
-              size="large" 
-            />
-          </View>
+        <View style={styles.loadingHeader}>
+          <ActivityIndicatorIOS 
+            animating='true'
+            style={{alignItems:'center',justifyContent: 'center'}}
+            size="large" 
+          />
         </View>
       )
     }
-
     return null;
   }
 

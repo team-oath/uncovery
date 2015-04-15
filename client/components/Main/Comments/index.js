@@ -110,7 +110,7 @@ class Comments extends React.Component {
             commentId={message.commentId} 
           /> }
         </View>
-        <View style={{height: 1,backgroundColor: '#f4f4f4', marginTop: 10}} />
+        <View style={styles.seperator} />
       </View>
       );
   }

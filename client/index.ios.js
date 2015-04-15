@@ -44,7 +44,7 @@ class Uncovery extends React.Component {
           barTintColor= '#C0362C'
           titleTextColor = '#FFFFFF'
           initialRoute={{
-            title: 'Uncovery',
+            title: 'Privy',
             titleTextColor:'#FFFFFF',
             rightButtonTitle: '+  ',
             onRightButtonPress: () => {
@@ -81,14 +81,11 @@ class Uncovery extends React.Component {
 
   _getDeviceID(){
     var onDeviceIDSuccess = (deviceID)=>{
-      console.log('********** SUCCESS *********');
-      console.log(deviceID);
       this.setState({userToken: deviceID});
       this._postUserToken(deviceID);
     }
 
     var onDeviceIDFailure = (e)=>{
-      console.log('********** FAILURE *********');
       console.log(e);
     }
 
