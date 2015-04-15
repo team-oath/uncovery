@@ -127,7 +127,7 @@ class Comments extends React.Component {
     
     var originMessage = {
       origin: true, 
-      commentString:this.props.messageString, 
+      commentString: this.props.messageString, 
       timestamp: this.props.timestamp, 
       distance: this.props.distance,
       numComments: this.props.numComments,

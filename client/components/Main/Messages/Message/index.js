@@ -36,17 +36,12 @@ var Message = React.createClass({
   render: function(message) {
     
     var {votes, messageString, image, ...footer} = this.props.message;
-    var thumbnail;
-
-    if (image){  
-      thumbnail = <Thumbnail uri={image} fullResolution={false} />
-    }
 
     return (
       <View style={[styles.buttonContents, {flexDirection: 'column'}]}>
         <TouchableWithoutFeedback onPress={this._onPressMessage}>
           <View>
-            {thumbnail}
+            { image ? <Thumbnail uri={image} fullResolution={false}/> : null }
             <Text></Text>
             <Text style={styles.messageText}>
               {messageString}
