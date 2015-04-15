@@ -48,6 +48,8 @@ RCT_EXPORT_METHOD(processString:(NSString *)input callback:(RCTResponseSenderBlo
     if (img.size.width > img.size.height) {
       newSize = CGSizeMake(maxSize, maxSize / aspect);
     } else {
+      // Height is greater.
+      // Set width to 500px.
       newSize = CGSizeMake(maxSize * aspect, maxSize);
     }
     
@@ -65,7 +67,7 @@ RCT_EXPORT_METHOD(processString:(NSString *)input callback:(RCTResponseSenderBlo
     NSString *base64Encoded = [imageData base64EncodedStringWithOptions:0];
     
     //Trigger the callback with our data
-    callback(@[base64Encoded]);
+    callback(@[base64Encoded, [[NSNumber numberWithFloat:newImage.size.width] stringValue], [[NSNumber numberWithFloat:newImage.size.height] stringValue]]);
     
   } failureBlock:^(NSError *error) {
     NSLog(@"that didn't work %@", error);
