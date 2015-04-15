@@ -59,7 +59,7 @@ exports.createUser = function(token) {
   return db.insert('users', {token: token});
 };
 
-//exports.createVote(3, 'grgrdg');
+//exports.createVote({messageId: 3, userToken: 'grgrdg'});
 exports.createVote = function(userData) {
   var voteObject = {userToken: userData.userToken};
 
