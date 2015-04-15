@@ -6,9 +6,7 @@ var { Image, } = React;
 
 class Thumbnails extends React.Component {
 
-	constructor(props){
-		console.log(props);	
-		
+	constructor(props){		
 	}
 
 	render(){		

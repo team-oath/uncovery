@@ -3,6 +3,7 @@ var React = require('react-native');
 var Comments = require('../../Comments');
 var Footer = require('../Footer');
 var styles = require('../../../../styles.js');
+var Thumbnail = require('../../Thumbnails');
 var HOST = require('../../../../config.js'); 
 
 
