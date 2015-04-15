@@ -59,7 +59,7 @@ exports.createUser = function(token) {
   return db.insert('users', {token: token});
 };
 
-//exports.createVote({messageId: 3, userToken: 'grgrdg'});
+//exports.createVote({messageId: string, userToken: string});
 exports.createVote = function(userData) {
   var voteObject = {userToken: userData.userToken};
 
@@ -156,6 +156,11 @@ exports.deleteMark = function(markId) {
 //deleteVote(string voteId)
 exports.deleteVote = function(voteId) {
   return db.deleteRow('votes', ['id', voteId]);
+};
+
+//deleteVotesByUserToken(string userToken)
+exports.deleteVotesByUserToken = function(userToken) {
+  return db.deleteRow('votes', ['userToken', userToken]);
 };
 
 //deleteMarkByUserToken(string userToken);
