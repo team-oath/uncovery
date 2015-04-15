@@ -2,10 +2,11 @@
 var React = require('react-native');
 var Comments = require('../../Comments');
 var Footer = require('../Footer');
+var Thumbnail = require('../../Thumbnails');
+
 var styles = require('../../../../styles.js');
 var Thumbnail = require('../../Thumbnails');
 var HOST = require('../../../../config.js'); 
-
 
 var { View, Text, TouchableOpacity, Image, StyleSheet, } = React;
 
@@ -20,8 +21,8 @@ var Message = React.createClass({
   },
 
   render: function(message) {
+    
     var {votes, messageString, image, ...footer} = this.props.message;
-
     var thumbnail;
 
     if (image){  
