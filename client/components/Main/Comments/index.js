@@ -61,7 +61,6 @@ class Comments extends React.Component {
   }
 
   editOff(){
-    console.log('OFF')
     this.setState({clicked:false});
     return true;
   }

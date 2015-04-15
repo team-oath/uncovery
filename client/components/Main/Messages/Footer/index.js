@@ -10,10 +10,18 @@ var { View, Text, StyleSheet, TouchableOpacity, Image, } = React;
 
 var Footer = React.createClass({
 
-  // TODO change logic heartPressed initial state
-    // if this.props.upvoted is true, then set to true
+  getInitialState: function(){
+    return {hasPressedHeart: this.props.hasPressedHeart}
+  },
+
+  componentWillReceiveProps: function(props){
+    this.setState({
+      hasPressedHeart: props.hasPressedHeart,
+    })
+  },
 
   render: function() {
+    console.log(this.state.hasPressedHeart,'(********************')
     return(
       <View style={{flexDirection: 'row', justifyContent: 'space-between', alignItems: 'flex-end'}}>
         <View style={styles.messageFooter}>
@@ -33,8 +41,8 @@ var Footer = React.createClass({
             </Text>
           </View>
           <View style={{flex:1}}>
-            <TouchableOpacity onPress={this.props.updateHearts}>
-            { this.props.hasPressedHeart ? 
+            <TouchableOpacity onPress={this.toggleHeart.bind(this)}>
+            { this.state.hasPressedHeart ? 
               <Image
                 source={heartFilled}
                 style={{width:30, height:30}}
@@ -51,11 +59,13 @@ var Footer = React.createClass({
       </View>
     )
   },
+
+  toggleHeart: function(){
+    this.setState({hasPressedHeart: this.state.hasPressedHeart ? false: true})
+    this.props.updateHearts();
+  }
   
 });
-
-// var heartImage = {uri: 'http://i.imgur.com/SXHb8nG.png?1'};
-// var heartFilled = {uri: 'http://i.imgur.com/6aglIdZ.png?1'};
 
 var heartImage = {uri: 'http://i.imgur.com/97rSbCf.png?1'};
 var heartFilled = {uri: 'http://i.imgur.com/SXHb8nG.png?1'};

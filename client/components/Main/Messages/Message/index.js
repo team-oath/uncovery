@@ -22,18 +22,20 @@ var Message = React.createClass({
   getInitialState: function(){
     return { 
       numHearts: this.props.message.votes, 
-      hasPressedHeart: this.props.message.voted || false,
+      hasPressedHeart: this.props.message.voted,
     }
   },
 
   componentWillReceiveProps: function(props){
     this.setState({
       numHearts: props.message.votes,
-      hasPressedHeart: this.props.message.voted || false, 
+      hasPressedHeart: props.message.voted,
     })
   },
 
   render: function(message) {
+
+    console.log(this.props.message.voted, '*****')
     
     var {votes, messageString, image, ...footer} = this.props.message;
 
@@ -67,6 +69,7 @@ var Message = React.createClass({
 
     var {message, ...props} = this.props;
     var {votes, ...message} = this.props.message;
+    var hasPressedHeart = this.state.hasPressedHeart;
     var numHearts = this.state.numHearts;
     var fetchMessages = this._updateHearts.bind(this);
 
@@ -76,6 +79,7 @@ var Message = React.createClass({
         {...message}, 
         {...props},
         {numHearts}, 
+        {hasPressedHeart},
         {fetchMessages}),
     })
   },
@@ -96,13 +100,18 @@ var Message = React.createClass({
       });
     }
 
-    fetch(HOST + 'upvote', {
+    console.log({
+        messageId: this.props.message.messageId,
+        userToken: this.props.userToken,
+      })
+
+    fetch(`${HOST}upvote`, {
       method: 'POST',
       headers: {
         'Accept': 'application/json',
         'Content-Type': 'application/json'},
       body: JSON.stringify({
-        messageId: this.props.messageId,
+        messageId: this.props.message.messageId,
         userToken: this.props.userToken,
       })
     })
