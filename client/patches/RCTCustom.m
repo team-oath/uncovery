@@ -26,49 +26,46 @@ RCT_EXPORT_METHOD(processString:(NSString *)input callback:(RCTResponseSenderBlo
   // Using the ALAssetsLibrary instance and our NSURL object open the image.
   [library assetForURL:url resultBlock:^(ALAsset *asset) {
     
+    CGFloat maxSize = 500.0f;
+    
     // Create an ALAssetRepresentation object using our asset
-    // and turn it into a bitmap using the CGImageRef opaque type.
     CGImageRef imageRef = [[asset defaultRepresentation] fullResolutionImage];
     
-    //Maintain aspect ratio, using maximum width of 500 and maximum height of 500.
-    CGFloat ratioHeight = (500.0f / CGImageGetWidth(imageRef));
-    CGFloat ratioWidth = (500.0f / CGImageGetHeight(imageRef));
-    
-    CGFloat ratio = MIN(ratioHeight, ratioWidth);
-    
-    CGFloat newHeight = ratio * CGImageGetWidth(imageRef);
-    CGFloat newWidth = ratio * CGImageGetHeight(imageRef);
-    
+    // Should we rotate the image?
     UIImageOrientation orientation = UIImageOrientationUp;
     NSNumber* orientationValue = [asset valueForProperty:@"ALAssetPropertyOrientation"];
     if (orientationValue != nil) {
       orientation = [orientationValue intValue];
     }
     
-    if (orientation == UIImageOrientationLeft || orientation == UIImageOrientationRight){
-      CGFloat temp = newHeight;
-      newHeight = newWidth;
-      newWidth = temp;
+    //Create UIImage reference
+    UIImage *img = [UIImage imageWithCGImage:imageRef scale:1 orientation:orientation];
+
+    //Determine new size.
+    CGFloat aspect = img.size.width / img.size.height;
+    CGSize newSize;
+    
+    if (img.size.width > img.size.height) {
+      newSize = CGSizeMake(maxSize, maxSize / aspect);
+    } else {
+      newSize = CGSizeMake(maxSize * aspect, maxSize);
     }
     
-    //Draw WxH image on WxH canvas.
-    UIImage *img = [UIImage imageWithCGImage:imageRef scale:1 orientation:orientation];
-    UIGraphicsBeginImageContext(CGSizeMake(newWidth,newHeight));
-    [img drawInRect:CGRectMake(0, 0, newWidth, newHeight)];
-    UIImage *destImage = UIGraphicsGetImageFromCurrentImageContext();
+    //UIGraphics to create a new image
+    UIGraphicsBeginImageContextWithOptions(newSize, NO, 1.0);
+    CGRect newImageRect = CGRectMake(0.0, 0.0, newSize.width, newSize.height);
+    [img drawInRect:newImageRect];
+    UIImage *newImage = UIGraphicsGetImageFromCurrentImageContext();
     UIGraphicsEndImageContext();
-
+    
     // Create UIImageJPEGRepresentation from CGImageRef
-    NSData *imageData = UIImageJPEGRepresentation(destImage, 1);
+    NSData *imageData = UIImageJPEGRepresentation(newImage, 0.9);
     
     // Convert to base64 encoded string
     NSString *base64Encoded = [imageData base64EncodedStringWithOptions:0];
     
-    NSString *width = [[NSNumber numberWithFloat:newWidth] stringValue];
-    NSString *height = [[NSNumber numberWithFloat:newHeight] stringValue];
-    
     //Trigger the callback with our data
-    callback(@[base64Encoded,width,height]);
+    callback(@[base64Encoded]);
     
   } failureBlock:^(NSError *error) {
     NSLog(@"that didn't work %@", error);
