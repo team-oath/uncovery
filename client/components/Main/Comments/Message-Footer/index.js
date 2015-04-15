@@ -14,7 +14,7 @@ var MessageFooter = React.createClass({
 
     return {
       numHearts: this.props.numHearts,
-      heartPressed: false,
+      hasPressedHeart: this.props.hasPressedHeart,
     }
   },
 
@@ -55,7 +55,7 @@ var MessageFooter = React.createClass({
   _heartMessage: function(){
     this.setState({
       numHearts: this.state.numHearts+1,
-      heartPressed: this.state.heartPressed ? false : true,
+      hasPressedHeart: this.state.heartPressed ? false : true,
     })
 
     fetch(HOST + 'upvote', {

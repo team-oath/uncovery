@@ -20,11 +20,17 @@ var {
 var Message = React.createClass({
 
   getInitialState: function(){
-    return { numHearts: this.props.message.votes }
+    return { 
+      numHearts: this.props.message.votes, 
+      hasPressedHeart: this.props.message.voted || false,
+    }
   },
 
   componentWillReceiveProps: function(props){
-    this.setState({ numHearts: props.message.votes })
+    this.setState({
+      numHearts: props.message.votes,
+      hasPressedHeart: this.props.message.voted || false, 
+    })
   },
 
   render: function(message) {
@@ -53,7 +59,7 @@ var Message = React.createClass({
           {...footer}
           navToComment={this._onPressMessage.bind(this)} 
           numHearts={this.state.numHearts} 
-          userToken={this.props.userToken}
+          hasPressedHeart={this.state.hasPressedHeart}
           updateHearts={this._updateHearts.bind(this)}
         />
         <View style={styles.seperator} />
@@ -80,8 +86,32 @@ var Message = React.createClass({
   },
 
   _updateHearts: function(){
-    var increment = this.state.numHearts + 1;
-    this.setState({numHearts: increment})
+
+    if (this.state.hasPressedHeart) {
+      var decrement = this.state.numHearts - 1
+      this.setState({
+        numHearts: decrement,
+        hasPressedHeart: false,
+      });
+    } else {
+      var increment = this.state.numHearts + 1;
+      this.setState({
+        numHearts: increment,
+        hasPressedHeart: true,
+      });
+    }
+
+    fetch(HOST + 'upvote', {
+      method: 'POST',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json'},
+      body: JSON.stringify({
+        messageId: this.props.messageId,
+        userToken: this.props.userToken,
+      })
+    })
+
   }
 
 });

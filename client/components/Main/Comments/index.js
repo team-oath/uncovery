@@ -96,6 +96,7 @@ class Comments extends React.Component {
             distance={message.distance} 
             numHearts={this.props.numHearts}
             userToken={this.props.userToken}
+            hasPressedHeart={this.props.hasPressedHeart}
             messageId={this.props.messageId}
             coords={this.props.coords}
             fetchMessages={this.props.fetchMessages} 
@@ -117,12 +118,13 @@ class Comments extends React.Component {
 
   fetchComments(){
 
+    var route = 'comment/'
     var x = this.props.coords.latitude;
     var y = this.props.coords.longitude;
     var z = this.props.coords.altitude;
-
-    var params = '&'+'x='+x+'&'+'y='+y+'&'+'z='+z;
-
+    var id = this.props.messageId;
+    var params = `?messageId=${id}&x=${x}&y=${y}&z=${z}`;
+    
     var originMessage = {
       origin: true, 
       commentString:this.props.messageString, 
@@ -133,7 +135,7 @@ class Comments extends React.Component {
       userToken: this.props.userToken,
     }
  
-    fetch(HOST + 'comment/?messageId='+this.props.messageId+params)
+    fetch(`${HOST}${route}${params}`)
       .then((response) => response.json())
       .then((responseData) => {
         responseData.unshift(originMessage)
