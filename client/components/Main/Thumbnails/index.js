@@ -12,10 +12,14 @@ class Thumbnail extends React.Component {
 		
 		var height = 100;
 		var resizeMode = Image.resizeMode.cover;
-
+		
 		if (this.props.fullResolution){
-			//Square image
-			height = window.width;
+			//Square image. Minus a small amount to eliminate any white border.
+			if (this.props.height>=500){
+				height = this.props.height-10;
+			}else{
+				height = (this.props.height * (window.width/500))-5;
+			}
 			resizeMode = Image.resizeMode.contain;
 		}
 

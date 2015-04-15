@@ -116,12 +116,12 @@ class PostMessage extends React.Component {
 
   _postMessageWithImage(input){
     var self = this;
-    NativeModules.ReadImageData.processString(POST_FORM.selectedImage.node.image.uri, (image) => {
-      self._postMessage(input, image);
+    NativeModules.ReadImageData.processString(POST_FORM.selectedImage.node.image.uri, (image, imageWidth, imageHeight) => {
+      self._postMessage(input, image, imageWidth, imageHeight);
     });
   }
 
-  _postMessage(input, image) {
+  _postMessage(input, image, imageWidth, imageHeight) {
 
     navigator.geolocation.getCurrentPosition((currentPosition)=>{
 
@@ -133,10 +133,10 @@ class PostMessage extends React.Component {
         userToken: this.props.userToken,
       }
      
-      console.log('************$$$$$$$', this.props)
-      console.log('*******************', data)
       if (image){
         data.image = image;
+        data.imageW = imageWidth;
+        data.imageH = imageHeight;
       }
 
       delete POST_FORM.selectedImage;
