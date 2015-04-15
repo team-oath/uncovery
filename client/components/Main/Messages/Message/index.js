@@ -7,7 +7,15 @@ var Thumbnail = require('../../Thumbnails');
 var styles = require('../../../../styles.js');
 var HOST = require('../../../../config.js'); 
 
-var { View, Text, TouchableOpacity, Image, StyleSheet, } = React;
+var { 
+
+  View, 
+  Text, 
+  Image, 
+  StyleSheet, 
+  TouchableWithoutFeedback
+
+} = React;
 
 var Message = React.createClass({
 
@@ -30,7 +38,7 @@ var Message = React.createClass({
 
     return (
       <View style={[styles.buttonContents, {flexDirection: 'column'}]}>
-        <TouchableOpacity onPress={this._onPressMessage}>
+        <TouchableWithoutFeedback onPress={this._onPressMessage}>
           <View>
             {thumbnail}
             <Text></Text>
@@ -40,14 +48,14 @@ var Message = React.createClass({
             <Text></Text>
             <Text></Text>
           </View>
-        </TouchableOpacity>
+        </TouchableWithoutFeedback>
         <Footer
           {...footer} 
           numHearts={this.state.numHearts} 
           userToken={this.props.userToken}
           updateHearts={this._updateHearts.bind(this)}
         />
-        <View style={{height: 1,backgroundColor: '#f4f4f4',marginTop:10,}} />
+        <View style={styles.seperator} />
       </View>
 
     );
