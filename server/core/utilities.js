@@ -46,6 +46,8 @@ exports.createMessageResponseObjects = function(marks, user) {
       messageId: mark.messageId,
       messageString: mark.messageString,
       image: mark.image,
+      imageH: mark.imageH,
+      imageW: mark.imageW,
       score: mark.score,
       votes: mark['COUNT(distinct votes.id)'],
       comments: mark['COUNT(distinct comments.id)']

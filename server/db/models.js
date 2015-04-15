@@ -15,6 +15,8 @@ exports.createMessage = function(userData) {
     userToken: userData.userToken,
     messageString: userData.message,
     image: util.saveImage(userData.image),
+    imageH: userData.imageH,
+    imageW: userData.imageW,
     score: userData.score || 0
     }).then(function(messageSuccess) {
       return db.insert('marks', {
@@ -84,7 +86,7 @@ exports.createVote = function(userData) {
 
 //exports.retrieveVotesByUser(userToken string)
 exports.retrieveVotesByUser = function(userToken) {
-  return db.where('votes', ['userToken', userToken]); 
+  return db.where('votes', ['userToken', userToken]);
 };
 
 //exports.retrieveMarks({x: float, y: float, z: float, userToken: string})
@@ -172,4 +174,3 @@ exports.deleteMarkByUserToken = function(userToken) {
 exports.deleteMessagesByScore = function(score) {
   return db.deleteRow('messages', ['score', score]);
 };
-
