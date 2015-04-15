@@ -92,8 +92,9 @@ exports.retrieveCount = function(table, filters) {
       }
     });
   });
-}
+};
 
+//exports.retrieveMarks({x: float, y: float, z: float, userToken: string})
 exports.retrieveMarks = function(userData) {
   return new Promise(function(resolve, reject) {
     var query = ([
@@ -116,7 +117,6 @@ exports.retrieveMarks = function(userData) {
       +userData.y - .01,
         +userData.y + .01
     ];
-
 
     db.connection.query(query, params, function(err, marks) {
       if (err) {

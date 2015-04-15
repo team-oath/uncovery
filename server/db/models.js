@@ -72,10 +72,24 @@ exports.createVote = function(userData) {
   return db.insert('votes', voteObject);
 };
 
-//exports.retrieveMarks({x: 10, y: 10, z: 10, userToken: 'bbq'}).then(callback(success));
+
+//exports.retrieveVotesByUser(userToken string)
+exports.retrieveVotesByUser = function(userToken) {
+  return db.where('votes', ['userToken', userToken]); 
+};
+
+//exports.retrieveMarks({x: float, y: float, z: float, userToken: string})
 exports.retrieveMarks = function(userData) {
   if (validate.validateCoordinates(userData)) {
-    return db.retrieveMarks(userData);
+    return db.retrieveMarks(userData)
+      .then(function(marks) {
+      return exports.retrieveVotesByUser(userData.userToken)
+        .then(function(votes) {
+        return new Promise(function(resolve) {
+          resolve(util.decorateMarksWithVoteStatus(marks, votes));
+        });
+      });
+    });
   } else {
     return new Promise(function(resolve, reject) {
       reject('Validations failed. Please enter valid coordinates');
@@ -104,11 +118,6 @@ exports.updateScore = function(messageId, amount) {
 //exports.retrieveVotes(10).then(function(success){console.log(success)});
 exports.retrieveVotes = function(messageId) {
   return db.retrieveCount('votes', ['messageId', messageId]);
-};
-
-//exports.retrieveVotesByUser('Zealot')
-exports.retrieveVotesByUser = function(userToken) {
-  return db.where('votes', ['userToken', userToken]); 
 };
 
 //exports.retrieveComments(10).then(function(success){console.log(success)});
@@ -149,3 +158,4 @@ exports.deleteMarkByUserToken = function(userToken) {
 exports.deleteMessagesByScore = function(score) {
   return db.deleteRow('messages', ['score', score]);
 };
+

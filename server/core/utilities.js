@@ -17,6 +17,22 @@ exports.getDistanceFrom = function(mark, user) {
   return dist + 'm';
 };
 
+exports.decorateMarksWithVoteStatus = function(marks, votes) {
+  var voted = {};
+  for (var k = 0;k < votes.length;k++) {
+    voted[votes[k].messageId] = true;
+  }
+  for (var i = 0;i < marks.length;i++) {
+    var markMessageId = marks[i].messageId;
+    if (voted[markMessageId]) {
+      marks[i].voted = true;
+    } else {
+      marks[i].voted = false;
+    }
+  }
+  return marks;
+};
+
 // The object we pull from the database has specific data (time/location)
 // Here we create a new object that has data that is relevant to the user
 exports.createMessageResponseObjects = function(marks, user) {
@@ -36,7 +52,6 @@ exports.createMessageResponseObjects = function(marks, user) {
     };
     responseObjects.push(responseObject);
   });
-
   return responseObjects;
 };
 
