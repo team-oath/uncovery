@@ -69,7 +69,16 @@ exports.createVote = function(userData) {
     voteObject.commentId = userData.commentId;
   }
 
-  return db.insert('votes', voteObject);
+  var voteParams = util.createQueryParams(voteObject);
+
+  return db.whereParams('votes', voteParams)
+    .then(function(vote) {
+      if (vote.length === 0) {
+        return db.insert('votes', voteObject);
+      } else {
+        return db.deleteRowWhere('votes', voteParams);
+      }
+    });
 };
 
 
