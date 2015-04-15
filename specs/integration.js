@@ -19,13 +19,11 @@ describe('server to database integration', function() {
 
   after(function(done) {
     models.deleteRow('marks', ['x', testMsg.x])
-      .then(function() {
-        return models.deleteRow('marks', ['x', testComment.x]);
-      })
-    // .then(function() {
-    //   return models.deleteRow('votes', [1, 1]);
-    // })
     .then(function() {
+      return models.deleteRow('marks', ['x', testComment.x]);
+    }).then(function() {
+      return models.deleteRow('votes', ['userToken', testVote.userToken]);
+    }).then(function() {
       return models.deleteRow('comments', ['commentString', testComment.commentString]);
     }).then(function() {
       return models.deleteRow('messages', ['messageString', testMsg.message]);
@@ -61,7 +59,7 @@ describe('server to database integration', function() {
     });
   });
 
-  xit('should POST a new vote to the database', function(done) {
+  it('should POST a new vote to the database', function(done) {
     request(getMessagesUri, function(err, response) {
       var res = JSON.parse(response.body);
       testVote.messageId = res[0].messageId;
