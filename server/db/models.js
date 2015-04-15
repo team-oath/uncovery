@@ -59,7 +59,7 @@ exports.createUser = function(token) {
   return db.insert('users', {token: token});
 };
 
-//exports.createVote(3, 'grgrdg');
+//exports.createVote({messageId: 3, userToken: 'grgrdg'});
 exports.createVote = function(userData) {
   var voteObject = {userToken: userData.userToken};
 
@@ -69,7 +69,16 @@ exports.createVote = function(userData) {
     voteObject.commentId = userData.commentId;
   }
 
-  return db.insert('votes', voteObject);
+  var voteParams = util.createQueryParams(voteObject);
+
+  return db.whereParams('votes', voteParams)
+    .then(function(vote) {
+      if (vote.length === 0) {
+        return db.insert('votes', voteObject);
+      } else {
+        return db.deleteRowWhere('votes', voteParams);
+      }
+    });
 };
 
 

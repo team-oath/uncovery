@@ -111,6 +111,17 @@ exports.getLogStream = function() {
   return {stream: accessLogStream};
 };
 
+exports.createQueryParams = function(obj) {
+  var params = [];
+
+  for (var k in obj) {
+    params.push(k);
+    params.push(obj[k]);
+  }
+
+  return params;
+};
+
 exports.rejectPOST = exports.rejectGET = function(req, res, err) {
   res.sendStatus(400);
 };

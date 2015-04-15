@@ -16,6 +16,11 @@ describe('scoring', function() {
     voteId: null
   };
 
+  var testVote = {
+    messageId: testData.messageId,
+    userToken: testData.userToken
+  };
+
   before(function(done) {
     models.createUser(testData.userToken).then(function() {
       models.createMessage(testData).then(function(success) {
@@ -40,7 +45,7 @@ describe('scoring', function() {
   });
 
   it('should have votes created when createVote is called', function(done) {
-    models.createVote(testData.messageId, testData.userToken).then(function(res) {
+    models.createVote(testVote).then(function(res) {
       testData.voteId = res.insertId;
       expect(testData.voteId).to.be.a('number');
       done();
