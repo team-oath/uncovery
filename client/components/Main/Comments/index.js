@@ -3,13 +3,13 @@ var React = require('react-native');
 
 var MessageFooter = require('./Message-Footer');
 var CommentFooter = require('./Comment-Footer');
-var CommentsHeader = require('./Header')
 var Thumbnail = require('../Thumbnails');
+var CommentTextInput = require('./TextInput');
 
 var styles = require('../../../styles.js');
 var HOST = require('../../../config.js');
 
-var {View, Text, Image, ListView, TouchableOpacity, TextInput} = React;
+var { View, Text, Image, ListView, TouchableOpacity, } = React;
 
 class Comments extends React.Component {
 
@@ -25,7 +25,7 @@ class Comments extends React.Component {
   }
 
   componentDidMount(){
-    this.fetchComments()
+    this.fetchComments();
   }
 
   render(){
@@ -42,54 +42,29 @@ class Comments extends React.Component {
         />
       </View>
       <View>
-      <CommentsHeader
-        navigator={this.props.navigator}
-        userToken={this.props.userToken}
-        messageId={this.props.messageId}
-        fetchComments={this.fetchComments.bind(this)}
-      />
+        <CommentTextInput 
+          editOn={this.editOn.bind(this)} 
+          editOff={this.editOff.bind(this)}
+          navigator={this.props.navigator}
+          userToken={this.props.userToken}
+          messageId={this.props.messageId}
+          fetchComments={this.fetchComments.bind(this)}
+          coords={this.props.coords}
+        />
       </View>
     </View>
     );
   }
 
   editOn(){
-    this.setState({clicked:true})
+    this.setState({clicked:true});
   }
 
   editOff(){
-    this.setState({clicked:false})
+    console.log('OFF')
+    this.setState({clicked:false});
     return true;
   }
-
-  // <TextInput
-  //   style={{height: 50}}
-  //   editable={true}
-  //   enablesReturnKeyAutomatically={true}
-  //   autoCorrect={false}
-  //   returnKeyType={'send'}
-  //   placeholder={'Be nice and make a comment...'}
-  //   onFocus={this.editOn.bind(this)}
-  //   onChange={(text) => console.log('gjlhsfglrshj')}
-  //   onSubmitEditing={this.editOff.bind(this) && }
-  // />
-
-  // <CommentsHeader
-  //   navigator={this.props.navigator}
-  //   userToken={this.props.userToken}
-  //   messageId={this.props.messageId}
-  //   fetchComments={this.fetchComments.bind(this)}
-  // />
-
-  // commentHeaderButton: {
-  //   height: 40,
-  //   justifyContent: 'center',
-  //   alignItems: 'center',
-  //   backgroundColor: '#FDB515',
-  //   flexDirection: 'row',
-  //   marginHorizontal: 4,
-  //   fontFamily: 'Avenir',
-  // },
 
   renderMessage(message) {
     
@@ -101,8 +76,8 @@ class Comments extends React.Component {
 
     return(
       <View style={ message.origin ? 
-            styles.messageContainer : 
-            styles.commentContainer} >
+        styles.messageContainer : 
+        styles.commentContainer}>
         <View>
           { thumbnail }
           <View>
@@ -119,7 +94,7 @@ class Comments extends React.Component {
           <MessageFooter 
             timestamp={message.timestamp} 
             distance={message.distance} 
-            numHearts={message.numHearts ? message.numHearts : null}
+            numHearts={this.props.numHearts}
             userToken={this.props.userToken}
             messageId={this.props.messageId}
             coords={this.props.coords}
@@ -128,27 +103,16 @@ class Comments extends React.Component {
           <CommentFooter 
             timestamp={message.timestamp} 
             distance={message.distance} 
+            numHearts={message.votes}
             userToken={this.props.userToken}
             messageId={this.props.messageId}
             coords={this.props.coords}
             commentId={message.commentId} 
           /> }
         </View>
-        <View style={{height: 1,backgroundColor: '#f4f4f4', marginTop: 10}} />
+        <View style={styles.seperator} />
       </View>
-    )
-    
-  }
-
-  renderSectionHeader(data, sectionID){
-    return (
-      <CommentsHeader
-        navigator={this.props.navigator}
-        userToken={this.props.userToken}
-        messageId={this.props.messageId}
-        fetchComments={this.fetchComments.bind(this)}
-      />
-    );
+      );
   }
 
   fetchComments(){
@@ -157,7 +121,7 @@ class Comments extends React.Component {
     var y = this.props.coords.longitude;
     var z = this.props.coords.altitude;
 
-    var params = '&'+'x='+x+'&'+'y='+y+'&'+'z='+z
+    var params = '&'+'x='+x+'&'+'y='+y+'&'+'z='+z;
 
     var originMessage = {
       origin: true, 
@@ -166,16 +130,12 @@ class Comments extends React.Component {
       distance: this.props.distance,
       numComments: this.props.numComments,
       numHearts: this.props.numHearts,
+      userToken: this.props.userToken,
     }
-
-    this.setState({
-      dataSource: this.state.dataSource.cloneWithRows([originMessage]),
-    })
  
     fetch(HOST + 'comment/?messageId='+this.props.messageId+params)
       .then((response) => response.json())
       .then((responseData) => {
-        console.log('********************************', responseData)
         responseData.unshift(originMessage)
         this.setState({
           dataSource: this.state.dataSource.cloneWithRows(responseData),

@@ -1,5 +1,6 @@
 
 var React = require('react-native');
+
 var styles = require('../../../../styles.js');
 var HOST = require('../../../../config.js');
 
@@ -9,7 +10,7 @@ var CommentFooter = React.createClass({
 
   getInitialState: function(){
     return {
-      numHearts: 1,
+      numHearts: this.props.numHearts,
       heartPressed: false,
     }
   },

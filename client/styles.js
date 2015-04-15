@@ -45,7 +45,6 @@ var styles = StyleSheet.create({
     flexDirection: 'row',
     marginHorizontal: 4,
     backgroundColor: 'white',
-    paddingVertical: 10,
   },
   row: {
     flex: 1,
@@ -140,6 +139,19 @@ var styles = StyleSheet.create({
     backgroundColor: '#F7F8FA', 
     flexDirection: 'column',
     marginHorizontal: 4,
+  },
+  seperator: {
+    height: 1,
+    backgroundColor: '#f4f4f4',
+    marginTop:10,
+  },
+  loadingHeader: {
+    flex: 1, 
+    justifyContent: 'space-around', 
+    alignItems: 'center',
+    backgroundColor: '#D7E1EE',
+    height: 50, 
+    marginTop: 10,
   }
 });
 

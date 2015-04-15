@@ -1,13 +1,10 @@
-var React = require('react-native');
 
+var React = require('react-native');
 var HOST = require('../../../config.js'); 
 
 var { Image, } = React;
 
-class Thumbnails extends React.Component {
-
-	constructor(props){		
-	}
+class Thumbnail extends React.Component {
 
 	render(){		
 		var window = require('Dimensions').get('window');
@@ -23,12 +20,14 @@ class Thumbnails extends React.Component {
 		}
 
 		return (
-			<Image style={{height: height, resizeMode: resizeMode }} source={{uri: uri }} />
-		)
-		
+			<Image 
+        style={{height: height, resizeMode: resizeMode }} 
+        source={{uri: uri }} 
+      />
+		);
 	}
 }
 
-module.exports = Thumbnails;
+module.exports = Thumbnail;
 
 // /thumb = '<thumbnails>'Thumbnails({ some: propertie });
