@@ -31,8 +31,8 @@ RCT_EXPORT_METHOD(processString:(NSString *)input callback:(RCTResponseSenderBlo
     CGImageRef imageRef = [[asset defaultRepresentation] fullResolutionImage];
     
     //Maintain aspect ratio, using maximum width of 500 and maximum height of 500.
-    CGFloat newWidth = 500 * (500.0f / CGImageGetWidth(imageRef));
-    CGFloat newHeight = 500* (500.0f / CGImageGetHeight(imageRef));
+    CGFloat newHeight = 500 * (500.0f / CGImageGetWidth(imageRef));
+    CGFloat newWidth = 500 * (500.0f / CGImageGetHeight(imageRef));
     
     //Draw WxH image on WxH canvas.
     UIImage *img = [UIImage imageWithCGImage:imageRef];
@@ -47,8 +47,13 @@ RCT_EXPORT_METHOD(processString:(NSString *)input callback:(RCTResponseSenderBlo
     // Convert to base64 encoded string
     NSString *base64Encoded = [imageData base64EncodedStringWithOptions:0];
     
+    NSString *width = [[NSNumber numberWithFloat:newWidth] stringValue];
+    NSString *height = [[NSNumber numberWithFloat:newHeight] stringValue];
+    
+    //NSLog(base64Encoded);
+    
     //Trigger the callback with our data
-    callback(@[base64Encoded]);
+    callback(@[base64Encoded,width,height]);
     
   } failureBlock:^(NSError *error) {
     NSLog(@"that didn't work %@", error);
