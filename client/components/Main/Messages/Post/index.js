@@ -93,7 +93,6 @@ class PostMessage extends React.Component {
           style={styles.textInput}
           onChangeText={(text) => this.setState({input: text})}
           onSubmitEditing={() => {
-            this._popBackToMarks();
             if ( !POST_FORM.selectedImage ) {
               this._postMessage(this.state.input);
             } else {
@@ -148,8 +147,8 @@ class PostMessage extends React.Component {
           'Content-Type': 'application/json'},
         body: JSON.stringify(data),
       }).then(()=>{
-        console.log("safglhgsflkjsh")
         Reactive.trigger('posted');
+        this._popBackToMarks();
       });
 
     });

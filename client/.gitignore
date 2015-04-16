@@ -1,2 +1,6 @@
 node_modules
-xcuserdata/*
+xcuserdata/
+privy.xcodeproj/xcuserdata/
+privy.xcodeproj/project.xcworkspace/
+privy.xcodeproj/project.xcworkspace/xcshareddata/
+privy.xcodeproj/xcuserdata/jhuang.xcuserdatad/xcschemes/

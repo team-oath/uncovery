@@ -23,12 +23,30 @@ var Message = React.createClass({
     return { 
       numHearts: this.props.message.votes, 
       hasPressedHeart: this.props.message.voted,
+      load: false,
     }
   },
+
+  componentWillReceiveProps: function(){
+
+    if (!this.state.load){
+      this.setState({
+        numHearts: this.props.message.votes, 
+        hasPressedHeart: this.props.message.voted,
+      })
+
+    } else { this.setState({load:false})}
+    
+  },
+
 
   render: function(message) {
 
     var {votes, voted, messageString, image, ...footer} = this.props.message;
+
+    console.log({messageString}, {votes}, '$$$$$$$$$$$$$$$$$$$$$$')
+    console.log({messageString}, this.state.numHearts, '$$$$$$$$$$$$$$$$$$$$$$')
+
 
     return (
       <View style={[styles.buttonContents, {flexDirection: 'column'}]}>
@@ -82,12 +100,14 @@ var Message = React.createClass({
       this.setState({
         numHearts: decrement,
         hasPressedHeart: false,
+        load:true,
       });
     } else {
       var increment = this.state.numHearts + 1;
       this.setState({
         numHearts: increment,
         hasPressedHeart: true,
+        load:true,
       });
     }
 
