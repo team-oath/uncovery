@@ -93,7 +93,7 @@ class Messages extends React.Component {
     return null;
   }
 
-  fetchMessages(){
+  fetchMessages(loading){
 
     var route = 'messages/'
 
@@ -104,33 +104,52 @@ class Messages extends React.Component {
     
     var params = `?x=${x}&y=${y}&z=${z}&userToken=${userToken}`
     
-    var watchOptions = {
-      enableHighAccuracy: true,
-    };
+    var watchOptions = {enableHighAccuracy: true};
+    var watchSucess;
 
-    var watchSucess = (currentPosition) => {
-      this.props[currentPosition] = currentPosition;
-      this.setState({reloading: true})
-      fetch(`${HOST}${route}${params}`)
-        .then((response) => {
-          return response.json()
-        })
-        .then((responseData) => {
-          setTimeout(()=>{
-            this.willReload = false;
-            this.setState({
-              dataSource: this.state.dataSource.cloneWithRows(responseData),
-              loaded: true,
-              reloading: false,
-              coords: currentPosition.coords,
-            })
-          }, 300)
-         
-        })
-        .done();
+    if (loading) {
+      watchSucess = (currentPosition) => {
+        this.setState({reloading: true})
+        fetch(`${HOST}${route}${params}`)
+          .then((response) => {
+            return response.json()
+          })
+          .then((responseData) => {
+            setTimeout(()=>{
+              this.willReload = false;
+              this.setState({
+                dataSource: this.state.dataSource.cloneWithRows(responseData),
+                loaded: true,
+                reloading: false,
+                coords: currentPosition.coords,
+              })
+            }, 300)
+           
+          })
+          .done();
+      }
+    } else {
+      watchSucess = (currentPosition) => {
+        
+        fetch(`${HOST}${route}${params}`)
+          .then((response) => {
+            return response.json()
+          })
+          .then((responseData) => {
+              this.willReload = false;
+              this.setState({
+                dataSource: this.state.dataSource.cloneWithRows(responseData),
+                loaded: true,
+                reloading: false,
+                coords: currentPosition.coords,
+              })
+          })
+          .done();
+      }
+
     }
 
-    var watchError = (error) => {console.error(error)};
+    var watchError = (error) => console.error(error);
 
     if (this.willReload || this.state.reloading) return
 
@@ -144,7 +163,7 @@ class Messages extends React.Component {
   _handleScroll(event){
     var pullDown = event.nativeEvent.contentOffset.y < -100;
     if ( pullDown ){
-      this.fetchMessages();
+      this.fetchMessages('loading');
     } 
     this.props.onScroll && this.props.onScroll(e)
   }

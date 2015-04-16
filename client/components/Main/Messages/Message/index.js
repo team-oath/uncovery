@@ -19,25 +19,23 @@ var {
 
 var Message = React.createClass({
 
-  getInitialState: function(){
-    return { 
-      numHearts: this.props.message.votes, 
-      hasPressedHeart: this.props.message.voted,
-    }
-  },
+  // getInitialState: function() {
+  //   return { 
+  //     numHearts: this.props.message.votes, 
+  //     hasPressedHeart: this.props.message.voted,
+  //   }
+  // },
 
-  componentWillReceiveProps: function(props){
-    this.setState({
-      numHearts: props.message.votes,
-      hasPressedHeart: props.message.voted,
-    })
-  },
+  // componentWillReceiveProps: function() {
+  //   this.setState({
+  //     numHearts: this.props.message.votes,
+  //     hasPressedHeart: this.props.message.voted,
+  //   })
+  // },
 
   render: function(message) {
-
-    console.log(this.props.message.voted, '*****')
-    
-    var {votes, messageString, image, ...footer} = this.props.message;
+    console.log(this.props.message.votes, '***************', this.props.message.voted)
+    var {votes, voted, messageString, image, ...footer} = this.props.message;
 
     return (
       <View style={[styles.buttonContents, {flexDirection: 'column'}]}>
@@ -55,8 +53,8 @@ var Message = React.createClass({
         <Footer
           {...footer}
           navToComment={this._onPressMessage.bind(this)} 
-          numHearts={this.state.numHearts} 
-          hasPressedHeart={this.state.hasPressedHeart}
+          numHearts={this.props.message.votes}
+          hasPressedHeart={this.props.message.voted}
           updateHearts={this._updateHearts.bind(this)}
         />
         <View style={styles.seperator} />
@@ -69,9 +67,9 @@ var Message = React.createClass({
 
     var {message, ...props} = this.props;
     var {votes, ...message} = this.props.message;
-    var hasPressedHeart = this.state.hasPressedHeart;
-    var numHearts = this.state.numHearts;
-    var fetchMessages = this._updateHearts.bind(this);
+    var hasPressedHeart = this.props.message.voted;
+    var numHearts = this.props.message.votes;
+    var fetchMessages = this.props.fetchMessages;
 
     this.props.navigator.push({
       component: Comments,
@@ -86,25 +84,6 @@ var Message = React.createClass({
 
   _updateHearts: function(){
 
-    if (this.state.hasPressedHeart) {
-      var decrement = this.state.numHearts - 1
-      this.setState({
-        numHearts: decrement,
-        hasPressedHeart: false,
-      });
-    } else {
-      var increment = this.state.numHearts + 1;
-      this.setState({
-        numHearts: increment,
-        hasPressedHeart: true,
-      });
-    }
-
-    console.log({
-        messageId: this.props.message.messageId,
-        userToken: this.props.userToken,
-      })
-
     fetch(`${HOST}upvote`, {
       method: 'POST',
       headers: {
@@ -114,7 +93,24 @@ var Message = React.createClass({
         messageId: this.props.message.messageId,
         userToken: this.props.userToken,
       })
+    }).then(()=>{
+
+      this.props.fetchMessages();
     })
+
+    // if (this.state.hasPressedHeart) {
+    //   var decrement = this.state.numHearts - 1
+    //   this.setState({
+    //     numHearts: decrement,
+    //     hasPressedHeart: false,
+    //   });
+    // } else {
+    //   var increment = this.state.numHearts + 1;
+    //   this.setState({
+    //     numHearts: increment,
+    //     hasPressedHeart: true,
+    //   });
+    // }
 
   }
 
