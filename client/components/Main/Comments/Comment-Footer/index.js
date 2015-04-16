@@ -69,7 +69,4 @@ var CommentFooter = React.createClass({
 
 });
 
-var heartImage = {uri: 'http://i.imgur.com/97rSbCf.png?1'};
-var heartFilled = {uri: 'http://i.imgur.com/SXHb8nG.png?1'};
-
 module.exports = CommentFooter;
