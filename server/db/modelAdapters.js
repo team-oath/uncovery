@@ -174,6 +174,7 @@ exports.retrieveMarks = function(userData) {
   });
 };
 
+//exports.retrieveComments({x: float, y: float, z: float, messageId: string, userToken: string})
 exports.retrieveComments = function(userData) {
   return new Promise(function(resolve, reject) {
     var query = ([

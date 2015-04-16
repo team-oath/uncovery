@@ -11,7 +11,7 @@ module.exports = function(router) {
       );
   });
 
-  //{messageId: string}
+  //{x: float, y: float, z: float, messageId: string, userToken: string}
   router.get('/comment', function(req, res) {
     models.retrieveComments(req.query).then(
       util.resolveGET.bind(this, req, res),
