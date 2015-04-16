@@ -44,13 +44,9 @@ var Footer = React.createClass({
             </View>
             <View style={{flex:1}}>
               <TouchableOpacity onPress={this.props.updateHearts}>
-               <View>
-               {this.props.hasPressedHeart ?
-                <FullHeart/>:
-                <EmptyHeart/>
-               }
-                
-              </View>
+                <View>
+                  { this.props.hasPressedHeart ?<FullHeart/>: <EmptyHeart/> }
+                </View>
               </TouchableOpacity>
               </View>
           </View>

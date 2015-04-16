@@ -12,22 +12,21 @@ var { View, Text, StyleSheet, TouchableOpacity, Image, } = React;
 
 var MessageFooter = React.createClass({
 
-  // getInitialState: function(){
-  //   return {
-  //     numHearts: this.props.numHearts,
-  //     hasPressedHeart: this.props.hasPressedHeart,
-  //   }
-  // },
+  getInitialState: function(){
+    return {
+      numHearts: this.props.numHearts,
+      hasPressedHeart: this.props.hasPressedHeart,
+    }
+  },
 
-  // componentWillReceiveProps: function(props){
-  //   this.setState({
-  //     numHearts: props.numHearts,
-  //     hasPressedHeart: props.hasPressedHeart,
-  //   })
-  // },
+  componentWillReceiveProps: function(props){
+    this.setState({
+      numHearts: props.numHearts,
+      hasPressedHeart: props.hasPressedHeart,
+    })
+  },
 
   render: function(){
-    // console.log(this.state.hasPressedHeart,'*************')
     return (
       <View style={{flexDirection: 'row', justifyContent: 'space-between', alignItems: 'flex-end'}}>
         <View>
@@ -38,13 +37,13 @@ var MessageFooter = React.createClass({
         <View style={{justifyContent: 'space-between', flexDirection: 'row'}}>
           <View>
             <Text style={styles.heartCounter}>
-              {this.props.numHearts? this.props.numHearts : null}
+              {this.state.numHearts? this.state.numHearts : null}
             </Text>
           </View>
           <View style={{flex:1}}>
             <TouchableOpacity onPress={this._heartMessage}>
               <View>
-              {this.props.hasPressedHeart ? <FullHeart/> : <EmptyHeart/>}
+              {this.state.hasPressedHeart ? <FullHeart/> : <EmptyHeart/>}
               </View>
             </TouchableOpacity>
           </View>
@@ -55,34 +54,23 @@ var MessageFooter = React.createClass({
 
   _heartMessage: function(){
 
-    // if ( this.state.hasPressedHeart ){
-    //   var decrement = this.state.numHearts - 1;
-    //   this.setState({
-    //     numHearts: decrement,
-    //     hasPressedHeart: false,
-    //   })
-    // } else {
-    //   var increment = this.state.numHearts + 1;
-    //   this.setState({
-    //     numHearts: increment,
-    //     hasPressedHeart: true,
-    //   })
-    // }
-
-    fetch(HOST + 'upvote', {
-      method: 'POST',
-      headers: {
-        'Accept': 'application/json',
-        'Content-Type': 'application/json'},
-      body: JSON.stringify({
-        messageId: this.props.messageId,
-        userToken: this.props.userToken,
+    if ( this.state.hasPressedHeart ){
+      var decrement = this.state.numHearts - 1;
+      this.setState({
+        numHearts: decrement,
+        hasPressedHeart: false,
       })
-    }).then(()=>{
-      // this.props.fetchMessages()
-    })
+    } else {
+      var increment = this.state.numHearts + 1;
+      this.setState({
+        numHearts: increment,
+        hasPressedHeart: true,
+      })
+    }
 
+    this.props.fetchMessages()
   }
+  
 });
 
 var heartImage = {uri: 'http://i.imgur.com/97rSbCf.png?1'};
