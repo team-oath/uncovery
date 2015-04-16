@@ -34,11 +34,11 @@ var Message = React.createClass({
       <View style={[styles.buttonContents, {flexDirection: 'column'}]}>
         <TouchableWithoutFeedback onPress={this._onPressMessage}>
           <View>
-            { image ? <Thumbnail uri={image} fullResolution={false}/> : null }
-            <Text></Text>
-            <Text style={styles.messageText}>
+            <Text style={[styles.messageText, {marginTop: 10}]}>
               {messageString}
             </Text>
+            <Text></Text>
+            { image ? <Thumbnail uri={image} fullResolution={false}/> : null }
             <Text></Text>
             <Text></Text>
           </View>

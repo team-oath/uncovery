@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>IDESourceControlProjectFavoriteDictionaryKey</key>
+	<false/>
+	<key>IDESourceControlProjectIdentifier</key>
+	<string>26932E5A-C7D0-40ED-90DB-BE4C97213895</string>
+	<key>IDESourceControlProjectName</key>
+	<string>privy</string>
+	<key>IDESourceControlProjectOriginsDictionary</key>
+	<dict>
+		<key>4CAC3522C0C92856D045A01EC4DA2CDE16CDE927</key>
+		<string>https://github.com/scottdixon/uncovery.git</string>
+	</dict>
+	<key>IDESourceControlProjectPath</key>
+	<string>client/privy.xcodeproj</string>
+	<key>IDESourceControlProjectRelativeInstallPathDictionary</key>
+	<dict>
+		<key>4CAC3522C0C92856D045A01EC4DA2CDE16CDE927</key>
+		<string>../../..</string>
+	</dict>
+	<key>IDESourceControlProjectURL</key>
+	<string>https://github.com/scottdixon/uncovery.git</string>
+	<key>IDESourceControlProjectVersion</key>
+	<integer>111</integer>
+	<key>IDESourceControlProjectWCCIdentifier</key>
+	<string>4CAC3522C0C92856D045A01EC4DA2CDE16CDE927</string>
+	<key>IDESourceControlProjectWCConfigurations</key>
+	<array>
+		<dict>
+			<key>IDESourceControlRepositoryExtensionIdentifierKey</key>
+			<string>public.vcs.git</string>
+			<key>IDESourceControlWCCIdentifierKey</key>
+			<string>4CAC3522C0C92856D045A01EC4DA2CDE16CDE927</string>
+			<key>IDESourceControlWCCName</key>
+			<string>uncovery</string>
+		</dict>
+	</array>
+</dict>
+</plist>
