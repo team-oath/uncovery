@@ -1,39 +1,33 @@
+#Privy
+##The anonymous location based chat network
+==============================
+
 [![Circle CI](https://circleci.com/gh/team-oath/uncovery.svg?style=badge)](https://circleci.com/gh/team-oath/uncovery)
-<h1>Project: Uncovery</h1>
-<h2>Getting Started</h3>
-<ol>
-  <li>To set up the database, run the following command:
-    `mysql -u root < server/db/schema.sql` </li>
-  <li>Then run to start testing run:
-    `grunt test`</li>
-</ol>
 
+Privy is a mobile application avalible for the IPhone which allows users to
+access our anonymous location based chat network. The key tenets of Privy are
+**anonymity**, **simplicity**, and **low barrier to entry**. The purpose of
+Privy is to allow users to express ideas with community members in such a way
+where they do not feel constrained by their socially defined identity. Privy
+allows users to share messages and photos at a paticular location anonymously,
+and only users in the same location are able to view that content. All content
+is automatically deleted after a set amount of time.
 
-<h2>Testing</h2>
-<ul>
-  <li><i>Test Runner</i> <b>Karma</b></li>
-  <li><i>Testing Framework</i> <b>Mocha</b></li>
-  <li><i>Assertion Library</i> <b>Chai</b></li>
-  <li><i>Plugin(s)</i> <b>Sinon</b></li>
-</ul>
+##Technology Stack
 
-<p>When requiring files in test files wrap dependencies being required in an
-array as to comply with <a href="http://requirejs.org/">RequireJS</a>.</p>
+###BackEnd
+- *Server Enviroment* **NodeJS**
+- *Web Framework* **ExpressJS**
+- *Database* **MySQL**
+- *Task Runner* **Grunt**
 
-<h2>Deployment</h2>
-<ul>
-  <li><i>Task Runner</i> <b>Grunt</b></li>
-</ul>
+###FrontEnd
+- *Mobile Architecture* **React Native**
+- *Image Handling* **Objective-C**
+- *User Interface* **HTML5/CSS3**
 
-<h2>Server</h2>
-<ul>
-  <li><i>Framework</i> <b>Express</b></li>
-  <li><i>Database</i> <b>MySQL</b></li>
-</ul>
-
-<h2>Style</h2>
-<h3>React Native</h3>
-<ul>
-  <li>Use ES6 Syntax</li>
-  <li>Use commas even at the last key-value pair in an object</li>
-</ul>
+###Testing
+- *Test Runner* **Karma**
+- *Test Framework* **Mocha**
+- *Assertion Library* **Chai**
+- *Plugin(s)* **Sinon**
