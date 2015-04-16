@@ -94,12 +94,15 @@ class Messages extends React.Component {
   }
 
   fetchMessages(){
+
+    var route = 'messages/'
+
     var x = this.props.currentPosition.coords.latitude;
     var y = this.props.currentPosition.coords.longitude;
     var z = this.props.currentPosition.coords.altitude;
     var userToken = this.props.userToken;
-    var queryParams = ['?','x=',x,'&','y=',y,'&','z=',z,'&','userToken=',userToken].join('');
-    var requestURL = HOST + 'messages/' + queryParams;
+    
+    var params = `?x=${x}&y=${y}&z=${z}&userToken=${userToken}`
     
     var watchOptions = {
       enableHighAccuracy: true,
@@ -108,7 +111,7 @@ class Messages extends React.Component {
     var watchSucess = (currentPosition) => {
       this.props[currentPosition] = currentPosition;
       this.setState({reloading: true})
-      fetch(requestURL)
+      fetch(`${HOST}${route}${params}`)
         .then((response) => {
           return response.json()
         })
