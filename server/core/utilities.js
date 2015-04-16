@@ -2,6 +2,7 @@ var moment = require('moment');
 var geolib = require('geolib');
 var shortid = require('shortid');
 var fs = require('fs');
+var themes = require('./themes');
 
 // Use moment.js to calculate how much time has elapsed since some prior time
 exports.getTimeElapsedSince = function(time) {
@@ -84,13 +85,31 @@ exports.createCommentResponseObjects = function(marks, user) {
         distance: exports.getDistanceFrom(mark, user),
         commentId: mark.commentId,
         commentString: mark.commentString,
+        name: createIdentity(user.userToken, user.messageId),
         votes: mark['COUNT(votes.id)']
       };
       responseObjects.push(responseObject);
     }
   });
-
+  
   return responseObjects;
+};
+
+var hashCode = function(string) {
+  var hash = 0;
+  if (string.length == 0) return hash;
+  for (i = 0; i < string.length; i++) {
+    char = string.charCodeAt(i);
+    hash = ((hash<<5)-hash)+char;
+    hash = hash & hash;
+  }
+  return hash;
+};
+
+var createIdentity = function(userToken, messageId) {
+  var identities = themes[0];
+  var i = Math.abs(hashCode(userToken + messageId)) % 20;
+  return identities[i];
 };
 
 exports.saveImage = function(img64, callback) {
