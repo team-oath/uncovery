@@ -127,7 +127,6 @@ var CameraRollView = React.createClass({
       <ListView
         renderRow={this._renderRow}
         renderFooter={this._renderFooterSpinner}
-        onEndReached={this._onEndReached}
         style={styles.container}
         dataSource={this.state.dataSource}
       />
@@ -187,11 +186,6 @@ var CameraRollView = React.createClass({
     this.setState(newState);
   },
 
-  _onEndReached: function() {
-    if (!this.state.noMore) {
-      this.fetch();
-    }
-  },
 });
 
 var styles = StyleSheet.create({
