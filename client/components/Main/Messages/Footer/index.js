@@ -53,17 +53,8 @@ var Footer = React.createClass({
         </View>
       )
     }
-   
-
-
-  // toggleHeart: function(){
-  //   // this.setState({hasPressedHeart: this.state.hasPressedHeart ? false: true})
-  //   this.props.updateHearts();
-  // }
   
 });
 
-var heartImage = {uri: 'http://i.imgur.com/97rSbCf.png?1'};
-var heartFilled = {uri: 'http://i.imgur.com/SXHb8nG.png?1'};
-
 module.exports = Footer;
+
