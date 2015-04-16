@@ -132,7 +132,17 @@ exports.retrieveVotes = function(messageId) {
 };
 
 //exports.retrieveComments({x: float, y: float, z: float, messageId: string, userToken: string})
-exports.retrieveComments = db.retrieveComments;
+exports.retrieveComments = function(userData) {
+  return db.retrieveComments(userData)
+    .then(function(comments) {
+    return exports.retrieveVotesByUser(userData.userToken)
+      .then(function(votes) {
+      return new Promise(function(resolve) {
+        resolve(util.decorateCommentsWithVoteStatus(comments, votes));
+      });
+    });
+  });
+};
 
 //delete(string tableName, [string key, string value]);
 exports.deleteRow = db.deleteRow;

@@ -33,6 +33,22 @@ exports.decorateMarksWithVoteStatus = function(marks, votes) {
   return marks;
 };
 
+exports.decorateCommentsWithVoteStatus = function(comments, votes) {
+  var voted = {};
+  for (var k = 0;k < votes.length;k++) {
+    voted[votes[k].commentId] = true;
+  }
+  for (var i = 0;i < comments.length;i++) {
+    var commentId = comments[i].commentId;
+    if (voted[commentId]) {
+      comments[i].voted = true;
+    } else {
+      comments[i].voted = false;
+    }
+  }
+  return comments;
+};
+
 // The object we pull from the database has specific data (time/location)
 // Here we create a new object that has data that is relevant to the user
 exports.createMessageResponseObjects = function(marks, user) {
