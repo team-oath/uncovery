@@ -32,3 +32,24 @@ INSERT INTO marks (userToken, messageId, x, y, z) VALUES ('Dark Templar', 3, 25,
 INSERT INTO marks (userToken, messageId, x, y, z) VALUES ('SCV', 4, 10, 10, 10);
 INSERT INTO marks (userToken, messageId, x, y, z) VALUES ('Marine', 5, 10, 10, 10);
 INSERT INTO marks (userToken, messageId, x, y, z) VALUES ('Marine', 6, 10, 10, 10);
+
+INSERT INTO comments (commentString, messageId) VALUES ('Yes!', 1);
+INSERT INTO comments (commentString, messageId) VALUES ('Oh yeah...', 1);
+INSERT INTO comments (commentString, messageId) VALUES ('This is Jimmy', 2);
+INSERT INTO comments (commentString, messageId) VALUES ('Sounds fun', 3);
+INSERT INTO comments (commentString, messageId) VALUES ('Executor?', 3);
+INSERT INTO comments (commentString, messageId) VALUES ('Immediately', 3);
+INSERT INTO comments (commentString, messageId) VALUES ('I read you', 3);
+
+INSERT INTO marks (userToken, commentId, x, y, z) VALUES ('Marine', 1, 20, 20, 20);
+INSERT INTO marks (userToken, commentId, x, y, z) VALUES ('Marine', 2, 20, 20, 20);
+INSERT INTO marks (userToken, commentId, x, y, z) VALUES ('Marine', 3, 25, 25, 25);
+INSERT INTO marks (userToken, commentId, x, y, z) VALUES ('Zealot', 4, 10, 10, 10);
+INSERT INTO marks (userToken, commentId, x, y, z) VALUES ('Zealot', 5, 10, 10, 10);
+INSERT INTO marks (userToken, commentId, x, y, z) VALUES ('SCV', 6, 10, 10, 10);
+
+INSERT INTO votes (userToken, commentId) VALUES ('Zealot', 1);
+INSERT INTO votes (userToken, commentId) VALUES ('Zealot', 2);
+INSERT INTO votes (userToken, commentId) VALUES ('Zealot', 3);
+INSERT INTO votes (userToken, commentId) VALUES ('Marine', 1);
+INSERT INTO votes (userToken, commentId) VALUES ('Ghost', 1);

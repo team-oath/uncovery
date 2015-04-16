@@ -131,11 +131,18 @@ exports.retrieveVotes = function(messageId) {
   return db.retrieveCount('votes', ['messageId', messageId]);
 };
 
-//exports.retrieveComments(10).then(function(success){console.log(success)});
-exports.retrieveComments = db.retrieveComments;
-// exports.retrieveComments = function(messageId) {
-//   return db.where('comments', ['messageId', messageId]);
-// };
+//exports.retrieveComments({x: float, y: float, z: float, messageId: string, userToken: string})
+exports.retrieveComments = function(userData) {
+  return db.retrieveComments(userData)
+    .then(function(comments) {
+    return exports.retrieveVotesByUser(userData.userToken)
+      .then(function(votes) {
+      return new Promise(function(resolve) {
+        resolve(util.decorateCommentsWithVoteStatus(comments, votes));
+      });
+    });
+  });
+};
 
 //delete(string tableName, [string key, string value]);
 exports.deleteRow = db.deleteRow;
