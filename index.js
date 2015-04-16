@@ -4,7 +4,7 @@ var router = require('./server/routes/router.js');
 var app = express();
 
 app.use(bodyParser.urlencoded({ extended: false }));
-app.use(bodyParser.json());
+app.use(bodyParser.json({ limit: '50mb' }));
 app.use(router);
 
 var server = app.listen(3000, function () {
