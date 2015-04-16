@@ -112,7 +112,7 @@ exports.deleteRowWhere = function(table, filters) {
     for (var i = 1; i < filters.length / 2; i++) {
       query += ' AND ?? = ?';
     }
-    
+
     db.connection.query(query, params, function(err, connection) {
       if (err) {
         reject(err);
@@ -141,6 +141,7 @@ exports.retrieveCount = function(table, filters) {
 //exports.retrieveMarks({x: float, y: float, z: float, userToken: string})
 exports.retrieveMarks = function(userData) {
   return new Promise(function(resolve, reject) {
+    var sort = userData.sortByScore ? 'messages.score' : 'marks.timestamp';
     var query = ([
         'SELECT',
         'marks.*,',
@@ -152,15 +153,16 @@ exports.retrieveMarks = function(userData) {
         'LEFT JOIN votes ON votes.messageId = messages.id',
         'LEFT JOIN comments ON comments.messageId = messages.id',
         'GROUP BY messages.id',
-        'ORDER BY marks.timestamp DESC'
+        'ORDER BY ?? DESC'
     ]).join(' ');
 
-    var params = [
-      +userData.x - .01,
-      +userData.x + .01,
-      +userData.y - .01,
-        +userData.y + .01
-    ];
+    var params = [sort];
+    // var params = [
+    //   +userData.x - .01,
+    //   +userData.x + .01,
+    //   +userData.y - .01,
+    //     +userData.y + .01
+    // ];
 
     db.connection.query(query, params, function(err, marks) {
       if (err) {

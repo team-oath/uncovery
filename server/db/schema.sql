@@ -25,6 +25,8 @@ CREATE TABLE messages (
   userToken VARCHAR(255),
   messageString text NOT NULL,
   image VARCHAR(255),
+  imageH int(5),
+  imageW int(5),
   score int(5) DEFAULT 0,
   PRIMARY KEY (id)
 );
@@ -61,7 +63,9 @@ DELIMITER //
 CREATE TRIGGER vote_increment AFTER INSERT ON votes
 FOR EACH ROW
   BEGIN
-    UPDATE users SET users.total_votes = (users.total_votes + 1) WHERE users.token = 
+    UPDATE users SET users.total_votes = (users.total_votes + 1) WHERE users.token =
       (SELECT userToken FROM messages WHERE id = NEW.messageId);
+    UPDATE messages SET messages.score = (messages.score + 10)
+      WHERE messages.id = NEW.messageId;
   END;//
 DELIMITER ;
