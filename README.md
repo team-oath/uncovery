@@ -1,39 +1,38 @@
+#Privy
+##The Anonymous Location Based Chat Network
+
 [![Circle CI](https://circleci.com/gh/team-oath/uncovery.svg?style=badge)](https://circleci.com/gh/team-oath/uncovery)
-<h1>Project: Uncovery</h1>
-<h2>Getting Started</h3>
-<ol>
-  <li>To set up the database, run the following command:
-    `mysql -u root < server/db/schema.sql` </li>
-  <li>Then run to start testing run:
-    `grunt test`</li>
-</ol>
 
+Privy is a mobile application for iOS devices which provides to users an anonymous
+location based chat network. The key tenets of Privy are
+**anonymity**, **simplicity**, and **low barrier to entry**.
+Privy was designed with safety in mind and we strive to create a community
+where individuals can feel free to express themselves in an enviroment where their privacy
+is protected.
 
-<h2>Testing</h2>
-<ul>
-  <li><i>Test Runner</i> <b>Karma</b></li>
-  <li><i>Testing Framework</i> <b>Mocha</b></li>
-  <li><i>Assertion Library</i> <b>Chai</b></li>
-  <li><i>Plugin(s)</i> <b>Sinon</b></li>
-</ul>
+##User Story
 
-<p>When requiring files in test files wrap dependencies being required in an
-array as to comply with <a href="http://requirejs.org/">RequireJS</a>.</p>
+1. Users can leave messages which may consist of text or an image at locations
+2. Other users in proximity of a message can view, vote, and comment on it
+3. Messages are automatically destroyed after a set amount of time
+4. The more votes a message accumulates the longer it persist
 
-<h2>Deployment</h2>
-<ul>
-  <li><i>Task Runner</i> <b>Grunt</b></li>
-</ul>
+##Technology Stack
 
-<h2>Server</h2>
-<ul>
-  <li><i>Framework</i> <b>Express</b></li>
-  <li><i>Database</i> <b>MySQL</b></li>
-</ul>
+###BackEnd
+- *Server Enviroment* **NodeJS**
+- *Web Framework* **ExpressJS**
+- *Database* **MySQL**
+- *Task Runner* **Grunt**
 
-<h2>Style</h2>
-<h3>React Native</h3>
-<ul>
-  <li>Use ES6 Syntax</li>
-  <li>Use commas even at the last key-value pair in an object</li>
-</ul>
+###FrontEnd
+- *Mobile Architecture* **React Native**
+- *Image Handling* **Objective-C**
+- *User Interface* **HTML5/CSS3**
+
+###Testing
+- *Continuous Integration* **CircleCI**
+- *Test Runner* **Grunt**
+- *Test Framework* **Mocha**
+- *Assertion Library* **Chai**
+- *Plugin(s)* **Sinon**
