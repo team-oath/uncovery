@@ -18,7 +18,6 @@
 
 var React = require('react-native');
 var {
-  ActivityIndicatorIOS,
   CameraRoll,
   Image,
   ListView,
@@ -179,9 +178,6 @@ var CameraRollView = React.createClass({
   },
 
   _renderFooterSpinner: function() {
-    if (!this.state.noMore) {
-      return <ActivityIndicatorIOS style={styles.spinner} />;
-    }
     return null;
   },
 
