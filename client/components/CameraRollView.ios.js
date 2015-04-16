@@ -30,11 +30,6 @@ var groupByEveryN = require('groupByEveryN');
 var logError = require('logError');
 
 var propTypes = {
-  /**
-   * The group where the photos will be fetched from. Possible
-   * values are 'Album', 'All', 'Event', 'Faces', 'Library', 'PhotoStream'
-   * and SavedPhotos.
-   */
   groupTypes: React.PropTypes.oneOf([
     'Album',
     'All',
@@ -44,20 +39,8 @@ var propTypes = {
     'PhotoStream',
     'SavedPhotos',
   ]),
-
-  /**
-   * Number of images that will be fetched in one page.
-   */
   batchSize: React.PropTypes.number,
-
-  /**
-   * A function that takes a single image as a parameter and renders it.
-   */
   renderImage: React.PropTypes.func,
-
-  /**
-   * imagesPerRow: Number of images to be shown in each row.
-   */
   imagesPerRow: React.PropTypes.number,
 };
 
@@ -68,7 +51,7 @@ var CameraRollView = React.createClass({
     var self = this;
     return {
       groupTypes: 'SavedPhotos',
-      batchSize: 4,
+      batchSize: 6,
       imagesPerRow: 2,
       renderImage: function(asset) {
         var imageSize = 180;
@@ -86,10 +69,6 @@ var CameraRollView = React.createClass({
     };
   },
 
-  clickImage: function(){
-    console.log("D");
-  },
-
   getInitialState: function() {
     var ds = new ListView.DataSource({rowHasChanged: this._rowHasChanged});
 
@@ -103,10 +82,6 @@ var CameraRollView = React.createClass({
     };
   },
 
-  /**
-   * This should be called when the image renderer is changed to tell the
-   * component to re-render its assets.
-   */
   rendererChanged: function() {
     var ds = new ListView.DataSource({rowHasChanged: this._rowHasChanged});
     this.state.dataSource = ds.cloneWithRows(
@@ -141,10 +116,6 @@ var CameraRollView = React.createClass({
     CameraRoll.getPhotos(fetchParams, this._appendAssets, logError);
   },
 
-  /**
-   * Fetches more images from the camera roll. If clear is set to true, it will
-   * set the component to its initial state and re-fetch the images.
-   */
   fetch: function(clear?: boolean) {
     if (!this.state.loadingMore) {
       this.setState({loadingMore: true}, () => { this._fetch(clear); });
