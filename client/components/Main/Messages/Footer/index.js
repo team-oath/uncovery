@@ -39,7 +39,7 @@ var Footer = React.createClass({
           <View style={{justifyContent: 'space-between', flexDirection: 'row'}}>
             <View style={styles.heartCounter}>
               <Text style={{color:'grey'}}>
-                {this.props.numHearts ? this.props.numHearts : null} and 
+                {this.props.numHearts ? this.props.numHearts : null} 
               </Text>
             </View>
             <View style={{flex:1}}>
