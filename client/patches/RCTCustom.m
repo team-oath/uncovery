@@ -3,7 +3,6 @@
 // Objective-C
 #import "RCTBridgeModule.h"
 #import <AssetsLibrary/AssetsLibrary.h>
-#import "RCTCustom.h"
 #import <UIKit/UIKit.h>
 
 @interface ReadImageData : NSObject <RCTBridgeModule>
