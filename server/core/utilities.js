@@ -85,13 +85,13 @@ exports.createCommentResponseObjects = function(marks, user) {
         distance: exports.getDistanceFrom(mark, user),
         commentId: mark.commentId,
         commentString: mark.commentString,
-        name: createIdentity(user.userToken, user.messageId),
+        name: createIdentity(mark.userToken, user.messageId),
         votes: mark['COUNT(votes.id)']
       };
       responseObjects.push(responseObject);
     }
   });
-  
+
   return responseObjects;
 };
 
@@ -108,7 +108,7 @@ var hashCode = function(string) {
 
 var createIdentity = function(userToken, messageId) {
   var identities = themes[0];
-  var i = Math.abs(hashCode(userToken + messageId)) % 20;
+  var i = Math.abs(hashCode(userToken + messageId)) % (identities.length-1);
   return identities[i];
 };
 
