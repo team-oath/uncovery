@@ -47,3 +47,9 @@ INSERT INTO marks (userToken, commentId, x, y, z) VALUES ('Marine', 3, 25, 25, 2
 INSERT INTO marks (userToken, commentId, x, y, z) VALUES ('Zealot', 4, 10, 10, 10);
 INSERT INTO marks (userToken, commentId, x, y, z) VALUES ('Zealot', 5, 10, 10, 10);
 INSERT INTO marks (userToken, commentId, x, y, z) VALUES ('SCV', 6, 10, 10, 10);
+
+INSERT INTO votes (userToken, commentId) VALUES ('Zealot', 1);
+INSERT INTO votes (userToken, commentId) VALUES ('Zealot', 2);
+INSERT INTO votes (userToken, commentId) VALUES ('Zealot', 3);
+INSERT INTO votes (userToken, commentId) VALUES ('Marine', 1);
+INSERT INTO votes (userToken, commentId) VALUES ('Ghost', 1);
