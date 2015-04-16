@@ -10,7 +10,7 @@ class Thumbnail extends React.Component {
 		var window = require('Dimensions').get('window');
 		var uri = HOST + 'images?image=' + this.props.uri;
 		
-		var height = 100;
+		var height = window.width;
 		var resizeMode = Image.resizeMode.cover;
 		
 		if (this.props.fullResolution){
