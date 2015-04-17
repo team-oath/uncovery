@@ -3,7 +3,7 @@ var expect = chai.expect;
 var models = require('../server/db/models');
 var request = require('request');
 
-var localServerUri = 'http://127.0.0.1:3000/';
+var localServerUri = 'http://127.0.0.1:3000/api/';
 var getMessagesUri = localServerUri + 'messages/?x=100&y=100&z=100';
 var getCommentsUri = localServerUri + 'comment/?x=100&y=100&z=100';
 var testUser = {userToken: 'ABCDEFG'};
