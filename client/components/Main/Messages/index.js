@@ -115,7 +115,6 @@ class Messages extends React.Component {
             return response.json()
           })
           .then((responseData) => {
-            console.log('****************', responseData, '***************')
             setTimeout(()=>{
               this.willReload = false;
               this.setState({

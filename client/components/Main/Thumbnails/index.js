@@ -14,7 +14,13 @@ class Thumbnail extends React.Component {
     this.setState({source: props.uri})
   }
 
-	render(){		
+	render(){
+
+    if ( this.state.source !== this.props.uri ) {
+      console.log('&*&*&*&*&*&*&*&*&*&*&*&*&*&*&*&*&*&*&*&*&*&*&*&*&*&*&*&*&')
+      console.log(this.state.source)
+      console.log(this.props.uri)
+    }		
 
     if (this.props.uri){
       var window = require('Dimensions').get('window');

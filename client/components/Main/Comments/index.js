@@ -35,7 +35,9 @@ class Comments extends React.Component {
         <ListView
           dataSource={this.state.dataSource}
           renderRow={this.renderMessage.bind(this)}
-          style={this.state.clicked ? {backgroundColor: '#D7E1EE', height: 220} : {backgroundColor: '#D7E1EE', height: 520}}
+          style={this.state.clicked ? 
+            {backgroundColor: '#D7E1EE', height: 220} : 
+            {backgroundColor: '#D7E1EE', height: 520}}
           initialListSize={10}
           pageSize={4}
           scrollRenderAheadDistance={2000} 
@@ -86,7 +88,10 @@ class Comments extends React.Component {
         <View>
           <View>
             <Text></Text>
-            {message.origin ? null: <Text style={[styles.commentText,{color:'#C0362C'}]}>{message.name}:</Text>}
+            { message.origin ? null : 
+            <Text style={[styles.commentText, {color:'#C0362C'}]}>
+              {message.name}:
+            </Text>}
             <Text></Text>
             <Text style={message.origin ? 
               styles.messageText : 
@@ -144,7 +149,6 @@ class Comments extends React.Component {
     fetch(`${HOST}${route}${params}`)
       .then((response) => response.json())
       .then((responseData) => {
-        console.log(responseData,'******************')
         responseData.unshift(originMessage)
         this.setState({
           dataSource: this.state.dataSource.cloneWithRows(responseData),

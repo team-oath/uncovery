@@ -69,10 +69,10 @@ var Message = React.createClass({
         </TouchableWithoutFeedback>
         <Footer
           {...footer}
-          navToComment={this._onPressMessage.bind(this)} 
+          navToComment={this._onPressMessage} 
           numHearts={this.state.numHearts}
           hasPressedHeart={this.state.hasPressedHeart}
-          updateHearts={this._updateHearts.bind(this)}
+          updateHearts={this._updateHearts}
         />
         <View style={styles.seperator} />
       </View>
@@ -86,7 +86,7 @@ var Message = React.createClass({
     var {votes, ...message} = this.props.message;
     var hasPressedHeart = this.state.hasPressedHeart;
     var numHearts = this.state.numHearts;
-    var fetchMessages = this._updateHearts.bind(this);
+    var fetchMessages = this._updateHearts;
 
     this.props.navigator.push({
       component: Comments,
@@ -108,7 +108,7 @@ var Message = React.createClass({
         hasPressedHeart: false,
         load:true,
       });
-      
+
     } else {
       var increment = this.state.numHearts + 1;
       this.setState({

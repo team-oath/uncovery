@@ -30,7 +30,7 @@ var CommentFooter = React.createClass({
             </Text>
           </View>
           <View style={{flex:1}}>
-            <TouchableOpacity onPress={this._heartComment.bind(this)}>
+            <TouchableOpacity onPress={this._heartComment}>
             { this.state.heartPressed ? 
               <Image
                 source={heartFilled}

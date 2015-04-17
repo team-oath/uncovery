@@ -26,7 +26,7 @@ var Footer = React.createClass({
 
       return(
         <View style={{flexDirection: 'row', justifyContent: 'space-between', alignItems: 'flex-end'}}>
-          <View style={styles.messageFooter}>
+          <View style={{paddingTop: 5, paddingLeft: 5}}>
             <TouchableOpacity onPress={this.props.navToComment}>
               <Text style={styles.messageFooter}>
                 {this.props.comments || 'no'} replies
@@ -37,8 +37,8 @@ var Footer = React.createClass({
             </Text>
           </View>
           <View style={{justifyContent: 'space-between', flexDirection: 'row'}}>
-            <View style={styles.heartCounter}>
-              <Text style={{color:'grey'}}>
+            <View style={{paddingTop: 5}}>
+              <Text style={{fontSize: 16, color:'grey'}}>
                 {this.props.numHearts ? this.props.numHearts : null} 
               </Text>
             </View>
