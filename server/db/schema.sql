@@ -58,7 +58,6 @@ CREATE TABLE users (
   total_votes int(5) DEFAULT 0
 );
 
--- If a message does not have a userToken then this will not work
 DELIMITER //
 CREATE TRIGGER vote_increment AFTER INSERT ON votes
 FOR EACH ROW
@@ -67,5 +66,16 @@ FOR EACH ROW
       (SELECT userToken FROM messages WHERE id = NEW.messageId);
     UPDATE messages SET messages.score = (messages.score + 10)
       WHERE messages.id = NEW.messageId;
+  END;//
+DELIMITER ;
+
+DELIMITER //
+CREATE TRIGGER vote_decrement AFTER DELETE ON votes
+FOR EACH ROW
+  BEGIN
+    UPDATE users SET users.total_votes = (users.total_votes - 1) WHERE users.token =
+      (SELECT userToken FROM messages WHERE id = OLD.messageId);
+    UPDATE messages SET messages.score = (messages.score - 10)
+      WHERE messages.id = OLD.messageId;
   END;//
 DELIMITER ;
