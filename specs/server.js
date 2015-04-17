@@ -2,9 +2,9 @@ var chai = require('chai');
 var models = require('../server/db/models.js');
 var expect = chai.expect;
 var request = require('request');
-var messageUri = 'http://127.0.0.1:3000/messages';
-var upvoteUri = 'http://127.0.0.1:3000/upvote';
-var invalidUri = 'http://127.0.0.1:3000/invalid';
+var messageUri = 'http://127.0.0.1:3000/api/messages';
+var upvoteUri = 'http://127.0.0.1:3000/api/upvote';
+var invalidUri = 'http://127.0.0.1:3000/api/invalid';
 
 describe('Node Server', function(){
 
@@ -18,8 +18,8 @@ describe('Node Server', function(){
   };
 
   var testData2 = {
-    x: 10, 
-    y: 10, 
+    x: 10,
+    y: 10,
     z: 10,
     message: 'For Auir!',
     userToken: 'foobar',
