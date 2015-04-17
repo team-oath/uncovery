@@ -96,7 +96,6 @@ class Uncovery extends React.Component {
   }
 
   _postUserToken(userToken){
-    console.log('sent User Token to server');
     fetch(HOST + 'usertoken', {
       method: 'POST',
       headers: {

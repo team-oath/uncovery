@@ -83,7 +83,7 @@ class Messages extends React.Component {
       return (
         <View style={styles.loadingHeader}>
           <ActivityIndicatorIOS 
-            animating='true'
+            animating={true}
             style={{alignItems:'center',justifyContent: 'center'}}
             size="large" 
           />
@@ -115,7 +115,6 @@ class Messages extends React.Component {
             return response.json()
           })
           .then((responseData) => {
-            console.log('****************', responseData, '***************')
             setTimeout(()=>{
               this.willReload = false;
               this.setState({
