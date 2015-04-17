@@ -28,7 +28,7 @@ class Messages extends React.Component {
   componentDidMount() {
     this.fetchMessages();
     Reactive.on('posted', (()=>{
-      this.fetchMessages();
+      this.fetchMessages('loading');
     }).bind(this) );
   }
 
@@ -115,6 +115,7 @@ class Messages extends React.Component {
             return response.json()
           })
           .then((responseData) => {
+            console.log('****************', responseData, '***************')
             setTimeout(()=>{
               this.willReload = false;
               this.setState({

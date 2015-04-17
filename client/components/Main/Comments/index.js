@@ -70,7 +70,13 @@ class Comments extends React.Component {
     var thumbnail;
 
     if (this.props.image && message.origin){  
-      thumbnail = <Thumbnail uri={this.props.image} fullResolution={true} height={this.props.imageH} width={this.props.imageW} />
+      thumbnail = 
+        <Thumbnail 
+          uri={this.props.image} 
+          fullResolution={true} 
+          height={this.props.imageH} 
+          width={this.props.imageW} 
+        />
     }
 
     return(
@@ -78,15 +84,16 @@ class Comments extends React.Component {
         styles.messageContainer : 
         styles.commentContainer}>
         <View>
-          { thumbnail }
           <View>
+            <Text></Text>
+            {message.origin ? null: <Text style={[styles.commentText,{color:'#C0362C'}]}>{message.name}:</Text>}
             <Text></Text>
             <Text style={message.origin ? 
               styles.messageText : 
-              styles.commentText} >
+              [styles.commentText,{fontSize: 14}]} >
               {message.commentString}
             </Text>
-            <Text></Text>
+            { thumbnail }
             <Text></Text>
           </View>
           { message.origin ? 
@@ -137,6 +144,7 @@ class Comments extends React.Component {
     fetch(`${HOST}${route}${params}`)
       .then((response) => response.json())
       .then((responseData) => {
+        console.log(responseData,'******************')
         responseData.unshift(originMessage)
         this.setState({
           dataSource: this.state.dataSource.cloneWithRows(responseData),

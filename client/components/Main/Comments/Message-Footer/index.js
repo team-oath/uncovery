@@ -31,7 +31,7 @@ var MessageFooter = React.createClass({
       <View style={{flexDirection: 'row', justifyContent: 'space-between', alignItems: 'flex-end'}}>
         <View>
           <Text style={styles.messageFooter}>
-            {this.props.distance}, {this.props.timestamp}
+            @ {this.props.distance}, {this.props.timestamp}
           </Text>
         </View>
         <View style={{justifyContent: 'space-between', flexDirection: 'row'}}>
