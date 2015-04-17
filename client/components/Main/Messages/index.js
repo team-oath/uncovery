@@ -3,16 +3,44 @@ var React = require('react-native');
 var SideMenu = require('react-native-side-menu');
 var Message = require('./Message');
 var Menu = require('../../Menu');
+var CameraRollView = require('../../CameraRollView.ios.js');
 
 var HOST = require('../../../config.js');
 var styles = require('../../../styles.js'); 
 
-var { View, ListView, Text, ActivityIndicatorIOS, } = React;
+var { View, ListView, Text, ActivityIndicatorIOS, TextInput, TouchableOpacity, Image, } = React;
+
+class CameraRollExample extends React.Component {
+
+  render() {
+    return (
+      <View style={styles.row}>
+        <CameraRollView
+          ref='cameraRollView'
+          batchSize={4}
+          groupTypes='SavedPhotos'
+          renderImage={this._renderImage}
+        />
+      </View>
+    );
+  }
+
+  _renderImage(asset) {
+    return (
+      <TouchableOpacity>
+          <Image
+            source={asset.node.image}
+            style={styles.image}
+          />
+      </TouchableOpacity>
+    );
+  }
+
+}
 
 class Messages extends React.Component {
 
   constructor(props) {
-    super(props);
     this.state = {
       dataSource: new ListView.DataSource({
         rowHasChanged: (row1, row2) => {
@@ -22,7 +50,11 @@ class Messages extends React.Component {
       loaded: false,
       reloading: false,
       coords: null,
+      input: '',
+      image: null, 
     };
+
+    this.displayName = "Messages"
   }
 
   componentDidMount() {
@@ -33,27 +65,85 @@ class Messages extends React.Component {
   }
 
   render() {
-    var menu = <Menu navigator={this.props.navigator}/>;
-    
+
+    // console.log('********************')
+    // console.log({...this.props})
+
     if ( !this.state.loaded || !this.props.userToken ) {
       return this.renderLoadingView();
     }
 
     return (
-      <SideMenu menu={menu}>
+      <View>
+        <View style={{justifyContent: 'space-between', display: 'flex', alignItems: 'flex-end'}}>
+          <TextInput
+            style={{marginTop: 100, height: 50, padding: 5}}
+            editable={true}
+            enablesReturnKeyAutomatically={false}
+            autoCorrect={false}
+            returnKeyType={'send'}
+            placeholder={'Be nice and make a comment...'}
+            value={this.state.input}
+            onSubmitEditing={this._submit.bind(this)}
+            clearButtonMode='while-editing'
+            onChangeText={(text) => {
+              this.setState({input: text, saved: text})
+            }}
+          />
+          <View>
+            <TouchableOpacity onPress={this._pushForwardToCameraRoll.bind(this)}>
+              <Text>
+                Camera
+              </Text>
+            </TouchableOpacity>
+          </View>
+        </View>
         <ListView
-          {...this.props}
           dataSource={this.state.dataSource}
           renderRow={this.renderMessage.bind(this)}
           renderHeader={this.renderHeader.bind(this)}
-          style={{backgroundColor: '#D7E1EE', height: 400}}
+          style={{backgroundColor: '#D7E1EE', height: 520}}
           initialListSize={10}
           pageSize={4}
           scrollRenderAheadDistance={2000} 
           onScroll={this._handleScroll.bind(this)}
         />
-      </SideMenu>
+      </View>
       );
+  }
+
+  _submit(){
+
+   navigator.geolocation.getCurrentPosition((currentPosition)=>{
+
+     var data = {
+       x: currentPosition.coords.latitude,
+       y: currentPosition.coords.longitude,
+       z: currentPosition.coords.altitude,
+       message: this.state.input,
+       userToken: this.props.userToken,
+     }
+
+     fetch(HOST + 'messages', {
+       method: 'POST',
+       headers: {
+         'Accept': 'application/json',
+         'Content-Type': 'application/json'},
+       body: JSON.stringify(data),
+     }).then(()=> this.setState({input:''}))
+
+   });
+
+
+  }
+
+  _setImage(){
+
+
+  };
+
+  _pushForwardToCameraRoll() {
+    this.props.navigator.push({ component: CameraRollExample });
   }
 
   renderMessage(message) {
