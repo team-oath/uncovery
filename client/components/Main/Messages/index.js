@@ -83,7 +83,7 @@ class Messages extends React.Component {
       return (
         <View style={styles.loadingHeader}>
           <ActivityIndicatorIOS 
-            animating='true'
+            animating={true}
             style={{alignItems:'center',justifyContent: 'center'}}
             size="large" 
           />
