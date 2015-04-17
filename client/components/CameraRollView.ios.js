@@ -1,24 +1,9 @@
-/**
- * The examples provided by Facebook are for non-commercial testing and
- * evaluation purposes only.
- *
- * Facebook reserves all rights not expressly granted.
- *
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
- * OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
- * FITNESS FOR A PARTICULAR PURPOSE AND NON INFRINGEMENT. IN NO EVENT SHALL
- * FACEBOOK BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN
- * AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
- * CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
- *
- * @providesModule CameraRollView
- * @flow
- */
 'use strict';
 
+var styles = require('../styles.js');
 var React = require('react-native');
+
 var {
-  ActivityIndicatorIOS,
   CameraRoll,
   Image,
   ListView,
@@ -31,11 +16,6 @@ var groupByEveryN = require('groupByEveryN');
 var logError = require('logError');
 
 var propTypes = {
-  /**
-   * The group where the photos will be fetched from. Possible
-   * values are 'Album', 'All', 'Event', 'Faces', 'Library', 'PhotoStream'
-   * and SavedPhotos.
-   */
   groupTypes: React.PropTypes.oneOf([
     'Album',
     'All',
@@ -45,20 +25,8 @@ var propTypes = {
     'PhotoStream',
     'SavedPhotos',
   ]),
-
-  /**
-   * Number of images that will be fetched in one page.
-   */
   batchSize: React.PropTypes.number,
-
-  /**
-   * A function that takes a single image as a parameter and renders it.
-   */
   renderImage: React.PropTypes.func,
-
-  /**
-   * imagesPerRow: Number of images to be shown in each row.
-   */
   imagesPerRow: React.PropTypes.number,
 };
 
@@ -69,7 +37,7 @@ var CameraRollView = React.createClass({
     var self = this;
     return {
       groupTypes: 'SavedPhotos',
-      batchSize: 4,
+      batchSize: 6,
       imagesPerRow: 2,
       renderImage: function(asset) {
         var imageSize = 180;
@@ -87,10 +55,6 @@ var CameraRollView = React.createClass({
     };
   },
 
-  clickImage: function(){
-    console.log("D");
-  },
-
   getInitialState: function() {
     var ds = new ListView.DataSource({rowHasChanged: this._rowHasChanged});
 
@@ -104,10 +68,6 @@ var CameraRollView = React.createClass({
     };
   },
 
-  /**
-   * This should be called when the image renderer is changed to tell the
-   * component to re-render its assets.
-   */
   rendererChanged: function() {
     var ds = new ListView.DataSource({rowHasChanged: this._rowHasChanged});
     this.state.dataSource = ds.cloneWithRows(
@@ -142,10 +102,6 @@ var CameraRollView = React.createClass({
     CameraRoll.getPhotos(fetchParams, this._appendAssets, logError);
   },
 
-  /**
-   * Fetches more images from the camera roll. If clear is set to true, it will
-   * set the component to its initial state and re-fetch the images.
-   */
   fetch: function(clear?: boolean) {
     if (!this.state.loadingMore) {
       this.setState({loadingMore: true}, () => { this._fetch(clear); });
@@ -157,7 +113,6 @@ var CameraRollView = React.createClass({
       <ListView
         renderRow={this._renderRow}
         renderFooter={this._renderFooterSpinner}
-        onEndReached={this._onEndReached}
         style={styles.container}
         dataSource={this.state.dataSource}
       />
@@ -179,9 +134,6 @@ var CameraRollView = React.createClass({
   },
 
   _renderFooterSpinner: function() {
-    if (!this.state.noMore) {
-      return <ActivityIndicatorIOS style={styles.spinner} />;
-    }
     return null;
   },
 
@@ -220,31 +172,6 @@ var CameraRollView = React.createClass({
     this.setState(newState);
   },
 
-  _onEndReached: function() {
-    if (!this.state.noMore) {
-      this.fetch();
-    }
-  },
-});
-
-var styles = StyleSheet.create({
-  row: {
-    flexDirection: 'row',
-    flex: 1,
-  },
-  url: {
-    fontSize: 9,
-    marginBottom: 14,
-  },
-  image: {
-    margin: 4,
-  },
-  info: {
-    flex: 1,
-  },
-  container: {
-    flex: 1,
-  },
 });
 
 module.exports = CameraRollView;
