@@ -42,11 +42,15 @@ var Message = React.createClass({
 
   render: function(message) {
 
-    var {votes, voted, messageString, image, ...footer} = this.props.message;
+    var {
 
-    console.log({messageString}, {votes}, '$$$$$$$$$$$$$$$$$$$$$$')
-    console.log({messageString}, this.state.numHearts, '$$$$$$$$$$$$$$$$$$$$$$')
+      votes, 
+      voted, 
+      messageString, 
+      image, 
+      ...footer
 
+    } = this.props.message;
 
     return (
       <View style={[styles.buttonContents, {flexDirection: 'column'}]}>
@@ -56,8 +60,10 @@ var Message = React.createClass({
               {messageString}
             </Text>
             <Text></Text>
-            { image ? <Thumbnail uri={image} fullResolution={false}/> : null }
-            <Text></Text>
+            <Thumbnail 
+              uri={image} 
+              fullResolution={false}
+            />
             <Text></Text>
           </View>
         </TouchableWithoutFeedback>
@@ -102,6 +108,7 @@ var Message = React.createClass({
         hasPressedHeart: false,
         load:true,
       });
+      
     } else {
       var increment = this.state.numHearts + 1;
       this.setState({

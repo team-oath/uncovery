@@ -70,12 +70,26 @@ class PostMessage extends React.Component {
     // Two different layouts
     // One with a preview image, one without.
     var preview;
-    if (!POST_FORM.selectedImage){
+
+    if ( !POST_FORM.selectedImage ){
+
       var viewStyle = styles.previewView;
-      preview = <View style={styles.uncoveryButton}><Text style={ styles.uncoveryButtonText }>+ Share a photo!</Text></View>
-    }else{
+      preview = 
+        <View style={styles.uncoveryButton}>
+          <Text style={styles.uncoveryButtonText}>
+            + Share a photo!
+          </Text>
+        </View>
+
+    } else {
+
       var viewStyle = styles.previewViewWithImage;
-      preview = <View style={styles.centerRow}><Image source={POST_FORM.selectedImage.node.image} style={styles.previewImage} /></View>
+      preview = 
+        <View style={styles.centerRow}>
+          <Image 
+            source={POST_FORM.selectedImage.node.image} 
+            style={styles.previewImage}/>
+        </View>
     }
 
     return (
@@ -114,10 +128,11 @@ class PostMessage extends React.Component {
   }
 
   _postMessageWithImage(input){
-    var self = this;
-    NativeModules.ReadImageData.processString(POST_FORM.selectedImage.node.image.uri, (image, imageWidth, imageHeight) => {
-      self._postMessage(input, image, imageWidth, imageHeight);
-    });
+    NativeModules.ReadImageData.processString(
+      POST_FORM.selectedImage.node.image.uri, 
+      ((image, imageWidth, imageHeight) => {
+        this._postMessage(input, image, imageWidth, imageHeight);
+    }).bind(this) );
   }
 
   _postMessage(input, image, imageWidth, imageHeight) {
