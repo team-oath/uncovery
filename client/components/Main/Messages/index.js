@@ -1,42 +1,37 @@
 
 var React = require('react-native');
-var SideMenu = require('react-native-side-menu');
+
+/* ------ Components ------- */
+
 var Message = require('./Message');
 var Menu = require('../../Menu');
-var CameraRollView = require('../../CameraRollView.ios.js');
+var CameraRoll = require('./CameraRoll.js');
+var MessageStreamSwitcher = require('./MessageStreamSwitcher.js');
+var MessageTextInputButton = require('./MessageTextInputButton.js');
+var NumHeartsDisplay = require('./NumHeartsDisplay.js');
+var CameraRollButton = require('./CameraRollButton.js');
+
+/* ------ Configs ------- */
 
 var HOST = require('../../../config.js');
 var styles = require('../../../styles.js'); 
 
-var { View, ListView, Text, ActivityIndicatorIOS, TextInput, TouchableOpacity, Image, } = React;
+/* ------ React Components ------- */
 
-class CameraRollExample extends React.Component {
+var {
 
-  render() {
-    return (
-      <View style={styles.row}>
-        <CameraRollView
-          ref='cameraRollView'
-          batchSize={4}
-          groupTypes='SavedPhotos'
-          renderImage={this._renderImage}
-        />
-      </View>
-    );
-  }
+  View, 
+  ListView, 
+  Text, 
+  ActivityIndicatorIOS, 
+  TextInput, 
+  TouchableOpacity, 
+  Image, 
+  NativeModules
 
-  _renderImage(asset) {
-    return (
-      <TouchableOpacity>
-          <Image
-            source={asset.node.image}
-            style={styles.image}
-          />
-      </TouchableOpacity>
-    );
-  }
+} = React;
 
-}
+/* ------ Main Component ------- */
 
 class Messages extends React.Component {
 
@@ -51,7 +46,7 @@ class Messages extends React.Component {
       reloading: false,
       coords: null,
       input: '',
-      image: null, 
+      selectedImage: null, 
     };
 
     this.displayName = "Messages"
@@ -59,15 +54,18 @@ class Messages extends React.Component {
 
   componentDidMount() {
     this.fetchMessages();
-    Reactive.on('posted', (()=>{
-      this.fetchMessages('loading');
-    }).bind(this) );
+
+    // Custom Navbar for Message Component
+    if (this.props.navBar) {
+      this.props.navBar = React.addons.cloneWithProps(this.props.navBar, {
+        customNext: <MessageTextInputButton show={this.displayName} />,
+        customTitle: <NumHeartsDisplay/>,
+        customPrev: <MessageStreamSwitcher/>,
+      });
+    }
   }
 
   render() {
-
-    // console.log('********************')
-    // console.log({...this.props})
 
     if ( !this.state.loaded || !this.props.userToken ) {
       return this.renderLoadingView();
@@ -75,27 +73,24 @@ class Messages extends React.Component {
 
     return (
       <View>
-        <View style={{justifyContent: 'space-between', display: 'flex', alignItems: 'flex-end'}}>
+        {this.props.navBar}
+        <View style={{flexDirection:'row', justifyContent: 'space-between', alignItems: 'flex-end', marginRight: 10, marginTop: 10,}}>
           <TextInput
-            style={{marginTop: 100, height: 50, padding: 5}}
+            style={{height: 50, padding: 5, flex: 1}}
             editable={true}
             enablesReturnKeyAutomatically={false}
             autoCorrect={false}
             returnKeyType={'send'}
             placeholder={'Be nice and make a comment...'}
             value={this.state.input}
-            onSubmitEditing={this._submit.bind(this)}
+            onSubmitEditing={this._handleSubmit.bind(this)}
             clearButtonMode='while-editing'
-            onChangeText={(text) => {
-              this.setState({input: text, saved: text})
-            }}
+            onChangeText={(text) => this.setState({input: text})}
           />
-          <View>
-            <TouchableOpacity onPress={this._pushForwardToCameraRoll.bind(this)}>
-              <Text>
-                Camera
-              </Text>
-            </TouchableOpacity>
+          <View style={{flexDirection:'row', alignItems: 'flex-end', justifyContent: 'space-between', marginBottom: 10}}>
+            <CameraRollButton
+              navToCameraRoll={this._pushForwardToCameraRoll.bind(this)}
+            />
           </View>
         </View>
         <ListView
@@ -112,7 +107,29 @@ class Messages extends React.Component {
       );
   }
 
-  _submit(){
+  _handleSubmit(){
+    if (!this.state.selectedImage) {
+      this._submit();
+    } else {
+      this._postMessageWithImage();
+    }
+  }
+
+  _postMessageWithImage(){
+
+    console.log('with image')
+    var self = this;
+    NativeModules.ReadImageData.processString(
+      self.state.selectedImage.node.image.uri, 
+      (image, imageWidth, imageHeight) => {
+        self._submit(image, imageWidth, imageHeight);
+    });
+  }
+
+
+  _submit(image, imageWidth, imageHeight){
+
+    console.log('with text')
 
    navigator.geolocation.getCurrentPosition((currentPosition)=>{
 
@@ -124,26 +141,40 @@ class Messages extends React.Component {
        userToken: this.props.userToken,
      }
 
+     if (this.state.selectedImage){
+       data.image = image;
+       data.imageW = imageWidth;
+       data.imageH = imageHeight;
+     }
+
      fetch(HOST + 'messages', {
        method: 'POST',
        headers: {
          'Accept': 'application/json',
          'Content-Type': 'application/json'},
        body: JSON.stringify(data),
-     }).then(()=> this.setState({input:''}))
+     }).then(()=> {
+      this.setState({input:'', selectedImage: null});
+    })
 
    });
 
 
   }
 
-  _setImage(){
-
-
-  };
+  _selectImage(image){
+    this.setState({selectedImage: image})
+  }
 
   _pushForwardToCameraRoll() {
-    this.props.navigator.push({ component: CameraRollExample });
+    var selectImage = this._selectImage.bind(this);
+    console.log(selectImage)
+    this.props.navigator.push({ 
+      component: CameraRoll,
+      navigator: this.props.navigator,
+      selectImage: selectImage, 
+      configureScene: (route) => Navigator.SceneConfigs.FloatFromBottom,
+    });
   }
 
   renderMessage(message) {
