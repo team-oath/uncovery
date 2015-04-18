@@ -9,12 +9,12 @@ var CameraRollButton = React.createClass({
   },
 
   render: function(){
-    var source = {uri: this.state.selected ? 'http://i.imgur.com/RcLi64D.png' : 'http://i.imgur.com/FP9JdCr.png'}
+    var source = {uri: 'http://i.imgur.com/biCwb3r.png'}
     return (
       <TouchableOpacity onPress={this._select.bind(this)}>
         <Image
           source={source}
-          style={{width:30, height: 30}}
+          style={{width:40, height: 30, borderRadius: 5}}
         />
       </TouchableOpacity>
     )

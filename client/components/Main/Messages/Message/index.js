@@ -4,6 +4,7 @@ var NavigationBar = require('react-native-navbar');
 var Comments = require('../../Comments');
 var Footer = require('../Footer');
 var Thumbnail = require('../../Thumbnails');
+var BackButton = require('../BackButton.js')
 
 var styles = require('../../../../styles.js');
 var HOST = require('../../../../config.js'); 
@@ -89,6 +90,7 @@ var Message = React.createClass({
     var hasPressedHeart = this.state.hasPressedHeart;
     var numHearts = this.state.numHearts;
     var fetchMessages = this._updateHearts;
+    var self = this;
 
     this.props.navigator.push({
       component: Comments,
@@ -98,8 +100,8 @@ var Message = React.createClass({
         {numHearts}, 
         {hasPressedHeart},
         {fetchMessages}),
-      navigationBar: <NavigationBar backgroundColor='#C0362C'/>,
-      sceneConfig: Navigator.SceneConfigs.FloatFromRight,
+      navigationBar: <NavigationBar backgroundColor='#C0362C' customPrev={<BackButton/>}/>,
+      sceneConfig: Navigator.SceneConfigs.FloatFromBottom,
     })
   },
 
