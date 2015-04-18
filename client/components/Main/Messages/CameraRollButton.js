@@ -4,17 +4,25 @@ var { Image, TouchableOpacity, View, Text, } = React
 
 var CameraRollButton = React.createClass({
 
-  render(){
+  getInitialState: function(){
+    return {selected: false};
+  },
 
+  render: function(){
+    var source = {uri: 'http://i.imgur.com/biCwb3r.png'}
     return (
-
-      <TouchableOpacity onPress={this.props.navToCameraRoll}>
+      <TouchableOpacity onPress={this._select.bind(this)}>
         <Image
-          source={{uri: 'https://farm3.staticflickr.com/2806/12530652945_ea31e0a2e1_o.png'}}
-          style={{width:30, height: 30}}
+          source={source}
+          style={{width:40, height: 30, borderRadius: 5}}
         />
       </TouchableOpacity>
     )
+  },
+
+  _select: function(){
+    this.setState({selected: this.state.selected ? false : true})
+    this.props.navToCameraRoll();
   }
 });
 

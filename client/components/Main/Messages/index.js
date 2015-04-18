@@ -61,7 +61,7 @@ class Messages extends React.Component {
       this.props.navBar = React.addons.cloneWithProps(this.props.navBar, {
         customNext: <MessageTextInputButton show={this._toggleEdit.bind(this)} />,
         customTitle: <NumHeartsDisplay/>,
-        customPrev: <MessageStreamSwitcher/>,
+
       });
     }
   }
@@ -74,15 +74,17 @@ class Messages extends React.Component {
       <View>
         {this.props.navBar}
         {this.state.edit ? 
+        <View style={{backgroundColor: 'white',}}>
         <View style={{
           flexDirection:'row', 
           justifyContent: 'space-between', 
           alignItems: 'flex-end', 
           marginRight: 10, 
-          marginTop: 10,}}
+          marginTop: 10,
+          backgroundColor: 'white', }}
         >
           <TextInput
-            style={{height: 50, padding: 5, flex: 1}}
+            style={{height: 50, padding: 10, flex: 1, backgroundColor: 'white', fontFamily: 'Avenir', fontSize: 20}}
             editable={true}
             enablesReturnKeyAutomatically={false}
             autoCorrect={false}
@@ -103,12 +105,14 @@ class Messages extends React.Component {
               navToCameraRoll={this._pushForwardToCameraRoll.bind(this)}
             />
           </View>
+          </View>
+          <View style={styles.seperator} />
         </View> : null }
         <ListView
           dataSource={this.state.dataSource}
           renderRow={this.renderMessage.bind(this)}
           renderHeader={this.renderHeader.bind(this)}
-          style={{backgroundColor: '#D7E1EE', height: require('Dimensions').get('window').height-62 }}
+          style={{backgroundColor: 'white', height: require('Dimensions').get('window').height-62,}}
           initialListSize={10}
           pageSize={4}
           scrollRenderAheadDistance={2000} 
@@ -259,6 +263,9 @@ class Messages extends React.Component {
             return response.json()
           })
           .then((responseData) => {
+            console.log('*******************')
+            console.log(responseData);
+            console.log('*******************')
             setTimeout(()=>{
               this.willReload = false;
               this.setState({

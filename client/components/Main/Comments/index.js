@@ -9,7 +9,7 @@ var CommentTextInput = require('./TextInput');
 var styles = require('../../../styles.js');
 var HOST = require('../../../config.js');
 
-var { View, Text, Image, ListView, TouchableOpacity, } = React;
+var { View, Text, Image, ListView, } = React;
 
 class Comments extends React.Component {
 
@@ -30,31 +30,30 @@ class Comments extends React.Component {
 
   render(){
     return (
-    <View>
-      <View style={{flexDirection: 'column'}}>
-        <ListView
-          dataSource={this.state.dataSource}
-          renderRow={this.renderMessage.bind(this)}
-          style={this.state.clicked ? 
-            {backgroundColor: '#D7E1EE', height: 220} : 
-            {backgroundColor: '#D7E1EE', height: 520}}
-          initialListSize={10}
-          pageSize={4}
-          scrollRenderAheadDistance={2000} 
-        />
-      </View>
       <View>
-        <CommentTextInput 
-          editOn={this.editOn.bind(this)} 
-          editOff={this.editOff.bind(this)}
-          navigator={this.props.passProps.navigator}
-          userToken={this.props.passProps.userToken}
-          messageId={this.props.passProps.messageId}
-          fetchComments={this.fetchComments.bind(this)}
-          coords={this.props.passProps.coords}
-        />
+        {this.props.navBar}
+        <View style={{flexDirection: 'column'}}>
+          <ListView
+            dataSource={this.state.dataSource}
+            renderRow={this.renderMessage.bind(this)}
+            style={this.state.clicked ? 
+              {backgroundColor: '#F7F8FA', height: 220} : 
+              {backgroundColor: '#F7F8FA', height: 450}}
+            initialListSize={10}
+          />
+        </View>
+        <View>
+          <CommentTextInput 
+            editOn={this.editOn.bind(this)} 
+            editOff={this.editOff.bind(this)}
+            navigator={this.props.passProps.navigator}
+            userToken={this.props.passProps.userToken}
+            messageId={this.props.passProps.messageId}
+            fetchComments={this.fetchComments.bind(this)}
+            coords={this.props.passProps.coords}
+          />
+        </View>
       </View>
-    </View>
     );
   }
 
@@ -71,13 +70,13 @@ class Comments extends React.Component {
     
     var thumbnail;
 
-    if (this.props.image && message.origin){  
+    if (this.props.passProps.image && message.origin){  
       thumbnail = 
         <Thumbnail 
-          uri={this.props.image} 
+          uri={this.props.passProps.image} 
           fullResolution={true} 
-          height={this.props.imageH} 
-          width={this.props.imageW} 
+          height={this.props.passProps.imageH} 
+          width={this.props.passProps.imageW} 
         />
     }
 
@@ -98,6 +97,7 @@ class Comments extends React.Component {
               [styles.commentText,{fontSize: 14}]} >
               {message.commentString}
             </Text>
+            <Text></Text>
             { thumbnail }
             <Text></Text>
           </View>

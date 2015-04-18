@@ -8,7 +8,7 @@ var EmptyHeart = React.createClass({
     return(
       <Image
         source={{uri: 'http://i.imgur.com/97rSbCf.png?1'}}
-        style={{width:30, height:30}}
+        style={{width:30, height:30, marginRight: 10}}
       />
     );
   }

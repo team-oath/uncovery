@@ -11,7 +11,7 @@ var NumHeartsDisplay = React.createClass({
         <Text style={{
           color:'white', 
           fontSize: 20, 
-          marginLeft: 20, 
+          marginLeft: 15, 
           marginBottom: 5, 
           fontFamily: 'Avenir'
         }}>

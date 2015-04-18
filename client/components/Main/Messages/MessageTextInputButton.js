@@ -1,24 +1,35 @@
 
 var React = require('react-native')
 
-var { TouchableOpacity, Text, View, } = React;
+var { TouchableOpacity, Image, View, } = React;
 
 var MessageTextInputButton = React.createClass({
 
-  render(){
+  getInitialState: function(){
+    return {toggle: false}
+  },
+
+  render: function(){
+
+    var x = {uri: 'http://i.imgur.com/baqD8a8.png'},
+        plus = {uri: 'http://i.imgur.com/UaJpmco.png'},
+        source = this.state.toggle ? x : plus,
+        style = {width:35, height:35, marginTop: 5, marginRight: 10,  marginBottom: 2, };
+
     return (
-      <TouchableOpacity onPress={this.props.show}>
-        <Text style={{
-          color: 'white', 
-          fontSize: 25, 
-          marginRight: 20, 
-          marginBottom: 1, 
-          fontFamily: 'Avenir'
-        }}>
-          +
-        </Text>
+      <TouchableOpacity 
+        onPress={this._toggle.bind(this)}>
+        <Image
+          source={source}
+          style={style}
+        />
       </TouchableOpacity>
     );
+  },
+
+  _toggle: function(){
+    this.props.show();
+    this.setState({toggle:this.state.toggle ? false : true});
   }
 
 });

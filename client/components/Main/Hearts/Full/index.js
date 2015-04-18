@@ -8,7 +8,7 @@ var FullHeart = React.createClass({
     return(
       <Image
         source={{uri: 'http://i.imgur.com/SXHb8nG.png?1'}}
-        style={{width:30, height:30}}
+        style={{width:30, height:30, marginRight: 10}}
       />
     );
   }
