@@ -5,15 +5,23 @@
 var React = require('react-native');
 var Reactive = require('./react-events.js')();
 var AdSupportIOS = require('AdSupportIOS');
+var NavigationBar = require('react-native-navbar');
 
 var Messages = require('./components/Main/Messages');
 var PostMessage = require('./components/Main/Messages/Post');
 var styles = require('./styles.js');
 var HOST = require('./config.js')
 
-// var WebViewExample = require('./components/Main/webview-test.js')
+var { 
 
-var { AppRegistry, NavigatorIOS, View, Text, } = React;
+  AppRegistry, 
+  Navigator, 
+  View, 
+  Text, 
+  StatusBarIOS, 
+  AlertIOS,
+
+} = React;
 
 class Uncovery extends React.Component {
 
@@ -25,54 +33,69 @@ class Uncovery extends React.Component {
   }
 
   componentWillMount(){
+    StatusBarIOS.setStyle(StatusBarIOS.Style.lightContent);
     this._getUserLocation();
     this._getDeviceID();
   }
-  
-  render() {
-    if (!this.state.userToken || !this.state.currentPosition){
+
+    renderScene(route, navigator) {
+      var Component = route.component;
+      var navBar = route.navigationBar;
+
+      if (navBar) {
+        navBar = React.addons.cloneWithProps(navBar, {
+          navigator: navigator,
+          route: route,
+        });
+      }
+
       return (
-        <View style={{marginTop: 200, flex: 1}}>
-          <Text>Loading messages...</Text>
+        <View style={styles.navigator}>
+          <Component 
+            navBar={navBar}
+            navigator={navigator} 
+            route={route}
+            passProps = {route.passProps}
+            userToken={this.state.userToken}
+            currentPosition={this.state.currentPosition}
+            />
         </View>
       );
-    } else {
-      return (
-        <NavigatorIOS
-          ref="nav"
-          style={styles.container}
-          barTintColor= '#C0362C'
-          titleTextColor = '#FFFFFF'
-          initialRoute={{
-            title: 'Privy',
-            titleTextColor:'#FFFFFF',
-            rightButtonTitle: '+  ',
-            onRightButtonPress: () => {
-              this.refs.nav.push({
-                component: PostMessage,
-                title: 'Share',
-                passProps: {userToken: this.state.userToken},
-              });
-            },
-            component: Messages,
-            passProps: {
-              userToken: this.state.userToken,
-              currentPosition: this.state.currentPosition,
-            },
-          }}
-          itemWrapperStyle={styles.itemWrapper}
-          tintColor='#008888'
-        />
-      );
     }
-  }
+  
+  render() {
+
+    if ( !this.state.userToken || !this.state.currentPosition ) return null;
+  
+    else return (
+      <Navigator
+        style={styles.container}
+        renderScene={this.renderScene.bind(this)}
+        initialRoute={{
+          component: Messages,
+          navigationBar: <NavigationBar backgroundColor='#C0362C'/>
+        }}
+        configureScene={(route) => {
+          if (route.sceneConfig) return route.sceneConfig;
+          else return Navigator.SceneConfigs.PushFromRight;
+        }}
+      />
+    );
+   
+   }
 
   _getUserLocation(){
     var watchSucess = (currentPosition) => {
       this.setState({currentPosition: currentPosition});
     }
 
-    var watchError = (error) => {console.error(error);}
+    var watchError = (error) => {
+      console.error(error);
+      AlertIOS.alert(
+        'Geolocation Error',
+        'Please Turn on iOS Location Services'
+      )
+    }
 
     navigator.geolocation.getCurrentPosition(
       watchSucess, watchError
@@ -110,3 +133,4 @@ class Uncovery extends React.Component {
 };
 
 AppRegistry.registerComponent('uncovery', () => Uncovery);
+

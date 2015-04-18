@@ -13,7 +13,8 @@ var {
   Text, 
   Image, 
   StyleSheet, 
-  TouchableWithoutFeedback
+  TouchableWithoutFeedback,
+  Navigator,
 
 } = React;
 
@@ -96,6 +97,7 @@ var Message = React.createClass({
         {numHearts}, 
         {hasPressedHeart},
         {fetchMessages}),
+      sceneConfig: Navigator.SceneConfigs.FloatFromRight,
     })
   },
 

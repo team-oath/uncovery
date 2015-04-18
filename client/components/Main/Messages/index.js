@@ -1,59 +1,203 @@
 
 var React = require('react-native');
-var SideMenu = require('react-native-side-menu');
+
+/* ------ Components ------- */
+
 var Message = require('./Message');
 var Menu = require('../../Menu');
+var CameraRoll = require('./CameraRoll.js');
+var MessageStreamSwitcher = require('./MessageStreamSwitcher.js');
+var MessageTextInputButton = require('./MessageTextInputButton.js');
+var NumHeartsDisplay = require('./NumHeartsDisplay.js');
+var CameraRollButton = require('./CameraRollButton.js');
+
+/* ------ Configs ------- */
 
 var HOST = require('../../../config.js');
 var styles = require('../../../styles.js'); 
 
-var { View, ListView, Text, ActivityIndicatorIOS, } = React;
+/* ------ React Components ------- */
+
+var {
+
+  View, 
+  ListView, 
+  Text, 
+  ActivityIndicatorIOS, 
+  TextInput, 
+  TouchableOpacity, 
+  Image, 
+  NativeModules,
+  Navigator,
+  AlertIOS,
+
+} = React;
+
+/* ------ Main Component ------- */
 
 class Messages extends React.Component {
 
   constructor(props) {
-    super(props);
     this.state = {
       dataSource: new ListView.DataSource({
-        rowHasChanged: (row1, row2) => {
-          return JSON.stringify(row1) !== JSON.stringify(row2)
-        },
+        rowHasChanged: (row1, row2) => row1 !== row2
       }),
       loaded: false,
       reloading: false,
       coords: null,
+      input: '',
+      selectedImage: null,
+      edit: false, 
     };
+
+    this.displayName = "Messages"
   }
 
   componentDidMount() {
     this.fetchMessages();
-    Reactive.on('posted', (()=>{
-      this.fetchMessages('loading');
-    }).bind(this) );
+
+    // Custom Navbar for Message Component
+    if (this.props.navBar) {
+      this.props.navBar = React.addons.cloneWithProps(this.props.navBar, {
+        customNext: <MessageTextInputButton show={this._toggleEdit.bind(this)} />,
+        customTitle: <NumHeartsDisplay/>,
+        customPrev: <MessageStreamSwitcher/>,
+      });
+    }
   }
 
   render() {
-    var menu = <Menu navigator={this.props.navigator}/>;
-    
-    if ( !this.state.loaded || !this.props.userToken ) {
-      return this.renderLoadingView();
-    }
 
+    if ( !this.state.loaded || !this.props.userToken ) return null
+  
     return (
-      <SideMenu menu={menu}>
+      <View>
+        {this.props.navBar}
+        {this.state.edit ? 
+        <View style={{
+          flexDirection:'row', 
+          justifyContent: 'space-between', 
+          alignItems: 'flex-end', 
+          marginRight: 10, 
+          marginTop: 10,}}
+        >
+          <TextInput
+            style={{height: 50, padding: 5, flex: 1}}
+            editable={true}
+            enablesReturnKeyAutomatically={false}
+            autoCorrect={false}
+            returnKeyType={'send'}
+            placeholder={'Be nice and make a comment...'}
+            value={this.state.input}
+            onSubmitEditing={this._handleSubmit.bind(this)}
+            clearButtonMode='while-editing'
+            onChangeText={(text) => this.setState({input: text})}
+          />
+          <View style={{
+            flexDirection:'row', 
+            alignItems: 'flex-end', 
+            justifyContent: 'space-between', 
+            marginBottom: 10}}
+          >
+            <CameraRollButton
+              navToCameraRoll={this._pushForwardToCameraRoll.bind(this)}
+            />
+          </View>
+        </View> : null }
         <ListView
-          {...this.props}
           dataSource={this.state.dataSource}
           renderRow={this.renderMessage.bind(this)}
           renderHeader={this.renderHeader.bind(this)}
-          style={{backgroundColor: '#D7E1EE', height: 400}}
+          style={{backgroundColor: '#D7E1EE', height: 520}}
           initialListSize={10}
           pageSize={4}
           scrollRenderAheadDistance={2000} 
           onScroll={this._handleScroll.bind(this)}
         />
-      </SideMenu>
+      </View>
       );
+  }
+
+  _toggleEdit(){
+    this.setState({edit: this.state.edit ? false : true});
+  }
+
+  _handleSubmit(){
+    if (!this.state.selectedImage) {
+      this._submit();
+    } else {
+      this._postMessageWithImage();
+    }
+  }
+
+  _postMessageWithImage(){
+    var self = this;
+    NativeModules.ReadImageData.processString(
+      self.state.selectedImage.node.image.uri, 
+      (image, imageWidth, imageHeight) => {
+        self._submit(image, imageWidth, imageHeight);
+    });
+  }
+
+
+  _submit(image, imageWidth, imageHeight){
+
+    var watchError = (error) => {
+      console.error(error);
+      AlertIOS.alert(
+        'Geolocation Error',
+        'Please Turn on iOS Location Services'
+      )
+    }
+
+    navigator.geolocation.getCurrentPosition((currentPosition)=>{
+
+      var data = {
+         x: currentPosition.coords.latitude,
+         y: currentPosition.coords.longitude,
+         z: currentPosition.coords.altitude,
+         message: this.state.input,
+         userToken: this.props.userToken,
+       }
+
+      if ( this.state.selectedImage ) {
+        data.image = image;
+        data.imageW = imageWidth;
+        data.imageH = imageHeight;
+      }
+
+       fetch(HOST + 'messages', {
+         method: 'POST',
+         headers: {
+           'Accept': 'application/json',
+           'Content-Type': 'application/json'},
+         body: JSON.stringify(data),
+       }).then(()=> {
+        this.setState({
+          input:'', 
+          selectedImage: null, 
+          edit: false
+        });
+        this.fetchMessages();
+      })
+
+   }, watchError);
+
+
+  }
+
+  _selectImage(image){
+    this.setState({selectedImage: image})
+  }
+
+  _pushForwardToCameraRoll() {
+    var selectImage = this._selectImage.bind(this);
+    this.props.navigator.push({ 
+      component: CameraRoll,
+      navigator: this.props.navigator,
+      selectImage: this._selectImage.bind(this), 
+      sceneConfig: Navigator.SceneConfigs.FloatFromBottom,
+    });
   }
 
   renderMessage(message) {

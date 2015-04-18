@@ -16,12 +16,6 @@ class Thumbnail extends React.Component {
 
 	render(){
 
-    if ( this.state.source !== this.props.uri ) {
-      console.log('&*&*&*&*&*&*&*&*&*&*&*&*&*&*&*&*&*&*&*&*&*&*&*&*&*&*&*&*&')
-      console.log(this.state.source)
-      console.log(this.props.uri)
-    }		
-
     if (this.props.uri){
       var window = require('Dimensions').get('window');
       var height = window.width - 10; //Default to square

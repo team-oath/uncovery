@@ -47,11 +47,11 @@ class Comments extends React.Component {
         <CommentTextInput 
           editOn={this.editOn.bind(this)} 
           editOff={this.editOff.bind(this)}
-          navigator={this.props.navigator}
-          userToken={this.props.userToken}
-          messageId={this.props.messageId}
+          navigator={this.props.passProps.navigator}
+          userToken={this.props.passProps.userToken}
+          messageId={this.props.passProps.messageId}
           fetchComments={this.fetchComments.bind(this)}
-          coords={this.props.coords}
+          coords={this.props.passProps.coords}
         />
       </View>
     </View>
@@ -105,19 +105,19 @@ class Comments extends React.Component {
           <MessageFooter 
             timestamp={message.timestamp} 
             distance={message.distance} 
-            numHearts={this.props.numHearts}
-            userToken={this.props.userToken}
-            hasPressedHeart={this.props.hasPressedHeart}
-            messageId={this.props.messageId}
-            coords={this.props.coords}
-            fetchMessages={this.props.fetchMessages} 
+            numHearts={this.props.passProps.numHearts}
+            userToken={this.props.passProps.userToken}
+            hasPressedHeart={this.props.passProps.hasPressedHeart}
+            messageId={this.props.passProps.messageId}
+            coords={this.props.passProps.coords}
+            fetchMessages={this.props.passProps.fetchMessages} 
           /> : 
           <CommentFooter 
             timestamp={message.timestamp} 
             distance={message.distance} 
             numHearts={message.votes}
-            userToken={this.props.userToken}
-            messageId={this.props.messageId}
+            userToken={this.props.passProps.userToken}
+            messageId={this.props.passProps.messageId}
             coords={this.props.coords}
             commentId={message.commentId} 
           /> }
@@ -130,20 +130,20 @@ class Comments extends React.Component {
   fetchComments(){
 
     var route = 'comment/'
-    var x = this.props.coords.latitude;
-    var y = this.props.coords.longitude;
-    var z = this.props.coords.altitude;
-    var id = this.props.messageId;
+    var x = this.props.passProps.coords.latitude;
+    var y = this.props.passProps.coords.longitude;
+    var z = this.props.passProps.coords.altitude;
+    var id = this.props.passProps.messageId;
     var params = `?messageId=${id}&x=${x}&y=${y}&z=${z}`;
     
     var originMessage = {
       origin: true, 
-      commentString: this.props.messageString, 
-      timestamp: this.props.timestamp, 
-      distance: this.props.distance,
-      numComments: this.props.numComments,
-      numHearts: this.props.numHearts,
-      userToken: this.props.userToken,
+      commentString: this.props.passProps.messageString, 
+      timestamp: this.props.passProps.timestamp, 
+      distance: this.props.passProps.distance,
+      numComments: this.props.passProps.numComments,
+      numHearts: this.props.passProps.numHearts,
+      userToken: this.props.passProps.userToken,
     }
  
     fetch(`${HOST}${route}${params}`)
