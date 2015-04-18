@@ -29,6 +29,7 @@ var {
   Image, 
   NativeModules,
   Navigator,
+  AlertIOS,
 
 } = React;
 
@@ -141,38 +142,46 @@ class Messages extends React.Component {
 
   _submit(image, imageWidth, imageHeight){
 
-   navigator.geolocation.getCurrentPosition((currentPosition)=>{
-
-     var data = {
-       x: currentPosition.coords.latitude,
-       y: currentPosition.coords.longitude,
-       z: currentPosition.coords.altitude,
-       message: this.state.input,
-       userToken: this.props.userToken,
-     }
-
-    if ( this.state.selectedImage ) {
-      data.image = image;
-      data.imageW = imageWidth;
-      data.imageH = imageHeight;
+    var watchError = (error) => {
+      console.error(error);
+      AlertIOS.alert(
+        'Geolocation Error',
+        'Please Turn on iOS Location Services'
+      )
     }
 
-     fetch(HOST + 'messages', {
-       method: 'POST',
-       headers: {
-         'Accept': 'application/json',
-         'Content-Type': 'application/json'},
-       body: JSON.stringify(data),
-     }).then(()=> {
-      this.setState({
-        input:'', 
-        selectedImage: null, 
-        edit: false
-      });
-      this.fetchMessages();
-    })
+    navigator.geolocation.getCurrentPosition((currentPosition)=>{
 
-   });
+      var data = {
+         x: currentPosition.coords.latitude,
+         y: currentPosition.coords.longitude,
+         z: currentPosition.coords.altitude,
+         message: this.state.input,
+         userToken: this.props.userToken,
+       }
+
+      if ( this.state.selectedImage ) {
+        data.image = image;
+        data.imageW = imageWidth;
+        data.imageH = imageHeight;
+      }
+
+       fetch(HOST + 'messages', {
+         method: 'POST',
+         headers: {
+           'Accept': 'application/json',
+           'Content-Type': 'application/json'},
+         body: JSON.stringify(data),
+       }).then(()=> {
+        this.setState({
+          input:'', 
+          selectedImage: null, 
+          edit: false
+        });
+        this.fetchMessages();
+      })
+
+   }, watchError);
 
 
   }

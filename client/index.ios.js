@@ -12,9 +12,16 @@ var PostMessage = require('./components/Main/Messages/Post');
 var styles = require('./styles.js');
 var HOST = require('./config.js')
 
-// var WebViewExample = require('./components/Main/webview-test.js')
+var { 
 
-var { AppRegistry, Navigator, View, Text, StatusBarIOS, } = React;
+  AppRegistry, 
+  Navigator, 
+  View, 
+  Text, 
+  StatusBarIOS, 
+  AlertIOS,
+
+} = React;
 
 class Uncovery extends React.Component {
 
@@ -42,10 +49,8 @@ class Uncovery extends React.Component {
         });
       }
 
-
       return (
         <View style={styles.navigator}>
-          
           <Component 
             navBar={navBar}
             navigator={navigator} 
@@ -63,7 +68,6 @@ class Uncovery extends React.Component {
     if ( !this.state.userToken || !this.state.currentPosition ) return null;
   
     else return (
-
       <Navigator
         style={styles.container}
         renderScene={this.renderScene.bind(this)}
@@ -76,7 +80,6 @@ class Uncovery extends React.Component {
           else return Navigator.SceneConfigs.PushFromRight;
         }}
       />
-
     );
    
    }
@@ -86,7 +89,13 @@ class Uncovery extends React.Component {
       this.setState({currentPosition: currentPosition});
     }
 
-    var watchError = (error) => {console.error(error);}
+    var watchError = (error) => {
+      console.error(error);
+      AlertIOS.alert(
+        'Geolocation Error',
+        'Please Turn on iOS Location Services'
+      )
+    }
 
     navigator.geolocation.getCurrentPosition(
       watchSucess, watchError
