@@ -61,7 +61,7 @@ class Messages extends React.Component {
       this.props.navBar = React.addons.cloneWithProps(this.props.navBar, {
         customNext: <MessageTextInputButton show={this._toggleEdit.bind(this)} />,
         customTitle: <NumHeartsDisplay/>,
-        customPrev: <MessageStreamSwitcher/>,
+
       });
     }
   }
@@ -259,6 +259,9 @@ class Messages extends React.Component {
             return response.json()
           })
           .then((responseData) => {
+            console.log('*******************')
+            console.log(responseData);
+            console.log('*******************')
             setTimeout(()=>{
               this.willReload = false;
               this.setState({

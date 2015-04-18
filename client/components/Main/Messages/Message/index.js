@@ -1,5 +1,6 @@
 
 var React = require('react-native');
+var NavigationBar = require('react-native-navbar');
 var Comments = require('../../Comments');
 var Footer = require('../Footer');
 var Thumbnail = require('../../Thumbnails');
@@ -97,6 +98,7 @@ var Message = React.createClass({
         {numHearts}, 
         {hasPressedHeart},
         {fetchMessages}),
+      navigationBar: <NavigationBar backgroundColor='#C0362C'/>,
       sceneConfig: Navigator.SceneConfigs.FloatFromRight,
     })
   },

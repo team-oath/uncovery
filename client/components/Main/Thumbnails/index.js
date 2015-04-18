@@ -18,7 +18,7 @@ class Thumbnail extends React.Component {
 
     if (this.props.uri){
       var window = require('Dimensions').get('window');
-      var height = window.width - 10; //Default to square
+      var height = window.width; //Default to square
       var resizeMode = Image.resizeMode.cover;
 
       var thumbail = {
@@ -30,12 +30,12 @@ class Thumbnail extends React.Component {
         if (this.props.width > this.props.height) {
 
           //Landscape
-          height = ( this.props.height * (window.width/500) )-5;
+          height = ( this.props.height * (window.width/500) );
 
         } else if ( this.props.height > this.props.width ) {
 
           //Portrait
-          height = ( (500/window.width) * window.width ) - 10;
+          height = ( (500/window.width) * window.width );
 
         }
 

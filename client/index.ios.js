@@ -46,6 +46,7 @@ class Uncovery extends React.Component {
         navBar = React.addons.cloneWithProps(navBar, {
           navigator: navigator,
           route: route,
+          buttonsColor: 'white',
         });
       }
 

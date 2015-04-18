@@ -26,11 +26,17 @@ class Comments extends React.Component {
 
   componentDidMount(){
     this.fetchComments();
+    // if (this.props.navBar) {
+    //   this.props.navBar = React.addons.cloneWithProps(this.props.navBar, {
+    //     buttonsColor: 'white',
+    //   });
+    // }
   }
 
   render(){
     return (
     <View>
+      {this.props.navBar}
       <View style={{flexDirection: 'column'}}>
         <ListView
           dataSource={this.state.dataSource}
@@ -71,13 +77,13 @@ class Comments extends React.Component {
     
     var thumbnail;
 
-    if (this.props.image && message.origin){  
+    if (this.props.passProps.image && message.origin){  
       thumbnail = 
         <Thumbnail 
-          uri={this.props.image} 
+          uri={this.props.passProps.image} 
           fullResolution={true} 
-          height={this.props.imageH} 
-          width={this.props.imageW} 
+          height={this.props.passProps.imageH} 
+          width={this.props.passProps.imageW} 
         />
     }
 
@@ -98,6 +104,7 @@ class Comments extends React.Component {
               [styles.commentText,{fontSize: 14}]} >
               {message.commentString}
             </Text>
+            <Text></Text>
             { thumbnail }
             <Text></Text>
           </View>
