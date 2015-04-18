@@ -43,7 +43,6 @@ var styles = StyleSheet.create({
   },
   buttonContents: {
     flexDirection: 'row',
-    marginHorizontal: 4,
     backgroundColor: 'white',
   },
   row: {

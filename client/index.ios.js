@@ -14,7 +14,7 @@ var HOST = require('./config.js')
 
 // var WebViewExample = require('./components/Main/webview-test.js')
 
-var { AppRegistry, Navigator, View, Text, } = React;
+var { AppRegistry, Navigator, View, Text, StatusBarIOS, } = React;
 
 class Uncovery extends React.Component {
 
@@ -26,6 +26,7 @@ class Uncovery extends React.Component {
   }
 
   componentWillMount(){
+    StatusBarIOS.setStyle(StatusBarIOS.Style.lightContent);
     this._getUserLocation();
     this._getDeviceID();
   }
@@ -58,15 +59,12 @@ class Uncovery extends React.Component {
     }
   
   render() {
-   if (!this.state.userToken || !this.state.currentPosition){
-     return (
-       <View style={{marginTop: 200, flex: 1}}>
-         <Text>Loading messages...</Text>
-       </View>
-     );
-   } else {
-     return (
-       <Navigator
+
+    if ( !this.state.userToken || !this.state.currentPosition ) return null;
+  
+    else return (
+
+      <Navigator
         style={styles.container}
         renderScene={this.renderScene.bind(this)}
         initialRoute={{
@@ -74,14 +72,13 @@ class Uncovery extends React.Component {
           navigationBar: <NavigationBar backgroundColor='#C0362C'/>
         }}
         configureScene={(route) => {
-          if (route.sceneConfig) {
-            return route.sceneConfig;
-          }
-          return Navigator.SceneConfigs.PushFromRight;
+          if (route.sceneConfig) return route.sceneConfig;
+          else return Navigator.SceneConfigs.PushFromRight;
         }}
       />
-     );
-   }
+
+    );
+   
    }
 
   _getUserLocation(){

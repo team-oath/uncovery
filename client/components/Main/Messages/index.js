@@ -67,10 +67,8 @@ class Messages extends React.Component {
 
   render() {
 
-    if ( !this.state.loaded || !this.props.userToken ) {
-      return this.renderLoadingView();
-    }
-
+    if ( !this.state.loaded || !this.props.userToken ) return null
+  
     return (
       <View>
         {this.props.navBar}
