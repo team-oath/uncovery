@@ -15,7 +15,7 @@ var CommentTextInput = React.createClass({
   render: function(){
     return (
       <TextInput
-        style={{height: 50, padding: 5, flex:2}}
+        style={{height: 50, padding: 10, fontFamily: 'Avenir', boderRadius: 10}}
         editable={true}
         enablesReturnKeyAutomatically={false}
         autoCorrect={false}

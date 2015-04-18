@@ -58,7 +58,7 @@ var Message = React.createClass({
       <View style={[styles.buttonContents, {flexDirection: 'column'}]}>
         <TouchableWithoutFeedback onPress={this._onPressMessage}>
           <View>
-            <Text style={[styles.messageText, {marginTop: 10}]}>
+            <Text style={[styles.messageText, {marginTop: 25}]}>
               {messageString}
             </Text>
             <Text></Text>

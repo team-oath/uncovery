@@ -145,7 +145,7 @@ var styles = StyleSheet.create({
     flex: 1, 
     justifyContent: 'space-around', 
     alignItems: 'center',
-    backgroundColor: '#D7E1EE',
+    backgroundColor: 'white',
     height: 50, 
     marginTop: 10,
   }

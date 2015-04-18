@@ -9,7 +9,7 @@ var CommentTextInput = require('./TextInput');
 var styles = require('../../../styles.js');
 var HOST = require('../../../config.js');
 
-var { View, Text, Image, ListView, TouchableOpacity, } = React;
+var { View, Text, Image, ListView, } = React;
 
 class Comments extends React.Component {
 
@@ -26,41 +26,34 @@ class Comments extends React.Component {
 
   componentDidMount(){
     this.fetchComments();
-    // if (this.props.navBar) {
-    //   this.props.navBar = React.addons.cloneWithProps(this.props.navBar, {
-    //     buttonsColor: 'white',
-    //   });
-    // }
   }
 
   render(){
     return (
-    <View>
-      {this.props.navBar}
-      <View style={{flexDirection: 'column'}}>
-        <ListView
-          dataSource={this.state.dataSource}
-          renderRow={this.renderMessage.bind(this)}
-          style={this.state.clicked ? 
-            {backgroundColor: '#D7E1EE', height: 220} : 
-            {backgroundColor: '#D7E1EE', height: 520}}
-          initialListSize={10}
-          pageSize={4}
-          scrollRenderAheadDistance={2000} 
-        />
-      </View>
       <View>
-        <CommentTextInput 
-          editOn={this.editOn.bind(this)} 
-          editOff={this.editOff.bind(this)}
-          navigator={this.props.passProps.navigator}
-          userToken={this.props.passProps.userToken}
-          messageId={this.props.passProps.messageId}
-          fetchComments={this.fetchComments.bind(this)}
-          coords={this.props.passProps.coords}
-        />
+        {this.props.navBar}
+        <View style={{flexDirection: 'column'}}>
+          <ListView
+            dataSource={this.state.dataSource}
+            renderRow={this.renderMessage.bind(this)}
+            style={this.state.clicked ? 
+              {backgroundColor: '#F7F8FA', height: 220} : 
+              {backgroundColor: '#F7F8FA', height: 450}}
+            initialListSize={10}
+          />
+        </View>
+        <View>
+          <CommentTextInput 
+            editOn={this.editOn.bind(this)} 
+            editOff={this.editOff.bind(this)}
+            navigator={this.props.passProps.navigator}
+            userToken={this.props.passProps.userToken}
+            messageId={this.props.passProps.messageId}
+            fetchComments={this.fetchComments.bind(this)}
+            coords={this.props.passProps.coords}
+          />
+        </View>
       </View>
-    </View>
     );
   }
 
