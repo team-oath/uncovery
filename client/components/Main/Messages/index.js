@@ -58,7 +58,7 @@ class Messages extends React.Component {
     // Custom Navbar for Message Component
     if (this.props.navBar) {
       this.props.navBar = React.addons.cloneWithProps(this.props.navBar, {
-        customNext: <MessageTextInputButton show={this._turnEditOn.bind(this)} />,
+        customNext: <MessageTextInputButton show={this._toggleEdit.bind(this)} />,
         customTitle: <NumHeartsDisplay/>,
         customPrev: <MessageStreamSwitcher/>,
       });
@@ -119,12 +119,8 @@ class Messages extends React.Component {
       );
   }
 
-  _turnEditOn(){
-    this.setState({edit: true});
-  }
-
-  _turnEditOff(){
-    this.setState({edit: false});
+  _toggleEdit(){
+    this.setState({edit: this.state.edit ? false : true});
   }
 
   _handleSubmit(){

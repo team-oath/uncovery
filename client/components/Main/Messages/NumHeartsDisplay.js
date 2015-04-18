@@ -8,7 +8,7 @@ var NumHeartsDisplay = React.createClass({
   render(){
     return (
       <View>
-       <Text>15</Text>
+       <Text style={{color:'white', fontSize: 20, marginLeft: 20, marginBottom: 5, fontFamily: 'Avenir'}}>15</Text>
       </View>
     );
   }

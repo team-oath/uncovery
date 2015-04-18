@@ -5,10 +5,22 @@ var { View, SwitchIOS, } = React;
 
 var MessageStreamSwitcher = React.createClass({
 
-  render(){
+  getInitialState: function(){
+    return {
+      switch: true,
+    }
+  },
+
+  render: function(){
     return (
       <View>
-        <SwitchIOS value={true} />
+        <SwitchIOS
+          onValueChange={(value) => this.setState({switch: value})} 
+          value={this.state.switch} 
+          onTintColor='#c05b2c'
+          thumbTintColor='#C0362C'
+          TintColor='#edb4b0'
+          />
       </View>
     );
   }

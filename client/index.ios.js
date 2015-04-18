@@ -71,7 +71,7 @@ class Uncovery extends React.Component {
         renderScene={this.renderScene.bind(this)}
         initialRoute={{
           component: Messages,
-          navigationBar: <NavigationBar/>
+          navigationBar: <NavigationBar backgroundColor='#C0362C'/>
         }}
         configureScene={(route) => {
           if (route.sceneConfig) {
