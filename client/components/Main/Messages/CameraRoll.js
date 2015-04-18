@@ -10,7 +10,7 @@ var CameraRoll = React.createClass({
 
   render: function() {
     return (
-      <View style={styles.row}>
+      <View style={{ width: require('Dimensions').get('window').width }}>
         <CameraRollView
           ref='cameraRollView'
           batchSize={4}
@@ -26,7 +26,7 @@ var CameraRoll = React.createClass({
       <TouchableOpacity onPress={()=>{this._handleSelection(asset)}}>
           <Image
             source={asset.node.image}
-            style={styles.image}
+            style={[styles.image, { borderWidth: 10, borderColor: 'white', alignSelf: 'center' }]}
           />
       </TouchableOpacity>
     );

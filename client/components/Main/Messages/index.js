@@ -108,7 +108,7 @@ class Messages extends React.Component {
           dataSource={this.state.dataSource}
           renderRow={this.renderMessage.bind(this)}
           renderHeader={this.renderHeader.bind(this)}
-          style={{backgroundColor: '#D7E1EE', height: 520}}
+          style={{backgroundColor: '#D7E1EE', height: require('Dimensions').get('window').height-62 }}
           initialListSize={10}
           pageSize={4}
           scrollRenderAheadDistance={2000} 
