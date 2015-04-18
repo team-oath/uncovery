@@ -7,7 +7,7 @@ var MessageTextInputButton = React.createClass({
 
   render(){
     return (
-      <TouchableOpacity onPress={()=>{console.log(this.props.show)}}>
+      <TouchableOpacity onPress={this.props.show}>
         <Text>
           +
         </Text>

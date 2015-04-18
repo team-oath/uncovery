@@ -97,7 +97,7 @@ var Message = React.createClass({
         {numHearts}, 
         {hasPressedHeart},
         {fetchMessages}),
-      sceneConfig: Navigator.SceneConfigs.FloatFromBottom,
+      sceneConfig: Navigator.SceneConfigs.FloatFromRight,
     })
   },
 

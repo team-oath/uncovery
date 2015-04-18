@@ -27,7 +27,8 @@ var {
   TextInput, 
   TouchableOpacity, 
   Image, 
-  NativeModules
+  NativeModules,
+  Navigator,
 
 } = React;
 
@@ -38,15 +39,14 @@ class Messages extends React.Component {
   constructor(props) {
     this.state = {
       dataSource: new ListView.DataSource({
-        rowHasChanged: (row1, row2) => {
-          return JSON.stringify(row1) !== JSON.stringify(row2)
-        },
+        rowHasChanged: (row1, row2) => row1 !== row2
       }),
       loaded: false,
       reloading: false,
       coords: null,
       input: '',
-      selectedImage: null, 
+      selectedImage: null,
+      edit: false, 
     };
 
     this.displayName = "Messages"
@@ -58,7 +58,7 @@ class Messages extends React.Component {
     // Custom Navbar for Message Component
     if (this.props.navBar) {
       this.props.navBar = React.addons.cloneWithProps(this.props.navBar, {
-        customNext: <MessageTextInputButton show={this.displayName} />,
+        customNext: <MessageTextInputButton show={this._turnEditOn.bind(this)} />,
         customTitle: <NumHeartsDisplay/>,
         customPrev: <MessageStreamSwitcher/>,
       });
@@ -74,7 +74,14 @@ class Messages extends React.Component {
     return (
       <View>
         {this.props.navBar}
-        <View style={{flexDirection:'row', justifyContent: 'space-between', alignItems: 'flex-end', marginRight: 10, marginTop: 10,}}>
+        {this.state.edit ? 
+        <View style={{
+          flexDirection:'row', 
+          justifyContent: 'space-between', 
+          alignItems: 'flex-end', 
+          marginRight: 10, 
+          marginTop: 10,}}
+        >
           <TextInput
             style={{height: 50, padding: 5, flex: 1}}
             editable={true}
@@ -87,12 +94,17 @@ class Messages extends React.Component {
             clearButtonMode='while-editing'
             onChangeText={(text) => this.setState({input: text})}
           />
-          <View style={{flexDirection:'row', alignItems: 'flex-end', justifyContent: 'space-between', marginBottom: 10}}>
+          <View style={{
+            flexDirection:'row', 
+            alignItems: 'flex-end', 
+            justifyContent: 'space-between', 
+            marginBottom: 10}}
+          >
             <CameraRollButton
               navToCameraRoll={this._pushForwardToCameraRoll.bind(this)}
             />
           </View>
-        </View>
+        </View> : null }
         <ListView
           dataSource={this.state.dataSource}
           renderRow={this.renderMessage.bind(this)}
@@ -107,6 +119,14 @@ class Messages extends React.Component {
       );
   }
 
+  _turnEditOn(){
+    this.setState({edit: true});
+  }
+
+  _turnEditOff(){
+    this.setState({edit: false});
+  }
+
   _handleSubmit(){
     if (!this.state.selectedImage) {
       this._submit();
@@ -116,8 +136,6 @@ class Messages extends React.Component {
   }
 
   _postMessageWithImage(){
-
-    console.log('with image')
     var self = this;
     NativeModules.ReadImageData.processString(
       self.state.selectedImage.node.image.uri, 
@@ -129,8 +147,6 @@ class Messages extends React.Component {
 
   _submit(image, imageWidth, imageHeight){
 
-    console.log('with text')
-
    navigator.geolocation.getCurrentPosition((currentPosition)=>{
 
      var data = {
@@ -141,11 +157,11 @@ class Messages extends React.Component {
        userToken: this.props.userToken,
      }
 
-     if (this.state.selectedImage){
-       data.image = image;
-       data.imageW = imageWidth;
-       data.imageH = imageHeight;
-     }
+    if ( this.state.selectedImage ) {
+      data.image = image;
+      data.imageW = imageWidth;
+      data.imageH = imageHeight;
+    }
 
      fetch(HOST + 'messages', {
        method: 'POST',
@@ -154,7 +170,12 @@ class Messages extends React.Component {
          'Content-Type': 'application/json'},
        body: JSON.stringify(data),
      }).then(()=> {
-      this.setState({input:'', selectedImage: null});
+      this.setState({
+        input:'', 
+        selectedImage: null, 
+        edit: false
+      });
+      this.fetchMessages();
     })
 
    });
@@ -168,12 +189,11 @@ class Messages extends React.Component {
 
   _pushForwardToCameraRoll() {
     var selectImage = this._selectImage.bind(this);
-    console.log(selectImage)
     this.props.navigator.push({ 
       component: CameraRoll,
       navigator: this.props.navigator,
-      selectImage: selectImage, 
-      configureScene: (route) => Navigator.SceneConfigs.FloatFromBottom,
+      selectImage: this._selectImage.bind(this), 
+      sceneConfig: Navigator.SceneConfigs.FloatFromBottom,
     });
   }
 
