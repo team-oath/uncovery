@@ -41,7 +41,7 @@ var CameraRollView = React.createClass({
       imagesPerRow: 2,
       renderImage: function(asset) {
         var imageSize = 180;
-        var imageStyle = [styles.image, {width: imageSize, height: imageSize}];
+        var imageStyle = [{}, {width: imageSize, height: imageSize}];
 
         return (
           <TouchableHighlight>
@@ -113,7 +113,7 @@ var CameraRollView = React.createClass({
       <ListView
         renderRow={this._renderRow}
         renderFooter={this._renderFooterSpinner}
-        style={styles.container}
+        style={{backgroundColor: 'black', paddingTop: 20}}
         dataSource={this.state.dataSource}
       />
     );
