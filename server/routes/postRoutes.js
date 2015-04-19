@@ -21,6 +21,14 @@ module.exports = function(router) {
       );
   });
 
+  //input: {messageId: string, x: float, y: float, z: float, commentString: string, userToken: string}
+  router.post('/comment', function (req, res) {
+    models.createComment(req.body).then(
+      util.resolvePOST.bind(this, req, res),
+      util.rejectPOST.bind(this, req, res)
+      );
+  });
+
   //input: {messageId: string, userToken: string}
   router.post('/upvote', function (req, res) {
     models.createVote(req.body).then(function(success) {
@@ -31,13 +39,5 @@ module.exports = function(router) {
     },
     util.rejectPOST.bind(this, req, res)
     );
-  });
-
-  //input: {messageId: string, x: float, y: float, z: float, commentString: string, userToken: string}
-  router.post('/comment', function (req, res) {
-    models.createComment(req.body).then(
-      util.resolvePOST.bind(this, req, res),
-      util.rejectPOST.bind(this, req, res)
-      );
   });
 };

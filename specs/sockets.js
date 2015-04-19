@@ -1,4 +1,5 @@
 var expect = require('chai').expect;
+var request = require('request');
 var io = require('socket.io-client');
 var models = require('../server/db/models');
 var localServerUri = 'http://127.0.0.1:3000/';
@@ -6,6 +7,7 @@ var testUser = {userToken: 'ABCDEFG'};
 var testMsg = {x: 100, y: 100, z: 100, message: 'hello database!', userToken: testUser.userToken};
 var testComment = {x: 101, y: 101, z: 101, commentString: 'hello database comment!', userToken: testUser.userToken};
 var testVote = {userToken: testUser.userToken};
+var postVote = {url: localServerUri + 'api/upvote', form: testVote};
 var connection;
 
 describe('Socket Server', function() {
@@ -51,10 +53,18 @@ describe('Socket Server', function() {
     });
   });
 
-  it('should update a user\'s score after upvoting', function(done) {
+  it('should return a user\'s score after receiving an upvote via socket event', function(done) {
     connection.emit('upvote', testVote);
-    connection.on('score', function(data) {
-      expect(data.score).to.be.a.number;
+    connection.once('score', function(data) {
+      expect(data.score).to.equal(1);
+      done();
+    });
+  });
+
+  it('should return a user\'s score after receiving an upvote via POST request', function(done) {
+    request.post(postVote);
+    connection.once('score', function(data) {
+      expect(data.score).to.equal(0);
       done();
     });
   });
