@@ -1,14 +1,22 @@
+var models = require('../db/models.js');
 var io;
 var connections = {};
 
 var events = {
+  //input: {userToken: string}
   init: function(data) {
     connections[data.userToken] = this;
     this.emit('init');
   },
 
-  update: function() {
-    console.log('user updated');
+  //input: {userToken: string, messageId: string}
+  upvote: function(data) {
+    models.createVote(data)
+    .then(function(success) {
+      return models.retrieveUserScore(data.userToken);
+    }).then(function(user) {
+      exports.sendUserScore(user[0]);
+    });
   },
 
   disconnect: function() {
@@ -23,4 +31,8 @@ exports.initialize = function(server) {
       socket.on(e, events[e]);
     }
   });
+};
+
+exports.sendUserScore = function(user) {
+  connections[user.token].emit('score', {score: user.total_votes});
 };
