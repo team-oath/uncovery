@@ -12,8 +12,10 @@ describe('Socket Server', function() {
 
   before(function(done) {
     models.createUser(testUser.userToken)
-    .then(function(data) {
-      testVote.messageId = data.insertId;
+    .then(function() {
+      return models.createMessage(testMsg);
+    }).then(function(success) {
+      testVote.messageId = success.messageSuccess.insertId;
       done();
     });
   });
@@ -49,4 +51,11 @@ describe('Socket Server', function() {
     });
   });
 
+  it('should update a user\'s score after upvoting', function(done) {
+    connection.emit('upvote', testVote);
+    connection.on('score', function(data) {
+      expect(data.score).to.be.a.number;
+      done();
+    });
+  });
 });
