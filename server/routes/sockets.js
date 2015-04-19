@@ -20,7 +20,11 @@ var events = {
   },
 
   disconnect: function() {
-    console.log('user disconnected');
+    for (var u in connections) {
+      if (connections[u] === this) {
+        delete connections[u];
+      }
+    }
   }
 };
 
@@ -34,5 +38,7 @@ exports.initialize = function(server) {
 };
 
 exports.sendUserScore = function(user) {
-  connections[user.token].emit('score', {score: user.total_votes});
+  if (connections.hasOwnProperty(user.token)) {
+    connections[user.token].emit('score', {score: user.total_votes});
+  }
 };
