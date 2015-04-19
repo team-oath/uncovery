@@ -143,7 +143,6 @@ exports.getImage = function(imgName) {
 };
 
 exports.getLogStream = function() {
-  console.log(__dirname);
   var accessLogStream = fs.createWriteStream(__dirname + '/../log/access.log', {flags: 'a'});
   return {stream: accessLogStream};
 };
