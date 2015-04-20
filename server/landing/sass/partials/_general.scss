@@ -156,7 +156,9 @@ section {
 	background-color: $googleplus-color;
 }
 
-.section-heading {
+
+
+.features .section-heading {
 	display:block;
 	width:750px;
 
@@ -164,6 +166,32 @@ section {
 		width:100%;
 	}
 
+	margin-bottom: 30px;
+	margin-left: 0;
+
+	margin-right: auto;
+
+	&.left-aligned hr {
+		margin-left: auto;
+		margin-right: auto;
+
+		@include min-screen($break-medium) {
+			margin: 0
+		}
+	}
+
+	hr {
+		width: 40px;
+		margin-bottom: 0;
+		margin-left: auto;
+		margin-right: auto;
+		border-color: $accent-color;
+	}
+
+}
+
+.section-heading {
+	display:block;
 	margin-bottom: 30px;
 	margin-left: 0;
 
