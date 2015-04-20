@@ -131,12 +131,10 @@ var styles = StyleSheet.create({
   messageContainer: {
     backgroundColor: 'white', 
     flexDirection: 'column',
-    marginHorizontal: 4,
   },
   commentContainer: {
     backgroundColor: '#F7F8FA', 
     flexDirection: 'column',
-    marginHorizontal: 4,
   },
   seperator: {
     height: 1,
@@ -147,7 +145,7 @@ var styles = StyleSheet.create({
     flex: 1, 
     justifyContent: 'space-around', 
     alignItems: 'center',
-    backgroundColor: '#D7E1EE',
+    backgroundColor: 'white',
     height: 50, 
     marginTop: 10,
   }

@@ -4,7 +4,6 @@ var React = require('react-native');
 /* ------ Components ------- */
 
 var Message = require('./Message');
-var Menu = require('../../Menu');
 var CameraRoll = require('./CameraRoll.js');
 var MessageStreamSwitcher = require('./MessageStreamSwitcher.js');
 var MessageTextInputButton = require('./MessageTextInputButton.js');
@@ -61,7 +60,7 @@ class Messages extends React.Component {
       this.props.navBar = React.addons.cloneWithProps(this.props.navBar, {
         customNext: <MessageTextInputButton show={this._toggleEdit.bind(this)} />,
         customTitle: <NumHeartsDisplay/>,
-        customPrev: <MessageStreamSwitcher/>,
+
       });
     }
   }
@@ -74,15 +73,17 @@ class Messages extends React.Component {
       <View>
         {this.props.navBar}
         {this.state.edit ? 
+        <View style={{backgroundColor: 'white',}}>
         <View style={{
           flexDirection:'row', 
           justifyContent: 'space-between', 
           alignItems: 'flex-end', 
           marginRight: 10, 
-          marginTop: 10,}}
+          marginTop: 10,
+          backgroundColor: 'white', }}
         >
           <TextInput
-            style={{height: 50, padding: 5, flex: 1}}
+            style={{height: 50, padding: 10, flex: 1, backgroundColor: 'white', fontFamily: 'Avenir', fontSize: 20}}
             editable={true}
             enablesReturnKeyAutomatically={false}
             autoCorrect={false}
@@ -103,12 +104,14 @@ class Messages extends React.Component {
               navToCameraRoll={this._pushForwardToCameraRoll.bind(this)}
             />
           </View>
+          </View>
+          <View style={styles.seperator} />
         </View> : null }
         <ListView
           dataSource={this.state.dataSource}
           renderRow={this.renderMessage.bind(this)}
           renderHeader={this.renderHeader.bind(this)}
-          style={{backgroundColor: '#D7E1EE', height: require('Dimensions').get('window').height-62 }}
+          style={{backgroundColor: 'white', height: require('Dimensions').get('window').height-62,}}
           initialListSize={10}
           pageSize={4}
           scrollRenderAheadDistance={2000} 
@@ -166,20 +169,22 @@ class Messages extends React.Component {
         data.imageH = imageHeight;
       }
 
-       fetch(HOST + 'messages', {
+      fetch(HOST + 'messages', {
          method: 'POST',
          headers: {
            'Accept': 'application/json',
            'Content-Type': 'application/json'},
          body: JSON.stringify(data),
-       }).then(()=> {
+
+      }).then(()=> {
         this.setState({
           input:'', 
           selectedImage: null, 
           edit: false
         });
         this.fetchMessages();
-      })
+
+      }).done();
 
    }, watchError);
 
@@ -270,6 +275,7 @@ class Messages extends React.Component {
             }, 300)
            
           })
+          .catch((e)=>{console.log(e)})
           .done();
       }
     } else {
@@ -288,6 +294,7 @@ class Messages extends React.Component {
                 coords: currentPosition.coords,
               })
           })
+          .catch((e)=>{console.log(e)})
           .done();
       }
 

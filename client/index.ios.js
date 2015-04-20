@@ -3,12 +3,11 @@
  */
 
 var React = require('react-native');
-var Reactive = require('./react-events.js')();
 var AdSupportIOS = require('AdSupportIOS');
 var NavigationBar = require('react-native-navbar');
 
 var Messages = require('./components/Main/Messages');
-var PostMessage = require('./components/Main/Messages/Post');
+
 var styles = require('./styles.js');
 var HOST = require('./config.js')
 
@@ -20,6 +19,7 @@ var {
   Text, 
   StatusBarIOS, 
   AlertIOS,
+  AsyncStorage,
 
 } = React;
 
@@ -33,64 +33,80 @@ class Uncovery extends React.Component {
   }
 
   componentWillMount(){
+
+    var onDeviceIDSuccess = (token) => {
+      console.log('Retrieved token ', token)
+      this.setState({userToken: token});
+      this._postUserToken(token);
+    };
+
+    var onDeviceIDFailure = () => {
+      console.log('No Device ID found in local storage')
+      this._getDeviceID();
+    };
+
     StatusBarIOS.setStyle(StatusBarIOS.Style.lightContent);
     this._getUserLocation();
-    this._getDeviceID();
+    this._getStoredDeviceID(onDeviceIDSuccess, onDeviceIDFailure);
   }
-
-    renderScene(route, navigator) {
-      var Component = route.component;
-      var navBar = route.navigationBar;
-
-      if (navBar) {
-        navBar = React.addons.cloneWithProps(navBar, {
-          navigator: navigator,
-          route: route,
-        });
-      }
-
-      return (
-        <View style={styles.navigator}>
-          <Component 
-            navBar={navBar}
-            navigator={navigator} 
-            route={route}
-            passProps = {route.passProps}
-            userToken={this.state.userToken}
-            currentPosition={this.state.currentPosition}
-            />
-        </View>
-      );
-    }
   
   render() {
 
-    if ( !this.state.userToken || !this.state.currentPosition ) return null;
+    if ( !this.state.userToken || !this.state.currentPosition ) 
+      return null;
   
-    else return (
-      <Navigator
-        style={styles.container}
-        renderScene={this.renderScene.bind(this)}
-        initialRoute={{
-          component: Messages,
-          navigationBar: <NavigationBar backgroundColor='#C0362C'/>
-        }}
-        configureScene={(route) => {
-          if (route.sceneConfig) return route.sceneConfig;
-          else return Navigator.SceneConfigs.PushFromRight;
-        }}
-      />
-    );
+    else 
+      return (
+        <Navigator
+          style={styles.container}
+          renderScene={this.renderScene.bind(this)}
+          initialRoute={{
+            component: Messages,
+            navigationBar: <NavigationBar backgroundColor='#C0362C'/>
+          }}
+          configureScene={(route) => {
+            if (route.sceneConfig)
+              return route.sceneConfig;
+            else
+              return Navigator.SceneConfigs.PushFromRight;
+          }}
+        />
+      );
    
    }
 
+  renderScene(route, navigator) {
+
+    var Component = route.component;
+    var navBar = route.navigationBar;
+
+    if (navBar) {
+      navBar = React.addons.cloneWithProps(navBar, {
+        navigator: navigator,
+        route: route,
+        buttonsColor: 'white',
+      });
+    }
+
+    return (
+      <Component 
+        navBar={navBar}
+        navigator={navigator} 
+        route={route}
+        passProps = {route.passProps}
+        userToken={this.state.userToken}
+        currentPosition={this.state.currentPosition}
+      />
+    );
+  }
+
   _getUserLocation(){
+
     var watchSucess = (currentPosition) => {
       this.setState({currentPosition: currentPosition});
     }
 
     var watchError = (error) => {
-      console.error(error);
       AlertIOS.alert(
         'Geolocation Error',
         'Please Turn on iOS Location Services'
@@ -102,15 +118,34 @@ class Uncovery extends React.Component {
     );
   }
 
+  _getStoredDeviceID(onDeviceIDSuccess, onDeviceIDFailure){
+    AsyncStorage.getItem('USER_TOKEN')
+      .then((token) => {
+        if (token !== null) 
+          onDeviceIDSuccess(token);
+        else 
+          onDeviceIDFailure();
+      })
+      .catch((error) => console.log(error))
+      .done();
+  }
+
+  _storeDeviceID(deviceID){
+    AsyncStorage.setItem('USER_TOKEN', deviceID)
+      .then(() => console.log('Stored Device ID ', deviceID))
+      .catch((error) => console.log('AsyncStorage error: ' + error.message))
+      .done();
+  }
+
   _getDeviceID(){
-    var onDeviceIDSuccess = (deviceID)=>{
+
+    var onDeviceIDSuccess = (deviceID) => {
+      this._storeDeviceID(deviceID);
       this.setState({userToken: deviceID});
       this._postUserToken(deviceID);
     }
 
-    var onDeviceIDFailure = (e)=>{
-      console.log(e);
-    }
+    var onDeviceIDFailure = (e) => console.log(e);
 
     AdSupportIOS.getAdvertisingId(
       onDeviceIDSuccess,
@@ -133,4 +168,3 @@ class Uncovery extends React.Component {
 };
 
 AppRegistry.registerComponent('uncovery', () => Uncovery);
-

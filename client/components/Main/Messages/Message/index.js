@@ -1,8 +1,10 @@
 
 var React = require('react-native');
+var NavigationBar = require('react-native-navbar');
 var Comments = require('../../Comments');
 var Footer = require('../Footer');
 var Thumbnail = require('../../Thumbnails');
+var BackButton = require('../BackButton.js')
 
 var styles = require('../../../../styles.js');
 var HOST = require('../../../../config.js'); 
@@ -57,7 +59,7 @@ var Message = React.createClass({
       <View style={[styles.buttonContents, {flexDirection: 'column'}]}>
         <TouchableWithoutFeedback onPress={this._onPressMessage}>
           <View>
-            <Text style={[styles.messageText, {marginTop: 10}]}>
+            <Text style={[styles.messageText, {marginTop: 25}]}>
               {messageString}
             </Text>
             <Text></Text>
@@ -88,6 +90,7 @@ var Message = React.createClass({
     var hasPressedHeart = this.state.hasPressedHeart;
     var numHearts = this.state.numHearts;
     var fetchMessages = this._updateHearts;
+    var self = this;
 
     this.props.navigator.push({
       component: Comments,
@@ -97,7 +100,8 @@ var Message = React.createClass({
         {numHearts}, 
         {hasPressedHeart},
         {fetchMessages}),
-      sceneConfig: Navigator.SceneConfigs.FloatFromRight,
+      navigationBar: <NavigationBar backgroundColor='#C0362C' customPrev={<BackButton/>}/>,
+      sceneConfig: Navigator.SceneConfigs.FloatFromBottom,
     })
   },
 
@@ -131,8 +135,8 @@ var Message = React.createClass({
       })
     }).then(()=>{
       this.props.fetchMessages();
-    })
-
+    }).catch((e)=>{console.log(e)
+    }).done();
   }
 
 });
