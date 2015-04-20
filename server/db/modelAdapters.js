@@ -152,17 +152,20 @@ exports.retrieveMarks = function(userData) {
         'LEFT JOIN marks ON marks.messageId = messages.id',
         'LEFT JOIN votes ON votes.messageId = messages.id',
         'LEFT JOIN comments ON comments.messageId = messages.id',
+        'WHERE x BETWEEN ? AND ?',
+        'AND y BETWEEN ? AND ?',
         'GROUP BY messages.id',
         'ORDER BY ?? DESC'
     ]).join(' ');
 
-    var params = [sort];
-    // var params = [
-    //   +userData.x - .01,
-    //   +userData.x + .01,
-    //   +userData.y - .01,
-    //     +userData.y + .01
-    // ];
+    //var params = [sort];
+     var params = [
+       +userData.x - .01,
+       +userData.x + .01,
+       +userData.y - .01,
+       +userData.y + .01,
+       sort
+     ];
 
     db.connection.query(query, params, function(err, marks) {
       if (err) {
