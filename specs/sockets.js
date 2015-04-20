@@ -48,7 +48,7 @@ describe('Socket Server', function() {
 
   it('should authenticate the connection', function(done) {
     connection.emit('init', testUser);
-    connection.on('init', function() {
+    connection.once('score', function() {
       done();
     });
   });
