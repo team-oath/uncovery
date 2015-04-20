@@ -3,10 +3,14 @@ var io;
 var connections = {};
 
 var events = {
+
   //input: {userToken: string}
   init: function(data) {
     connections[data.userToken] = this;
-    this.emit('init');
+    models.retrieveUserScore(data.userToken)
+    .then(function(user) {
+      exports.sendUserScore(user[0]);
+    });
   },
 
   //input: {userToken: string, messageId: string}
@@ -20,9 +24,9 @@ var events = {
   },
 
   disconnect: function() {
-    for (var u in connections) {
-      if (connections[u] === this) {
-        delete connections[u];
+    for (var user in connections) {
+      if (connections[user] === this) {
+        delete connections[user];
       }
     }
   }
