@@ -12,16 +12,6 @@ var { View, Text, StyleSheet, TouchableOpacity, Image, } = React;
 
 var Footer = React.createClass({
 
-  // getInitialState: function(){
-  //   return {hasPressedHeart: this.props.hasPressedHeart}
-  // },
-
-  // componentWillReceiveProps: function(props){
-  //   this.setState({
-  //     hasPressedHeart: props.hasPressedHeart,
-  //   })
-  // },
-
   render: function() {
 
       return(

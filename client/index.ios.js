@@ -7,7 +7,6 @@ var AdSupportIOS = require('AdSupportIOS');
 var NavigationBar = require('react-native-navbar');
 
 var Messages = require('./components/Main/Messages');
-var PostMessage = require('./components/Main/Messages/Post');
 
 var styles = require('./styles.js');
 var HOST = require('./config.js')

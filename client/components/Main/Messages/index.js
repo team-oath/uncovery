@@ -4,7 +4,6 @@ var React = require('react-native');
 /* ------ Components ------- */
 
 var Message = require('./Message');
-var Menu = require('../../Menu');
 var CameraRoll = require('./CameraRoll.js');
 var MessageStreamSwitcher = require('./MessageStreamSwitcher.js');
 var MessageTextInputButton = require('./MessageTextInputButton.js');
@@ -170,20 +169,22 @@ class Messages extends React.Component {
         data.imageH = imageHeight;
       }
 
-       fetch(HOST + 'messages', {
+      fetch(HOST + 'messages', {
          method: 'POST',
          headers: {
            'Accept': 'application/json',
            'Content-Type': 'application/json'},
          body: JSON.stringify(data),
-       }).then(()=> {
+
+      }).then(()=> {
         this.setState({
           input:'', 
           selectedImage: null, 
           edit: false
         });
         this.fetchMessages();
-      })
+
+      }).done();
 
    }, watchError);
 
@@ -263,9 +264,6 @@ class Messages extends React.Component {
             return response.json()
           })
           .then((responseData) => {
-            console.log('*******************')
-            console.log(responseData);
-            console.log('*******************')
             setTimeout(()=>{
               this.willReload = false;
               this.setState({
@@ -277,6 +275,7 @@ class Messages extends React.Component {
             }, 300)
            
           })
+          .catch((e)=>{console.log(e)})
           .done();
       }
     } else {
@@ -295,6 +294,7 @@ class Messages extends React.Component {
                 coords: currentPosition.coords,
               })
           })
+          .catch((e)=>{console.log(e)})
           .done();
       }
 

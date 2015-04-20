@@ -135,8 +135,8 @@ var Message = React.createClass({
       })
     }).then(()=>{
       this.props.fetchMessages();
-    })
-
+    }).catch((e)=>{console.log(e)
+    }).done();
   }
 
 });
