@@ -50,21 +50,22 @@ var CommentFooter = React.createClass({
   },
 
   _heartComment: function(){
-    this.setState({
-      numHearts: this.state.numHearts + 1,
-      heartPressed: this.state.heartPressed ? false : true,
-    })
+    console.log('under construction')
+    // this.setState({
+    //   numHearts: this.state.numHearts + 1,
+    //   heartPressed: this.state.heartPressed ? false : true,
+    // })
 
-    fetch(HOST + 'upvote', {
-      method: 'POST',
-      headers: {
-        'Accept': 'application/json',
-        'Content-Type': 'application/json'},
-      body: JSON.stringify({
-        commentId: this.props.commentId,
-        userToken: this.props.userToken,
-      })
-    })
+    // fetch(HOST + 'upvote', {
+    //   method: 'POST',
+    //   headers: {
+    //     'Accept': 'application/json',
+    //     'Content-Type': 'application/json'},
+    //   body: JSON.stringify({
+    //     commentId: this.props.commentId,
+    //     userToken: this.props.userToken,
+    //   })
+    // })
   }
 
 });

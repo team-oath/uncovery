@@ -59,7 +59,7 @@ class Messages extends React.Component {
     if (this.props.navBar) {
       this.props.navBar = React.addons.cloneWithProps(this.props.navBar, {
         customNext: <MessageTextInputButton show={this._toggleEdit.bind(this)} />,
-        customTitle: <NumHeartsDisplay/>,
+        customTitle: <NumHeartsDisplay userToken={this.props.userToken}/>,
 
       });
     }
@@ -134,12 +134,12 @@ class Messages extends React.Component {
   }
 
   _postMessageWithImage(){
-    var self = this;
-    NativeModules.ReadImageData.processString(
-      self.state.selectedImage.node.image.uri, 
-      (image, imageWidth, imageHeight) => {
-        self._submit(image, imageWidth, imageHeight);
-    });
+    var imageURI = this.state.selectedImage.node.image.uri
+    var submitImage = (image, imageWidth, imageHeight) => {
+      this._submit(image, imageWidth, imageHeight);
+    }
+
+    NativeModules.ReadImageData.processString(imageURI, submitImage.bind(this));
   }
 
 
