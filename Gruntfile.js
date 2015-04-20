@@ -48,21 +48,21 @@ module.exports = function(grunt) {
       }
     },
     uglify: {
-    options: {
-      mangle: false
-    },
-    my_target: {
-      files: {
-        'server/landing/assets/js/app.min.js':
-        ['server/landing/assets/js/jquery.easing.min.js',
-        'server/landing/assets/js/plugins/bxslider/jquery.bxslider.js',
-        'server/landing/assets/js/plugins/slick/slick.js',
-        'server/landing/assets/js/plugins/localscroll/jquery.scrollTo-1.4.3.1-min.js',
-        'server/landing/assets/js/plugins/localscroll/jquery.localscroll-1.2.7-min.js',
-        'server/landing/assets/js/zi-script.js']
+      options: {
+        mangle: false
+      },
+      my_target: {
+        files: {
+          'server/landing/assets/js/app.min.js':
+          ['server/landing/assets/js/jquery.easing.min.js',
+          'server/landing/assets/js/plugins/bxslider/jquery.bxslider.js',
+          'server/landing/assets/js/plugins/slick/slick.js',
+          'server/landing/assets/js/plugins/localscroll/jquery.scrollTo-1.4.3.1-min.js',
+          'server/landing/assets/js/plugins/localscroll/jquery.localscroll-1.2.7-min.js',
+          'server/landing/assets/js/zi-script.js']
+        }
       }
     }
-  }
   });
 
   grunt.loadNpmTasks('grunt-notify');
