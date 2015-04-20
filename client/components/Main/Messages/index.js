@@ -14,6 +14,7 @@ var CameraRollButton = require('./CameraRollButton.js');
 
 var HOST = require('../../../config.js');
 var styles = require('../../../styles.js'); 
+var LAST_POSITION = 0;
 
 /* ------ React Components ------- */
 
@@ -47,6 +48,7 @@ class Messages extends React.Component {
       input: '',
       selectedImage: null,
       edit: false, 
+      scrollDown: false,
     };
 
     this.displayName = "Messages"
@@ -71,7 +73,7 @@ class Messages extends React.Component {
   
     return (
       <View>
-        {this.props.navBar}
+        {this.state.scrollDown ? null : this.props.navBar}
         {this.state.edit ? 
         <View style={{backgroundColor: 'white',}}>
         <View style={{
@@ -312,11 +314,46 @@ class Messages extends React.Component {
   }
 
   _handleScroll(event){
-    var pullDown = event.nativeEvent.contentOffset.y < -100;
-    if ( pullDown ){
-      this.fetchMessages('loading');
-    } 
-    this.props.onScroll && this.props.onScroll(e)
+    
+    var self = this;
+    var lastScroll = 0
+    var position = event.nativeEvent.contentOffset.y
+    var pullDown = position < -100;
+
+    var handle = function(event){
+
+      if ( pullDown ){
+        self.fetchMessages('loading');
+        self.props.onScroll && self.props.onScroll(e)
+        return
+      } 
+
+      if ( position < 300 ) {
+        self.setState({scrollDown: false})
+        LAST_POSITION = position
+        self.props.onScroll && self.props.onScroll(e)
+        return
+      }
+
+      if ( position > 300 && position > LAST_POSITION ){
+        console.log('DOWN')
+        self.setState({scrollDown: true})
+        LAST_POSITION = position
+        self.props.onScroll && self.props.onScroll(e)
+        return
+      }
+
+      if ( position > 300 && position < LAST_POSITION ){
+        console.log('UP')
+        self.setState({scrollDown: false})
+        LAST_POSITION = position
+        self.props.onScroll && self.props.onScroll(e)
+        return
+      }
+
+    }
+
+    handle(event);
   }
 
 };
