@@ -314,7 +314,7 @@ class Messages extends React.Component {
   }
 
   _handleScroll(event){
-    
+
     var self = this;
     var lastScroll = 0
     var position = event.nativeEvent.contentOffset.y
@@ -343,7 +343,7 @@ class Messages extends React.Component {
         return
       }
 
-      if ( position > 300 && position < LAST_POSITION ){
+      if ( position > 300 && position + 50 < LAST_POSITION){
         console.log('UP')
         self.setState({scrollDown: false})
         LAST_POSITION = position
