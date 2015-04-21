@@ -14,7 +14,6 @@ var CameraRollButton = require('./CameraRollButton.js');
 
 var HOST = require('../../../config.js');
 var styles = require('../../../styles.js'); 
-var LAST_POSITION = 0;
 
 /* ------ React Components ------- */
 
@@ -48,7 +47,6 @@ class Messages extends React.Component {
       input: '',
       selectedImage: null,
       edit: false, 
- 
     };
 
     this.displayName = "Messages"
@@ -61,7 +59,7 @@ class Messages extends React.Component {
     if (this.props.navBar) {
       this.props.navBar = React.addons.cloneWithProps(this.props.navBar, {
         customNext: <MessageTextInputButton show={this._toggleEdit.bind(this)} />,
-        customTitle: <NumHeartsDisplay userToken={this.props.userToken}/>,
+        customTitle: <NumHeartsDisplay/>,
 
       });
     }
@@ -112,6 +110,7 @@ class Messages extends React.Component {
         <ListView
           dataSource={this.state.dataSource}
           renderRow={this.renderMessage.bind(this)}
+          renderHeader={this.renderHeader.bind(this)}
           style={{backgroundColor: 'white', height: require('Dimensions').get('window').height-62,}}
           initialListSize={10}
           pageSize={4}
@@ -135,12 +134,12 @@ class Messages extends React.Component {
   }
 
   _postMessageWithImage(){
-    var imageURI = this.state.selectedImage.node.image.uri
-    var submitImage = (image, imageWidth, imageHeight) => {
-      this._submit(image, imageWidth, imageHeight);
-    }
-
-    NativeModules.ReadImageData.processString(imageURI, submitImage.bind(this));
+    var self = this;
+    NativeModules.ReadImageData.processString(
+      self.state.selectedImage.node.image.uri, 
+      (image, imageWidth, imageHeight) => {
+        self._submit(image, imageWidth, imageHeight);
+    });
   }
 
 
@@ -257,8 +256,6 @@ class Messages extends React.Component {
     var watchOptions = {enableHighAccuracy: true};
     var watchSucess;
 
-    console.log(`${HOST}${route}${params}`)
-
     if (loading) {
       watchSucess = (currentPosition) => {
         this.setState({reloading: true})
@@ -297,7 +294,7 @@ class Messages extends React.Component {
                 coords: currentPosition.coords,
               })
           })
-          .catch((e)=>{console.log('THERES AN ERROR ', e)})
+          .catch((e)=>{console.log(e)})
           .done();
       }
 
@@ -315,41 +312,11 @@ class Messages extends React.Component {
   }
 
   _handleScroll(event){
-
-    var position = event.nativeEvent.contentOffset.y
-    var pullDown = position < -100;
-
-
-      if ( pullDown ){
-        this.fetchMessages('loading');
-      } 
-      this.props.onScroll && this.props.onScroll(e)
-      // if ( position < 300 ) {
-      //   self.setState({scrollDown: false})
-      //   LAST_POSITION = position
-      //   self.props.onScroll && self.props.onScroll(e)
-      //   return
-      // }
-
-      // if ( position > 300 && position > LAST_POSITION ){
-      //   console.log('DOWN')
-      //   self.setState({scrollDown: true})
-      //   LAST_POSITION = position
-      //   self.props.onScroll && self.props.onScroll(e)
-      //   return
-      // }
-
-      // if ( position > 300 && position + 50 < LAST_POSITION){
-      //   console.log('UP')
-      //   self.setState({scrollDown: false})
-      //   LAST_POSITION = position
-      //   self.props.onScroll && self.props.onScroll(e)
-      //   return
-      // }
-
-    // }
-
-    // handle(event);
+    var pullDown = event.nativeEvent.contentOffset.y < -100;
+    if ( pullDown ){
+      this.fetchMessages('loading');
+    } 
+    this.props.onScroll && this.props.onScroll(e)
   }
 
 };
