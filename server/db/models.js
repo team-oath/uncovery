@@ -89,6 +89,10 @@ exports.retrieveVotesByUser = function(userToken) {
   return db.where('votes', ['userToken', userToken]);
 };
 
+exports.retrieveUserScore = function(userToken) {
+  return db.where('users', ['token', userToken]);
+};
+
 //exports.retrieveMarks({x: float, y: float, z: float, userToken: string})
 exports.retrieveMarks = function(userData) {
   if (validate.validateCoordinates(userData)) {
