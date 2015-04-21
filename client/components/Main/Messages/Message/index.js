@@ -62,7 +62,6 @@ var Message = React.createClass({
             <Text style={[styles.messageText, {marginTop: 25}]}>
               {messageString}
             </Text>
-            <Text></Text>
             <Thumbnail 
               uri={image} 
               fullResolution={false}

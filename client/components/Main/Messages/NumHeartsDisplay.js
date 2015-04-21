@@ -13,18 +13,18 @@ var NumHeartsDisplay = React.createClass({
   },
 
   componentDidMount: function(){
-    var socket = io('http://ty.ngrok.com',{jsonp: false});
-    var userToken = this.props.userToken;
+    // var socket = io('http://uncovery.cloudapp.net/api/',{jsonp: false});
+    // var userToken = this.props.userToken;
 
-    var updateScore = function(data){
-      this.setState({numHearts: data.score || null});
-    };
+    // var updateScore = function(data){
+    //   this.setState({numHearts: data.score || null});
+    // };
 
-    socket.on('connect', function(){
-      socket.emit('init', {userToken: userToken});
-    });
+    // socket.on('connect', function(){
+    //   socket.emit('init', {userToken: userToken});
+    // });
 
-    socket.on('score', updateScore.bind(this));
+    // socket.on('score', updateScore.bind(this));
   },
 
   render: function(){
