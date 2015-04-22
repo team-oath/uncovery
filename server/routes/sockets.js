@@ -1,6 +1,8 @@
-var models = require('../db/models.js');
+var models = require('../db/models');
+var util = require('../core/utilities');
 var io;
 var connections = {};
+var privateSessions = {};
 
 var events = {
 
@@ -23,6 +25,36 @@ var events = {
     });
   },
 
+  //input: {userToken: string, messageId: string}
+  pmInit: function(data) {
+    models.retrieveUserByContentId(data)
+    .then(function(content) {
+      var userA = data.userToken;
+      var userB = content[0].userToken;
+
+      var id = util.createId();
+      privateSessions[id] = [userA, userB];
+
+      exports.sendUserData(userA, 'pmInit', {sessionId: id});
+      exports.sendUserData(userB, 'pmInit', {sessionId: id});
+    });
+
+  },
+
+  //input: {content: string, sessionId: string}
+  pmContent: function(data) {
+    var id = data.sessionId;
+
+    privateSessions[id].forEach(function(user) {
+      if (connections[user] === this) {
+        data.from = 'you';
+      } else {
+        data.from = 'them';
+      }
+      exports.sendUserData(user, 'pmContent', data);
+    }.bind(this));
+  },
+
   disconnect: function() {
     for (var user in connections) {
       if (connections[user] === this) {
@@ -41,8 +73,12 @@ exports.initialize = function(server) {
   });
 };
 
-exports.sendUserScore = function(user) {
-  if (connections.hasOwnProperty(user.token)) {
-    connections[user.token].emit('score', {score: user.total_votes});
+exports.sendUserData = function(token, type, data) {
+  if (connections.hasOwnProperty(token)) {
+    connections[token].emit(type, data);
   }
+}
+
+exports.sendUserScore = function(user) {
+  exports.sendUserData(user.token, 'score', {score: user.total_votes});
 };

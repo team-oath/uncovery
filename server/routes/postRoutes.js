@@ -33,7 +33,10 @@ module.exports = function(router) {
   router.post('/upvote', function (req, res) {
     models.createVote(req.body).then(function(success) {
       util.resolvePOST(req, res, success);
-      models.retrieveUserScore(req.body.userToken).then(function(user) {
+      models.retrieveUserByContentId(req.body)
+      .then(function(content) {
+        return models.retrieveUserScore(content[0].userToken);
+      }).then(function(user) {
         sockets.sendUserScore(user[0]);
       });
     },

@@ -8,6 +8,7 @@ var testMsg = {x: 100, y: 100, z: 100, message: 'hello database!', userToken: te
 var testComment = {x: 101, y: 101, z: 101, commentString: 'hello database comment!', userToken: testUser.userToken};
 var testVote = {userToken: testUser.userToken};
 var postVote = {url: localServerUri + 'api/upvote', form: testVote};
+var testPM = {content: 'hello!!'};
 var connection;
 
 describe('Socket Server', function() {
@@ -67,5 +68,22 @@ describe('Socket Server', function() {
       expect(data.score).to.equal(0);
       done();
     });
+  });
+
+  it('should initialize a private message session', function(done) {
+    connection.emit('pmInit', testVote);
+    connection.once('pmInit', function(data) {
+      testPM.sessionId = data.sessionId;
+      expect(data.sessionId).to.not.be.undefined;
+      done();
+    })
+  });
+
+  it('should send and receive a private message', function(done) {
+    connection.emit('pmContent', testPM);
+    connection.once('pmContent', function(data) {
+      expect(data.content).to.equal(testPM.content);
+      done();
+    })
   });
 });

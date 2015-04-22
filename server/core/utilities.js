@@ -158,6 +158,10 @@ exports.createQueryParams = function(obj) {
   return params;
 };
 
+exports.createId = function() {
+  return shortid.generate();
+};
+
 exports.rejectPOST = exports.rejectGET = function(req, res, err) {
   res.sendStatus(400);
 };
