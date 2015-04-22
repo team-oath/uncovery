@@ -2,7 +2,7 @@
 var React = require('react-native');
 var HOST = require('../../../config.js'); 
 
-var { Image, } = React;
+var { Image, View, Text} = React;
 
 class Thumbnail extends React.Component {
 
@@ -43,10 +43,13 @@ class Thumbnail extends React.Component {
       }
 
       return (
-        <Image 
-          style={{height: height, resizeMode: resizeMode }} 
-          source={thumbail} 
-        />
+        <View>
+          <Text></Text>
+          <Image 
+            style={{height: height, resizeMode: resizeMode }} 
+            source={thumbail} 
+          />
+        </View>
       );
 
     } else { return null };

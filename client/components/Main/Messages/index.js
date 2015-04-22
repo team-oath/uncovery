@@ -59,8 +59,7 @@ class Messages extends React.Component {
     if (this.props.navBar) {
       this.props.navBar = React.addons.cloneWithProps(this.props.navBar, {
         customNext: <MessageTextInputButton show={this._toggleEdit.bind(this)} />,
-        customTitle: <NumHeartsDisplay/>,
-
+        customTitle: <NumHeartsDisplay userToken={this.props.userToken}/>,
       });
     }
   }

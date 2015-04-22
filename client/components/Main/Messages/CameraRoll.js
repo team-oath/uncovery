@@ -15,7 +15,7 @@ var CameraRoll = React.createClass({
           ref='cameraRollView'
           batchSize={4}
           groupTypes='SavedPhotos'
-          renderImage={this._renderImage.bind(this)}
+          renderImage={this._renderImage}
         />
       </View>
     );
