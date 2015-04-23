@@ -51,7 +51,9 @@ class Messages extends React.Component {
       coords: null,
       input: '',
       selectedImage: null,
-      edit: false, 
+      edit: false,
+      cameraPhoto: false,
+      imageData: null,
     };
 
     this.displayName = "Messages"
@@ -130,7 +132,7 @@ class Messages extends React.Component {
   }
 
   _handleSubmit(){
-    if (!this.state.selectedImage) {
+    if (!this.state.selectedImage && !this.state.cameraPhoto) {
       this._submit();
     } else {
       this._postMessageWithImage();
@@ -139,13 +141,20 @@ class Messages extends React.Component {
 
   _postMessageWithImage(){
     var self = this;
-    NativeModules.ReadImageData.processString(
-      self.state.selectedImage.node.image.uri, 
-      (image, imageWidth, imageHeight) => {
-        self._submit(image, imageWidth, imageHeight);
-    });
-  }
+    
+    var dimensions = require('Dimensions').get('window');
 
+    if (this.state.cameraPhoto){
+
+      this._submit(this.state.imageData, dimensions.width, dimensions.height);
+    }else{
+      NativeModules.ReadImageData.processString(
+        self.state.selectedImage.node.image.uri, 
+        (image, imageWidth, imageHeight) => {
+          self._submit(image, imageWidth, imageHeight);
+      });
+    }
+  }
 
   _submit(image, imageWidth, imageHeight){
 
@@ -167,11 +176,13 @@ class Messages extends React.Component {
          userToken: this.props.userToken,
        }
 
-      if ( this.state.selectedImage ) {
+      if ( this.state.selectedImage || this.state.cameraPhoto ) {
         data.image = image;
         data.imageW = imageWidth;
         data.imageH = imageHeight;
       }
+
+      console.log(image, imageWidth, imageHeight, this.state.cameraPhoto, data)
 
       fetch(HOST + 'messages', {
          method: 'POST',
@@ -192,11 +203,19 @@ class Messages extends React.Component {
 
    }, watchError);
 
-
   }
 
   _selectImage(image){
-    this.setState({selectedImage: image})
+    this.setState({ cameraPhoto: false })
+    this.setState({ selectedImage: image })
+  }
+
+  _takePhoto(data){
+    // The photo is returned as base64 data.
+    // We don't need to encode again on submission.
+    this.setState({ cameraPhoto: true })
+    console.log(data)
+    this.setState({ imageData: data });
   }
 
   _pushForwardToCameraRoll() {
@@ -213,7 +232,7 @@ class Messages extends React.Component {
     this.props.navigator.push({ 
       component: Camera,
       navigator: this.props.navigator,
-      selectImage: this._selectImage.bind(this), 
+      takePhoto: this._takePhoto.bind(this), 
       sceneConfig: Navigator.SceneConfigs.FloatFromBottom,
     });
   }
