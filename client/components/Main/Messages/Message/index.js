@@ -4,7 +4,7 @@ var NavigationBar = require('react-native-navbar');
 var Comments = require('../../Comments');
 var Footer = require('../Footer');
 var Thumbnail = require('../../Thumbnails');
-var BackButton = require('../BackButton.js')
+var BackButton = require('../../Nav/BackButton.js')
 
 var styles = require('../../../../styles.js');
 var HOST = require('../../../../config.js'); 
@@ -21,6 +21,8 @@ var {
 } = React;
 
 var Message = React.createClass({
+
+  displayName: 'MessageView',
 
   getInitialState: function() {
     return { 
@@ -122,6 +124,8 @@ var Message = React.createClass({
         load:true,
       });
     }
+
+    console.log("Message ID, ", this.props.message.messageId)
 
     fetch(`${HOST}upvote`, {
       method: 'POST',
