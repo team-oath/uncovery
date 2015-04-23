@@ -3,7 +3,8 @@ var mysql = require('mysql');
 var db_config = {
   host: 'localhost',
   user: 'root',
-  database: 'uncovery'
+  database: 'uncovery',
+  charset: 'utf8mb4_general_ci'
 };
 
 handleDisconnect();
