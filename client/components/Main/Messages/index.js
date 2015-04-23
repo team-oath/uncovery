@@ -145,8 +145,7 @@ class Messages extends React.Component {
     var dimensions = require('Dimensions').get('window');
 
     if (this.state.cameraPhoto){
-
-      this._submit(this.state.imageData, dimensions.width, dimensions.height);
+      this._submit(this.state.imageData, dimensions.width*1.4, dimensions.height*1.6);
     }else{
       NativeModules.ReadImageData.processString(
         self.state.selectedImage.node.image.uri, 
@@ -182,8 +181,6 @@ class Messages extends React.Component {
         data.imageH = imageHeight;
       }
 
-      console.log(image, imageWidth, imageHeight, this.state.cameraPhoto, data)
-
       fetch(HOST + 'messages', {
          method: 'POST',
          headers: {
@@ -214,7 +211,6 @@ class Messages extends React.Component {
     // The photo is returned as base64 data.
     // We don't need to encode again on submission.
     this.setState({ cameraPhoto: true })
-    console.log(data)
     this.setState({ imageData: data });
   }
 
