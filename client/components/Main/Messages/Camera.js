@@ -3,7 +3,7 @@ var React = require('react-native');
 
 var styles = require('../../../styles.js'); 
 
-var { TouchableOpacity, TouchableHighlight, View, StatusBarIOS } = React;
+var { TouchableOpacity, TouchableHighlight, View, StatusBarIOS, Image } = React;
 
 var Camera = require('react-native-camera');
 
@@ -16,17 +16,19 @@ var CameraView = React.createClass({
 
     return (
       <View>
-        <TouchableHighlight onPress={this._switchCamera}>
-          <View>
-            <Camera
-              ref="cam"
-              aspect="Fill"
-              type="Back"
-              orientation="Portrait"
-              style={{height: dimensions.height, width: dimensions.width}}
-            />
-          </View>
-        </TouchableHighlight>
+        <View>
+          <Camera
+            ref="cam"
+            aspect="Fill"
+            type="Back"
+            orientation="Portrait"
+            style={{height: dimensions.height, width: dimensions.width}}
+          >
+            <TouchableHighlight onPress={this._switchCamera}>
+              <Image style={{ top: 20, alignSelf: 'flex-end', right: 20, width:30, height: 30 }} source={{ uri: 'http://i.imgur.com/1Mo4sCM.png' }} />
+            </TouchableHighlight>
+          </Camera>
+        </View>
       </View>
     );
   },
