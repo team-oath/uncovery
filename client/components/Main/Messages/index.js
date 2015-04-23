@@ -5,10 +5,10 @@ var React = require('react-native');
 
 var Message = require('./Message');
 var CameraRoll = require('./CameraRoll.js');
-var MessageStreamSwitcher = require('./MessageStreamSwitcher.js');
-var MessageTextInputButton = require('./MessageTextInputButton.js');
-var NumHeartsDisplay = require('./NumHeartsDisplay.js');
-var CameraRollButton = require('./CameraRollButton.js');
+var MessageStreamSwitcher = require('../Nav/MessageStreamSwitcher.js');
+var MessageTextInputButton = require('../Nav/MessageTextInputButton.js');
+var NumHeartsDisplay = require('../Nav/NumHeartsDisplay.js');
+var CameraRollButton = require('../Nav/CameraRollButton.js');
 
 /* ------ Configs ------- */
 

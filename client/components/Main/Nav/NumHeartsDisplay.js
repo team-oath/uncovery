@@ -1,6 +1,5 @@
 
 var React = require('react-native');
-
 var io = require('./socket.io-client.js');
 
 var { View, Text, Image} = React;
@@ -9,17 +8,24 @@ var NumHeartsDisplay = React.createClass({
 
   getInitialState: function(){
     return {
-      io: io('http://localhost:3000',{jsonp: false}),
-      numHearts: 15,
+      numHearts: null,
     }
   },
 
   componentDidMount: function(){
-    var self = this;
-    this.state.io.on('upvote', function(){
-      var increment = self.state.numHearts + 1;
-      self.setState({numHearts: increment});
-    });
+    // var socket = io('http://oath-test.cloudapp.net/',{jsonp: false});
+    // var userToken = this.props.userToken;
+
+    // var updateScore = function(data){
+    //   console.log(data.score)
+    //   this.setState({numHearts: data.score || null});
+    // };
+
+    // socket.on('connect', function(){
+    //   socket.emit('init', {userToken: userToken});
+    // });
+
+    // socket.on('score', updateScore.bind(this));
   },
 
   render: function(){

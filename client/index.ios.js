@@ -29,6 +29,7 @@ class Uncovery extends React.Component {
     this.state = {
       userToken: null,
       currentPosition: null,
+      
     }
   }
 

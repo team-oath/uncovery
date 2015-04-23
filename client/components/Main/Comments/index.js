@@ -5,22 +5,32 @@ var MessageFooter = require('./Message-Footer');
 var CommentFooter = require('./Comment-Footer');
 var Thumbnail = require('../Thumbnails');
 var CommentTextInput = require('./TextInput');
+var Chat = require('../Chats/Chat');
+var NavigationBar = require('react-native-navbar');
 
 var styles = require('../../../styles.js');
 var HOST = require('../../../config.js');
 
-var { View, Text, Image, ListView, } = React;
+var { 
+
+  View, 
+  Text, 
+  Image, 
+  ListView, 
+  TouchableWithoutFeedback,
+
+} = React;
 
 class Comments extends React.Component {
 
   constructor(props){
     super(props);
     this.state = {
+      loaded: false,
+      editing: false,
       dataSource: new ListView.DataSource({
         rowHasChanged: (row1, row2) => row1 !== row2,
       }),
-      loaded: false,
-      editing: false,
     };
   }
 
@@ -54,6 +64,7 @@ class Comments extends React.Component {
           />
         </View>
       </View>
+      
     );
   }
 
@@ -81,49 +92,51 @@ class Comments extends React.Component {
     }
 
     return(
-      <View style={ message.origin ? 
-        styles.messageContainer : 
-        styles.commentContainer}>
-        <View>
+      <TouchableWithoutFeedback onPress={this.initializeChat.bind(this, message)}>
+        <View style={ message.origin ? 
+          styles.messageContainer : 
+          styles.commentContainer}>
           <View>
-            <Text></Text>
-            { message.origin ? null : 
-            <Text style={[styles.commentText, {color:'#C0362C'}]}>
-              {message.name}:
-            </Text>}
-            <Text></Text>
-            <Text style={message.origin ? 
-              styles.messageText : 
-              [styles.commentText,{fontSize: 14}]} >
-              {message.commentString}
-            </Text>
-            <Text></Text>
-            { thumbnail }
-            <Text></Text>
+            <View>
+              <Text></Text>
+              { message.origin ? null : 
+              <Text style={[styles.commentText, {color:'#C0362C'}]}>
+                {message.name}:
+              </Text>}
+              <Text></Text>
+              <Text style={message.origin ? 
+                styles.messageText : 
+                [styles.commentText,{fontSize: 14}]} >
+                {message.commentString}
+              </Text>
+              <Text></Text>
+              { thumbnail }
+              <Text></Text>
+            </View>
+            { message.origin ? 
+            <MessageFooter 
+              timestamp={message.timestamp} 
+              distance={message.distance} 
+              numHearts={this.props.passProps.numHearts}
+              userToken={this.props.passProps.userToken}
+              hasPressedHeart={this.props.passProps.hasPressedHeart}
+              messageId={this.props.passProps.messageId}
+              coords={this.props.passProps.coords}
+              fetchMessages={this.props.passProps.fetchMessages} 
+            /> : 
+            <CommentFooter 
+              timestamp={message.timestamp} 
+              distance={message.distance} 
+              numHearts={message.votes}
+              userToken={this.props.passProps.userToken}
+              messageId={this.props.passProps.messageId}
+              coords={this.props.coords}
+              commentId={message.commentId} 
+            /> }
           </View>
-          { message.origin ? 
-          <MessageFooter 
-            timestamp={message.timestamp} 
-            distance={message.distance} 
-            numHearts={this.props.passProps.numHearts}
-            userToken={this.props.passProps.userToken}
-            hasPressedHeart={this.props.passProps.hasPressedHeart}
-            messageId={this.props.passProps.messageId}
-            coords={this.props.passProps.coords}
-            fetchMessages={this.props.passProps.fetchMessages} 
-          /> : 
-          <CommentFooter 
-            timestamp={message.timestamp} 
-            distance={message.distance} 
-            numHearts={message.votes}
-            userToken={this.props.passProps.userToken}
-            messageId={this.props.passProps.messageId}
-            coords={this.props.coords}
-            commentId={message.commentId} 
-          /> }
+          <View style={styles.seperator} />
         </View>
-        <View style={styles.seperator} />
-      </View>
+      </TouchableWithoutFeedback>
       );
   }
 
@@ -156,6 +169,17 @@ class Comments extends React.Component {
         });
       })
       .done();
+  }
+
+  initializeChat(message){
+    this.props.navigator.push({
+      component: Chat,
+      navigationBar: <NavigationBar backgroundColor='#C0362C' />,
+      passProps: {
+        messageId: this.props.passProps.messageId, 
+        commentId: message.commentId
+      },      
+    })
   }
 
 }
