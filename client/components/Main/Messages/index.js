@@ -5,10 +5,15 @@ var React = require('react-native');
 
 var Message = require('./Message');
 var CameraRoll = require('./CameraRoll.js');
-var MessageStreamSwitcher = require('../Nav/MessageStreamSwitcher.js');
-var MessageTextInputButton = require('../Nav/MessageTextInputButton.js');
-var NumHeartsDisplay = require('../Nav/NumHeartsDisplay.js');
-var CameraRollButton = require('../Nav/CameraRollButton.js');
+var Camera = require('./Camera.js');
+
+var MessageStreamSwitcher = require('./MessageStreamSwitcher.js');
+var MessageTextInputButton = require('./MessageTextInputButton.js');
+var NumHeartsDisplay = require('./NumHeartsDisplay.js');
+var CameraRollButton = require('./CameraRollButton.js');
+var ActionSheetIOS = require('ActionSheetIOS');
+var imageButtons = ['From Camera','Photo Library','Cancel'];
+
 
 /* ------ Configs ------- */
 
@@ -59,7 +64,7 @@ class Messages extends React.Component {
     if (this.props.navBar) {
       this.props.navBar = React.addons.cloneWithProps(this.props.navBar, {
         customNext: <MessageTextInputButton show={this._toggleEdit.bind(this)} />,
-        customTitle: <NumHeartsDisplay userToken={this.props.userToken}/>,
+        customPrev: <NumHeartsDisplay userToken={this.props.userToken}/>,
       });
     }
   }
@@ -67,7 +72,7 @@ class Messages extends React.Component {
   render() {
 
     if ( !this.state.loaded || !this.props.userToken ) return null
-  
+
     return (
       <View>
         {this.props.navBar}
@@ -100,7 +105,7 @@ class Messages extends React.Component {
             marginBottom: 10}}
           >
             <CameraRollButton
-              navToCameraRoll={this._pushForwardToCameraRoll.bind(this)}
+              navToCameraRoll={this._showImageOptions.bind(this)}
             />
           </View>
           </View>
@@ -201,6 +206,29 @@ class Messages extends React.Component {
       navigator: this.props.navigator,
       selectImage: this._selectImage.bind(this), 
       sceneConfig: Navigator.SceneConfigs.FloatFromBottom,
+    });
+  }
+
+  _pushForwardToCamera() {
+    this.props.navigator.push({ 
+      component: Camera,
+      navigator: this.props.navigator,
+      selectImage: this._selectImage.bind(this), 
+      sceneConfig: Navigator.SceneConfigs.FloatFromBottom,
+    });
+  }
+
+  _showImageOptions() {
+    ActionSheetIOS.showActionSheetWithOptions({
+      options: imageButtons,
+      cancelButtonIndex: imageButtons.length-1
+    },
+    (buttonIndex) => {
+      if (buttonIndex === 0){ //Camera
+        this._pushForwardToCamera();
+      }else if(buttonIndex === 1){ //Library
+        this._pushForwardToCameraRoll();
+      }
     });
   }
 
