@@ -85,8 +85,8 @@ class Messages extends React.Component {
           alignItems: 'flex-end', 
           marginRight: 10, 
           marginTop: 10,
-          backgroundColor: 'white', }}
-        >
+          backgroundColor: 'white',
+        }}>
           <TextInput
             style={{height: 50, padding: 10, flex: 1, backgroundColor: 'white', fontFamily: 'Avenir', fontSize: 20}}
             editable={true}
@@ -198,7 +198,9 @@ class Messages extends React.Component {
         
         this.setState({ userHasSelectAnImage: false });
         this.fetchMessages();
-
+        setTimeout((()=>{
+           this.fetchMessages()
+        }).bind(this), 300);
       }).done();
 
    }, watchError);
@@ -292,7 +294,6 @@ class Messages extends React.Component {
   fetchMessages(loading){
 
     var route = 'messages/'
-
     var x = this.props.currentPosition.coords.latitude;
     var y = this.props.currentPosition.coords.longitude;
     var z = this.props.currentPosition.coords.altitude;
@@ -349,7 +350,7 @@ class Messages extends React.Component {
 
     var watchError = (error) => console.error(error);
 
-    if (this.willReload || this.state.reloading) return
+    if (this.willReload || this.state.reloading) { return; }
 
     this.willReload = true;
 

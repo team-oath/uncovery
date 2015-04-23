@@ -6,24 +6,26 @@ var {
   View, 
   ListView, 
   Text,
+  TouchableOpacity,
 
 } = React;
 
 
-class Chats extends React.Component {
+var Chats = React.createClass({
 
-  constructor(props){
-    this.state = {
-      chats: []
+  getInitialState: function(){
+    return { 
+      chats: [],
+      dataSource: null, 
     };
-  }
+  },
 
-  render(){
+  render: function(){
     return (
       <View>
         <ListView
           dataSource={this.state.dataSource}
-          renderRow={this.renderMessage.bind(this)}
+          renderRow={this.renderChat.bind(this)}
           renderHeader={this.renderHeader.bind(this)}
           style={{backgroundColor: 'white', height: require('Dimensions').get('window').height-62,}}
           initialListSize={10}
@@ -33,14 +35,25 @@ class Chats extends React.Component {
 
         />
       </View>
-    )
+    );
+  },
+
+  renderChat: function(chat){
+    return (
+      <TouchableOpacity 
+        onPress={this._enterChatRoom.bind(this, chat.sessionId)}>
+        <View>
+          <Text>{chat.name}</Text>
+        </View>
+      </TouchableOpacity>
+
+    );
+  },
+
+  _enterChatRoom: function(chat){
+    console.log('chat room entered')
   }
 
-  renderRow(){
-
-    
-  }
-
-};
+});
 
 module.exports = Chats;

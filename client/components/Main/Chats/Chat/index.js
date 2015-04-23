@@ -4,7 +4,7 @@ var io = require('../../Nav/socket.io-client.js');
 
 var ChatTextInput = require('../TextInput.js');
 
-var { View, Text, StyleSheet, ListView} = React;
+var { View, Text, StyleSheet, ListView, } = React;
 
 var Chat = React.createClass({
 
@@ -40,8 +40,14 @@ var Chat = React.createClass({
       this.state.io.emit('pmInit', init);
     }
 
-    var saveSessionId = function(data){
-      this.setState({sessionId: data.sessionId});
+    var initializeChat = function(data){
+      var messages = data.messages;
+      var sessionId = data.sessionId;
+      this.setState({
+        sessionId: sessionId,
+        messages: messages,
+        dataSource: this.state.dataSource.cloneWithRows(messages),
+      });
     };
 
     var addMessage = function(message){
@@ -56,7 +62,7 @@ var Chat = React.createClass({
 
     this.state.io.on('connect', pmInit.bind(this));
 
-    this.state.io.on('pmInit', saveSessionId.bind(this));
+    this.state.io.on('pmInit', initializeChat.bind(this));
 
     this.state.io.on('pmContent', addMessage.bind(this));
 
