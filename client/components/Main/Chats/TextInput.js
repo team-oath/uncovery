@@ -1,8 +1,8 @@
 
 var React = require('react-native');
 
-var styles = require('../../../../styles.js');
-var HOST = require('../../../../config.js');
+var styles = require('../../../styles.js');
+var HOST = require('../../../config.js');
 
 var { TextInput, View, Text, TouchableOpacity, ActivityIndicatorIOS, } = React;
 
@@ -46,12 +46,7 @@ var ChatTextInput = React.createClass({
         'Accept': 'application/json',
         'Content-Type': 'application/json' },
       body: JSON.stringify({
-        x: this.props.coords.latitude,
-        y: this.props.coords.longitude,
-        z: this.props.coords.altitude,
-        messageId: this.props.messageId,
-        commentString: this.state.saved,
-        userToken: this.props.userToken,
+     
       })
     }).then(()=>{
       this.setState({saved: ''});

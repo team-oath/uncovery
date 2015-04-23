@@ -2,6 +2,8 @@
 var React = require('react-native');
 var io = require('../../Nav/socket.io-client.js');
 
+var ChatTextInput = require('../TextInput.js')
+
 var { View, Text, StyleSheet, ListView} = React;
 
 var Chat = React.createClass({
@@ -34,15 +36,12 @@ var Chat = React.createClass({
     }
 
     var pmInit = function(){
-      console.log('PMINIT')
       this.state.io.emit('init', {userToken: this.props.userToken})
       this.state.io.emit('pmInit', init);
     }
 
     var saveSessionId = function(data){
-      console.log('SAVE SESSION ID')
       this.setState({sessionId: data.sessionId});
-      console.log(this.state.sessionId)
     };
 
     var addMessage = function(message){
@@ -70,14 +69,21 @@ var Chat = React.createClass({
   },
 
   render: function(){
-    console.log(this.props.navBar)
     return (
       <View>
         {this.props.navBar}
-        <View>
-          <ListView
-            dataSource={this.state.dataSource}
-            renderRow={this.renderMessage.bind(this)}
+        <View style={{flexDirection: 'column', justifyContent: 'space-between'}}>
+          <View>
+            <ListView
+              dataSource={this.state.dataSource}
+              renderRow={this.renderMessage.bind(this)}
+              style={this.state.edit ? {height: 220} : {height: 450}}
+            />
+          </View>
+          <ChatTextInput 
+            editOn={this.editOn.bind(this)} 
+            editOff={this.editOff.bind(this)}
+            io={this.state.io}
           />
         </View>
       </View>
@@ -85,7 +91,6 @@ var Chat = React.createClass({
   },
 
   renderMessage: function(message){
-
     return (
       <View>
         <Text>
@@ -96,15 +101,13 @@ var Chat = React.createClass({
 
   },
 
-  _editOn: function(){
-
-
+  editOn: function(){
+    this.setState({edit: true});
   },
 
   editOff: function(){
-
-
-  }
+    this.setState({edit: false});
+  },
 
 });
 
