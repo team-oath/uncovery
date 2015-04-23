@@ -1,6 +1,5 @@
 var models = require('../db/models');
 var util = require('../core/utilities');
-var io;
 var connections = {};
 var privateSessions = {};
 
@@ -10,9 +9,7 @@ var events = {
   init: function(data) {
     connections[data.userToken] = this;
     models.retrieveUserScore(data.userToken)
-    .then(function(user) {
-      exports.sendUserScore(user[0]);
-    });
+    .then(sendRetrievedUser);
   },
 
   //input: {userToken: string, messageId: string}
@@ -20,9 +17,7 @@ var events = {
     models.createVote(data)
     .then(function(success) {
       return models.retrieveUserScore(data.userToken);
-    }).then(function(user) {
-      exports.sendUserScore(user[0]);
-    });
+    }).then(sendRetrievedUser);
   },
 
   //input: {userToken: string, messageId: string}
@@ -43,14 +38,8 @@ var events = {
 
   //input: {content: string, sessionId: string}
   pmContent: function(data) {
-    var id = data.sessionId;
-
-    privateSessions[id].forEach(function(user) {
-      if (connections[user] === this) {
-        data.from = 'you';
-      } else {
-        data.from = 'them';
-      }
+    privateSessions[data.sessionId].forEach(function(user) {
+      data.from = connections[user] === this ? 'you' : 'them';
       exports.sendUserData(user, 'pmContent', data);
     }.bind(this));
   },
@@ -65,8 +54,7 @@ var events = {
 };
 
 exports.initialize = function(server) {
-  io = server;
-  io.on('connection', function(socket) {
+  server.on('connection', function(socket) {
     for (var e in events) {
       socket.on(e, events[e]);
     }
@@ -77,8 +65,12 @@ exports.sendUserData = function(token, type, data) {
   if (connections.hasOwnProperty(token)) {
     connections[token].emit(type, data);
   }
-}
+};
 
 exports.sendUserScore = function(user) {
   exports.sendUserData(user.token, 'score', {score: user.total_votes});
 };
+
+function sendRetrievedUser(users) {
+  exports.sendUserScore(users[0]);
+}
