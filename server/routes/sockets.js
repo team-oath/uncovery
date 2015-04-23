@@ -20,28 +20,66 @@ var events = {
     }).then(sendRetrievedUser);
   },
 
-  //input: {userToken: string, messageId: string}
+  //input: {userToken: string, messageId: string, commentId: string}
   pmInit: function(data) {
-    models.retrieveUserByContentId(data)
-    .then(function(content) {
-      var userA = data.userToken;
-      var userB = content[0].userToken;
+    var id;
 
-      var id = util.createId();
-      privateSessions[id] = [userA, userB];
-
-      exports.sendUserData(userA, 'pmInit', {sessionId: id});
-      exports.sendUserData(userB, 'pmInit', {sessionId: id});
+    Object.keys(privateSessions).forEach(function(session, shortid) {
+      session.users.forEach(function(user) {
+        if (data.userToken === user && data.messageId === session.messageId) {
+          id = shortid;
+        }
+      });
     });
+
+    if (id === undefined) {
+      models.retrieveUserByContentId(data)
+      .then(function(content) {
+        var userA = data.userToken;
+        var userB = content[0].userToken;
+
+        id = util.createId();
+        privateSessions[id] = {
+          users: [userA, userB],
+          messageId: data.messageId,
+          messages: []
+        };
+
+        privateSessions[id].users.forEach(function(user) {
+          exports.sendUserData(user, 'pmInit', {sessionId: id, messages: []});
+        });
+      });
+    } else {
+      privateSessions[id].users.forEach(function(user) {
+        exports.sendUserData(user, 'pmInit', {
+          sessionId: id,
+          messages: privateSessions[id].messages
+        });
+      });
+    }
 
   },
 
   //input: {content: string, sessionId: string}
   pmContent: function(data) {
-    privateSessions[data.sessionId].forEach(function(user) {
+    privateSessions[data.sessionId].users.forEach(function(user) {
       data.from = connections[user] === this ? 'you' : 'them';
+      privateSessions[data.sessionId].messages.push(data);
       exports.sendUserData(user, 'pmContent', data);
     }.bind(this));
+  },
+
+  //input: {userToken: string}
+  pmList: function(data) {
+    var chats = [];
+    Object.keys(privateSessions).forEach(function(session) {
+      session.users.forEach(function(user) {
+        if (data.userToken === user) {
+          chats.push(session.messageId);
+        }
+      });
+    });
+    exports.sendUserData(data.userToken, 'pmList', {chats: chats});
   },
 
   disconnect: function() {
