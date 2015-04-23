@@ -2,7 +2,7 @@
 var React = require('react-native');
 var io = require('../../Nav/socket.io-client.js');
 
-var ChatTextInput = require('../TextInput.js')
+var ChatTextInput = require('../TextInput.js');
 
 var { View, Text, StyleSheet, ListView} = React;
 
@@ -45,7 +45,6 @@ var Chat = React.createClass({
     };
 
     var addMessage = function(message){
-      console.log('ADD MESsage')
       var messages = this.state.messages;
       if ( this.state.sessionId === message.sessionId ){
         messages.push(message);
@@ -60,11 +59,6 @@ var Chat = React.createClass({
     this.state.io.on('pmInit', saveSessionId.bind(this));
 
     this.state.io.on('pmContent', addMessage.bind(this));
-
-
-    setInterval((()=>{
-      this.state.io.emit('pmContent', {sessionId: this.state.sessionId, content: 'hey hey hey hey'})
-    }).bind(this), 1000)
 
   },
 
@@ -84,6 +78,7 @@ var Chat = React.createClass({
             editOn={this.editOn.bind(this)} 
             editOff={this.editOff.bind(this)}
             io={this.state.io}
+            sessionId={this.state.sessionId}
           />
         </View>
       </View>
@@ -92,10 +87,14 @@ var Chat = React.createClass({
 
   renderMessage: function(message){
     return (
-      <View>
-        <Text>
-          {message.content}
-        </Text>
+      <View style={styles.buttonContents}>
+        <View>
+          <Text style={styles.messageText}>
+            {message.content}
+          </Text>
+        </View>
+        <View style={{height: 2,backgroundColor: 'black', marginTop:50,}}/>
+      
       </View>
     );
 
@@ -122,6 +121,21 @@ var styles = StyleSheet.create({
   },
   nonUserText: {
     color: 'red',
+  },
+  messageText: {
+    paddingLeft: 12, 
+    paddingRight: 12, 
+    fontSize: 16,
+    fontFamily: 'Avenir',
+  },
+  buttonContents: {
+    flexDirection: 'row',
+    backgroundColor: 'white',
+  },
+  seperator: {
+    height: 2,
+    backgroundColor: 'black',
+    marginTop:20,
   },
 });
 

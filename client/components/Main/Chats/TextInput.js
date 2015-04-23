@@ -40,18 +40,8 @@ var ChatTextInput = React.createClass({
   },
 
   _postChatMessage: function(){
-    fetch(HOST + 'comment', {
-      method: 'POST',
-      headers: {
-        'Accept': 'application/json',
-        'Content-Type': 'application/json' },
-      body: JSON.stringify({
-     
-      })
-    }).then(()=>{
-      this.setState({saved: ''});
-      this.props.fetchComments();
-    });
+    this.props.io.emit('pmContent', {sessionId: this.props.sessionId, content: this.state.saved})
+    this.setState({saved: ''});
   }
 
 });
