@@ -54,10 +54,11 @@ var events = {
       });
     } else {
       // Send users the old session messages, since it exists
-      privateSessions[id].users.forEach(function(user) {
+      privateSessions[id].users.forEach(function(user, i) {
         exports.sendUserData(user, 'pmInit', {
           sessionId: id,
-          messages: privateSessions[id].messages
+          messages: privateSessions[id].messages,
+          creator: i === 0
         });
       });
     }
@@ -66,9 +67,15 @@ var events = {
 
   //input: {content: string, sessionId: string}
   pmContent: function(data) {
-    privateSessions[data.sessionId].users.forEach(function(user) {
+    privateSessions[data.sessionId].users.forEach(function(user, i) {
       data.from = connections[user] === this ? 'you' : 'them';
-      privateSessions[data.sessionId].messages.push(data);
+      if (i === 0) {
+        privateSessions[data.sessionId].messages.push({
+          sessionId: data.sessionId,
+          content: data.content,
+          from: data.from
+        });
+      }
       exports.sendUserData(user, 'pmContent', data);
     }.bind(this));
   },
