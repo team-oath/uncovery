@@ -5,12 +5,11 @@ var React = require('react-native');
 
 var Message = require('./Message');
 var CameraRoll = require('./CameraRoll.js');
+var MessageStreamSwitcher = require('../Nav/MessageStreamSwitcher.js');
+var MessageTextInputButton = require('../Nav/MessageTextInputButton.js');
+var NumHeartsDisplay = require('../Nav/NumHeartsDisplay.js');
+var CameraRollButton = require('../Nav/CameraRollButton.js');
 var Camera = require('./Camera.js');
-
-var MessageStreamSwitcher = require('./MessageStreamSwitcher.js');
-var MessageTextInputButton = require('./MessageTextInputButton.js');
-var NumHeartsDisplay = require('./NumHeartsDisplay.js');
-var CameraRollButton = require('./CameraRollButton.js');
 var ActionSheetIOS = require('ActionSheetIOS');
 var imageButtons = ['From Camera','Photo Library','Cancel'];
 
@@ -51,9 +50,7 @@ class Messages extends React.Component {
       coords: null,
       input: '',
       selectedImage: null,
-      edit: false,
-      cameraPhoto: false,
-      imageData: null,
+      edit: false, 
     };
 
     this.displayName = "Messages"
@@ -132,7 +129,7 @@ class Messages extends React.Component {
   }
 
   _handleSubmit(){
-    if (!this.state.selectedImage && !this.state.cameraPhoto) {
+    if (!this.state.selectedImage) {
       this._submit();
     } else {
       this._postMessageWithImage();
@@ -141,19 +138,13 @@ class Messages extends React.Component {
 
   _postMessageWithImage(){
     var self = this;
-    
-    var dimensions = require('Dimensions').get('window');
-
-    if (this.state.cameraPhoto){
-      this._submit(this.state.imageData, dimensions.width*1.4, dimensions.height*1.6);
-    }else{
-      NativeModules.ReadImageData.processString(
-        self.state.selectedImage.node.image.uri, 
-        (image, imageWidth, imageHeight) => {
-          self._submit(image, imageWidth, imageHeight);
-      });
-    }
+    NativeModules.ReadImageData.processString(
+      self.state.selectedImage.node.image.uri, 
+      (image, imageWidth, imageHeight) => {
+        self._submit(image, imageWidth, imageHeight);
+    });
   }
+
 
   _submit(image, imageWidth, imageHeight){
 
@@ -175,7 +166,7 @@ class Messages extends React.Component {
          userToken: this.props.userToken,
        }
 
-      if ( this.state.selectedImage || this.state.cameraPhoto ) {
+      if ( this.state.selectedImage ) {
         data.image = image;
         data.imageW = imageWidth;
         data.imageH = imageHeight;
@@ -200,18 +191,11 @@ class Messages extends React.Component {
 
    }, watchError);
 
+
   }
 
   _selectImage(image){
-    this.setState({ cameraPhoto: false })
-    this.setState({ selectedImage: image })
-  }
-
-  _takePhoto(data){
-    // The photo is returned as base64 data.
-    // We don't need to encode again on submission.
-    this.setState({ cameraPhoto: true })
-    this.setState({ imageData: data });
+    this.setState({selectedImage: image})
   }
 
   _pushForwardToCameraRoll() {
@@ -228,7 +212,7 @@ class Messages extends React.Component {
     this.props.navigator.push({ 
       component: Camera,
       navigator: this.props.navigator,
-      takePhoto: this._takePhoto.bind(this), 
+      selectImage: this._selectImage.bind(this), 
       sceneConfig: Navigator.SceneConfigs.FloatFromBottom,
     });
   }
