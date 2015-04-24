@@ -4,14 +4,13 @@ var io = require('../../Nav/socket.io-client.js');
 
 var ChatTextInput = require('../TextInput.js');
 
-var { View, Text, StyleSheet, ListView} = React;
+var { View, Text, StyleSheet, ListView, } = React;
 
 var Chat = React.createClass({
 
   getInitialState: function(){
     return {
       messages: [{content: 'hello'}, {content: 'yo yo yo'}],
-      io: io('http://oath-test.cloudapp.net/', {jsonp: false}),
       edit: false,
       sessionId: null,
       dataSource: new ListView.DataSource({
@@ -29,19 +28,22 @@ var Chat = React.createClass({
 
   componentDidMount: function(){
 
+    var socket = this.props.socket;
+
     var init = {
       userToken: this.props.userToken,
       messageId: this.props.passProps.messageId,
       commentId: this.props.passProps.commentId,
     }
 
-    var pmInit = function(){
-      this.state.io.emit('init', {userToken: this.props.userToken})
-      this.state.io.emit('pmInit', init);
-    }
-
-    var saveSessionId = function(data){
-      this.setState({sessionId: data.sessionId});
+    var initializeChat = function(data){
+      var messages = data.messages;
+      var sessionId = data.sessionId;
+      this.setState({
+        sessionId: data.sessionId,
+        messages: messages,
+        dataSource: this.state.dataSource.cloneWithRows(messages),
+      });
     };
 
     var addMessage = function(message){
@@ -54,11 +56,11 @@ var Chat = React.createClass({
       }
     }
 
-    this.state.io.on('connect', pmInit.bind(this));
+   socket.emit('pmInit', init);
 
-    this.state.io.on('pmInit', saveSessionId.bind(this));
+   socket.on('pmInit', initializeChat.bind(this));
 
-    this.state.io.on('pmContent', addMessage.bind(this));
+   socket.on('pmContent', addMessage.bind(this));
 
   },
 
@@ -77,7 +79,7 @@ var Chat = React.createClass({
           <ChatTextInput 
             editOn={this.editOn.bind(this)} 
             editOff={this.editOff.bind(this)}
-            io={this.state.io}
+            socket={this.props.socket}
             sessionId={this.state.sessionId}
           />
         </View>
@@ -138,7 +140,5 @@ var styles = StyleSheet.create({
     marginTop:20,
   },
 });
-
-
 
 module.exports = Chat;

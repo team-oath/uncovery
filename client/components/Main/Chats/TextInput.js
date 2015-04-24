@@ -9,7 +9,10 @@ var { TextInput, View, Text, TouchableOpacity, ActivityIndicatorIOS, } = React;
 var ChatTextInput = React.createClass({
 
   getInitialState: function(){
-    return {input: '', saved: ''};
+    return {
+      input: '', 
+      saved: ''
+    };
   },
 
   render: function(){
@@ -20,7 +23,7 @@ var ChatTextInput = React.createClass({
         enablesReturnKeyAutomatically={false}
         autoCorrect={false}
         returnKeyType={'send'}
-        placeholder={'Be nice and make a comment...'}
+        placeholder={'Have fun, make a connection...'}
         value={this.state.input}
         onEndEditing={this.props.editOff}
         onSubmitEditing={this._submit}
@@ -40,7 +43,11 @@ var ChatTextInput = React.createClass({
   },
 
   _postChatMessage: function(){
-    this.props.io.emit('pmContent', {sessionId: this.props.sessionId, content: this.state.saved})
+    this.props.socket.emit('pmContent', {
+      sessionId: this.props.sessionId, 
+      content: this.state.saved
+    });
+
     this.setState({saved: ''});
   }
 

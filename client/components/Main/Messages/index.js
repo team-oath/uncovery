@@ -4,22 +4,22 @@ var React = require('react-native');
 /* ------ Components ------- */
 
 var Message = require('./Message');
-var CameraRoll = require('./CameraRoll.js');
 var MessageStreamSwitcher = require('../Nav/MessageStreamSwitcher.js');
 var MessageTextInputButton = require('../Nav/MessageTextInputButton.js');
 var NumHeartsDisplay = require('../Nav/NumHeartsDisplay.js');
 var CameraRollButton = require('../Nav/CameraRollButton.js');
-var Camera = require('./Camera.js');
-var ActionSheetIOS = require('ActionSheetIOS');
-var imageButtons = ['From Camera','Photo Library','Cancel'];
-var React = require('react-native');
+var SettingsButton = require('../Nav/SettingsButton.js');
+var MessageTextInput = require('./TextInput');
 
 /* ------ Configs ------- */
 
-var HOST = require('../../../config.js');
 var styles = require('../../../styles.js'); 
 
-/* ------ React Components ------- */
+/* ------ Utils ------- */
+
+var createRequestURL = require('../../createRequestURL.js');
+
+/* ------ Destructuring Block ------- */
 
 var {
 
@@ -27,12 +27,9 @@ var {
   ListView, 
   Text, 
   ActivityIndicatorIOS, 
-  TextInput, 
   TouchableOpacity, 
   Image, 
-  NativeModules,
   Navigator,
-  AlertIOS,
 
 } = React;
 
@@ -41,6 +38,7 @@ var {
 class Messages extends React.Component {
 
   constructor(props) {
+    
     this.state = {
       dataSource: new ListView.DataSource({
         rowHasChanged: (row1, row2) => row1 !== row2
@@ -48,11 +46,7 @@ class Messages extends React.Component {
       loaded: false,
       reloading: false,
       coords: null,
-      input: '',
-      selectedImage: null,
-      edit: false,
-      imageData: null,
-      userHasSelectAnImage: false,
+      edit: false, 
     };
 
     this.displayName = "Messages"
@@ -64,55 +58,36 @@ class Messages extends React.Component {
     // Custom Navbar for Message Component
     if (this.props.navBar) {
       this.props.navBar = React.addons.cloneWithProps(this.props.navBar, {
-        customNext: <MessageTextInputButton show={this._toggleEdit.bind(this)} />,
-        customPrev: <NumHeartsDisplay userToken={this.props.userToken}/>,
+        customNext: 
+          <MessageTextInputButton 
+            show={this._toggleEdit.bind(this)}
+          />,
+        customTitle: 
+          <NumHeartsDisplay 
+            userToken={this.props.userToken} 
+            socket={this.props.socket}
+          />,
+        customPrev: 
+          <SettingsButton/>,
       });
     }
+    
   }
 
   render() {
 
-    if ( !this.state.loaded || !this.props.userToken ) return null
-
+    if ( !this.state.loaded || !this.props.userToken ) {
+      return null;
+    }
     return (
       <View>
-        {this.props.navBar}
-        {this.state.edit ? 
-        <View style={{backgroundColor: 'white',}}>
-        <View style={{
-          flexDirection:'row', 
-          justifyContent: 'space-between', 
-          alignItems: 'flex-end', 
-          marginRight: 10, 
-          marginTop: 10,
-          backgroundColor: 'white', }}
-        >
-          <TextInput
-            style={{height: 50, padding: 10, flex: 1, backgroundColor: 'white', fontFamily: 'Avenir', fontSize: 20}}
-            editable={true}
-            enablesReturnKeyAutomatically={false}
-            autoCorrect={false}
-            returnKeyType={'send'}
-            placeholder={'Be nice and make a comment...'}
-            value={this.state.input}
-            onSubmitEditing={this._handleSubmit.bind(this)}
-            clearButtonMode='while-editing'
-            onChangeText={(text) => this.setState({input: text})}
-          />
-          <View style={{
-            flexDirection:'row', 
-            alignItems: 'flex-end', 
-            justifyContent: 'space-between', 
-            marginBottom: 10}}
-          >
-            <CameraRollButton
-              navToCameraRoll={this._showImageOptions.bind(this)}
-              userHasSelectAnImage={this.state.userHasSelectAnImage}
-            />
-          </View>
-          </View>
-          <View style={styles.seperator} />
-        </View> : null }
+        { this.props.navBar }
+        { this.state.edit ? 
+        <MessageTextInput 
+          toggleEdit={this._toggleEdit.bind(this)}
+          navigator={this.props.navigator}
+          fetchMessages={this.fetchMessages.bind(this)}
+        /> : null }
         <ListView
           dataSource={this.state.dataSource}
           renderRow={this.renderMessage.bind(this)}
@@ -128,129 +103,11 @@ class Messages extends React.Component {
   }
 
   _toggleEdit(){
+    console.log('toggggle')
     this.setState({edit: this.state.edit ? false : true});
   }
 
-  _handleSubmit(){
-    if (!this.state.userHasSelectAnImage) {
-      this._submit();
-    } else {
-      this._postMessageWithImage();
-    }
-  }
-
-  _postMessageWithImage(){
-    var self = this;
-    
-    var dimensions = require('Dimensions').get('window');
-
-    if (this.state.cameraPhoto){
-      this._submit(this.state.imageData, dimensions.width*1.4, dimensions.height*1.6);
-    }else{
-      NativeModules.ReadImageData.processString(
-        self.state.selectedImage.node.image.uri, 
-        (image, imageWidth, imageHeight) => {
-          self._submit(image, imageWidth, imageHeight);
-      });
-    }
-  }
-
-  _submit(image, imageWidth, imageHeight){
-
-    var watchError = (error) => {
-      console.error(error);
-      AlertIOS.alert(
-        'Geolocation Error',
-        'Please Turn on iOS Location Services'
-      )
-    }
-
-    navigator.geolocation.getCurrentPosition((currentPosition)=>{
-
-      var data = {
-         x: currentPosition.coords.latitude,
-         y: currentPosition.coords.longitude,
-         z: currentPosition.coords.altitude,
-         message: this.state.input,
-         userToken: this.props.userToken,
-       }
-
-      if ( this.state.userHasSelectAnImage ) {
-        data.image = image;
-        data.imageW = imageWidth;
-        data.imageH = imageHeight;
-      }
-
-      fetch(HOST + 'messages', {
-         method: 'POST',
-         headers: {
-           'Accept': 'application/json',
-           'Content-Type': 'application/json'},
-         body: JSON.stringify(data),
-
-      }).then(()=> {
-        
-        this.setState({
-          input:'', 
-          selectedImage: null, 
-          edit: false
-        });
-        
-        this.setState({ userHasSelectAnImage: false });
-        this.fetchMessages();
-
-      }).done();
-
-   }, watchError);
-
-  }
-
-  _selectImage(image){
-    this.setState({ cameraPhoto: false });
-    this.setState({ selectedImage: image });
-    this.setState({ userHasSelectAnImage: true });
-  }
-
-  _takePhoto(data){
-    // The photo is returned as base64 data.
-    // We don't need to encode again on submission.
-    this.setState({ cameraPhoto: true });
-    this.setState({ imageData: data });
-    this.setState({ userHasSelectAnImage: true });
-  }
-
-  _pushForwardToCameraRoll() {
-    var selectImage = this._selectImage.bind(this);
-    this.props.navigator.push({ 
-      component: CameraRoll,
-      navigator: this.props.navigator,
-      selectImage: this._selectImage.bind(this), 
-      sceneConfig: Navigator.SceneConfigs.FloatFromBottom,
-    });
-  }
-
-  _pushForwardToCamera() {
-    this.props.navigator.push({ 
-      component: Camera,
-      navigator: this.props.navigator,
-      takePhoto: this._takePhoto.bind(this), 
-      sceneConfig: Navigator.SceneConfigs.FloatFromBottom,
-    });
-  }
-
-  _showImageOptions() {
-    ActionSheetIOS.showActionSheetWithOptions({
-      options: imageButtons,
-      cancelButtonIndex: imageButtons.length-1
-    },
-    (buttonIndex) => {
-      if (buttonIndex === 0){ //Camera
-        this._pushForwardToCamera();
-      }else if(buttonIndex === 1){ //Library
-        this._pushForwardToCameraRoll();
-      }
-    });
-  }
+ 
 
   renderMessage(message) {
     return (
@@ -291,71 +148,46 @@ class Messages extends React.Component {
 
   fetchMessages(loading){
 
-    var route = 'messages/'
+    var requestURL = createRequestURL('/messages', this.props)
 
-    var x = this.props.currentPosition.coords.latitude;
-    var y = this.props.currentPosition.coords.longitude;
-    var z = this.props.currentPosition.coords.altitude;
-    var userToken = this.props.userToken;
-    
-    var params = `?x=${x}&y=${y}&z=${z}&userToken=${userToken}`
-    
-    var watchOptions = {enableHighAccuracy: true};
-    var watchSucess;
+    // Loading Header Logic
 
-    if (loading) {
-      watchSucess = (currentPosition) => {
-        this.setState({reloading: true})
-        fetch(`${HOST}${route}${params}`)
-          .then((response) => {
-            return response.json()
-          })
-          .then((responseData) => {
-            setTimeout(()=>{
-              this.willReload = false;
-              this.setState({
-                dataSource: this.state.dataSource.cloneWithRows(responseData),
-                loaded: true,
-                reloading: false,
-                coords: currentPosition.coords,
-              })
-            }, 300)
-           
-          })
-          .catch((e)=>{console.log(e)})
-          .done();
-      }
-    } else {
-      watchSucess = (currentPosition) => {
-        
-        fetch(`${HOST}${route}${params}`)
-          .then((response) => {
-            return response.json()
-          })
-          .then((responseData) => {
-              this.willReload = false;
-              this.setState({
-                dataSource: this.state.dataSource.cloneWithRows(responseData),
-                loaded: true,
-                reloading: false,
-                coords: currentPosition.coords,
-              })
-          })
-          .catch((e)=>{console.log(e)})
-          .done();
-      }
-
+    if (this.willReload || this.state.reloading) { 
+      return; 
     }
-
-    var watchError = (error) => console.error(error);
-
-    if (this.willReload || this.state.reloading) return
 
     this.willReload = true;
 
-    navigator.geolocation.getCurrentPosition(
-      watchSucess, watchError, watchOptions
-    );
+    // Update Datasource according to current location
+  
+    navigator.geolocation.getCurrentPosition( (position) => {
+
+      if (loading) {
+        this.setState({reloading: true})
+      }
+
+      var updateDataSource = (data) => {
+        this.willReload = false;
+        this.setState({
+          dataSource: this.state.dataSource.cloneWithRows(data),
+          loaded: true,
+          reloading: false,
+          coords: position.coords,
+        });
+      };
+      
+      fetch(requestURL)
+        .then( (response) => response.json() )
+        .then( (data) => {
+          if ( loading ) {
+            setTimeout(updateDataSource.bind(this,data), 300);
+          } else {
+            updateDataSource.bind(this,data)();
+          }
+        })
+        .catch( (error) => console.log(error) )
+        .done();
+      })
   }
 
   _handleScroll(event){

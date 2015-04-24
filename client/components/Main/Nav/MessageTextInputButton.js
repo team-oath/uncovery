@@ -1,5 +1,6 @@
 
 var React = require('react-native')
+var Reactive = require('../../../react-events.js')
 
 var { TouchableOpacity, Image, View, } = React;
 
@@ -7,6 +8,12 @@ var MessageTextInputButton = React.createClass({
 
   getInitialState: function(){
     return {toggle: false}
+  },
+
+  componentDidMount: function(){
+    // Reactive.on('submit', function(){
+    //   this._toggle.bind(this)
+    // })
   },
 
   render: function(){
