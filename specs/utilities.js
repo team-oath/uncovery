@@ -18,7 +18,7 @@ describe('Utilities', function() {
       x: 37,
       y: -122
     });
-    dist = Math.round(dist.replace('m','')/1000)*1000;
+    dist = Math.round(dist.replace(' miles away','')/1000)*1000;
     expect(dist).to.equal(111000);
   });
 

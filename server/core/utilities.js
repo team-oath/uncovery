@@ -15,9 +15,11 @@ exports.getTimeElapsedSince = function(time) {
 exports.getDistanceFrom = function(mark, user) {
   var dist = geolib.getDistance(
       {latitude: user.x, longitude: user.y},
-      {latitude: mark.x, longitude: mark.y}
+      {latitude: mark.x, longitude: mark.y},
+      {unit: 'mi'}
       );
-  return dist + 'm';
+  dist = addTextToDistance(dist);
+  return dist;
 };
 
 exports.decorateMarksWithVoteStatus = function(marks, votes) {
@@ -183,3 +185,21 @@ exports.resolveGET = function(req, res, success) {
 exports.resolvePOST = function(req, res, success) {
   res.sendStatus(201);
 };
+
+function addTextToDistance(dist) {
+  if ((dist) < 0.25) {
+    dist = 0.25;
+  } else if (dist < 0.5) {
+    dist = 0.5
+  } else {
+    dist = Math.ceil(dist);
+  }
+  if (dist === 1) {
+    dist = dist + ' mile away';
+  } else {
+    dist = dist + ' miles away';
+  }
+  return dist;
+}
+
+
