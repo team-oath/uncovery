@@ -15,9 +15,18 @@ exports.getTimeElapsedSince = function(time) {
 exports.getDistanceFrom = function(mark, user) {
   var dist = geolib.getDistance(
       {latitude: user.x, longitude: user.y},
-      {latitude: mark.x, longitude: mark.y}
+      {latitude: mark.x, longitude: mark.y},
+      {unit: 'mi'}
       );
-  return dist + 'm';
+
+  if ((dist) < 0.25) {
+    dist = 0.25;
+  } else if (dist < 0.5) {
+    dist = 0.5
+  } else {
+    dist = Math.ceil(dist);
+  }
+  return dist + ' miles away';
 };
 
 exports.decorateMarksWithVoteStatus = function(marks, votes) {
