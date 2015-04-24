@@ -63,12 +63,14 @@ class Messages extends React.Component {
             show={this._toggleEdit.bind(this)}
           />,
         customTitle: 
+          <SettingsButton
+            navigator={this.props.navigator}
+          />,
+        customPrev: 
           <NumHeartsDisplay 
             userToken={this.props.userToken} 
             socket={this.props.socket}
           />,
-        customPrev: 
-          <SettingsButton/>,
       });
     }
     

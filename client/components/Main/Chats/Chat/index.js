@@ -76,8 +76,8 @@ var Chat = React.createClass({
             />
           </View>
           <ChatTextInput 
-            editOn={this.editOn.bind(this)} 
-            editOff={this.editOff.bind(this)}
+            editOn={this.editOn} 
+            editOff={this.editOff}
             socket={this.props.socket}
             sessionId={this.state.sessionId}
           />
@@ -94,7 +94,7 @@ var Chat = React.createClass({
             {message.content}
           </Text>
         </View>
-        <View style={{height: 1,backgroundColor: 'grey',}}/>
+        <View style={{height: 1,backgroundColor: '#CCCCCC',}}/>
       </View>
     );
 
