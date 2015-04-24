@@ -93,6 +93,11 @@ exports.retrieveUserScore = function(userToken) {
   return db.where('users', ['token', userToken]);
 };
 
+//exports.retrieveUserByContentId({messageId: string})
+exports.retrieveUserByContentId = function(content) {
+  return db.where('messages', ['id', content.messageId]);
+};
+
 //exports.retrieveMarks({x: float, y: float, z: float, userToken: string})
 exports.retrieveMarks = function(userData) {
   if (validate.validateCoordinates(userData)) {

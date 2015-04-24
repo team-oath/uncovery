@@ -106,8 +106,9 @@ var hashCode = function(string) {
   return hash;
 };
 
-var createIdentity = function(userToken, messageId) {
-  var identities = themes[0];
+var createIdentity = exports.createIdentity = function(userToken, messageId, type) {
+  type = type || 0;
+  var identities = themes[type];
   var i = Math.abs(hashCode(userToken + messageId)) % (identities.length-1);
   return identities[i];
 };
@@ -156,6 +157,10 @@ exports.createQueryParams = function(obj) {
   }
 
   return params;
+};
+
+exports.createId = function() {
+  return shortid.generate();
 };
 
 exports.rejectPOST = exports.rejectGET = function(req, res, err) {
