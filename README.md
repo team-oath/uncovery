@@ -68,3 +68,9 @@ highly modular code.
 - *Test Framework* **Mocha**
 - *Assertion Library* **Chai**
 - *Plugin(s)* **Sinon**
+
+## Contributing
+
+Want to file a bug, contribute some code, or improve documentation? Excellent! Read up on our
+guidelines for
+[contributing](https://github.com/team-oath/uncovery/blob/master/CONTRIBUTING.md).
