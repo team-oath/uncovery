@@ -10,12 +10,12 @@ var BackButton = React.createClass({
         style = {width:35, height:35, marginTop: 5, marginRight: 10,  marginBottom: 2, };
 
     return (
- 	<TouchableOpacity onPress={()=>{this.props.navigator.pop()}}>
-    <Image
-      source={source}
-      style={style}
-    />
-    </TouchableOpacity>
+ 	    <TouchableOpacity onPress={()=>{this.props.navigator.pop()}}>
+        <Image
+          source={source}
+          style={style}
+        />
+      </TouchableOpacity>
     );
   }
 

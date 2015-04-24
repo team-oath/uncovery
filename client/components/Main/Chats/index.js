@@ -30,15 +30,7 @@ var Chats = React.createClass({
     var socket = this.props.socket;
     var userToken = {userToken: this.props.userToken};
 
-    console.log('*****************')
-    console.log(socket)
-    console.log(userToken)
-    console.log('*****************')
-
     var populateChats = (data) => {
-      console.log('***************')
-      console.log(data)
-
       var chats = data.chats
       this.setState({
         chats: chats,
@@ -71,7 +63,9 @@ var Chats = React.createClass({
       <TouchableOpacity 
         onPress={this._enterChatRoom.bind(this, chat)}>
         <View style={{marginTop: 50, marginLeft: 50}}>
-          <Text>CHAT</Text>
+          <Text>
+            {chat.chatName}
+          </Text>
         </View>
       </TouchableOpacity>
 
