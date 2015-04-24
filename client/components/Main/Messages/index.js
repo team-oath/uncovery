@@ -13,10 +13,13 @@ var MessageTextInput = require('./TextInput');
 
 /* ------ Configs ------- */
 
-var HOST = require('../../../config.js');
 var styles = require('../../../styles.js'); 
 
-/* ------ React Components ------- */
+/* ------ Utils ------- */
+
+var createRequestURL = require('../../createRequestURL.js');
+
+/* ------ Destructuring Block ------- */
 
 var {
 
@@ -35,6 +38,7 @@ var {
 class Messages extends React.Component {
 
   constructor(props) {
+    
     this.state = {
       dataSource: new ListView.DataSource({
         rowHasChanged: (row1, row2) => row1 !== row2
@@ -144,7 +148,7 @@ class Messages extends React.Component {
 
   fetchMessages(loading){
 
-    var requestURL = createRequestURL(HOST, '/messages', this.props)
+    var requestURL = createRequestURL('/messages', this.props)
 
     // Loading Header Logic
 
@@ -194,20 +198,6 @@ class Messages extends React.Component {
     this.props.onScroll && this.props.onScroll(e)
   }
 
-};
-
-function createRequestURL(host, route, props){
-
-  var requestURL, params;
-  var x = props.currentPosition.coords.latitude;
-  var y = props.currentPosition.coords.longitude;
-  var z = props.currentPosition.coords.altitude;
-  var userToken = props.userToken;
-
-  params = `?x=${x}&y=${y}&z=${z}&userToken=${userToken}`;
-  requestURL = `${host}${route}${params}`
-
-  return requestURL;
 };
 
 module.exports = Messages;
