@@ -24,7 +24,9 @@ var events = {
   pmInit: function(data) {
     var id;
 
-    Object.keys(privateSessions).forEach(function(session, shortid) {
+    // Check to see if a chat session already exists
+    Object.keys(privateSessions).forEach(function(shortid) {
+      var session = privateSessions[shortid];
       session.users.forEach(function(user) {
         if (data.userToken === user && data.messageId === session.messageId) {
           id = shortid;
@@ -33,6 +35,7 @@ var events = {
     });
 
     if (id === undefined) {
+      // Create a new session, since one doesn't already exist
       models.retrieveUserByContentId(data)
       .then(function(content) {
         var userA = data.userToken;
@@ -50,6 +53,7 @@ var events = {
         });
       });
     } else {
+      // Send users the old session messages, since it exists
       privateSessions[id].users.forEach(function(user) {
         exports.sendUserData(user, 'pmInit', {
           sessionId: id,
@@ -72,10 +76,11 @@ var events = {
   //input: {userToken: string}
   pmList: function(data) {
     var chats = [];
-    Object.keys(privateSessions).forEach(function(session) {
+    Object.keys(privateSessions).forEach(function(id) {
+      session = privateSessions[id];
       session.users.forEach(function(user) {
         if (data.userToken === user) {
-          chats.push(session.messageId);
+          chats.push({messageId: session.messageId});
         }
       });
     });
