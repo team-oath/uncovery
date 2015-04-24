@@ -1,15 +1,16 @@
 
 var React = require('react-native');
+var NavigationBar = require('react-native-navbar');
 
 var MessageFooter = require('./Message-Footer');
 var CommentFooter = require('./Comment-Footer');
 var Thumbnail = require('../Thumbnails');
 var CommentTextInput = require('./TextInput');
 var Chat = require('../Chats/Chat');
-var NavigationBar = require('react-native-navbar');
 
 var styles = require('../../../styles.js');
-var HOST = require('../../../config.js');
+
+var createRequestURL = require('../../createRequestURL.js');
 
 var { 
 
@@ -142,13 +143,8 @@ class Comments extends React.Component {
 
   fetchComments(){
 
-    var route = 'comment/'
-    var x = this.props.passProps.coords.latitude;
-    var y = this.props.passProps.coords.longitude;
-    var z = this.props.passProps.coords.altitude;
-    var id = this.props.passProps.messageId;
-    var params = `?messageId=${id}&x=${x}&y=${y}&z=${z}`;
-    
+    var requestURL = createRequestURL('comment/', this.props.passProps)
+
     var originMessage = {
       origin: true, 
       commentString: this.props.passProps.messageString, 
@@ -159,7 +155,7 @@ class Comments extends React.Component {
       userToken: this.props.passProps.userToken,
     }
  
-    fetch(`${HOST}${route}${params}`)
+    fetch(requestURL)
       .then((response) => response.json())
       .then((responseData) => {
         responseData.unshift(originMessage)
