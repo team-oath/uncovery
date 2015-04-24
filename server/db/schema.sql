@@ -1,9 +1,13 @@
 DROP DATABASE IF EXISTS uncovery;
-CREATE DATABASE uncovery;
+CREATE DATABASE uncovery
+  DEFAULT CHARACTER SET utf8mb4
+  DEFAULT COLLATE utf8mb4_general_ci;
 
 SET foreign_key_checks=0;
 
 USE uncovery;
+
+SET NAMES utf8mb4;
 
 CREATE TABLE marks (
   id int(5) AUTO_INCREMENT,
@@ -14,7 +18,7 @@ CREATE TABLE marks (
   timestamp timestamp DEFAULT CURRENT_TIMESTAMP,
   messageId int(5) NULL,
   commentId int(5) NULL,
-  userToken VARCHAR(255),
+  userToken VARCHAR(191),
   FOREIGN KEY (messageId) REFERENCES messages(id),
   FOREIGN KEY (commentId) REFERENCES comments(id),
   FOREIGN KEY (userToken) REFERENCES users(token)
@@ -23,13 +27,13 @@ CREATE TABLE marks (
 CREATE TABLE messages (
   id int(5) AUTO_INCREMENT,
   userToken VARCHAR(255),
-  messageString text NOT NULL,
+  messageString text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
   image VARCHAR(255),
   imageH int(5),
   imageW int(5),
   score int(5) DEFAULT 0,
   PRIMARY KEY (id)
-);
+) CHARACTER SET utf8mb4;
 
 CREATE TABLE comments (
   id int(5) AUTO_INCREMENT,
@@ -42,7 +46,7 @@ CREATE TABLE comments (
 CREATE TABLE votes (
   id int(5) AUTO_INCREMENT,
   PRIMARY KEY(id),
-  userToken VARCHAR(255) NOT NULL,
+  userToken VARCHAR(191) NOT NULL,
   messageId int(5) NULL,
   commentId int(5) NULL,
   FOREIGN KEY (userToken) REFERENCES users(token),
@@ -53,7 +57,7 @@ CREATE TABLE votes (
 );
 
 CREATE TABLE users (
-  token VARCHAR(255),
+  token VARCHAR(191),
   PRIMARY KEY(token),
   total_votes int(5) DEFAULT 0
 );
