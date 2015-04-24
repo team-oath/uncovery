@@ -19,8 +19,8 @@
 * Use the same coding style as the rest of the codebase.
   * All strings in single quotes
   * Use ES6 builtin Promise library for all asynchronous calls
-  * No [spaghetti code](http://en.wikipedia.org/wiki/Spaghetti_code). All code
-  * must be: 
+  * No [spaghetti code](http://en.wikipedia.org/wiki/Spaghetti_code)
+  * All code must be: 
     1. Modular
     2. Readable
     3. Reuseable
