@@ -18,6 +18,7 @@
   },
   "homepage": "https://github.com/team-oath/uncovery",
   "dependencies": {
+    "aws-sdk": "^2.1.25",
     "body-parser": "^1.12.2",
     "express": "^4.12.3",
     "forever": "^0.14.1",
