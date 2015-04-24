@@ -1,20 +1,14 @@
-'use strict';
 
-var styles = require('../../../styles.js');
 var React = require('react-native');
 
-var {
-  CameraRoll,
-  Image,
-  ListView,
-  StyleSheet,
-  View,
-  TouchableHighlight,
-} = React;
+/* ------ Components ------- */
 
 var groupByEveryN = require('groupByEveryN');
 var logError = require('logError');
 
+/* ------ Configs ------- */
+
+var styles = require('../../../styles.js');
 var propTypes = {
   groupTypes: React.PropTypes.oneOf([
     'Album',
@@ -29,6 +23,19 @@ var propTypes = {
   renderImage: React.PropTypes.func,
   imagesPerRow: React.PropTypes.number,
 };
+
+/* ------ Destructuring Block ------- */
+
+var {
+  CameraRoll,
+  Image,
+  ListView,
+  StyleSheet,
+  View,
+  TouchableHighlight,
+} = React;
+
+/* ------ Main Component ------- */
 
 var CameraRollView = React.createClass({
   propTypes: propTypes,

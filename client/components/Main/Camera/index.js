@@ -1,11 +1,25 @@
 
 var React = require('react-native');
 
-var styles = require('../../../styles.js'); 
-
-var { TouchableOpacity, TouchableOpacity, View, StatusBarIOS, Image } = React;
+/* ------ Components ------- */
 
 var Camera = require('react-native-camera');
+
+/* ------ Configs ------- */
+
+var styles = require('../../../styles.js'); 
+
+/* ------ Destructuring Block ------- */
+
+var { 
+	TouchableOpacity, 
+	TouchableOpacity, 
+	View, 
+	StatusBarIOS, 
+	Image 
+} = React;
+
+/* ------ Main Component ------- */
 
 var CameraView = React.createClass({
 
@@ -25,13 +39,12 @@ var CameraView = React.createClass({
             style={{height: dimensions.height, width: dimensions.width}}
           >
             <TouchableOpacity onPress={this._switchCamera}>
-              <Image style={{ top: 20, alignSelf: 'flex-end', right: 20, width:30, height: 30 }} source={{ uri: 'http://i.imgur.com/1Mo4sCM.png' }} />
+              <Image style={styles.swapCamera} source={{ uri: 'http://i.imgur.com/1Mo4sCM.png' }} />
             </TouchableOpacity>
 
             <TouchableOpacity onPress={this._takePicture}>
-              <Image style={{ top: dimensions.height-150, alignSelf: 'center', width:60, height: 60 }} source={{ uri: 'http://i.imgur.com/OSFbd2l.png' }} />
+              <Image style={[styles.takePhoto, { top: dimensions.height-150 }]} source={{ uri: 'http://i.imgur.com/OSFbd2l.png' }} />
             </TouchableOpacity>
-            
           </Camera>
         </View>
       </View>

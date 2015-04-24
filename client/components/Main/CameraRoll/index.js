@@ -1,10 +1,23 @@
 
 var React = require('react-native');
+
+/* ------ Components ------- */
+
 var CameraRollView = require('./CameraRollView.ios.js');
+
+/* ------ Configs ------- */
 
 var styles = require('../../../styles.js'); 
 
-var { TouchableOpacity, View, Image, } = React;
+/* ------ Destructuring Block ------- */
+
+var { 
+	TouchableOpacity,
+	View,
+	Image,
+} = React;
+
+/* ------ Main Component ------- */
 
 var CameraRoll = React.createClass({
 
@@ -26,7 +39,7 @@ var CameraRoll = React.createClass({
       <TouchableOpacity onPress={()=>{this._handleSelection(asset)}}>
           <Image
             source={asset.node.image}
-            style={[styles.image, { borderWidth: 10, borderColor: 'white', alignSelf: 'center' }]}
+            style={[styles.image, styles.imagePreview]}
           />
       </TouchableOpacity>
     );
