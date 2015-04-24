@@ -23,13 +23,12 @@ describe('Utilities', function() {
   });
 
   it('should save an image file and upload it to AWS S3', function(done) {
-    util.saveImage(img64, function(aws, imgName) {
-      expect(aws).to.not.be.undefined;
+    util.saveImage(img64, function(imgName) {
       var filename = 'server/images/' + imgName + '.jpg';
       fs.unlink(filename, function(err) {
         if (err) throw err;
         done();
-      })
-    });
+      });
+    }, true);
   });
 });

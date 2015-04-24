@@ -115,7 +115,7 @@ var createIdentity = exports.createIdentity = function(userToken, messageId, typ
   return identities[i];
 };
 
-exports.saveImage = function(img64, callback) {
+exports.saveImage = function(img64, callback, testing) {
   if (img64) {
     var base64Data = img64.replace(/^data:image\/jpg;base64,/, '');
     var imgName = shortid.generate();
@@ -123,9 +123,13 @@ exports.saveImage = function(img64, callback) {
 
     fs.writeFile(filename, base64Data, 'base64', function(err) {
       if (err) console.log(err);
-      awsConfig.s3uploader(filename, imgName + '.jpg').then(function(data) {
-        if (callback) callback(data.Location.replace(/"/g, '&quot;'), imgName);
-      });
+      if (testing) {
+        if (callback) callback(imgName);
+      } else {
+        awsConfig.s3uploader(filename, imgName + '.jpg').then(function(data) {
+          if (callback) callback(imgName, data.Location.replace(/"/g, '&quot;'));
+        });
+      }
     });
 
     return imgName;
