@@ -193,10 +193,10 @@ class Messages extends React.Component {
         this.setState({
           input:'', 
           selectedImage: null, 
-          edit: false
+          edit: false,
+          userHasSelectAnImage: false,
         });
-        
-        this.setState({ userHasSelectAnImage: false });
+
         this.fetchMessages();
 
       }).done();
