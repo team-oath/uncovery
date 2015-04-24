@@ -65,7 +65,7 @@ var MessageTextInput = React.createClass({
             marginBottom: 10}}
           >
             <CameraRollButton
-              navToCameraRoll={this._showImageOptions.bind(this)}
+              navToCameraRoll={this._showImageOptions}
               userHasSelectAnImage={this.state.userHasSelectAnImage}
             />
           </View>
@@ -102,6 +102,9 @@ var MessageTextInput = React.createClass({
          message: this.state.input,
          userToken: this.props.userToken,
        }
+
+       console.log('****************')
+       console.log(data)
 
       if ( this.state.userHasSelectAnImage ) {
         data.image = image;

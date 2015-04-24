@@ -1,6 +1,5 @@
 
 var React = require('react-native');
-var io = require('./socket.io-client.js');
 
 var { View, Text, Image} = React;
 
@@ -12,35 +11,31 @@ var NumHeartsDisplay = React.createClass({
     }
   },
 
-  componentWillMount: function(){
+  componentDidMount: function(){
     var socket = this.props.socket
     var userToken = this.props.userToken;
 
     var updateScore = (data) => {
-      console.log(data.score)
+      console.log('HELEOEOETKENETNKN', data.score)
       this.setState({numHearts: data.score || null});
     };
 
-    var emitToken = () => {
-       socket.emit('init', {userToken: userToken});
-    };
-
-    socket.on('connect', emitToken.bind(this));
-
+    socket.emit('init', {userToken: userToken});
     socket.on('score', updateScore.bind(this));
   },
 
   render: function(){
     return (
-      <View style={{marginLeft: 7, marginBottom: 5, alignItems: 'flex-end', justifyContent: 'space-between', flexDirection:'row',}}>
+      <View style={{alignItems: 'flex-end', justifyContent: 'space-between', flexDirection:'row',}}>
         <Image
           source={{uri: 'http://i.imgur.com/fMdIPV5.png'}}
-          style={{width: 25, height: 25, justifyContent: 'space-between'}}
+          style={{width: 35, height: 35, justifyContent: 'space-between'}}
         />
         <Text style={{
           color:'white', 
           fontSize: 20, 
           fontFamily: 'Avenir',
+          marginBottom: 5,
         }}>
         {this.state.numHearts}
         </Text>

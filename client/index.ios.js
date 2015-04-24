@@ -41,7 +41,7 @@ class Uncovery extends React.Component {
     this.state = {
       userToken: null,
       currentPosition: null,
-      socket: io('http://oath-test.cloudapp.net/',{jsonp: false}),
+      socket: io('http://uncovery.cloudapp.net/',{jsonp: false}),
     }
   }
 
@@ -102,6 +102,7 @@ class Uncovery extends React.Component {
         navigator: navigator,
         route: route,
         buttonsColor: 'white',
+        backgroundColor: '#C0362C',
       });
     }
 

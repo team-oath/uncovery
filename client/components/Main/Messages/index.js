@@ -38,7 +38,7 @@ var {
 class Messages extends React.Component {
 
   constructor(props) {
-    
+
     this.state = {
       dataSource: new ListView.DataSource({
         rowHasChanged: (row1, row2) => row1 !== row2
@@ -63,12 +63,14 @@ class Messages extends React.Component {
             show={this._toggleEdit.bind(this)}
           />,
         customTitle: 
+          <SettingsButton
+            navigator={this.props.navigator}
+          />,
+        customPrev: 
           <NumHeartsDisplay 
             userToken={this.props.userToken} 
             socket={this.props.socket}
           />,
-        customPrev: 
-          <SettingsButton/>,
       });
     }
     
@@ -83,7 +85,8 @@ class Messages extends React.Component {
       <View>
         { this.props.navBar }
         { this.state.edit ? 
-        <MessageTextInput 
+        <MessageTextInput
+          userToken={this.props.userToken} 
           toggleEdit={this._toggleEdit.bind(this)}
           navigator={this.props.navigator}
           fetchMessages={this.fetchMessages.bind(this)}

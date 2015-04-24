@@ -1,6 +1,5 @@
 
 var React = require('react-native');
-var io = require('../../Nav/socket.io-client.js');
 
 var ChatTextInput = require('../TextInput.js');
 
@@ -19,14 +18,17 @@ var Chat = React.createClass({
     };
   },
 
-  componentWillMount: function(){
+  // componentWillMount: function(){
+    
+  // },
+
+  componentDidMount: function(){
+
     var messages = this.state.messages;
+    
     this.setState({
       dataSource: this.state.dataSource.cloneWithRows(messages),
     })
-  },
-
-  componentDidMount: function(){
 
     var socket = this.props.socket;
 
@@ -72,13 +74,13 @@ var Chat = React.createClass({
           <View>
             <ListView
               dataSource={this.state.dataSource}
-              renderRow={this.renderMessage.bind(this)}
+              renderRow={this.renderMessage}
               style={this.state.edit ? {height: 220} : {height: 450}}
             />
           </View>
           <ChatTextInput 
-            editOn={this.editOn.bind(this)} 
-            editOff={this.editOff.bind(this)}
+            editOn={this.editOn} 
+            editOff={this.editOff}
             socket={this.props.socket}
             sessionId={this.state.sessionId}
           />
@@ -89,14 +91,13 @@ var Chat = React.createClass({
 
   renderMessage: function(message){
     return (
-      <View style={styles.buttonContents}>
-        <View>
+      <View>
+        <View style={styles.buttonContents}>
           <Text style={styles.messageText}>
             {message.content}
           </Text>
         </View>
-        <View style={{height: 2,backgroundColor: 'black', marginTop:50,}}/>
-      
+        <View style={{height: 1,backgroundColor: '#CCCCCC',}}/>
       </View>
     );
 
@@ -133,6 +134,8 @@ var styles = StyleSheet.create({
   buttonContents: {
     flexDirection: 'row',
     backgroundColor: 'white',
+    paddingTop: 15,
+    paddingBottom: 15,
   },
   seperator: {
     height: 2,
