@@ -138,7 +138,7 @@ var MessageTextInput = React.createClass({
     var dimensions = require('Dimensions').get('window');
     
     if (this.state.cameraPhoto){
-      this._submit(this.state.imageData, dimensions.width*1.4, dimensions.height*1.6);
+      this._submit(this.state.imageData, 375, 500);
     } else {
       NativeModules.ReadImageData.processString(
         self.state.selectedImage.node.image.uri, 
