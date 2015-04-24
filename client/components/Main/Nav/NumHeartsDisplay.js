@@ -1,6 +1,5 @@
 
 var React = require('react-native');
-var io = require('./socket.io-client.js');
 
 var { View, Text, Image} = React;
 

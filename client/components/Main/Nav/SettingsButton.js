@@ -1,5 +1,8 @@
 
 var React = require('react-native');
+var NavigationBar = require('react-native-navbar');
+var BackButton = require('./BackButton.js')
+
 
 var Chats = require('../Chats');
 
@@ -12,7 +15,14 @@ var SettingsButton = React.createClass({
       <View>
         <TouchableOpacity 
           onPress={()=>{this.props.navigator.push({
-              component: Chats
+              component: Chats,
+              navigationBar: 
+                <NavigationBar 
+                  backgroundColor='#C0362C'
+                  title='Chats'
+                  titleColor='white'
+                  customPrev={<BackButton/>}
+                />
           })
         }}>
           <Text>

@@ -1,8 +1,9 @@
 
 var React = require('react-native');
 var Chat = require('./Chat');
-var io = require('../Nav/socket.io-client.js');
 
+var NavigationBar = require('react-native-navbar');
+var BackButton = require('../Nav/BackButton.js');
 
 var {
 
@@ -10,6 +11,7 @@ var {
   ListView, 
   Text,
   TouchableOpacity,
+  Navigator,
 
 } = React;
 
@@ -47,27 +49,34 @@ var Chats = React.createClass({
   render: function(){
     return (
       <View>
-        <ListView
-          dataSource={this.state.dataSource}
-          renderRow={this.renderChat.bind(this)}
-          style={{backgroundColor: 'white', height: require('Dimensions').get('window').height-62,}}
-          initialListSize={10}
-          pageSize={4}
-        />
+        {this.props.navBar}
+        <View>
+          <ListView
+            dataSource={this.state.dataSource}
+            renderRow={this.renderChat.bind(this)}
+            style={{backgroundColor: 'white', height: require('Dimensions').get('window').height-62,}}
+            initialListSize={10}
+            pageSize={4}
+          />
+        </View>
       </View>
     );
   },
 
   renderChat: function(chat){
     return (
-      <TouchableOpacity 
-        onPress={this._enterChatRoom.bind(this, chat)}>
-        <View style={{marginTop: 50, marginLeft: 50}}>
-          <Text>
-            {chat.chatName}
-          </Text>
-        </View>
-      </TouchableOpacity>
+      <View style={{backgroundColor: '#ffcf00'}}>
+        <TouchableOpacity 
+          onPress={this._enterChatRoom.bind(this, chat)}>
+          <View style={{justifyContent: 'center', alignItems: 'center', marginTop: 30, marginBottom: 30}}>
+            <Text style={{fontSize: 30, fontFamily: 'Avenir', color: 'white'}}>
+              {chat.chatName}
+            </Text>
+          </View>
+        </TouchableOpacity>
+        <View style={{height: 2,backgroundColor: 'white',}}/>
+      </View>
+      
 
     );
   },
@@ -78,7 +87,15 @@ var Chats = React.createClass({
       passProps: {
         messageId: chat.messageId,
         commentId: chat.commentId,
-      }
+      },
+      sceneConfig: Navigator.SceneConfigs.FloatFromBottom,
+      navigationBar: 
+        <NavigationBar 
+          backgroundColor='#C0362C'
+          title={chat.chatName}
+          titleColor='white'
+          customPrev={<BackButton/>}
+        />,
     })
   }
 

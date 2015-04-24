@@ -38,7 +38,7 @@ var {
 class Messages extends React.Component {
 
   constructor(props) {
-    
+
     this.state = {
       dataSource: new ListView.DataSource({
         rowHasChanged: (row1, row2) => row1 !== row2

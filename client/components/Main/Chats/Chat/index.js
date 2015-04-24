@@ -1,6 +1,5 @@
 
 var React = require('react-native');
-var io = require('../../Nav/socket.io-client.js');
 
 var ChatTextInput = require('../TextInput.js');
 
@@ -89,14 +88,13 @@ var Chat = React.createClass({
 
   renderMessage: function(message){
     return (
-      <View style={styles.buttonContents}>
-        <View>
+      <View>
+        <View style={styles.buttonContents}>
           <Text style={styles.messageText}>
             {message.content}
           </Text>
         </View>
-        <View style={{height: 2,backgroundColor: 'black', marginTop:50,}}/>
-      
+        <View style={{height: 1,backgroundColor: 'grey',}}/>
       </View>
     );
 
@@ -133,6 +131,8 @@ var styles = StyleSheet.create({
   buttonContents: {
     flexDirection: 'row',
     backgroundColor: 'white',
+    paddingTop: 15,
+    paddingBottom: 15,
   },
   seperator: {
     height: 2,
