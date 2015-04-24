@@ -51,8 +51,8 @@ class Messages extends React.Component {
       input: '',
       selectedImage: null,
       edit: false,
-      cameraPhoto: false,
       imageData: null,
+      userHasSelectAnImage: false,
     };
 
     this.displayName = "Messages"
@@ -107,6 +107,7 @@ class Messages extends React.Component {
           >
             <CameraRollButton
               navToCameraRoll={this._showImageOptions.bind(this)}
+              userHasSelectAnImage={this.state.userHasSelectAnImage}
             />
           </View>
           </View>
@@ -131,7 +132,7 @@ class Messages extends React.Component {
   }
 
   _handleSubmit(){
-    if (!this.state.selectedImage && !this.state.cameraPhoto) {
+    if (!this.state.userHasSelectAnImage) {
       this._submit();
     } else {
       this._postMessageWithImage();
@@ -174,7 +175,7 @@ class Messages extends React.Component {
          userToken: this.props.userToken,
        }
 
-      if ( this.state.selectedImage || this.state.cameraPhoto ) {
+      if ( this.state.userHasSelectAnImage ) {
         data.image = image;
         data.imageW = imageWidth;
         data.imageH = imageHeight;
@@ -188,11 +189,14 @@ class Messages extends React.Component {
          body: JSON.stringify(data),
 
       }).then(()=> {
+        
         this.setState({
           input:'', 
           selectedImage: null, 
           edit: false
         });
+        
+        this.setState({ userHasSelectAnImage: false });
         this.fetchMessages();
 
       }).done();
@@ -202,15 +206,17 @@ class Messages extends React.Component {
   }
 
   _selectImage(image){
-    this.setState({ cameraPhoto: false })
-    this.setState({ selectedImage: image })
+    this.setState({ cameraPhoto: false });
+    this.setState({ selectedImage: image });
+    this.setState({ userHasSelectAnImage: true });
   }
 
   _takePhoto(data){
     // The photo is returned as base64 data.
     // We don't need to encode again on submission.
-    this.setState({ cameraPhoto: true })
+    this.setState({ cameraPhoto: true });
     this.setState({ imageData: data });
+    this.setState({ userHasSelectAnImage: true });
   }
 
   _pushForwardToCameraRoll() {
