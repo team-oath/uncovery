@@ -9,7 +9,15 @@ var CameraRollButton = React.createClass({
   },
 
   render: function(){
-    var source = {uri: 'http://i.imgur.com/biCwb3r.png'}
+    
+    var source;
+    console.log("RENDER IMG BUTTON", this.props.userHasSelectAnImage)
+    if (this.props.userHasSelectAnImage){
+      source = {uri: 'http://i.imgur.com/FGUvceF.png'}
+    }else{
+      source = {uri: 'http://i.imgur.com/biCwb3r.png'}
+    }
+
     return (
       <TouchableOpacity onPress={this._select.bind(this)}>
         <Image

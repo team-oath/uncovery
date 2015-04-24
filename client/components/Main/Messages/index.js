@@ -9,6 +9,10 @@ var MessageStreamSwitcher = require('../Nav/MessageStreamSwitcher.js');
 var MessageTextInputButton = require('../Nav/MessageTextInputButton.js');
 var NumHeartsDisplay = require('../Nav/NumHeartsDisplay.js');
 var CameraRollButton = require('../Nav/CameraRollButton.js');
+var Camera = require('./Camera.js');
+var ActionSheetIOS = require('ActionSheetIOS');
+var imageButtons = ['From Camera','Photo Library','Cancel'];
+var React = require('react-native');
 
 /* ------ Configs ------- */
 
@@ -46,7 +50,9 @@ class Messages extends React.Component {
       coords: null,
       input: '',
       selectedImage: null,
-      edit: false, 
+      edit: false,
+      imageData: null,
+      userHasSelectAnImage: false,
     };
 
     this.displayName = "Messages"
@@ -59,7 +65,7 @@ class Messages extends React.Component {
     if (this.props.navBar) {
       this.props.navBar = React.addons.cloneWithProps(this.props.navBar, {
         customNext: <MessageTextInputButton show={this._toggleEdit.bind(this)} />,
-        customTitle: <NumHeartsDisplay userToken={this.props.userToken}/>,
+        customPrev: <NumHeartsDisplay userToken={this.props.userToken}/>,
       });
     }
   }
@@ -67,7 +73,7 @@ class Messages extends React.Component {
   render() {
 
     if ( !this.state.loaded || !this.props.userToken ) return null
-  
+
     return (
       <View>
         {this.props.navBar}
@@ -100,7 +106,8 @@ class Messages extends React.Component {
             marginBottom: 10}}
           >
             <CameraRollButton
-              navToCameraRoll={this._pushForwardToCameraRoll.bind(this)}
+              navToCameraRoll={this._showImageOptions.bind(this)}
+              userHasSelectAnImage={this.state.userHasSelectAnImage}
             />
           </View>
           </View>
@@ -125,7 +132,7 @@ class Messages extends React.Component {
   }
 
   _handleSubmit(){
-    if (!this.state.selectedImage) {
+    if (!this.state.userHasSelectAnImage) {
       this._submit();
     } else {
       this._postMessageWithImage();
@@ -134,13 +141,19 @@ class Messages extends React.Component {
 
   _postMessageWithImage(){
     var self = this;
-    NativeModules.ReadImageData.processString(
-      self.state.selectedImage.node.image.uri, 
-      (image, imageWidth, imageHeight) => {
-        self._submit(image, imageWidth, imageHeight);
-    });
-  }
+    
+    var dimensions = require('Dimensions').get('window');
 
+    if (this.state.cameraPhoto){
+      this._submit(this.state.imageData, dimensions.width*1.4, dimensions.height*1.6);
+    }else{
+      NativeModules.ReadImageData.processString(
+        self.state.selectedImage.node.image.uri, 
+        (image, imageWidth, imageHeight) => {
+          self._submit(image, imageWidth, imageHeight);
+      });
+    }
+  }
 
   _submit(image, imageWidth, imageHeight){
 
@@ -162,7 +175,7 @@ class Messages extends React.Component {
          userToken: this.props.userToken,
        }
 
-      if ( this.state.selectedImage ) {
+      if ( this.state.userHasSelectAnImage ) {
         data.image = image;
         data.imageW = imageWidth;
         data.imageH = imageHeight;
@@ -176,22 +189,34 @@ class Messages extends React.Component {
          body: JSON.stringify(data),
 
       }).then(()=> {
+        
         this.setState({
           input:'', 
           selectedImage: null, 
           edit: false
         });
+        
+        this.setState({ userHasSelectAnImage: false });
         this.fetchMessages();
 
       }).done();
 
    }, watchError);
 
-
   }
 
   _selectImage(image){
-    this.setState({selectedImage: image})
+    this.setState({ cameraPhoto: false });
+    this.setState({ selectedImage: image });
+    this.setState({ userHasSelectAnImage: true });
+  }
+
+  _takePhoto(data){
+    // The photo is returned as base64 data.
+    // We don't need to encode again on submission.
+    this.setState({ cameraPhoto: true });
+    this.setState({ imageData: data });
+    this.setState({ userHasSelectAnImage: true });
   }
 
   _pushForwardToCameraRoll() {
@@ -201,6 +226,29 @@ class Messages extends React.Component {
       navigator: this.props.navigator,
       selectImage: this._selectImage.bind(this), 
       sceneConfig: Navigator.SceneConfigs.FloatFromBottom,
+    });
+  }
+
+  _pushForwardToCamera() {
+    this.props.navigator.push({ 
+      component: Camera,
+      navigator: this.props.navigator,
+      takePhoto: this._takePhoto.bind(this), 
+      sceneConfig: Navigator.SceneConfigs.FloatFromBottom,
+    });
+  }
+
+  _showImageOptions() {
+    ActionSheetIOS.showActionSheetWithOptions({
+      options: imageButtons,
+      cancelButtonIndex: imageButtons.length-1
+    },
+    (buttonIndex) => {
+      if (buttonIndex === 0){ //Camera
+        this._pushForwardToCamera();
+      }else if(buttonIndex === 1){ //Library
+        this._pushForwardToCameraRoll();
+      }
     });
   }
 
