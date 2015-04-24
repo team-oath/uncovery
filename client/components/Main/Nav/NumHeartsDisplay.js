@@ -11,11 +11,12 @@ var NumHeartsDisplay = React.createClass({
     }
   },
 
-  componentWillMount: function(){
+  componentDidMount: function(){
     var socket = this.props.socket
     var userToken = this.props.userToken;
 
     var updateScore = (data) => {
+      console.log('HELEOEOETKENETNKN', data.score)
       this.setState({numHearts: data.score || null});
     };
 

@@ -22,7 +22,7 @@ class Thumbnail extends React.Component {
       var resizeMode = Image.resizeMode.cover;
 
       var thumbail = {
-        uri: HOST + 'images?image=' + this.state.source
+        uri: 'https://privy-app.s3.amazonaws.com/' + this.state.source +'.jpg'
       }
 
       if (this.props.fullResolution){

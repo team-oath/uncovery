@@ -85,7 +85,8 @@ class Messages extends React.Component {
       <View>
         { this.props.navBar }
         { this.state.edit ? 
-        <MessageTextInput 
+        <MessageTextInput
+          userToken={this.props.userToken} 
           toggleEdit={this._toggleEdit.bind(this)}
           navigator={this.props.navigator}
           fetchMessages={this.fetchMessages.bind(this)}

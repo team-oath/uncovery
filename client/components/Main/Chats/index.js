@@ -40,7 +40,6 @@ var Chats = React.createClass({
       });
     }
 
-    // socket.on('connect', emitToken.bind(this));
     socket.emit('pmList', userToken)
     socket.on('pmList', populateChats.bind(this));
 

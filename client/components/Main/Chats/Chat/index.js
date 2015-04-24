@@ -18,14 +18,17 @@ var Chat = React.createClass({
     };
   },
 
-  componentWillMount: function(){
+  // componentWillMount: function(){
+    
+  // },
+
+  componentDidMount: function(){
+
     var messages = this.state.messages;
+    
     this.setState({
       dataSource: this.state.dataSource.cloneWithRows(messages),
     })
-  },
-
-  componentDidMount: function(){
 
     var socket = this.props.socket;
 
@@ -71,7 +74,7 @@ var Chat = React.createClass({
           <View>
             <ListView
               dataSource={this.state.dataSource}
-              renderRow={this.renderMessage.bind(this)}
+              renderRow={this.renderMessage}
               style={this.state.edit ? {height: 220} : {height: 450}}
             />
           </View>
