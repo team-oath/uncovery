@@ -1,9 +1,12 @@
 
 var React = require('react-native');
 var Reactive = require('../../../../react-events.js');
+var ActionSheetIOS = require('ActionSheetIOS');
 
 var CameraRollButton = require('../../Nav/CameraRollButton.js');
 var CameraRoll = require('../CameraRoll.js');
+var Camera = require('../Camera.js');
+var imageButtons = ['From Camera','Photo Library','Cancel'];
 
 var styles = require('../../../../styles.js');
 var HOST = require('../../../../config.js'); 
@@ -26,6 +29,8 @@ var MessageTextInput = React.createClass({
       input:'',
       saved:'',
       selectedImage: '',
+      imageData: null,
+      userHasSelectAnImage: false,
     };
   },
 
@@ -60,7 +65,8 @@ var MessageTextInput = React.createClass({
             marginBottom: 10}}
           >
             <CameraRollButton
-              navToCameraRoll={this._pushForwardToCameraRoll.bind(this)}
+              navToCameraRoll={this._showImageOptions.bind(this)}
+              userHasSelectAnImage={this.state.userHasSelectAnImage}
             />
           </View>
         </View>
@@ -70,7 +76,7 @@ var MessageTextInput = React.createClass({
   },
 
   _handleSubmit: function(){
-    if (!this.state.selectedImage) {
+    if (!this.state.userHasSelectAnImage) {
       this._submit();
     } else {
       this._postMessageWithImage();
@@ -78,6 +84,7 @@ var MessageTextInput = React.createClass({
   },
 
   _submit: function(image, imageWidth, imageHeight){
+    
     var watchError = (error) => {
       console.error(error);
       AlertIOS.alert(
@@ -96,7 +103,7 @@ var MessageTextInput = React.createClass({
          userToken: this.props.userToken,
        }
 
-      if ( this.state.selectedImage ) {
+      if ( this.state.userHasSelectAnImage ) {
         data.image = image;
         data.imageW = imageWidth;
         data.imageH = imageHeight;
@@ -108,9 +115,8 @@ var MessageTextInput = React.createClass({
            'Accept': 'application/json',
            'Content-Type': 'application/json'},
          body: JSON.stringify(data),
-
-        }).then(this._toggleState.bind(this))
-          .done();
+      }).then(this._toggleState.bind(this))
+        .done();
 
    }, watchError);
 
@@ -129,15 +135,58 @@ var MessageTextInput = React.createClass({
 
   _postMessageWithImage: function(){
     var self = this;
-    NativeModules.ReadImageData.processString(
-      self.state.selectedImage.node.image.uri, 
-      (image, imageWidth, imageHeight) => {
-        self._submit(image, imageWidth, imageHeight);
-    });
+    var dimensions = require('Dimensions').get('window');
+    
+    if (this.state.cameraPhoto){
+      this._submit(this.state.imageData, dimensions.width*1.4, dimensions.height*1.6);
+    } else {
+      NativeModules.ReadImageData.processString(
+        self.state.selectedImage.node.image.uri, 
+        (image, imageWidth, imageHeight) => {
+          self._submit(image, imageWidth, imageHeight);
+      });
+    }
   },
 
   _selectImage: function(image){
-    this.setState({selectedImage: image})
+    this.setState({ 
+      cameraPhoto: false, 
+      selectedImage: image,
+      userHasSelectAnImage: true 
+    });
+  },
+
+  _pushForwardToCamera: function() {
+    this.props.navigator.push({ 
+      component: Camera,
+      navigator: this.props.navigator,
+      takePhoto: this._takePhoto.bind(this), 
+      sceneConfig: Navigator.SceneConfigs.FloatFromBottom,
+    });
+  },
+
+  _showImageOptions: function() {
+    ActionSheetIOS.showActionSheetWithOptions({
+      options: imageButtons,
+      cancelButtonIndex: imageButtons.length-1
+    },
+    (buttonIndex) => {
+      if ( buttonIndex === 0 ) { //Camera
+        this._pushForwardToCamera();
+      } else if ( buttonIndex === 1 ) { //Library
+        this._pushForwardToCameraRoll();
+      }
+    });
+  },
+
+  _takePhoto: function(data){
+    // The photo is returned as base64 data.
+    // We don't need to encode again on submission.
+    this.setState({
+      cameraPhoto: true,
+      imageData: data,
+      userHasSelectAnImage: true, 
+    });
   },
 
   _toggleState: function(){
@@ -147,6 +196,7 @@ var MessageTextInput = React.createClass({
     this.setState({
       input:'', 
       selectedImage: null, 
+      userHasSelectAnImage: false,
     });
 
     this.props.toggleEdit();
