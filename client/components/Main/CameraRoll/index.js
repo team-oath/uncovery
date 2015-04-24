@@ -1,6 +1,6 @@
 
 var React = require('react-native');
-var CameraRollView = require('../../CameraRollView.ios.js');
+var CameraRollView = require('./CameraRollView.ios.js');
 
 var styles = require('../../../styles.js'); 
 

@@ -4,8 +4,8 @@ var Reactive = require('../../../../react-events.js');
 var ActionSheetIOS = require('ActionSheetIOS');
 
 var CameraRollButton = require('../../Nav/CameraRollButton.js');
-var CameraRoll = require('../CameraRoll.js');
-var Camera = require('../Camera.js');
+var CameraRoll = require('../../CameraRoll/index.js');
+var Camera = require('../../Camera/index.js');
 var imageButtons = ['From Camera','Photo Library','Cancel'];
 
 var styles = require('../../../../styles.js');
