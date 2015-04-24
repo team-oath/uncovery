@@ -54,16 +54,12 @@ var CameraView = React.createClass({
     this.refs.cam.switch();
   },
 
-  _handleSelection: function(asset){
-    this.props.route.selectImage(asset);
-    this.props.navigator.pop();
-  },
-
   _takePicture: function(){
     var self = this;
     this.refs.cam.takePicture(function(err, data){
       self._showStatusBar();
-      self._handleSelection();
+      self.props.route.takePhoto(data);
+      self.props.navigator.pop();
     });
   }
 
