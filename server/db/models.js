@@ -31,7 +31,7 @@ exports.createMessage = function(userData) {
   });
 };
 
-//exports.createComment({messageId: 1, message: 'works', x: 10, y: 10, z: 10});
+//exports.createComment({messageId: 1, commentString: 'works', x: 10, y: 10, z: 10});
 exports.createComment = function(userData) {
 
   if (!validate.validateCoordinates(userData)) {
