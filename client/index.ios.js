@@ -1,15 +1,25 @@
 /**
- * Uncovery
+ * Privy
  */
 
 var React = require('react-native');
+
+/* ------ Components ------- */
+
 var AdSupportIOS = require('AdSupportIOS');
 var NavigationBar = require('react-native-navbar');
-
 var Messages = require('./components/Main/Messages');
 
+/* ------ Modules ------- */
+
+var io = require('./patches/socket.io-client.js');
+
+/* ------ Configs ------- */
+
 var styles = require('./styles.js');
-var HOST = require('./config.js')
+var HOST = require('./config.js');
+
+/* ------ React Destructuring Block ------- */
 
 var { 
 
@@ -23,13 +33,15 @@ var {
 
 } = React;
 
+/* ------ Main App ------- */
+
 class Uncovery extends React.Component {
 
   constructor(){
     this.state = {
       userToken: null,
       currentPosition: null,
-      
+      socket: io('http://oath-test.cloudapp.net/',{jsonp: false}),
     }
   }
 
@@ -46,17 +58,21 @@ class Uncovery extends React.Component {
       this._getDeviceID();
     };
 
+    // Set Status Bar White for visibility
     StatusBarIOS.setStyle(StatusBarIOS.Style.lightContent);
+
+    // Initialize App State
     this._getUserLocation();
     this._getStoredDeviceID(onDeviceIDSuccess, onDeviceIDFailure);
+
   }
   
   render() {
 
-    if ( !this.state.userToken || !this.state.currentPosition ) 
+    if ( !this.state.userToken || !this.state.currentPosition ) {
       return null;
-  
-    else 
+
+    } else {
       return (
         <Navigator
           style={styles.container}
@@ -73,8 +89,8 @@ class Uncovery extends React.Component {
           }}
         />
       );
-   
-   }
+    }
+  }
 
   renderScene(route, navigator) {
 
@@ -97,6 +113,8 @@ class Uncovery extends React.Component {
         passProps = {route.passProps}
         userToken={this.state.userToken}
         currentPosition={this.state.currentPosition}
+        updatePosition={this._getUserLocation}
+        socket={this.state.socket}
       />
     );
   }
@@ -143,7 +161,7 @@ class Uncovery extends React.Component {
     var onDeviceIDSuccess = (deviceID) => {
       this._storeDeviceID(deviceID);
       this.setState({userToken: deviceID});
-      this._postUserToken(deviceID);
+      this._postUserToken(deviceID).bind(this);
     }
 
     var onDeviceIDFailure = (e) => console.log(e);
@@ -155,6 +173,13 @@ class Uncovery extends React.Component {
   }
 
   _postUserToken(userToken){
+
+    var socket = this.state.socket;
+
+    var emitToken = () => {
+      socket.emit('init', {userToken: userToken});
+    };
+
     fetch(HOST + 'usertoken', {
       method: 'POST',
       headers: {
@@ -164,6 +189,8 @@ class Uncovery extends React.Component {
         userToken: userToken,
       })
     })
+
+    socket.on('connect', emitToken.bind(this));
   }
 
 };
