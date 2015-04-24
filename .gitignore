@@ -6,3 +6,4 @@ server/images/*.jpg
 client/iOS/AppDelegate.m
 server/log/access.log
 access.log
+awsconfig.sh

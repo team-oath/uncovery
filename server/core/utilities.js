@@ -1,8 +1,10 @@
 var moment = require('moment');
 var geolib = require('geolib');
 var shortid = require('shortid');
+var aws = require('aws-sdk');
 var fs = require('fs');
 var themes = require('./themes');
+var awsConfig = require('./awsConfig');
 
 // Use moment.js to calculate how much time has elapsed since some prior time
 exports.getTimeElapsedSince = function(time) {
@@ -113,7 +115,7 @@ var createIdentity = exports.createIdentity = function(userToken, messageId, typ
   return identities[i];
 };
 
-exports.saveImage = function(img64, callback) {
+exports.saveImage = function(img64, callback, testing) {
   if (img64) {
     var base64Data = img64.replace(/^data:image\/jpg;base64,/, '');
     var imgName = shortid.generate();
@@ -121,7 +123,13 @@ exports.saveImage = function(img64, callback) {
 
     fs.writeFile(filename, base64Data, 'base64', function(err) {
       if (err) console.log(err);
-      if (callback) callback(imgName);
+      if (testing) {
+        if (callback) callback(imgName);
+      } else {
+        awsConfig.s3uploader(filename, imgName + '.jpg').then(function(data) {
+          if (callback) callback(imgName, data.Location.replace(/"/g, '&quot;'));
+        });
+      }
     });
 
     return imgName;

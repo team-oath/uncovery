@@ -22,13 +22,13 @@ describe('Utilities', function() {
     expect(dist).to.equal(111000);
   });
 
-  it('should save an image file', function(done) {
+  it('should save an image file and upload it to AWS S3', function(done) {
     util.saveImage(img64, function(imgName) {
       var filename = 'server/images/' + imgName + '.jpg';
       fs.unlink(filename, function(err) {
         if (err) throw err;
         done();
-      })
-    });
+      });
+    }, true);
   });
 });
