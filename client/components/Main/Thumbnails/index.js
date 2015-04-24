@@ -35,7 +35,7 @@ class Thumbnail extends React.Component {
         } else if ( this.props.height > this.props.width ) {
 
           //Portrait
-          height = ( (500/window.width) * window.width );
+          height = ( (500/window.width) * this.props.height ); 
 
         }
 

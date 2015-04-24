@@ -4,8 +4,8 @@ var Reactive = require('../../../../react-events.js');
 var ActionSheetIOS = require('ActionSheetIOS');
 
 var CameraRollButton = require('../../Nav/CameraRollButton.js');
-var CameraRoll = require('../CameraRoll.js');
-var Camera = require('../Camera.js');
+var CameraRoll = require('../../CameraRoll/index.js');
+var Camera = require('../../Camera/index.js');
 var imageButtons = ['From Camera','Photo Library','Cancel'];
 
 var styles = require('../../../../styles.js');
@@ -138,7 +138,7 @@ var MessageTextInput = React.createClass({
     var dimensions = require('Dimensions').get('window');
     
     if (this.state.cameraPhoto){
-      this._submit(this.state.imageData, dimensions.width*1.4, dimensions.height*1.6);
+      this._submit(this.state.imageData, 375, 500);
     } else {
       NativeModules.ReadImageData.processString(
         self.state.selectedImage.node.image.uri, 
