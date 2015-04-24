@@ -80,7 +80,10 @@ var events = {
       session = privateSessions[id];
       session.users.forEach(function(user) {
         if (data.userToken === user) {
-          chats.push({messageId: session.messageId});
+          chats.push({
+            messageId: session.messageId,
+            chatName: util.createIdentity(user, session.messageId, 1)
+          });
         }
       });
     });
