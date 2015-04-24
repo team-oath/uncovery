@@ -1,4 +1,3 @@
-
 var React = require('react-native');
 
 /* ------ Components ------- */
@@ -145,7 +144,7 @@ class Messages extends React.Component {
     var dimensions = require('Dimensions').get('window');
 
     if (this.state.cameraPhoto){
-      this._submit(this.state.imageData, dimensions.width*1.4, dimensions.height*1.6);
+      this._submit(this.state.imageData, 375, 500);
     }else{
       NativeModules.ReadImageData.processString(
         self.state.selectedImage.node.image.uri, 
@@ -193,10 +192,10 @@ class Messages extends React.Component {
         this.setState({
           input:'', 
           selectedImage: null, 
-          edit: false,
-          userHasSelectAnImage: false,
+          edit: false
         });
-
+        
+        this.setState({ userHasSelectAnImage: false });
         this.fetchMessages();
 
       }).done();
