@@ -9,9 +9,10 @@ var Chat = React.createClass({
 
   getInitialState: function(){
     return {
-      messages: [{content: 'hello'}, {content: 'yo yo yo'}],
+      messages: [],
       edit: false,
       sessionId: null,
+      creator: null,
       dataSource: new ListView.DataSource({
         rowHasChanged: (row1, row2) => row1 !== row2,
       }),
@@ -21,11 +22,6 @@ var Chat = React.createClass({
   componentDidMount: function(){
 
     var messages = this.state.messages;
-    
-    this.setState({
-      dataSource: this.state.dataSource.cloneWithRows(messages),
-    })
-
     var socket = this.props.socket;
 
     var init = {
@@ -37,15 +33,17 @@ var Chat = React.createClass({
     var initializeChat = function(data){
       var messages = data.messages;
       var sessionId = data.sessionId;
+      var creator = data.creator;
+
       this.setState({
         sessionId: data.sessionId,
         messages: messages,
         dataSource: this.state.dataSource.cloneWithRows(messages),
+        creator: creator,
       });
     };
 
     var addMessage = function(message){
-      console.log('add add add ')
       var messages = this.state.messages;
       if ( this.state.sessionId === message.sessionId ){
         messages.push(message);
@@ -55,11 +53,13 @@ var Chat = React.createClass({
       }
     }
 
-   socket.emit('pmInit', init);
+  this.setState({
+    dataSource: this.state.dataSource.cloneWithRows(messages),
+  })
 
-   socket.on('pmInit', initializeChat.bind(this));
-
-   socket.on('pmContent', addMessage.bind(this));
+  socket.emit('pmInit', init);
+  socket.on('pmInit', initializeChat.bind(this));
+  socket.on('pmContent', addMessage.bind(this));
 
   },
 
@@ -86,16 +86,25 @@ var Chat = React.createClass({
     )
   },
 
+
+
+  
+
+  
+
   renderMessage: function(message){
-    console.log(message.from)
+
+    var isFromUser = (this.state.creator && message.from === 'you') ||
+                     (!this.state.creator && message.from === 'them')
+
     return (
       <View>
-        <View style={message.from === 'you' ? [styles.buttonContents, {justifyContent: 'flex-end'}] : styles.buttonContents}>
+        <View style={ isFromUser ? [styles.buttonContents, {justifyContent: 'flex-end'}] : styles.buttonContents}>
           <Text style={styles.messageText}>
             {message.content}
           </Text>
         </View>
-        <View style={{height: 1,backgroundColor: '#CCCCCC',}}/>
+        <View style={{height: 1, backgroundColor: '#CCCCCC',}}/>
       </View>
     );
 

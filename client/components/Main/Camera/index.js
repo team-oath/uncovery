@@ -12,11 +12,12 @@ var styles = require('../../../styles.js');
 /* ------ Destructuring Block ------- */
 
 var { 
-	TouchableOpacity, 
+
 	TouchableOpacity, 
 	View, 
 	StatusBarIOS, 
 	Image 
+  
 } = React;
 
 /* ------ Main Component ------- */
