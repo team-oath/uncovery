@@ -17,11 +17,11 @@
 * Before sending a pull request for a feature, be sure to have [tests](https://github.com/team-oath/uncovery/tree/master/specs).
 
 * Use the same coding style as the rest of the codebase.
-  * All strings in single quotes
   * Use ES6 builtin Promise library for all asynchronous calls
+  * Automate as much as possible using Grunt. 
+  * All strings in single quotes
   * No [spaghetti code](http://en.wikipedia.org/wiki/Spaghetti_code)
   * All code must be: 
     1. Modular
     2. Readable
-    3. Reuseable
-  * Automate as much as possible using Grunt. 
+    3. Reusable
