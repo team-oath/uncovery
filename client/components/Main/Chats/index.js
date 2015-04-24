@@ -1,5 +1,8 @@
 
 var React = require('react-native');
+var Chat = require('./Chat');
+var io = require('../Nav/socket.io-client.js');
+
 
 var {
 
@@ -16,8 +19,37 @@ var Chats = React.createClass({
   getInitialState: function(){
     return { 
       chats: [],
-      dataSource: null, 
+      dataSource: new ListView.DataSource({
+        rowHasChanged: (row1, row2) => row1 !== row2,
+      }),
     };
+  },
+
+  componentDidMount: function(){
+
+    var socket = this.props.socket;
+    var userToken = {userToken: this.props.userToken};
+
+    console.log('*****************')
+    console.log(socket)
+    console.log(userToken)
+    console.log('*****************')
+
+    var populateChats = (data) => {
+      console.log('***************')
+      console.log(data)
+
+      var chats = data.chats
+      this.setState({
+        chats: chats,
+        dataSource: this.state.dataSource.cloneWithRows(chats)
+      });
+    }
+
+    // socket.on('connect', emitToken.bind(this));
+    socket.emit('pmList', userToken)
+    socket.on('pmList', populateChats.bind(this));
+
   },
 
   render: function(){
@@ -26,13 +58,9 @@ var Chats = React.createClass({
         <ListView
           dataSource={this.state.dataSource}
           renderRow={this.renderChat.bind(this)}
-          renderHeader={this.renderHeader.bind(this)}
           style={{backgroundColor: 'white', height: require('Dimensions').get('window').height-62,}}
           initialListSize={10}
           pageSize={4}
-          scrollRenderAheadDistance={2000} 
-          onScroll={this._handleScroll.bind(this)}
-
         />
       </View>
     );
@@ -41,9 +69,9 @@ var Chats = React.createClass({
   renderChat: function(chat){
     return (
       <TouchableOpacity 
-        onPress={this._enterChatRoom.bind(this, chat.sessionId)}>
-        <View>
-          <Text>{chat.name}</Text>
+        onPress={this._enterChatRoom.bind(this, chat)}>
+        <View style={{marginTop: 50, marginLeft: 50}}>
+          <Text>CHAT</Text>
         </View>
       </TouchableOpacity>
 
@@ -51,7 +79,13 @@ var Chats = React.createClass({
   },
 
   _enterChatRoom: function(chat){
-    console.log('chat room entered')
+    this.props.navigator.push({
+      component: Chat,
+      passProps: {
+        messageId: chat.messageId,
+        commentId: chat.commentId,
+      }
+    })
   }
 
 });

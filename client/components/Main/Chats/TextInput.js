@@ -43,8 +43,7 @@ var ChatTextInput = React.createClass({
   },
 
   _postChatMessage: function(){
-
-    this.props.io.emit('pmContent', {
+    this.props.socket.emit('pmContent', {
       sessionId: this.props.sessionId, 
       content: this.state.saved
     });

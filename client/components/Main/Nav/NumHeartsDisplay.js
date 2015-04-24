@@ -12,20 +12,22 @@ var NumHeartsDisplay = React.createClass({
     }
   },
 
-  componentDidMount: function(){
-    // var socket = io('http://oath-test.cloudapp.net/',{jsonp: false});
-    // var userToken = this.props.userToken;
+  componentWillMount: function(){
+    var socket = this.props.socket
+    var userToken = this.props.userToken;
 
-    // var updateScore = function(data){
-    //   console.log(data.score)
-    //   this.setState({numHearts: data.score || null});
-    // };
+    var updateScore = (data) => {
+      console.log(data.score)
+      this.setState({numHearts: data.score || null});
+    };
 
-    // socket.on('connect', function(){
-    //   socket.emit('init', {userToken: userToken});
-    // });
+    var emitToken = () => {
+       socket.emit('init', {userToken: userToken});
+    };
 
-    // socket.on('score', updateScore.bind(this));
+    socket.on('connect', emitToken.bind(this));
+
+    socket.on('score', updateScore.bind(this));
   },
 
   render: function(){

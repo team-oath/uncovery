@@ -1,4 +1,3 @@
-
 var React = require('react-native');
 var NavigationBar = require('react-native-navbar');
 var Comments = require('../../Comments');
@@ -34,12 +33,14 @@ var Message = React.createClass({
 
   componentWillReceiveProps: function(){
 
+    // update hearts only if the update is a fetch
     if (!this.state.load){
       this.setState({
         numHearts: this.props.message.votes, 
         hasPressedHeart: this.props.message.voted,
       })
 
+    // if update is from a state change, then set state back
     } else { this.setState({load:false})}
     
   },
@@ -124,8 +125,6 @@ var Message = React.createClass({
         load:true,
       });
     }
-
-    console.log("Message ID, ", this.props.message.messageId)
 
     fetch(`${HOST}upvote`, {
       method: 'POST',
