@@ -18,10 +18,6 @@ var Chat = React.createClass({
     };
   },
 
-  // componentWillMount: function(){
-    
-  // },
-
   componentDidMount: function(){
 
     var messages = this.state.messages;
@@ -49,6 +45,7 @@ var Chat = React.createClass({
     };
 
     var addMessage = function(message){
+      console.log('add add add ')
       var messages = this.state.messages;
       if ( this.state.sessionId === message.sessionId ){
         messages.push(message);
@@ -90,9 +87,10 @@ var Chat = React.createClass({
   },
 
   renderMessage: function(message){
+    console.log(message.from)
     return (
       <View>
-        <View style={styles.buttonContents}>
+        <View style={message.from === 'you' ? [styles.buttonContents, {justifyContent: 'flex-end'}] : styles.buttonContents}>
           <Text style={styles.messageText}>
             {message.content}
           </Text>
