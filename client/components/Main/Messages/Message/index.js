@@ -73,7 +73,7 @@ class Message extends React.Component {
         </TouchableWithoutFeedback>
         <Footer
           {...footer}
-          navToComment={this._onPressMessage} 
+          navToComment={this._onPressMessage.bind(this)} 
           numHearts={this.state.numHearts}
           hasPressedHeart={this.state.hasPressedHeart}
           updateHearts={this._updateHearts.bind(this)}
