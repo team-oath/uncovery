@@ -69,11 +69,12 @@ var events = {
 
   //input: {userToken: string}
   pmList: function(data) {
-    var chats = [];
+    var chats = [], i=0;
     checkSessions(data.userToken, function(session, id, user) {
-      chats.push({
+      chats.unshift({
         messageId: session.messageId,
-        chatName: util.createIdentity(user, session.messageId, 1)
+        chatName: util.createIdentity(user, session.messageId, 1),
+        index: i--
       });
     });
     exports.sendUserData(data.userToken, 'pmList', {chats: chats});
