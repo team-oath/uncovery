@@ -1,12 +1,13 @@
+
 var React = require('react-native');
 var NavigationBar = require('react-native-navbar');
 var Comments = require('../../Comments');
 var Footer = require('../Footer');
 var Thumbnail = require('../../Thumbnails');
-var BackButton = require('../../Nav/BackButton.js')
+var BackButton = require('../../Nav/BackButton.js');
 
 var styles = require('../../../../styles.js');
-var HOST = require('../../../../config.js'); 
+var createRequestURL = require('../../../createRequestURL.js');
 
 var { 
 
@@ -75,7 +76,7 @@ class Message extends React.Component {
           navToComment={this._onPressMessage} 
           numHearts={this.state.numHearts}
           hasPressedHeart={this.state.hasPressedHeart}
-          updateHearts={this._updateHearts}
+          updateHearts={this._updateHearts.bind(this)}
         />
         <View style={styles.seperator} />
       </View>
@@ -106,6 +107,8 @@ class Message extends React.Component {
   }
 
   _updateHearts(){
+
+    var requestURL = createRequestURL('upvote', null, 'POST');
     
     if (this.state.hasPressedHeart) {
       var decrement = this.state.numHearts - 1
@@ -124,7 +127,7 @@ class Message extends React.Component {
       });
     }
 
-    fetch(`${HOST}upvote`, {
+    fetch(requestURL, {
       method: 'POST',
       headers: {
         'Accept': 'application/json',
