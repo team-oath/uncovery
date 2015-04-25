@@ -3,7 +3,7 @@
 
 With React Native in its infancy, we currently use version 0.3.11. Newer versions can produce unexpected results.
 
-1. **Clone Repository**
+1. **Clone Repository**  
     `git clone git@github.com:team-oath/uncovery.git`  
 
 2. **Install Dependencies**  
