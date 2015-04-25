@@ -1,5 +1,6 @@
 var models = require('../db/models');
 var util = require('../core/utilities');
+var tester = 'ABCDEFG';
 var connections = {};
 var privateSessions = {};
 
@@ -39,7 +40,7 @@ var events = {
       models.retrieveUserByContentId(data)
       .then(function(content) {
         // Make sure we're not PMing ourselves
-        if (data.userToken !== content[0].userToken) {
+        if (data.userToken !== content[0].userToken || data.userToken === tester) {
           id = util.createId();
           privateSessions[id] = {
             users: [data.userToken, content[0].userToken],
