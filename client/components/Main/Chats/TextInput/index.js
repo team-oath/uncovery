@@ -1,10 +1,8 @@
 
 var React = require('react-native');
+var styles = require('./styles.js');
 
-var styles = require('../../../styles.js');
-var HOST = require('../../../config.js');
-
-var { TextInput, View, Text, TouchableOpacity, ActivityIndicatorIOS, } = React;
+var { TextInput } = React;
 
 var ChatTextInput = React.createClass({
 
@@ -18,7 +16,7 @@ var ChatTextInput = React.createClass({
   render: function(){
     return (
       <TextInput
-        style={{height: 50, padding: 10, fontFamily: 'Avenir', boderRadius: 10}}
+        style={styles.chatList}
         editable={true}
         enablesReturnKeyAutomatically={false}
         autoCorrect={false}

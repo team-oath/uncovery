@@ -4,7 +4,7 @@ var React = require('react-native');
 var styles = require('../../../../styles.js');
 var HOST = require('../../../../config.js');
 
-var { View, Text, StyleSheet, TouchableOpacity, Image, } = React;
+var { View, Text, } = React;
 
 var CommentFooter = React.createClass({
 
@@ -32,48 +32,9 @@ var CommentFooter = React.createClass({
           
         </View>
       </View>
-      );
+    );
   },
-
-  _heartComment: function(){
-    console.log('under construction')
-    // this.setState({
-    //   numHearts: this.state.numHearts + 1,
-    //   heartPressed: this.state.heartPressed ? false : true,
-    // })
-
-    // fetch(HOST + 'upvote', {
-    //   method: 'POST',
-    //   headers: {
-    //     'Accept': 'application/json',
-    //     'Content-Type': 'application/json'},
-    //   body: JSON.stringify({
-    //     commentId: this.props.commentId,
-    //     userToken: this.props.userToken,
-    //   })
-    // })
-  }
 
 });
 
-var heartImage = {uri: 'http://i.imgur.com/97rSbCf.png?1'};
-var heartFilled = {uri: 'http://i.imgur.com/SXHb8nG.png?1'};
-
 module.exports = CommentFooter;
-
-
-// <View style={{flex:1}}>
-//   <TouchableOpacity onPress={this._heartComment}>
-//   { this.state.heartPressed ? 
-//     <Image
-//       source={heartFilled}
-//       style={{width:20, height:20, marginRight: 4, marginTop: 5}}
-//     />
-//     :
-//     <Image
-//       source={heartImage}
-//       style={{width:20, height:20, marginRight: 4, marginTop: 5}}
-//     />
-//   }    
-//   </TouchableOpacity>
-// </View>

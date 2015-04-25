@@ -1,9 +1,11 @@
 
 var React = require('react-native');
 
-var ChatTextInput = require('../TextInput.js');
+var ChatTextInput = require('../TextInput');
 
-var { View, Text, StyleSheet, ListView, } = React;
+var styles = require('./styles.js');
+
+var { View, Text, ListView, } = React;
 
 var Chat = React.createClass({
 
@@ -35,6 +37,7 @@ var Chat = React.createClass({
       var sessionId = data.sessionId;
       var creator = data.creator;
 
+      console.log(creator)
       this.setState({
         sessionId: data.sessionId,
         messages: messages,
@@ -67,7 +70,7 @@ var Chat = React.createClass({
     return (
       <View>
         {this.props.navBar}
-        <View style={{flexDirection: 'column', justifyContent: 'space-between'}}>
+        <View style={styles.viewContainer}>
           <View>
             <ListView
               dataSource={this.state.dataSource}
@@ -86,25 +89,29 @@ var Chat = React.createClass({
     )
   },
 
-
-
-  
-
-  
-
   renderMessage: function(message){
 
-    var isFromUser = (this.state.creator && message.from === 'you') ||
-                     (!this.state.creator && message.from === 'them')
+    var isFromUser = 
+      (this.state.creator && message.from === 'you') ||
+      (!this.state.creator && message.from === 'them')
+
+    var chatContent = isFromUser ? 
+      [styles.chatContent, {justifyContent: 'flex-end'}] : 
+      styles.chatContent
+
+    var messageText = isFromUser ? 
+      styles.userText : 
+      styles.recepientText
+
+    // console.log(isFromUser)
+    // console.log(chatContent)
+    // console.log(messageText)
 
     return (
-      <View>
-        <View style={ isFromUser ? [styles.buttonContents, {justifyContent: 'flex-end'}] : styles.buttonContents}>
-          <Text style={styles.messageText}>
-            {message.content}
-          </Text>
-        </View>
-        <View style={{height: 1, backgroundColor: '#CCCCCC',}}/>
+      <View style={chatContent}>
+        <Text style={messageText}>
+          {message.content}
+        </Text>
       </View>
     );
 
@@ -118,37 +125,6 @@ var Chat = React.createClass({
     this.setState({edit: false});
   },
 
-});
-
-function isNotUser(message){
-  return true;
-}
-
-var styles = StyleSheet.create({
-  message: {
-    marginTop: 50, 
-    marginLeft: 50,
-  },
-  nonUserText: {
-    color: 'red',
-  },
-  messageText: {
-    paddingLeft: 12, 
-    paddingRight: 12, 
-    fontSize: 16,
-    fontFamily: 'Avenir',
-  },
-  buttonContents: {
-    flexDirection: 'row',
-    backgroundColor: 'white',
-    paddingTop: 15,
-    paddingBottom: 15,
-  },
-  seperator: {
-    height: 2,
-    backgroundColor: 'black',
-    marginTop:20,
-  },
 });
 
 module.exports = Chat;
