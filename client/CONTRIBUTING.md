@@ -58,4 +58,4 @@ You can submit the application to the app store which lets you send the applicat
 
 7. If validation is successful, click `Submit to App Store` and follow the prompts.
 
-8. Open iTunes connect. Select `Apps > Privy > Prerelease`. Once the new version appears, turn on `TestFlight Beta Testing`  
+8. Open iTunes connect. Select `Apps > Privy > Prerelease`. Once the new version appears, turn on `TestFlight Beta Testing`
