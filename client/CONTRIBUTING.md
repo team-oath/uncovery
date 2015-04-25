@@ -29,7 +29,9 @@ With React Native in its infancy, we currently use version 0.3.11. Newer version
 
 The application needs to compile before it runs.
 
-**To run in Xcode simulator:** Select desired device and click build. The compilation is taken care of for you.
+**To run in Xcode simulator:**  
+
+Select desired device and click build. The compilation is taken care of for you.
   
 **To run on iPhone:**  
 
@@ -41,8 +43,6 @@ The application needs to compile before it runs.
 
 ##Submitting the application
 You can submit the application to the app store which lets you send the application to beta testers through TestFlight.
-
-**Compile the application:**  
 
 1. In terminal, navigate to the `client/` directory. Start the server with `npm start`  
 
