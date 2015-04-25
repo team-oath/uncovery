@@ -2,13 +2,13 @@ var React = require('react-native')
 
 var { Image, TouchableOpacity, View, Text, } = React
 
-var CameraRollButton = React.createClass({
+class CameraRollButton extends React.Component {
 
-  getInitialState: function(){
-    return {selected: false};
-  },
+  constructor(){
+    this.state = {selected: false};
+  }
 
-  render: function(){
+  render(){
     
     var source;
     console.log("RENDER IMG BUTTON", this.props.userHasSelectAnImage)
@@ -26,12 +26,13 @@ var CameraRollButton = React.createClass({
         />
       </TouchableOpacity>
     )
-  },
+  }
 
-  _select: function(){
+  _select(){
     this.setState({selected: this.state.selected ? false : true})
     this.props.navToCameraRoll();
   }
-});
+
+};
 
 module.exports = CameraRollButton;

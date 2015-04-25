@@ -9,9 +9,9 @@ var styles = require('../../../../styles.js');
 
 var { View, Text, StyleSheet, TouchableOpacity, Image, } = React;
 
-var Footer = React.createClass({
+class Footer extends React.Component {
 
-  render: function() {
+  render() {
 
       return(
         <View style={{flexDirection: 'row', justifyContent: 'space-between', alignItems: 'flex-end'}}>
@@ -43,7 +43,7 @@ var Footer = React.createClass({
       )
     }
   
-});
+};
 
 module.exports = Footer;
 

@@ -7,10 +7,10 @@ var styles = require('./styles.js');
 
 var { View, Text, ListView, } = React;
 
-var Chat = React.createClass({
+class Chat extends React.Component {
 
-  getInitialState: function(){
-    return {
+  constructor(){
+    this.state = {
       messages: [],
       edit: false,
       sessionId: null,
@@ -19,9 +19,9 @@ var Chat = React.createClass({
         rowHasChanged: (row1, row2) => row1 !== row2,
       }),
     };
-  },
+  }
 
-  componentDidMount: function(){
+  componentDidMount(){
 
     var messages = this.state.messages;
     var socket = this.props.socket;
@@ -64,9 +64,9 @@ var Chat = React.createClass({
   socket.on('pmInit', initializeChat.bind(this));
   socket.on('pmContent', addMessage.bind(this));
 
-  },
+  }
 
-  render: function(){
+  render(){
     return (
       <View>
         {this.props.navBar}
@@ -74,22 +74,22 @@ var Chat = React.createClass({
           <View>
             <ListView
               dataSource={this.state.dataSource}
-              renderRow={this.renderMessage}
+              renderRow={this.renderMessage.bind(this)}
               style={this.state.edit ? {height: 220} : {height: 450}}
             />
           </View>
           <ChatTextInput 
-            editOn={this.editOn} 
-            editOff={this.editOff}
+            editOn={this.editOn.bind(this)} 
+            editOff={this.editOff.bind(this)}
             socket={this.props.socket}
             sessionId={this.state.sessionId}
           />
         </View>
       </View>
     )
-  },
+  }
 
-  renderMessage: function(message){
+  renderMessage(message){
 
     var isFromUser = 
       (this.state.creator && message.from === 'you') ||
@@ -103,10 +103,6 @@ var Chat = React.createClass({
       styles.userText : 
       styles.recepientText
 
-    // console.log(isFromUser)
-    // console.log(chatContent)
-    // console.log(messageText)
-
     return (
       <View style={chatContent}>
         <Text style={messageText}>
@@ -115,16 +111,16 @@ var Chat = React.createClass({
       </View>
     );
 
-  },
+  }
 
-  editOn: function(){
+  editOn(){
     this.setState({edit: true});
-  },
+  }
 
-  editOff: function(){
+  editOff(){
     this.setState({edit: false});
-  },
+  }
 
-});
+};
 
 module.exports = Chat;

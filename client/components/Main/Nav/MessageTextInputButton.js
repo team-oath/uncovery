@@ -4,19 +4,19 @@ var Reactive = require('../../../react-events.js')
 
 var { TouchableOpacity, Image, View, } = React;
 
-var MessageTextInputButton = React.createClass({
+class MessageTextInputButton extends React.Component {
 
-  getInitialState: function(){
-    return {toggle: false}
-  },
+  constructor(){
+    this.state = {toggle: false}
+  }
 
-  componentDidMount: function(){
+  componentDidMount(){
     // Reactive.on('submit', function(){
     //   this._toggle.bind(this)
     // })
-  },
+  }
 
-  render: function(){
+  render(){
 
     var x = {uri: 'http://i.imgur.com/baqD8a8.png'},
         plus = {uri: 'http://i.imgur.com/UaJpmco.png'},
@@ -32,13 +32,13 @@ var MessageTextInputButton = React.createClass({
         />
       </TouchableOpacity>
     );
-  },
+  }
 
-  _toggle: function(){
+  _toggle(){
     this.props.show();
     this.setState({toggle:this.state.toggle ? false : true});
   }
 
-});
+};
 
 module.exports = MessageTextInputButton;

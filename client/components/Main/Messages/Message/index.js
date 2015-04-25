@@ -19,34 +19,32 @@ var {
 
 } = React;
 
-var Message = React.createClass({
+class Message extends React.Component {
 
-  displayName: 'MessageView',
-
-  getInitialState: function() {
-    return { 
-      numHearts: this.props.message.votes, 
-      hasPressedHeart: this.props.message.voted,
+  constructor(props) {
+    this.state = { 
+      numHearts: props.message.votes, 
+      hasPressedHeart: props.message.voted,
       load: false,
     }
-  },
+  }
 
-  componentWillReceiveProps: function(){
+  componentWillReceiveProps(props){
 
     // update hearts only if the update is a fetch
     if (!this.state.load){
       this.setState({
-        numHearts: this.props.message.votes, 
-        hasPressedHeart: this.props.message.voted,
+        numHearts: props.message.votes, 
+        hasPressedHeart: props.message.voted,
       })
 
     // if update is from a state change, then set state back
     } else { this.setState({load:false})}
     
-  },
+  }
 
 
-  render: function(message) {
+  render(message) {
 
     var {
 
@@ -60,7 +58,7 @@ var Message = React.createClass({
 
     return (
       <View style={[styles.buttonContents, {flexDirection: 'column'}]}>
-        <TouchableWithoutFeedback onPress={this._onPressMessage}>
+        <TouchableWithoutFeedback onPress={this._onPressMessage.bind(this)}>
           <View>
             <Text style={[styles.messageText, {marginTop: 25}]}>
               {messageString}
@@ -83,9 +81,9 @@ var Message = React.createClass({
       </View>
 
     );
-  },
+  }
 
-  _onPressMessage: function() {
+  _onPressMessage() {
 
     var {message, ...props} = this.props;
     var {votes, ...message} = this.props.message;
@@ -105,9 +103,9 @@ var Message = React.createClass({
       navigationBar: <NavigationBar backgroundColor='#C0362C' customPrev={<BackButton/>}/>,
       sceneConfig: Navigator.SceneConfigs.FloatFromBottom,
     })
-  },
+  }
 
-  _updateHearts: function(){
+  _updateHearts(){
     
     if (this.state.hasPressedHeart) {
       var decrement = this.state.numHearts - 1
@@ -141,6 +139,6 @@ var Message = React.createClass({
     }).done();
   }
 
-});
+};
 
 module.exports = Message

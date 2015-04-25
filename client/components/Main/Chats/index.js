@@ -18,18 +18,18 @@ var {
 } = React;
 
 
-var Chats = React.createClass({
+class Chats extends React.Component {
 
-  getInitialState: function(){
-    return { 
+  constructor(){
+    this.state = { 
       chats: [],
       dataSource: new ListView.DataSource({
         rowHasChanged: (row1, row2) => row1 !== row2,
       }),
     };
-  },
+  }
 
-  componentDidMount: function(){
+  componentDidMount(){
 
     var socket = this.props.socket;
     var userToken = {userToken: this.props.userToken};
@@ -45,9 +45,9 @@ var Chats = React.createClass({
     socket.emit('pmList', userToken)
     socket.on('pmList', populateChats.bind(this));
 
-  },
+  }
 
-  render: function(){
+  render(){
     return (
       <View>
         {this.props.navBar}
@@ -62,9 +62,9 @@ var Chats = React.createClass({
         </View>
       </View>
     );
-  },
+  }
 
-  renderChat: function(chat){
+  renderChat(chat){
     return (
       <View style={styles.chatColor}>
         <TouchableOpacity 
@@ -78,9 +78,9 @@ var Chats = React.createClass({
         <View style={styles.separator}/>
       </View>
     );
-  },
+  }
 
-  _enterChatRoom: function(chat){
+  _enterChatRoom(chat){
     this.props.navigator.push({
       component: Chat,
       passProps: {
@@ -98,6 +98,6 @@ var Chats = React.createClass({
     })
   }
 
-});
+};
 
 module.exports = Chats;

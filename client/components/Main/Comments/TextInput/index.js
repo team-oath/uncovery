@@ -6,13 +6,16 @@ var HOST = require('../../../../config.js');
 
 var { TextInput, View, Text, TouchableOpacity, ActivityIndicatorIOS, } = React;
 
-var CommentTextInput = React.createClass({
+class CommentTextInput extends React.Component {
 
-  getInitialState: function(){
-    return {input: '', saved: ''};
-  },
+  constructor(props){
+    this.state = {
+      input: '', 
+      saved: '',
+    };
+  }
 
-  render: function(){
+  render(){
     return (
       <TextInput
         style={{height: 50, padding: 10, fontFamily: 'Avenir', boderRadius: 10}}
@@ -23,7 +26,7 @@ var CommentTextInput = React.createClass({
         placeholder={'Be nice and make a comment...'}
         value={this.state.input}
         onEndEditing={this.props.editOff}
-        onSubmitEditing={this._submit}
+        onSubmitEditing={this._submit.bind(this)}
         clearButtonMode='while-editing'
         onFocus={this.props.editOn}
         onChangeText={(text) => {
@@ -31,15 +34,15 @@ var CommentTextInput = React.createClass({
         }}
       />
       );
-  },
+  }
 
-  _submit: function(){
+  _submit(){
     this.props.editOff()
     this.setState({input: ''});
     this._postComment();
-  },
+  }
 
-  _postComment: function(){
+  _postComment(){
     fetch(HOST + 'comment', {
       method: 'POST',
       headers: {
@@ -59,6 +62,6 @@ var CommentTextInput = React.createClass({
     });
   }
 
-});
+};
 
 module.exports = CommentTextInput;

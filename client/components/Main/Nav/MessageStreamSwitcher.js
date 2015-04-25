@@ -3,15 +3,15 @@ var React = require('react-native')
 
 var { View, SwitchIOS, } = React;
 
-var MessageStreamSwitcher = React.createClass({
+class MessageStreamSwitcher extends React.Component {
 
-  getInitialState: function(){
-    return {
+  constructor(){
+    this.state = {
       switch: true,
     }
-  },
+  }
 
-  render: function(){
+  render(){
     return (
       <View>
         <SwitchIOS
@@ -25,6 +25,6 @@ var MessageStreamSwitcher = React.createClass({
     );
   }
   
-})
+};
 
 module.exports = MessageStreamSwitcher;

@@ -6,16 +6,16 @@ var HOST = require('../../../../config.js');
 
 var { View, Text, } = React;
 
-var CommentFooter = React.createClass({
+class CommentFooter extends React.Component {
 
-  getInitialState: function(){
-    return {
+  constructor(){
+    this.state = {
       numHearts: null,
       heartPressed: false,
     }
-  },
+  }
 
-  render: function(){
+  render(){
     return (
       <View style={{flexDirection: 'row', justifyContent: 'space-between', alignItems: 'flex-end'}}>
         <View>
@@ -33,8 +33,8 @@ var CommentFooter = React.createClass({
         </View>
       </View>
     );
-  },
+  }
 
-});
+};
 
 module.exports = CommentFooter;
