@@ -167,7 +167,7 @@ RCT_EXPORT_METHOD(takePicture:(RCTResponseSenderBlock)callback) {
         {
             NSData *imageData = [AVCaptureStillImageOutput jpegStillImageNSDataRepresentation:imageDataSampleBuffer];
             UIImage *image = [UIImage imageWithData:imageData];
-            UIImage *rotatedImage = [image resizedImage:CGSizeMake(562, 1000) interpolationQuality:kCGInterpolationDefault];
+            UIImage *rotatedImage = [image resizedImage:CGSizeMake(375, 665) interpolationQuality:kCGInterpolationDefault];
             NSString *imageBase64 = [UIImageJPEGRepresentation(rotatedImage, 0.7) base64EncodedStringWithOptions:0];
 
             callback(@[[NSNull null], imageBase64]);
