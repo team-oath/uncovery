@@ -38,14 +38,17 @@ var events = {
       // Create a new session, since one doesn't already exist
       models.retrieveUserByContentId(data)
       .then(function(content) {
-        id = util.createId();
-        privateSessions[id] = {
-          users: [data.userToken, content[0].userToken],
-          messageId: data.messageId,
-          messages: []
-        };
+        // Make sure we're not PMing ourselves
+        if (data.userToken !== content[0].userToken) {
+          id = util.createId();
+          privateSessions[id] = {
+            users: [data.userToken, content[0].userToken],
+            messageId: data.messageId,
+            messages: []
+          };
 
-        broadcastMessages(id);
+          broadcastMessages(id);
+        }
       });
     } else {
       // Send users the old session messages, since it exists
