@@ -9,7 +9,7 @@ var Camera = require('../../Camera/index.js');
 var imageButtons = ['From Camera','Photo Library','Cancel'];
 
 var styles = require('../../../../styles.js');
-var HOST = require('../../../../config.js'); 
+var createRequestURL = require('../../../createRequestURL.js')
 
 var { 
 
@@ -93,7 +93,9 @@ var MessageTextInput = React.createClass({
       )
     }
 
-    navigator.geolocation.getCurrentPosition((currentPosition)=>{
+    navigator.geolocation.getCurrentPosition((currentPosition) => {
+
+      var requestURL = createRequestURL('messages', this.props, 'POST');
 
       var data = {
          x: currentPosition.coords.latitude,
@@ -103,16 +105,13 @@ var MessageTextInput = React.createClass({
          userToken: this.props.userToken,
        }
 
-       console.log('****************')
-       console.log(data)
-
       if ( this.state.userHasSelectAnImage ) {
         data.image = image;
         data.imageW = imageWidth;
         data.imageH = imageHeight;
       }
 
-      fetch(HOST + 'messages', {
+      fetch(requestURL, {
          method: 'POST',
          headers: {
            'Accept': 'application/json',

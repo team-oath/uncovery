@@ -3,14 +3,13 @@ var React = require('react-native');
 var NavigationBar = require('react-native-navbar');
 var BackButton = require('./BackButton.js')
 
-
 var Chats = require('../Chats');
 
 var { View, Text, Image, TouchableOpacity} = React;
 
-var SettingsButton = React.createClass({
+class SettingsButton extends React.Component {
 
-  render: function(){
+  render(){
     return (
       <View>
         <TouchableOpacity 
@@ -34,8 +33,8 @@ var SettingsButton = React.createClass({
       </View>
       
     );
-  },
+  }
   
-})
+}
 
 module.exports = SettingsButton;

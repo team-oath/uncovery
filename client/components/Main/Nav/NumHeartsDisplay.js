@@ -3,15 +3,15 @@ var React = require('react-native');
 
 var { View, Text, Image} = React;
 
-var NumHeartsDisplay = React.createClass({
+class NumHeartsDisplay extends React.Component {
 
-  getInitialState: function(){
-    return {
+  constructor(){
+    this.state = {
       numHearts: null,
     }
-  },
+  }
 
-  componentDidMount: function(){
+  componentDidMount(){
     var socket = this.props.socket
     var userToken = this.props.userToken;
 
@@ -22,9 +22,9 @@ var NumHeartsDisplay = React.createClass({
 
     socket.emit('init', {userToken: userToken});
     socket.on('score', updateScore.bind(this));
-  },
+  }
 
-  render: function(){
+  render(){
     return (
       <View style={{alignItems: 'flex-end', justifyContent: 'space-between', flexDirection:'row',}}>
         <Image
@@ -43,6 +43,6 @@ var NumHeartsDisplay = React.createClass({
     );
   }
   
-})
+}
 
 module.exports = NumHeartsDisplay;

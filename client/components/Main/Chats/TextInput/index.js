@@ -4,16 +4,16 @@ var styles = require('./styles.js');
 
 var { TextInput } = React;
 
-var ChatTextInput = React.createClass({
+class ChatTextInput extends React.Component {
 
-  getInitialState: function(){
-    return {
+  constructor(){
+    this.state = {
       input: '', 
-      saved: ''
+      saved: '',
     };
-  },
+  }
 
-  render: function(){
+  render(){
     return (
       <TextInput
         style={styles.chatList}
@@ -24,7 +24,7 @@ var ChatTextInput = React.createClass({
         placeholder={'Have fun, make a connection...'}
         value={this.state.input}
         onEndEditing={this.props.editOff}
-        onSubmitEditing={this._submit}
+        onSubmitEditing={this._submit.bind(this)}
         clearButtonMode='while-editing'
         onFocus={this.props.editOn}
         onChangeText={(text) => {
@@ -32,15 +32,15 @@ var ChatTextInput = React.createClass({
         }}
       />
       );
-  },
+  }
 
-  _submit: function(){
+  _submit(){
     this.props.editOff()
     this.setState({input: ''});
     this._postChatMessage();
-  },
+  }
 
-  _postChatMessage: function(){
+  _postChatMessage(){
     this.props.socket.emit('pmContent', {
       sessionId: this.props.sessionId, 
       content: this.state.saved
@@ -49,6 +49,6 @@ var ChatTextInput = React.createClass({
     this.setState({saved: ''});
   }
 
-});
+};
 
 module.exports = ChatTextInput;

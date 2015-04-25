@@ -3,7 +3,7 @@ var React = require('react-native');
 
 var { Image, } = React;
 
-var FullHeart = React.createClass({
+class FullHeart extends React.Component {
   render(){
     return(
       <Image
@@ -12,6 +12,6 @@ var FullHeart = React.createClass({
       />
     );
   }
-})
+};
 
 module.exports = FullHeart;

@@ -10,23 +10,23 @@ var HOST = require('../../../../config.js')
 
 var { View, Text, StyleSheet, TouchableOpacity, Image, } = React;
 
-var MessageFooter = React.createClass({
+class MessageFooter extends React.Component {
 
-  getInitialState: function(){
-    return {
-      numHearts: this.props.numHearts,
-      hasPressedHeart: this.props.hasPressedHeart,
+  constructor(props){
+    this.state = {
+      numHearts: props.numHearts,
+      hasPressedHeart: props.hasPressedHeart,
     }
-  },
+  }
 
-  componentWillReceiveProps: function(props){
+  componentWillReceiveProps(props){
     this.setState({
       numHearts: props.numHearts,
       hasPressedHeart: props.hasPressedHeart,
     })
-  },
+  }
 
-  render: function(){
+  render(){
     return (
       <View style={{flexDirection: 'row', justifyContent: 'space-between', alignItems: 'flex-end'}}>
         <View>
@@ -41,7 +41,7 @@ var MessageFooter = React.createClass({
             </Text>
           </View>
           <View style={{flex:1}}>
-            <TouchableOpacity onPress={this._heartMessage}>
+            <TouchableOpacity onPress={this._heartMessage.bind(this)}>
               <View>
               {this.state.hasPressedHeart ? <FullHeart/> : <EmptyHeart/>}
               </View>
@@ -50,9 +50,9 @@ var MessageFooter = React.createClass({
         </View>
       </View>
       );
-  },
+  }
 
-  _heartMessage: function(){
+  _heartMessage(){
 
     if ( this.state.hasPressedHeart ){
       var decrement = this.state.numHearts - 1;
@@ -71,6 +71,6 @@ var MessageFooter = React.createClass({
     this.props.fetchMessages()
   }
   
-});
+};
 
 module.exports = MessageFooter;

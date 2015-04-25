@@ -1,12 +1,13 @@
+
 var React = require('react-native');
 var NavigationBar = require('react-native-navbar');
 var Comments = require('../../Comments');
 var Footer = require('../Footer');
 var Thumbnail = require('../../Thumbnails');
-var BackButton = require('../../Nav/BackButton.js')
+var BackButton = require('../../Nav/BackButton.js');
 
 var styles = require('../../../../styles.js');
-var HOST = require('../../../../config.js'); 
+var createRequestURL = require('../../../createRequestURL.js');
 
 var { 
 
@@ -19,34 +20,32 @@ var {
 
 } = React;
 
-var Message = React.createClass({
+class Message extends React.Component {
 
-  displayName: 'MessageView',
-
-  getInitialState: function() {
-    return { 
-      numHearts: this.props.message.votes, 
-      hasPressedHeart: this.props.message.voted,
+  constructor(props) {
+    this.state = { 
+      numHearts: props.message.votes, 
+      hasPressedHeart: props.message.voted,
       load: false,
     }
-  },
+  }
 
-  componentWillReceiveProps: function(){
+  componentWillReceiveProps(props){
 
     // update hearts only if the update is a fetch
     if (!this.state.load){
       this.setState({
-        numHearts: this.props.message.votes, 
-        hasPressedHeart: this.props.message.voted,
+        numHearts: props.message.votes, 
+        hasPressedHeart: props.message.voted,
       })
 
     // if update is from a state change, then set state back
     } else { this.setState({load:false})}
     
-  },
+  }
 
 
-  render: function(message) {
+  render(message) {
 
     var {
 
@@ -60,7 +59,7 @@ var Message = React.createClass({
 
     return (
       <View style={[styles.buttonContents, {flexDirection: 'column'}]}>
-        <TouchableWithoutFeedback onPress={this._onPressMessage}>
+        <TouchableWithoutFeedback onPress={this._onPressMessage.bind(this)}>
           <View>
             <Text style={[styles.messageText, {marginTop: 25}]}>
               {messageString}
@@ -77,15 +76,15 @@ var Message = React.createClass({
           navToComment={this._onPressMessage} 
           numHearts={this.state.numHearts}
           hasPressedHeart={this.state.hasPressedHeart}
-          updateHearts={this._updateHearts}
+          updateHearts={this._updateHearts.bind(this)}
         />
         <View style={styles.seperator} />
       </View>
 
     );
-  },
+  }
 
-  _onPressMessage: function() {
+  _onPressMessage() {
 
     var {message, ...props} = this.props;
     var {votes, ...message} = this.props.message;
@@ -105,9 +104,11 @@ var Message = React.createClass({
       navigationBar: <NavigationBar backgroundColor='#C0362C' customPrev={<BackButton/>}/>,
       sceneConfig: Navigator.SceneConfigs.FloatFromBottom,
     })
-  },
+  }
 
-  _updateHearts: function(){
+  _updateHearts(){
+
+    var requestURL = createRequestURL('upvote', null, 'POST');
     
     if (this.state.hasPressedHeart) {
       var decrement = this.state.numHearts - 1
@@ -126,7 +127,7 @@ var Message = React.createClass({
       });
     }
 
-    fetch(`${HOST}upvote`, {
+    fetch(requestURL, {
       method: 'POST',
       headers: {
         'Accept': 'application/json',
@@ -141,6 +142,6 @@ var Message = React.createClass({
     }).done();
   }
 
-});
+};
 
 module.exports = Message

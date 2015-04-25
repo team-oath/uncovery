@@ -3,7 +3,7 @@ var React = require('react-native');
 
 var { Image, } = React;
 
-var EmptyHeart = React.createClass({
+class EmptyHeart extends React.Component {
   render(){
     return(
       <Image
@@ -12,6 +12,6 @@ var EmptyHeart = React.createClass({
       />
     );
   }
-});
+};
 
 module.exports = EmptyHeart;

@@ -1,9 +1,23 @@
 
 var HOST = require('../config.js');
 
-var createRequestURL = (route, props) => {
+var createRequestURL = (route, props, method) => {
 
   var requestURL, params;
+
+  if  ( method === 'POST' ) {
+
+    if ( route === 'messages' ) {
+      requestURL = HOST + route
+    }
+
+    if ( route === 'upvote' ) {
+      requestURL = HOST + route
+    }
+
+    return requestURL;
+
+  }
 
   if ( route === '/messages' ) {
     var userToken = props.userToken;
