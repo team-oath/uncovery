@@ -48,8 +48,12 @@ var events = {
           messages: []
         };
 
-        privateSessions[id].users.forEach(function(user) {
-          exports.sendUserData(user, 'pmInit', {sessionId: id, messages: []});
+        privateSessions[id].users.forEach(function(user, i) {
+          exports.sendUserData(user, 'pmInit', {
+            sessionId: id,
+            messages: [],
+            creator: i === 0
+          });
         });
       });
     } else {
@@ -68,7 +72,9 @@ var events = {
   //input: {content: string, sessionId: string}
   pmContent: function(data) {
     privateSessions[data.sessionId].users.forEach(function(user, i) {
-      data.from = connections[user] === this ? 'you' : 'them';
+      data.from = (i === 0 && connections[user] === this) ||
+                  (i !== 0 && connections[user] !== this) ? 'you' : 'them';
+      data.creator = i === 0;
       if (i === 0) {
         privateSessions[data.sessionId].messages.push({
           sessionId: data.sessionId,
