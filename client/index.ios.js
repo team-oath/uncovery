@@ -19,7 +19,7 @@ var io = require('./patches/socket.io-client.js');
 var styles = require('./styles.js');
 var HOST = require('./config.js');
 
-/* ------ React Destructuring Block ------- */
+/* ------ Destructuring Block ------- */
 
 var { 
 

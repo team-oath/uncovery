@@ -1,9 +1,11 @@
 
 var React = require('react-native');
-var Chat = require('./Chat');
-
 var NavigationBar = require('react-native-navbar');
+
+var Chat = require('./Chat');
 var BackButton = require('../Nav/BackButton.js');
+
+var styles = require('./styles.js');
 
 var {
 
@@ -53,7 +55,7 @@ var Chats = React.createClass({
           <ListView
             dataSource={this.state.dataSource}
             renderRow={this.renderChat.bind(this)}
-            style={{backgroundColor: 'white', height: require('Dimensions').get('window').height-62,}}
+            style={styles.chatsContainer}
             initialListSize={10}
             pageSize={4}
           />
@@ -64,19 +66,17 @@ var Chats = React.createClass({
 
   renderChat: function(chat){
     return (
-      <View style={{backgroundColor: '#ffcf00'}}>
+      <View style={styles.chatColor}>
         <TouchableOpacity 
           onPress={this._enterChatRoom.bind(this, chat)}>
-          <View style={{justifyContent: 'center', alignItems: 'center', marginTop: 30, marginBottom: 30}}>
-            <Text style={{fontSize: 30, fontFamily: 'Avenir', color: 'white'}}>
+          <View style={styles.chatContainer}>
+            <Text style={styles.chatText}>
               {chat.chatName}
             </Text>
           </View>
         </TouchableOpacity>
-        <View style={{height: 2,backgroundColor: 'white',}}/>
+        <View style={styles.separator}/>
       </View>
-      
-
     );
   },
 

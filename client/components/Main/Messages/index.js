@@ -110,8 +110,6 @@ class Messages extends React.Component {
     this.setState({edit: this.state.edit ? false : true});
   }
 
- 
-
   renderMessage(message) {
     return (
       <Message 
