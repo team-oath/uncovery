@@ -38,33 +38,18 @@ var events = {
       // Create a new session, since one doesn't already exist
       models.retrieveUserByContentId(data)
       .then(function(content) {
-        var userA = data.userToken;
-        var userB = content[0].userToken;
-
         id = util.createId();
         privateSessions[id] = {
-          users: [userA, userB],
+          users: [data.userToken, content[0].userToken],
           messageId: data.messageId,
           messages: []
         };
 
-        privateSessions[id].users.forEach(function(user, i) {
-          exports.sendUserData(user, 'pmInit', {
-            sessionId: id,
-            messages: [],
-            creator: i === 0
-          });
-        });
+        broadcastMessages(id);
       });
     } else {
       // Send users the old session messages, since it exists
-      privateSessions[id].users.forEach(function(user, i) {
-        exports.sendUserData(user, 'pmInit', {
-          sessionId: id,
-          messages: privateSessions[id].messages,
-          creator: i === 0
-        });
-      });
+      broadcastMessages(id);
     }
 
   },
@@ -132,4 +117,14 @@ exports.sendUserScore = function(user) {
 
 function sendRetrievedUser(users) {
   exports.sendUserScore(users[0]);
+}
+
+function broadcastMessages(id) {
+  privateSessions[id].users.forEach(function(user, i) {
+    exports.sendUserData(user, 'pmInit', {
+      sessionId: id,
+      messages: privateSessions[id].messages,
+      creator: i === 0
+    });
+  });
 }
