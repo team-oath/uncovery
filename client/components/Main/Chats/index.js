@@ -65,8 +65,13 @@ class Chats extends React.Component {
   }
 
   renderChat(chat){
+    
+    var backgroundColor;
+
+    backgroundColor = {backgroundColor: '#ff' + (210+(chat.index*20)).toString(16) + '00'}
+
     return (
-      <View style={styles.chatColor}>
+      <View style={backgroundColor}>
         <TouchableOpacity 
           onPress={this._enterChatRoom.bind(this, chat)}>
           <View style={styles.chatContainer}>
@@ -75,7 +80,6 @@ class Chats extends React.Component {
             </Text>
           </View>
         </TouchableOpacity>
-        <View style={styles.separator}/>
       </View>
     );
   }

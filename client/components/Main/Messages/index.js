@@ -47,6 +47,7 @@ class Messages extends React.Component {
       reloading: false,
       coords: null,
       edit: false, 
+
     };
 
     this.displayName = "Messages"
@@ -106,7 +107,6 @@ class Messages extends React.Component {
   }
 
   _toggleEdit(){
-    console.log('toggggle')
     this.setState({edit: this.state.edit ? false : true});
   }
 

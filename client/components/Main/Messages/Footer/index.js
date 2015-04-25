@@ -22,7 +22,7 @@ class Footer extends React.Component {
               </Text>
             </TouchableOpacity>
             <Text style={styles.messageFooter}>
-              @ {this.props.distance}, {this.props.timestamp}
+              {this.props.distance}, {this.props.timestamp}
             </Text>
           </View>
           <View style={{justifyContent: 'space-between', flexDirection: 'row'}}>
