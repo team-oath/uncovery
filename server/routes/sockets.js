@@ -1,5 +1,6 @@
 var models = require('../db/models');
 var util = require('../core/utilities');
+var tester = 'ABCDEFG';
 var connections = {};
 var privateSessions = {};
 
@@ -24,51 +25,37 @@ var events = {
   pmInit: function(data) {
     var id;
 
-    // Check to see if a chat session already exists
-    Object.keys(privateSessions).forEach(function(shortid) {
-      var session = privateSessions[shortid];
-      session.users.forEach(function(user) {
-        if (data.userToken === user && data.messageId === session.messageId) {
-          id = shortid;
+    // Check to see if a chat session already exists and send if it does
+    checkSessions(data.userToken, function(session, shortid) {
+      if (data.messageId === session.messageId) {
+         id = shortid;
+         broadcastMessages(id);
         }
-      });
     });
 
-    if (id === undefined) {
-      // Create a new session, since one doesn't already exist
-      models.retrieveUserByContentId(data)
-      .then(function(content) {
-        var userA = data.userToken;
-        var userB = content[0].userToken;
+    if (id !== undefined) return;
 
+    // Create a new session, since one doesn't already exist
+    models.retrieveUserByContentId(data)
+    .then(function(content) {
+      if (data.userToken !== content[0].userToken || data.userToken === tester) {
         id = util.createId();
         privateSessions[id] = {
-          users: [userA, userB],
+          users: [data.userToken, content[0].userToken],
           messageId: data.messageId,
           messages: []
         };
-
-        privateSessions[id].users.forEach(function(user) {
-          exports.sendUserData(user, 'pmInit', {sessionId: id, messages: []});
-        });
-      });
-    } else {
-      // Send users the old session messages, since it exists
-      privateSessions[id].users.forEach(function(user, i) {
-        exports.sendUserData(user, 'pmInit', {
-          sessionId: id,
-          messages: privateSessions[id].messages,
-          creator: i === 0
-        });
-      });
-    }
-
+        broadcastMessages(id);
+      }
+    });
   },
 
   //input: {content: string, sessionId: string}
   pmContent: function(data) {
     privateSessions[data.sessionId].users.forEach(function(user, i) {
-      data.from = connections[user] === this ? 'you' : 'them';
+      data.from = (i === 0 && connections[user] === this) ||
+                  (i !== 0 && connections[user] !== this) ? 'you' : 'them';
+      data.creator = i === 0;
       if (i === 0) {
         privateSessions[data.sessionId].messages.push({
           sessionId: data.sessionId,
@@ -82,16 +69,12 @@ var events = {
 
   //input: {userToken: string}
   pmList: function(data) {
-    var chats = [];
-    Object.keys(privateSessions).forEach(function(id) {
-      session = privateSessions[id];
-      session.users.forEach(function(user) {
-        if (data.userToken === user) {
-          chats.push({
-            messageId: session.messageId,
-            chatName: util.createIdentity(user, session.messageId, 1)
-          });
-        }
+    var chats = [], i=0;
+    checkSessions(data.userToken, function(session, id, user) {
+      chats.unshift({
+        messageId: session.messageId,
+        chatName: util.createIdentity(user, session.messageId, 1),
+        index: i--
       });
     });
     exports.sendUserData(data.userToken, 'pmList', {chats: chats});
@@ -126,4 +109,26 @@ exports.sendUserScore = function(user) {
 
 function sendRetrievedUser(users) {
   exports.sendUserScore(users[0]);
+}
+
+// Loop through all private sessions for a specific user token
+function checkSessions(token, cb) {
+  Object.keys(privateSessions).forEach(function(id) {
+    var session = privateSessions[id];
+    session.users.forEach(function(user) {
+      if (token === user) {
+        cb(session, id, user);
+      }
+    });
+  });
+}
+
+function broadcastMessages(id) {
+  privateSessions[id].users.forEach(function(user, i) {
+    exports.sendUserData(user, 'pmInit', {
+      sessionId: id,
+      messages: privateSessions[id].messages,
+      creator: i === 0
+    });
+  });
 }
