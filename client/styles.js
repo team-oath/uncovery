@@ -148,6 +148,23 @@ var styles = StyleSheet.create({
     backgroundColor: 'white',
     height: 50, 
     marginTop: 10,
+  },
+  imagePreview: {
+    borderWidth: 10,
+    borderColor: 'white',
+    alignSelf: 'center',
+  },
+  swapCamera: {
+    top: 20,
+    alignSelf: 'flex-end',
+    right: 20,
+    width:30,
+    height: 30,
+  },
+  takePhoto: {
+    alignSelf: 'center',
+    width:60,
+    height: 60,
   }
 });
 
