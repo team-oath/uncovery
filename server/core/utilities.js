@@ -197,7 +197,7 @@ function addTextToDistance(dist) {
   if (dist === 1) {
     dist = dist + ' mile away';
   } else {
-    dist = dist + ' miles away';
+    dist = 'less than ' + dist + ' miles away';
   }
   return dist;
 }
