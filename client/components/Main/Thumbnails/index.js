@@ -30,12 +30,12 @@ class Thumbnail extends React.Component {
         if (this.props.width > this.props.height) {
 
           //Landscape
-          height = ( this.props.height * (window.width/500) );
+          height = ( this.props.height * (window.width/this.props.width) );
 
         } else if ( this.props.height > this.props.width ) {
 
           //Portrait
-          height = ( (500/window.width) * this.props.height ); 
+          height = ( (window.width/this.props.width) * this.props.height ); 
 
         }
 

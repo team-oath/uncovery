@@ -70,9 +70,9 @@ var CameraView = React.createClass({
 
   _takePicture: function(){
     var self = this;
-    this.refs.cam.takePicture(function(err, data){
+    this.refs.cam.takePicture(function(err, data, width, height){
       self._showStatusBar();
-      self.props.route.takePhoto(data);
+      self.props.route.takePhoto(data, Math.floor(width/3), Math.floor(height/3));
       self.props.navigator.pop();
     });
   }
