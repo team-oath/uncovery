@@ -140,7 +140,7 @@ var MessageTextInput = React.createClass({
     var dimensions = require('Dimensions').get('window');
     
     if (this.state.cameraPhoto){
-      this._submit(this.state.imageData, 375, 500);
+      this._submit(this.state.imageData, this.state.imageWidth, this.state.imageHeight);
     } else {
       NativeModules.ReadImageData.processString(
         self.state.selectedImage.node.image.uri, 
@@ -181,12 +181,14 @@ var MessageTextInput = React.createClass({
     });
   },
 
-  _takePhoto: function(data){
+  _takePhoto: function(data, width, height){
     // The photo is returned as base64 data.
     // We don't need to encode again on submission.
     this.setState({
       cameraPhoto: true,
       imageData: data,
+      imageWidth: width,
+      imageHeight: height,
       userHasSelectAnImage: true, 
     });
   },

@@ -170,7 +170,7 @@ RCT_EXPORT_METHOD(takePicture:(RCTResponseSenderBlock)callback) {
             UIImage *rotatedImage = [image resizedImage:CGSizeMake(image.size.width/3, image.size.height/3) interpolationQuality:kCGInterpolationDefault];
             NSString *imageBase64 = [UIImageJPEGRepresentation(rotatedImage, 0.7) base64EncodedStringWithOptions:0];
 
-            callback(@[[NSNull null], imageBase64]);
+            callback(@[[NSNull null], imageBase64, image.size.width, image.size.height]);
         }
         else {
             callback(@[RCTMakeError(error.description, nil, nil)]);
