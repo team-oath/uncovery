@@ -90,7 +90,7 @@ class Message extends React.Component {
     var {votes, ...message} = this.props.message;
     var hasPressedHeart = this.state.hasPressedHeart;
     var numHearts = this.state.numHearts;
-    var fetchMessages = this._updateHearts;
+    var fetchMessages = this._updateHearts.bind(this);
     var self = this;
 
     this.props.navigator.push({
