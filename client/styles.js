@@ -53,8 +53,8 @@ var styles = StyleSheet.create({
     alignItems: 'center',
   },
   image: {
-    width: 177,
-    height: 177,
+    width: 157,
+    height: 157,
     margin: 5,
     justifyContent: 'center',
   },
@@ -76,8 +76,8 @@ var styles = StyleSheet.create({
     justifyContent: 'center',
   },
   previewImage: {
-    width: 150,
-    height: 150,
+    width: 140,
+    height: 140,
     margin: 10,
     justifyContent: 'center',
   },
@@ -150,7 +150,7 @@ var styles = StyleSheet.create({
     marginTop: 10,
   },
   imagePreview: {
-    borderWidth: 10,
+    borderWidth: 8,
     borderColor: 'white',
     alignSelf: 'center',
   },
