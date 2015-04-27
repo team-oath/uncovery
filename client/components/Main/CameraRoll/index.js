@@ -22,8 +22,9 @@ var {
 var CameraRoll = React.createClass({
 
   render: function() {
+    var dimensions = require('Dimensions').get('window');
     return (
-      <View style={{ width: require('Dimensions').get('window').width }}>
+      <View style={{ width: dimensions.width, height: dimensions.height, backgroundColor: 'black' }}>
         <CameraRollView
           ref='cameraRollView'
           batchSize={4}
@@ -35,11 +36,12 @@ var CameraRoll = React.createClass({
   },
 
   _renderImage: function(asset) {
+    var customThumbnailSize = Math.floor(require('Dimensions').get('window').height/4)-20;
     return (
       <TouchableOpacity onPress={()=>{this._handleSelection(asset)}}>
           <Image
             source={asset.node.image}
-            style={[styles.image, styles.imagePreview]}
+            style={[styles.image, styles.imagePreview, { height: customThumbnailSize, width: customThumbnailSize } ]}
           />
       </TouchableOpacity>
     );
