@@ -194,7 +194,7 @@ function addTextToDistance(dist) {
   } else {
     dist = Math.ceil(dist);
   }
-  if (dist === 1) {
+  if (dist <= 1) {
     dist = dist + ' mile away';
   } else {
     dist = dist + ' miles away';
