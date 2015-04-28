@@ -252,11 +252,3 @@ componentWillReceiveProps(props){
   this.setState({numHearts: props.numHearts});
 }
 ```
-
-#### Stylesheet
-
-#### Patches
-
-#### JSX
-
-#### Ternary Operators
