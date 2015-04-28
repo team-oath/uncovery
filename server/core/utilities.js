@@ -187,19 +187,17 @@ exports.resolvePOST = function(req, res, success) {
 };
 
 function addTextToDistance(dist) {
-  if ((dist) < 0.25) {
-    dist = 0.25;
-  } else if (dist < 0.5) {
-    dist = 0.5
+  if ((dist) < 0.3) {
+    dist = '1/4';
+  } else if (dist < 0.6) {
+    dist = '1/2'
   } else {
     dist = Math.ceil(dist);
   }
-  if (dist === 1) {
+  if (dist <= 1) {
     dist = dist + ' mile away';
   } else {
-    dist = 'less than ' + dist + ' miles away';
+    dist = dist + ' miles away';
   }
   return dist;
 }
-
-
