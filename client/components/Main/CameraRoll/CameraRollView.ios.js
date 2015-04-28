@@ -45,16 +45,16 @@ var CameraRollView = React.createClass({
     return {
       groupTypes: 'SavedPhotos',
       batchSize: 6,
-      imagesPerRow: 2,
+      imagesPerRow: 1,
       renderImage: function(asset) {
-        var imageSize = 180;
-        var imageStyle = [{}, {width: imageSize, height: imageSize}];
+        var imageSize = 100;
+        var imageStyle = {width: 20, height: 20};
 
         return (
           <TouchableHighlight>
           <Image
             source={asset.node.image}
-            style={imageStyle}
+            style={{width: 20, height: 20}}
           />
           </TouchableHighlight>
         );
@@ -120,7 +120,7 @@ var CameraRollView = React.createClass({
       <ListView
         renderRow={this._renderRow}
         renderFooter={this._renderFooterSpinner}
-        style={{backgroundColor: 'black', paddingTop: 20}}
+        style={{backgroundColor: 'black', paddingTop: 20 }}
         dataSource={this.state.dataSource}
       />
     );
