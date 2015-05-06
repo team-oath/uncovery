@@ -17,11 +17,9 @@ var reportUserContent = function(props){
 
   (buttonIndex) => {
     
-    if ( buttonIndex === 0 ) {
+    if ( buttonIndex === 0 ) { showReportSheet(); }
 
-      showReportSheet();
-
-    } else if ( buttonIndex === 1 ) {
+    if ( buttonIndex === 1 ) {
 
        AlertIOS.alert(
         'User Blocked!',
@@ -65,10 +63,15 @@ function showReportSheet(){
 
   (buttonIndex) => {
 
-    AlertIOS.alert(
-      'Content Reported!',
-      'Your Case # is '
-    )
+    if ( buttonIndex !== reportTypes.length-1 ) {
+
+      AlertIOS.alert(
+        'Content Reported!',
+        'Your Case # is '
+      )
+      
+    }
+   
 
     // fetch(url+'report', {
     //   method: 'POST',
@@ -79,7 +82,9 @@ function showReportSheet(){
     //    commentId: props.commentId,
     //     messageId: props.messageId,
     //     userToken: props.userToken,
+    //     report: reportTypes[buttonIndex],
     //  });
+
   });
 
 }
