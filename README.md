@@ -60,7 +60,7 @@ highly modular code.
 ###FrontEnd
 - *Mobile Architecture* **React Native**
 - *Image Handling* **Objective-C**
-- *User Interface* **HTML5/CSS3**
+- *User Interface* **Flexbox**
 
 ###Testing
 - *Continuous Integration* **CircleCI**
