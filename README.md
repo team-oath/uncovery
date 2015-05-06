@@ -12,10 +12,11 @@ is protected.
 
 ##User Story
 
-1. Users can leave messages at geographic locations which may consist of either text or an image
+1. Users can leave messages as either text or an image at geographic locations
 2. Other users in proximity of a message can view, vote, and comment on it
-3. Messages are automatically destroyed after a set amount of time
-4. The more votes a message accumulates the longer it persist
+3. Other users can also chat with other users by clicking on a post in a comment thread
+4. Messages are automatically destroyed after a set amount of time
+5. The more votes a message accumulates the longer it persist
 
 ##Technical Walkthrough
 
@@ -48,6 +49,9 @@ interact with MySQL. Abstracting common
 queries into a single module enables seperation of concerns which results in
 highly modular code.
 `models.js` is the mediator between the Express routes and the models adapter.
+
+###React Native Mobile Client
+The root file in the front-end component heirarchy is `client/index.ios.js`. All other components are children of this file. The main view that the user is routed to is `Messages/index.js`. This is where the message stream lives. As new data is received, the stream is updated.
 
 ##Technology Stack
 
