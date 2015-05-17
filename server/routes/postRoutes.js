@@ -43,4 +43,33 @@ module.exports = function(router) {
     util.rejectPOST.bind(this, req, res)
     );
   });
+
+  router.post('/report', function(req, res) {
+    console.log('user reported a post!');
+
+    // in the data body we will need
+      // (1) messageid
+      // (2) commentid
+      // (3) userToken
+
+    // handle request by
+      // sending notification to review post
+
+  });
+
+  router.post('/block', function(req, res) {
+    console.log('user blocked another user!');
+
+      // in the data body we will need
+      // (1) messageid
+      // (2) commentid
+      // (3) userToken
+
+      // handle request by
+        // blocking all messages from the userid of the 
+        // reported message
+        // we will probably need a table for this
+
+  });
+
 };

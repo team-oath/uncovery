@@ -11,6 +11,8 @@ var Chat = require('../Chats/Chat');
 var styles = require('../../../styles.js');
 
 var createRequestURL = require('../../createRequestURL.js');
+var reportUserContent = require('../../reportUserContent.js')
+
 
 var { 
 
@@ -93,7 +95,10 @@ class Comments extends React.Component {
     }
 
     return(
-      <TouchableWithoutFeedback onPress={this.initializeChat.bind(this, message)}>
+      <TouchableWithoutFeedback 
+        onPress={this.initializeChat.bind(this, message)}
+        onLongPress={reportUserContent}
+      >
         <View style={ message.origin ? 
           styles.messageContainer : 
           styles.commentContainer}>

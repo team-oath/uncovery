@@ -8,6 +8,7 @@ var BackButton = require('../../Nav/BackButton.js');
 
 var styles = require('../../../../styles.js');
 var createRequestURL = require('../../../createRequestURL.js');
+var reportUserContent = require('../../../reportUserContent.js')
 
 var { 
 
@@ -59,7 +60,10 @@ class Message extends React.Component {
 
     return (
       <View style={[styles.buttonContents, {flexDirection: 'column'}]}>
-        <TouchableWithoutFeedback onPress={this._onPressMessage.bind(this)}>
+        <TouchableWithoutFeedback 
+          onPress={this._onPressMessage.bind(this)}
+          onLongPress={reportUserContent}
+        >
           <View>
             <Text style={[styles.messageText, {marginTop: 25}]}>
               {messageString}
