@@ -16,7 +16,7 @@ is protected.
 2. Other users in proximity of a message can view, vote, and comment on it
 3. Other users can also chat with other users by clicking on a post in a comment thread
 4. Messages are automatically destroyed after a set amount of time
-5. The more votes a message accumulates the longer it persist
+5. The more votes a message accumulates the longer it persists
 
 ##Technical Walkthrough
 
