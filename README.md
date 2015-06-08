@@ -2,6 +2,12 @@
 ##The Anonymous Location Based Chat Network
 
 [![Circle CI](https://circleci.com/gh/team-oath/uncovery.svg?style=badge)](https://circleci.com/gh/team-oath/uncovery)
+<img src="http://i.imgur.com/uJESdX7.jpg" title="source: imgur.com" />
+<div>
+<img src="http://i.imgur.com/NHAdP1A.png" title="source: imgur.com" height=450/>
+<img src="http://i.imgur.com/nfnEyRn.png" title="source: imgur.com" height=450 width=280/>
+<img src="http://i.imgur.com/ZzV1fzL.png" title="source: imgur.com" height=450/>
+</div>
 
 Privy is a mobile application for iOS devices which connects users to an anonymous
 location based chat network. The key tenets of Privy are
