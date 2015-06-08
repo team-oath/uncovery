@@ -8,7 +8,7 @@
 <img src="http://i.imgur.com/nfnEyRn.png" title="source: imgur.com" height=400/>
 <img src="http://i.imgur.com/ZzV1fzL.png" title="source: imgur.com" height=400/>
 </div>
-
+<hr>
 Privy is a mobile application for iOS devices which connects users to an anonymous
 location based chat network. The key tenets of Privy are
 **anonymity**, **simplicity**, and **low barrier to entry**.
